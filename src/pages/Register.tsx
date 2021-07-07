@@ -17,7 +17,7 @@ const Register = () => {
     }
     setIsLoading(true)
     firebaseApp.auth().createUserWithEmailAndPassword(value.email, value.password).then((userCredentail) => {
-      userCredentail.user?.getIdToken().then((token) => localStorage.setItem('authToken',token))
+      userCredentail.user?.getIdToken().then((token) => localStorage.setItem('authToken','bearer '+token))
       history.push('/success')
     }).catch((error) => {
         console.log(error)

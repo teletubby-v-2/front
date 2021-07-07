@@ -11,9 +11,11 @@ const Login = () => {
 
   const onFinish = (value:any) => {
     setIsLoading(true)
-    firebaseApp.auth().signInWithEmailAndPassword(value.email, value.password).then((userCredentail) => {
-      userCredentail.user?.getIdToken().then((token) => localStorage.setItem('authToken',token))
-      history.push('/success')
+    firebaseApp.auth().signInWithEmailAndPassword(value.email, value.password)
+      .then((userCredentail) => {
+        userCredentail.user?.getIdToken()
+          .then((token) => localStorage.setItem('authToken','bearer '+token))
+        history.push('/success')
     }).catch((error) => {
         console.log(error)
         setIsFail(true)
