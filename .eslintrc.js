@@ -21,9 +21,19 @@ module.exports = {
     '@typescript-eslint'
   ],
   rules: {
+      "comma-spacing": "warn",
+      "keyword-spacing": 'warn',
+      "space-before-blocks": "warn",
+      "indent": "warn",
+      "padded-blocks": "off",
+      "no-trailing-spaces": "off",
+      "block-spacing": "off",
+      "arrow-spacing": "off",
+      "object-curly-spacing": "off",
       "no-use-before-define": "off",
       "react/prop-types": "off",
       "comma-dangle": "off",
+      "key-spacing": "off",
       semi: "off",
       "space-before-function-paren": "off",
       "@typescript-eslint/no-var-requires":"off",
@@ -40,9 +50,6 @@ module.exports = {
     },
     settings: {
       "import/resolver": {
-        // "node":{
-        //   "extensions": [".js", ".jsx", ".ts", ".tsx"]
-        // },
         typescript: {} 
       }
   }
