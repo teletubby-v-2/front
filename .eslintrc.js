@@ -21,6 +21,7 @@ module.exports = {
     '@typescript-eslint'
   ],
   rules: {
+      "space-infix-ops": "off",
       "quotes": 'off',
       "comma-spacing": "warn",
       "keyword-spacing": 'warn',
