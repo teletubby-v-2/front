@@ -12,7 +12,7 @@ const Login = () => {
   const onFinish = (value:any) => {
     setIsLoading(true)
     firebaseApp.auth().signInWithEmailAndPassword(value.email, value.password).then((userCredentail) => {
-      console.log(userCredentail)
+      userCredentail.user?.getIdToken().then((token) => localStorage.setItem('authToken',token))
       history.push('/success')
     }).catch((error) => {
         console.log(error)
@@ -40,7 +40,7 @@ const Login = () => {
         <Input.Password placeholder='password'/>
       </Form.Item>
       <Form.Item style={{marginBottom:5}}>
-        <Button type='primary' htmlType='submit' size='large' block>login</Button>
+        <Button type='primary' htmlType='submit' size='large' block loading={isLoading}>login</Button>
       </Form.Item>
     </Form>
     <a onClick={()=>{history.push('register')}}>no account</a>

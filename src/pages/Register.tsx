@@ -8,18 +8,20 @@ const Register = () => {
   const history = useHistory()
   const [isFail, setIsFail] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [message, setMessage] = useState<string>()
 
   const onFinish = (value:any) => {
-    setIsLoading(true)
     if (value.password !== value.comfirmPassword){
+      setMessage("Password and comfirm password is not collabed")
       return setIsFail(true)
     }
     setIsLoading(true)
     firebaseApp.auth().createUserWithEmailAndPassword(value.email, value.password).then((userCredentail) => {
-      console.log(userCredentail)
+      userCredentail.user?.getIdToken().then((token) => localStorage.setItem('authToken',token))
       history.push('/success')
     }).catch((error) => {
         console.log(error)
+        setMessage(error.message)
         setIsFail(true)
       }
     ).finally(() => setIsLoading(false))
@@ -30,7 +32,7 @@ const Register = () => {
     <h1 style={{marginBottom:20}}>Register</h1>
     {isFail &&
     <Alert 
-      message="Password and comfirm password is not collabed"
+      message={message}
       type="error"
       showIcon
       style={{textAlign:'left', marginBottom:10}}/>
@@ -46,7 +48,7 @@ const Register = () => {
         <Input.Password placeholder='comfirm password'/>
       </Form.Item>
       <Form.Item style={{marginBottom:5}}>
-        <Button type='primary' htmlType='submit' size='large' block>Register</Button>
+        <Button type='primary' htmlType='submit' size='large' block loading={isLoading}>Register</Button>
       </Form.Item>
     </Form>
     <a onClick={()=>{history.push('/Login')}}>already have account</a>

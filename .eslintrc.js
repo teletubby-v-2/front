@@ -21,6 +21,7 @@ module.exports = {
     '@typescript-eslint'
   ],
   rules: {
+      "quotes": 'off',
       "comma-spacing": "warn",
       "keyword-spacing": 'warn',
       "space-before-blocks": "warn",
