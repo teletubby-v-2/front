@@ -2,11 +2,10 @@ import React from 'react';
 import './style/App.css';
 import 'antd/dist/antd.css';
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
-import { Button, Col, Form, Input, Row } from 'antd';
 
-import Login from 'views/Login';
-import Register from 'views/Register';
-import Success from 'views/Success';
+import Login from 'pages/Login';
+import Register from 'pages/Register';
+import Success from 'pages/Success';
 
 function App() {
   return (

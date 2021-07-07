@@ -7,20 +7,22 @@ const Register = () => {
 
   const history = useHistory()
   const [isFail, setIsFail] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const onFinish = (value:any) => {
+    setIsLoading(true)
     if (value.password !== value.comfirmPassword){
       return setIsFail(true)
-    } 
-    console.log('here')
+    }
+    setIsLoading(true)
     firebaseApp.auth().createUserWithEmailAndPassword(value.email, value.password).then((userCredentail) => {
       console.log(userCredentail)
       history.push('/success')
     }).catch((error) => {
         console.log(error)
         setIsFail(true)
-      } 
-    )
+      }
+    ).finally(() => setIsLoading(false))
   }
 
   return (

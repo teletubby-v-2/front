@@ -7,8 +7,10 @@ const Login = () => {
 
   const history = useHistory()
   const [isFail, setIsFail] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const onFinish = (value:any) => {
+    setIsLoading(true)
     firebaseApp.auth().signInWithEmailAndPassword(value.email, value.password).then((userCredentail) => {
       console.log(userCredentail)
       history.push('/success')
@@ -16,7 +18,7 @@ const Login = () => {
         console.log(error)
         setIsFail(true)
       } 
-    )
+    ).finally(() => setIsLoading(false))
   }
 
   return (
@@ -27,7 +29,8 @@ const Login = () => {
       message="Error"
       description="Email or password is not correct"
       type="error"
-      showIcon/>
+      showIcon
+      style={{textAlign:'left', marginBottom:10}}/>
     }
     <Form onFinish={onFinish}>
       <Form.Item name='email'>
