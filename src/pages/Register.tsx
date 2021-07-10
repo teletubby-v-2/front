@@ -1,7 +1,8 @@
-import { Alert, Button, Form, Input } from 'antd'
+import { Alert, Avatar, Button, Divider, Form, Input, Space } from 'antd'
 import { firebaseApp } from 'config/firebase'
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import { signInWithFacebook, signInWithGoogle, signInWithTwitter } from 'utils/auth'
 
 const Register = () => {
 
@@ -17,9 +18,10 @@ const Register = () => {
     }
     setIsLoading(true)
     firebaseApp.auth().createUserWithEmailAndPassword(value.email, value.password).then((userCredentail) => {
-      userCredentail.user?.getIdToken().then((token) => localStorage.setItem('authToken','Bearer '+token))
-      history.push('/success')
-    }).catch((error) => {
+      userCredentail.user?.getIdToken().then((token) => localStorage.setItem('idToken',token))
+      userCredentail.user?.updateProfile({displayName: value.username})
+    }).then(() => history.push('/success'))
+    .catch((error) => {
         console.log(error)
         setMessage(error.message)
         setIsFail(true)
@@ -38,6 +40,9 @@ const Register = () => {
       style={{textAlign:'left', marginBottom:10}}/>
     }
     <Form onFinish={onFinish}>
+    <Form.Item name='username' style={{marginBottom:18}}>
+        <Input placeholder='username'/>
+      </Form.Item >
       <Form.Item name='email' style={{marginBottom:18}}>
         <Input placeholder='Email'/>
       </Form.Item >
@@ -51,7 +56,7 @@ const Register = () => {
         <Button type='primary' htmlType='submit' size='large' block loading={isLoading}>Register</Button>
       </Form.Item>
     </Form>
-    <a onClick={()=>{history.push('/Login')}}>already have account</a>
+    <a href='#/login'>already have account</a>
   </div>
   )
 }

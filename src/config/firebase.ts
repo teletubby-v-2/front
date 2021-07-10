@@ -20,5 +20,8 @@ export const firebaseConfig = {
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 }
 // Initialize Firebase
-export const firebaseApp = firebase.initializeApp(firebaseConfig)
+export const firebaseApp = !firebase.apps.length
+    ? firebase.initializeApp(firebaseConfig)
+    : firebase.app()
 // firebase.analytics();
+firebaseApp.auth().languageCode = 'TH'
