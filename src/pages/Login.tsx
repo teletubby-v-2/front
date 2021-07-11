@@ -27,7 +27,7 @@ const Login = () => {
   const signInProvider = (provider: string) => {
     switch (provider) {
       case 'google':
-        signInWithFacebook()
+        signInWithGoogle()
           .then(() => history.push('/success'))
           .catch((error) => setMessage(error.message || 'cant login'))
         break;
