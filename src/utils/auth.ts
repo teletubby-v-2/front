@@ -13,32 +13,22 @@ async function signInWithEmailAndPassword(email: string,password: string):Promis
 async function logout() {
   await firebaseApp.auth().signOut()
   localStorage.removeItem('idToken')
+  localStorage.removeItem('providerToken')
 }
 async function providerSignIn(provider: firebase.auth.AuthProvider):Promise<void> {
-  try{
-    const userCredentail = await firebase.auth().signInWithPopup(provider)
-    var credential = userCredentail.credential as firebase.auth.OAuthCredential;
-    const token = await userCredentail.user?.getIdToken()
-    if(token){
-      localStorage.setItem('idToken',token)
-    }
-    // This gives you a Google Access Token. You can use it to access the Google API.
-    if(credential){
-      localStorage.setItem('providerToken',credential.accessToken as string)
-    }
-    console.log(userCredentail.credential)
-      // The signed-in user info.
-      // var user = result.user;
-  } catch(error:any){
-    // Handle Errors here.
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    // The email of the user's account used.
-    var email = error.email;
-    // The firebase.auth.AuthCredential type that was used.
-    var credential = error.credential as firebase.auth.OAuthCredential;
-    // ...
+  const userCredentail = await firebase.auth().signInWithPopup(provider)
+  var credential = userCredentail.credential as firebase.auth.OAuthCredential;
+  const token = await userCredentail.user?.getIdToken()
+  if(token){
+    localStorage.setItem('idToken',token)
   }
+  // This gives you a Google Access Token. You can use it to access the Google API.
+  if(credential){
+    localStorage.setItem('providerToken',credential.accessToken as string)
+  }
+  console.log(userCredentail.credential)
+    // The signed-in user info.
+    // var user = result.user;
 }
 
 async function signInWithGoogle():Promise<void> {
