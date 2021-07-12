@@ -2,7 +2,6 @@ import { Alert, Avatar, Button, Divider, Form, Input, Space } from 'antd'
 import { firebaseApp } from 'config/firebase'
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { signInWithFacebook, signInWithGoogle, signInWithTwitter } from 'utils/auth'
 
 const Register = () => {
 
