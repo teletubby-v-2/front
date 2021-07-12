@@ -1,6 +1,4 @@
 import React from 'react';
-import './style/App.css';
-import 'antd/dist/antd.css';
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 import Login from 'pages/Login';
