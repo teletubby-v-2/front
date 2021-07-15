@@ -1,11 +1,17 @@
-import React from 'react';
-import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
-
-import Login from 'pages/Login';
-import Register from 'pages/Register';
-import Success from 'pages/Success';
+import React, { useState } from 'react'
+import logo from './logo.svg'
+import { firebaseApp } from './config/firebase'
+import { Button } from 'antd'
+import { userInfoStore } from './store/user'
+import Login from './pages/Login'
+import { HashRouter, Redirect, Route, Switch } from 'react-router-dom'
+import Register from './pages/Register'
+import Success from './pages/Success'
 
 function App() {
+  const { displayName, setDisplayName } = userInfoStore()
+
+  const [yo, setYo] = useState<string>('yo')
   return (
     <div>
       <HashRouter>
@@ -19,7 +25,7 @@ function App() {
         </Switch>
       </HashRouter>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

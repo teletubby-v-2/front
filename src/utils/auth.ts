@@ -1,16 +1,16 @@
-import { firebaseApp } from 'config/firebase';
+import { firebaseApp } from '../config/firebase';
 import firebase from 'firebase/app'
 
-async function signInWithEmailAndPassword(email: string,password: string):Promise<firebase.auth.UserCredential > {
-  const userCredentail = await firebaseApp.auth().signInWithEmailAndPassword(email,password)
+async function signInWithEmailAndPassword(email: string, password: string):Promise<firebase.auth.UserCredential > {
+  const userCredentail = await firebaseApp.auth().signInWithEmailAndPassword(email, password)
   const token = await userCredentail.user?.getIdToken()
-  if(token){
-    localStorage.setItem('idToken',token)
+  if (token) {
+    localStorage.setItem('idToken', token)
   }
   return userCredentail
 } 
 
-async function logout() {
+async function logout():Promise<void> {
   await firebaseApp.auth().signOut()
   localStorage.removeItem('idToken')
   localStorage.removeItem('providerToken')
@@ -19,16 +19,16 @@ async function providerSignIn(provider: firebase.auth.AuthProvider):Promise<void
   const userCredentail = await firebase.auth().signInWithPopup(provider)
   var credential = userCredentail.credential as firebase.auth.OAuthCredential;
   const token = await userCredentail.user?.getIdToken()
-  if(token){
+  if (token) {
     localStorage.setItem('idToken',token)
   }
   // This gives you a Google Access Token. You can use it to access the Google API.
-  if(credential){
-    localStorage.setItem('providerToken',credential.accessToken as string)
+  if (credential) {
+    localStorage.setItem('providerToken', credential.accessToken as string)
   }
   console.log(userCredentail.credential)
-    // The signed-in user info.
-    // var user = result.user;
+  // The signed-in user info.
+  // var user = result.user;
 }
 
 async function signInWithGoogle():Promise<void> {

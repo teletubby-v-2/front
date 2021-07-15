@@ -1,15 +1,16 @@
-import { Button, Result } from 'antd'
+import { Button, Result, Image, Avatar } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { SmileOutlined } from '@ant-design/icons'
-import { useHistory } from 'react-router-dom'
-import { firebaseApp } from 'config/firebase'
-import { logout } from 'utils/auth'
 import firebase from 'firebase/app'
-const Success = () => {
+import { UserOutlined } from '@ant-design/icons'
+import { useHistory } from 'react-router-dom'
+
+import { firebaseApp } from '../config/firebase'
+import { logout } from '../utils/auth'
+// import { userInfoStore } from 'store/user'
+const Success:React.FC<{}> = () => {
 
   const history = useHistory()
-
-  const [user, setUser] = useState<firebase.User>()
+  const [thisUser, setThisUser] = useState<firebase.User>()
 
   useEffect(() => {
     firebaseApp.auth().onAuthStateChanged((user) => {
@@ -18,7 +19,7 @@ const Success = () => {
         // https://firebase.google.com/docs/reference/js/firebase.User
         const uid = user.uid;
         // ...
-        setUser(user)
+        setThisUser(user)
         console.log(uid)
       } else {
         // User is signed out
@@ -28,11 +29,13 @@ const Success = () => {
   }, [])
 
   return (
-    <Result
-    icon={<SmileOutlined />}
-    title={user?.displayName? `Welcome! ${user.displayName}` : 'loading...'}
-    extra={<Button type="primary" onClick={() => {logout(); history.push('./login')}}>Logout</Button>}
-    />
+    <>
+      <Result
+      icon={thisUser?.photoURL ? <Avatar size={300} shape='circle' src={thisUser.photoURL} className='m-auto border-2' /> : <Avatar size={128} shape='circle' icon={ <UserOutlined/>} className='m-auto border-2 ' />}
+      title={ thisUser? thisUser.displayName : 'loading...'}
+      extra={<Button type="primary" onClick={() => {logout(); history.push('./login')}}>Logout</Button>}
+      />
+    </>
   )
 }
 

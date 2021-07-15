@@ -21,7 +21,7 @@ export const firebaseConfig = {
 }
 // Initialize Firebase
 export const firebaseApp = !firebase.apps.length
-    ? firebase.initializeApp(firebaseConfig)
-    : firebase.app()
+  ? firebase.initializeApp(firebaseConfig)
+  : firebase.app()
 // firebase.analytics();
 firebaseApp.auth().languageCode = 'TH'

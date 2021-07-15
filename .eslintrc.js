@@ -1,60 +1,48 @@
 module.exports = {
-  env: {
-    browser: true,
-    es2021: true
-  },
-  extends: [
-    'plugin:react/recommended',
-    'standard',
-    "plugin:@typescript-eslint/recommended",
-  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
     },
     ecmaVersion: 12,
-    sourceType: 'module'
+    sourceType: 'module',
   },
-  plugins: [
-    'react',
-    '@typescript-eslint'
+  env: {
+    browser: true,
+    es2021: true,
+    node: true,
+    jest: true,
+  },
+  extends: [
+    'prettier',
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:@typescript-eslint/recommended',
   ],
+  plugins: ['react', '@typescript-eslint', 'prettier', 'react-hooks', 'import', 'jest'],
   rules: {
-      "no-var": "off",
-      "space-in-parens": "off",
-      "space-infix-ops": "off",
-      "quotes": 'off',
-      "comma-spacing": "warn",
-      "keyword-spacing": 'warn',
-      "space-before-blocks": "warn",
-      "indent": "warn",
-      "padded-blocks": "off",
-      "no-trailing-spaces": "off",
-      "block-spacing": "off",
-      "arrow-spacing": "off",
-      "object-curly-spacing": "off",
-      "no-use-before-define": "off",
-      "react/prop-types": "off",
-      "comma-dangle": "off",
-      "key-spacing": "off",
-      semi: "off",
-      "space-before-function-paren": "off",
-      "@typescript-eslint/no-var-requires":"off",
-      "@typescript-eslint/no-explicit-any": "off",
-      "import/extensions": [
-        "error",
-        "ignorePackages",
-        {
-          ts: "never",
-          tsx: "never"
-        }
-      ],
-      "import/no-duplicates":"off"
+    'no-var': 0,
+    'react/prop-types': 0,
+    'react/react-in-jsx-scope': 0,
+    '@typescript-eslint/no-empty-interface': 0,
+    '@typescript-eslint/explicit-module-boundary-types': 0,
+    'react-hooks/exhaustive-deps': 'warn',
+    'react-hooks/rules-of-hooks': 'error',
+    '@typescript-eslint/ban-types': [
+      'error',
+      {
+        extendDefaults: true,
+        types: {
+          '{}': false,
+        },
+      },
+    ],
+  },
+  settings: {
+    semi: 0,
+    react: {
+      version: 'detect',
     },
-    settings: {
-      "import/resolver": {
-        typescript: {} 
-      }
-  }
+  },
 }
