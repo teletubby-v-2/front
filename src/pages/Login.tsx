@@ -11,23 +11,23 @@ import {
 import facebookLogo from '../assets/images/facebook_logo.png'
 import googleLogo from '../assets/images/google_logo.png'
 import twitterLogo from '../assets/images/twitter_logo.png'
-// import { userInfoStore } from '../store/user'
+import { userInfoStore } from '../store/user.store'
 
 const Login: React.FC<{}> = () => {
   const history = useHistory()
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState<string>()
 
-  // const { setAll } = userInfoStore()
+  const { setAll } = userInfoStore()
 
   const onFinish = (value: any) => {
     setIsLoading(true)
     signInWithEmailAndPassword(value.email, value.password)
       .then(userCredential => {
         console.log(userCredential.user)
-        // if (userCredential.user){
-        //   setAll(userCredential.user)
-        // }
+        if (userCredential.user){
+          setAll(userCredential.user)
+        }
         history.push('/success')
       })
       .catch(error => {

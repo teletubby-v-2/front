@@ -26,12 +26,12 @@ export const userInfoStore = create<UserInfo>((set) => ({
   },
   setAll: (info:firebase.UserInfo) => {
     set({
-      displayName:info.displayName,
-      photoURL: info.photoURL,
-      uid: info.uid,
-      providerId: info.providerId,
-      phoneNumber: info.phoneNumber,
-      email: info.email,
+      displayName:info.displayName || '',
+      photoURL: info.photoURL || '',
+      uid: info.uid || '',
+      providerId: info.providerId || '',
+      phoneNumber: info.phoneNumber || '',
+      email: info.email || '',
     })
   },
   clearAll: () => {

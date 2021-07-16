@@ -25,3 +25,21 @@ export const firebaseApp = !firebase.apps.length
   : firebase.app()
 // firebase.analytics();
 firebaseApp.auth().languageCode = 'TH'
+
+firebaseApp.auth().onAuthStateChanged(user => {
+  if (user) {
+    if(!user.emailVerified){
+      user.sendEmailVerification()
+    }
+    const uid = user.uid
+    console.log(user.email)
+    console.log(uid)
+    console.log(firebase.auth().currentUser)
+  } else {
+    // User is signed out
+    // ...
+    console.log('invalid user')
+  }
+})
+
+export const user = firebaseApp.auth().currentUser

@@ -4,47 +4,44 @@ import firebase from 'firebase/app'
 import { UserOutlined } from '@ant-design/icons'
 import { useHistory } from 'react-router-dom'
 
-import { firebaseApp } from '../config/firebase'
+import { firebaseApp, user } from '../config/firebase'
 import { logout } from '../utils/auth'
+import noUser from '../assets/images/no_user.png'
 // import { userInfoStore } from 'store/user'
 const Success: React.FC<{}> = () => {
   const history = useHistory()
   const [thisUser, setThisUser] = useState<firebase.User>()
+  const [css, setCss] = useState('')
 
   useEffect(() => {
-    firebaseApp.auth().onAuthStateChanged(user => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        const uid = user.uid
-        // ...
-        setThisUser(user)
-        console.log(uid)
-        console.log(firebase.auth().currentUser)
-      } else {
-        // User is signed out
-        // ...
-        console.log('invalid user')
-      }
-    })
+    console.log(firebaseApp.auth().currentUser)
+    if(firebaseApp.auth().currentUser?.emailVerified){
+      setCss('border-green-500')
+    } else {
+      setCss('border-red-500')
+    }
   }, [])
 
   return (
     <>
       <Result
         icon={
-          thisUser?.photoURL ? (
-            <Avatar size={128} shape="circle" src={thisUser.photoURL} className="m-auto border-2" />
+          firebaseApp.auth().currentUser?.photoURL ? (
+            <Avatar 
+              size={128} 
+              shape="circle" 
+              src={firebaseApp.auth().currentUser?.photoURL} 
+              className={`m-auto border-2 ${css}`} />
           ) : (
             <Avatar
               size={128}
               shape="circle"
-              icon={<UserOutlined />}
-              className="m-auto border-2 "
+              src={noUser}
+              className={`m-auto border-2 ${css}`}
             />
           )
         }
-        title={thisUser ? thisUser.displayName : 'loading...'}
+        title={firebaseApp.auth().currentUser ? firebaseApp.auth().currentUser?.displayName : 'loading...'}
         extra={
           <Button
             type="primary"
