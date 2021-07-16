@@ -20,9 +20,11 @@ const Success: React.FC<{}> = () => {
         // ...
         setThisUser(user)
         console.log(uid)
+        console.log(firebase.auth().currentUser)
       } else {
         // User is signed out
         // ...
+        console.log('invalid user')
       }
     })
   }, [])

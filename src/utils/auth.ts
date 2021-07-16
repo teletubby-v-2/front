@@ -18,7 +18,8 @@ async function logout(): Promise<void> {
   localStorage.removeItem('idToken')
   localStorage.removeItem('providerToken')
 }
-async function providerSignIn(provider: firebase.auth.AuthProvider): Promise<void> {
+
+async function providerSignIn(provider: firebase.auth.AuthProvider): Promise<firebase.auth.UserCredential> {
   const userCredentail = await firebase.auth().signInWithPopup(provider)
   var credential = userCredentail.credential as firebase.auth.OAuthCredential
   const token = await userCredentail.user?.getIdToken()
@@ -29,22 +30,26 @@ async function providerSignIn(provider: firebase.auth.AuthProvider): Promise<voi
   if (credential) {
     localStorage.setItem('providerToken', credential.accessToken as string)
   }
-  console.log(userCredentail.credential)
-  await userCredentail.user?.updateProfile({
-    photoURL: userCredentail.user.photoURL + '?type=large&return_ssl_resources=1',
-  })
+  return userCredentail;
+
+  // console.log(userCredentail.credential)
+
   // The signed-in user info.
-  // var user = result.user;
+  // var user = result.user;}
 }
 
 async function signInWithGoogle(): Promise<void> {
-  const provider = new firebase.auth.GoogleAuthProvider()
+  const provider = new firebase.auth.GoogleAuthProvider();
   provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
   provider.addScope('https://www.googleapis.com/auth/user.birthday.read')
   provider.addScope('https://www.googleapis.com/auth/user.phonenumbers.read')
   provider.addScope('https://www.googleapis.com/auth/userinfo.email')
   provider.addScope('https://www.googleapis.com/auth/userinfo.profile')
   await providerSignIn(provider)
+
+  await firebase.auth().currentUser?.updateProfile({
+    photoURL: firebase.auth().currentUser?.photoURL?.replace('s96-c', 's400-c'),
+  })
 }
 
 async function signInWithFacebook(): Promise<void> {
@@ -62,11 +67,18 @@ async function signInWithFacebook(): Promise<void> {
   // provider.addScope('user_birthday');
   // provider.addScope('user_age_range');
   await providerSignIn(provider)
+  await firebase.auth().currentUser?.updateProfile({
+    photoURL: firebase.auth().currentUser?.photoURL + '?type=large&return_ssl_resources=1',
+  })
 }
 
 async function signInWithTwitter(): Promise<void> {
   const provider = new firebase.auth.TwitterAuthProvider()
   await providerSignIn(provider)
+
+  await firebase.auth().currentUser?.updateProfile({
+    photoURL: firebase.auth().currentUser?.photoURL?.replace('_normal', ''),
+  })
 }
 
 export {

@@ -7,21 +7,23 @@ import Login from './pages/Login'
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom'
 import Register from './pages/Register'
 import Success from './pages/Success'
+import { ForgotPassword } from './pages/ForgotPassword'
 
 function App() {
   const { displayName, setDisplayName } = userInfoStore()
+  const token = localStorage.getItem('idToken')
 
-  const [yo, setYo] = useState<string>('yo')
   return (
     <div>
       <HashRouter>
         <Switch>
           <Route exact path="/">
-            <Redirect to="/login" />
+            {token ? <Redirect to="/success" /> : <Redirect to="/login" />}
           </Route>
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/success" component={Success} />
+          <Route exact path="/forgotpassword" component={ForgotPassword} />
         </Switch>
       </HashRouter>
     </div>

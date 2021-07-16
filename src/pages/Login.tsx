@@ -72,9 +72,12 @@ const Login: React.FC<{}> = () => {
         <Form.Item name="email">
           <Input placeholder="Email" />
         </Form.Item>
-        <Form.Item name="password">
+        <Form.Item className="mb-1" name="password">
           <Input.Password placeholder="password" />
         </Form.Item>
+        <a href="#/forgotpassword" className="flex justify-end mb-2 text-blue-500 text-xs">
+          forgot password
+        </a>
         <Form.Item style={{ marginBottom: 5 }}>
           <Button type="primary" htmlType="submit" size="large" block loading={isLoading}>
             login
@@ -86,21 +89,21 @@ const Login: React.FC<{}> = () => {
       <Space size="middle" style={{ paddingBottom: 7 }}>
         <a onClick={() => signInProvider('facebook')}>
           <Avatar
-            className="transition duration-500 ease-in-out bg-blue-600 hover:bg-red-600 transform hover:-translate-y-1 hover:scale-125"
+            className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-125"
             size="default"
             src={facebookLogo}
           />
         </a>
         <a onClick={() => signInProvider('google')}>
           <Avatar
-            className="transition duration-250 ease-in-out bg-blue-600 hover:bg-red-600 transform hover:-translate-y-1 hover:scale-125"
+            className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-125"
             size="default"
             src={googleLogo}
           />
         </a>
         <a onClick={() => signInProvider('twitter')}>
           <Avatar
-            className="transition duration-250 ease-in-out bg-blue-600 hover:bg-red-600 transform hover:-translate-y-1 hover:scale-125"
+            className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-125"
             size="default"
             src={twitterLogo}
           />

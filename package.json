@@ -23,7 +23,7 @@
   "scripts": {
     "start": "craco start",
     "start https": "HTTPS=true npm start",
-    "start https-win": "($env:HTTPS = true) -and (npm start)", 
+    "start https-win": "($env:HTTPS = true) -and (npm start)",
     "build": "craco build",
     "test": "craco test",
     "lint": "eslint .",
