@@ -2,6 +2,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 // import 'firebase/database'
 import 'firebase/firestore'
+import 'firebase/storage';
 
 export const Timestamp = firebase.firestore.Timestamp
 export type ITimestamp = firebase.firestore.Timestamp
@@ -28,18 +29,18 @@ firebaseApp.auth().languageCode = 'TH'
 
 firebaseApp.auth().onAuthStateChanged(user => {
   if (user) {
-    if(!user.emailVerified){
-      user.sendEmailVerification()
-    }
-    const uid = user.uid
-    console.log(user.email)
-    console.log(uid)
-    console.log(firebase.auth().currentUser)
+    user.getIdToken().then((token) => {
+      localStorage.setItem('idToken',token)
+    })
   } else {
-    // User is signed out
-    // ...
     console.log('invalid user')
   }
 })
 
-export const user = firebaseApp.auth().currentUser
+export const firstore = firebaseApp.firestore()
+
+export const storage = firebaseApp.storage()
+
+export const storageRef = storage.ref();
+
+export const imagesRef = storageRef.child('images')

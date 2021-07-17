@@ -4,7 +4,7 @@ import firebase from 'firebase/app'
 import { UserOutlined } from '@ant-design/icons'
 import { useHistory } from 'react-router-dom'
 
-import { firebaseApp, user } from '../config/firebase'
+import { firebaseApp } from '../config/firebase'
 import { logout } from '../utils/auth'
 import noUser from '../assets/images/no_user.png'
 // import { userInfoStore } from 'store/user'

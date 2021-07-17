@@ -1,8 +1,9 @@
-import { Alert, Avatar, Button, Divider, Form, Input, Space } from 'antd'
-import React, { useState } from 'react'
+import { Alert, Avatar, Button, Divider, Form, Input, Modal, Space } from 'antd'
+import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import {
+  linkAccountWithProvider,
   signInWithEmailAndPassword,
   signInWithFacebook,
   signInWithGoogle,
@@ -12,13 +13,19 @@ import facebookLogo from '../assets/images/facebook_logo.png'
 import googleLogo from '../assets/images/google_logo.png'
 import twitterLogo from '../assets/images/twitter_logo.png'
 import { userInfoStore } from '../store/user.store'
+import { firebaseApp } from '../config/firebase'
 
 const Login: React.FC<{}> = () => {
+
+  const { setError,email,error } = userInfoStore()
+
   const history = useHistory()
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState<string>()
-
   const { setAll } = userInfoStore()
+  const [method, setMethod] = useState<string>('')
+
+  const { setEmail } = userInfoStore()
 
   const onFinish = (value: any) => {
     setIsLoading(true)
@@ -31,10 +38,57 @@ const Login: React.FC<{}> = () => {
         history.push('/success')
       })
       .catch(error => {
-        console.log(error.message)
+        console.log(error)
         setMessage(error.message)
       })
       .finally(() => setIsLoading(false))
+  }
+
+  const manageSameLogInAccount = (error: any) => {
+    if (error.code === 'auth/account-exists-with-different-credential') {
+      setError(error)
+      const email = error.email
+      firebaseApp.auth().fetchSignInMethodsForEmail(email).then((methods) => {
+        setEmail(error.email)
+        if( methods[0] === 'password' ){
+          setMethod('อีเมล')
+        }
+        else {
+          setMethod(' google ')
+        }
+      })
+    }
+  }
+
+  useEffect(() => {
+    if(method != ''){
+      warning()
+      setMethod('')
+    }
+  }, [method])
+
+  const linkAccount = () => {
+    console.log(method === 'password')
+    if ( method === 'อีเมล' ) {
+      history.push('/linkAccount')
+    } else {
+      console.log(email)
+      linkAccountWithProvider(email as string,error.credential).then(() => {
+        history.push('/success')
+      })
+    }
+  }
+
+  function warning() {
+    Modal.warning({
+      title: `ล็อคอินไม่สำเร็จ`,
+      content: `แอคเค้าของคุณเคยล็อคอินด้วยรูปแบบของ${method}ไปแล้ว ต้องการที่จะเชื่อมต่อแอคเคาต์ไหม`,
+      okText: 'เชื่อมต่อแอคเคาต์',
+      onOk: () => {
+        linkAccount()
+      },
+      closable: true,
+    });
   }
 
   const signInProvider = (provider: string) => {
@@ -42,19 +96,23 @@ const Login: React.FC<{}> = () => {
       case 'google':
         return signInWithGoogle()
           .then(() => history.push('/success'))
-          .catch(error => setMessage(error.message || 'cant login'))
+          .catch(error => manageSameLogInAccount(error))
       case 'facebook':
         return signInWithFacebook()
           .then(() => history.push('/success'))
-          .catch(error => setMessage(error.message || 'cant login'))
+          .catch(error => manageSameLogInAccount(error))
       case 'twitter':
         return signInWithTwitter()
           .then(() => history.push('/success'))
-          .catch(error => setMessage(error.message || 'cant login'))
+          .catch(error => manageSameLogInAccount(error))
     }
   }
 
   return (
+    <>
+    <Modal>
+
+    </Modal>
     <div className="App">
       <h1 className="text-3xl font-bold	" style={{ marginBottom: 20 }}>
         Login
@@ -114,6 +172,7 @@ const Login: React.FC<{}> = () => {
         no account
       </a>
     </div>
+    </>
   )
 }
 

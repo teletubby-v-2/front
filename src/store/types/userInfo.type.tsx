@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 
 export interface UserInfo extends firebase.UserInfo { 
+  error: any;
   setDisplayName: (displayName: string) => void;
   setPhotoURL: (photoURL: string) => void;
   setUid: (uid: string) => void;
@@ -8,4 +9,5 @@ export interface UserInfo extends firebase.UserInfo {
   setEmail: (email: string) => void;
   setAll: (info: firebase.UserInfo) => void;
   clearAll: () => void;
+  setError: (error: any) => void;
 }

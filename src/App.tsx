@@ -8,6 +8,7 @@ import { HashRouter, Redirect, Route, Switch } from 'react-router-dom'
 import Register from './pages/Register'
 import Success from './pages/Success'
 import { ForgotPassword } from './pages/ForgotPassword'
+import LinkAccount from './pages/LinkAccount'
 
 function App() {
   const { displayName, setDisplayName } = userInfoStore()
@@ -24,6 +25,7 @@ function App() {
           <Route exact path="/register" component={Register} />
           <Route exact path="/success" component={Success} />
           <Route exact path="/forgotpassword" component={ForgotPassword} />
+          <Route exact path="/linkAccount" component={LinkAccount} />
         </Switch>
       </HashRouter>
     </div>

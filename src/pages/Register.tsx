@@ -43,7 +43,12 @@ const Register:React.FC<{}> = () => {
     <Form.Item name='username' >
         <Input placeholder='username'/>
       </Form.Item >
-      <Form.Item name='email' >
+      <Form.Item 
+        name='email' 
+        rules={[{
+            type: 'email',
+            required: true,
+          }]}>
         <Input placeholder='Email'/>
       </Form.Item >
       <Form.Item name='password' >

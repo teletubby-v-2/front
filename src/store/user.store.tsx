@@ -9,6 +9,7 @@ export const userInfoStore = create<UserInfo>((set) => ({
   providerId: '',
   phoneNumber: '',
   email: '',
+  error: {},
   setDisplayName: (displayName: string) => {
     set({ displayName })
   },
@@ -43,5 +44,8 @@ export const userInfoStore = create<UserInfo>((set) => ({
       phoneNumber: '',
       email: ''
     })
-  } 
+  } ,
+  setError: (error: any) => {
+    set({ error })
+  }
 }))
