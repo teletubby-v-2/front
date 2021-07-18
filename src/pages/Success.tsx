@@ -13,7 +13,7 @@ const Success: React.FC<{}> = () => {
 
   useEffect(() => {
     console.log(firebaseApp.auth().currentUser)
-    if(firebaseApp.auth().currentUser?.emailVerified){
+    if (firebaseApp.auth().currentUser?.emailVerified) {
       setCss('border-green-500')
     } else {
       setCss('border-red-500')
@@ -25,21 +25,21 @@ const Success: React.FC<{}> = () => {
       <Result
         icon={
           firebaseApp.auth().currentUser?.photoURL ? (
-            <Avatar 
-              size={128} 
-              shape="circle" 
-              src={firebaseApp.auth().currentUser?.photoURL} 
-              className={`m-auto border-2 ${css}`} />
-          ) : (
             <Avatar
               size={128}
               shape="circle"
-              src={noUser}
+              src={firebaseApp.auth().currentUser?.photoURL}
               className={`m-auto border-2 ${css}`}
             />
+          ) : (
+            <Avatar size={128} shape="circle" src={noUser} className={`m-auto border-2 ${css}`} />
           )
         }
-        title={firebaseApp.auth().currentUser ? firebaseApp.auth().currentUser?.displayName : 'loading...'}
+        title={
+          firebaseApp.auth().currentUser
+            ? firebaseApp.auth().currentUser?.displayName
+            : 'loading...'
+        }
         extra={
           <Button
             type="primary"
