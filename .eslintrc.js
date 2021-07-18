@@ -22,7 +22,7 @@ module.exports = {
   ],
   plugins: ['react', '@typescript-eslint', 'prettier', 'react-hooks', 'import', 'jest'],
   rules: {
-    'no-var': 0,
+    'no-var': 1,
     'react/prop-types': 0,
     'react/react-in-jsx-scope': 0,
     '@typescript-eslint/no-empty-interface': 0,
