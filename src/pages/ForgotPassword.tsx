@@ -1,10 +1,9 @@
-import { render } from '@testing-library/react'
-import { Alert, Button, Divider, Form, Input } from 'antd'
+import { Alert, Button, Form, Input } from 'antd'
 import firebase from 'firebase'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-export const ForgotPassword: React.FC<{}> = () => {
+const ForgotPassword: React.FC<{}> = () => {
   const [isReset, setIsReset] = useState(false)
   const [message, setMessage] = useState<string>()
 
@@ -64,3 +63,5 @@ export const ForgotPassword: React.FC<{}> = () => {
     </div>
   )
 }
+
+export default ForgotPassword

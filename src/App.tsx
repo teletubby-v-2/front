@@ -3,7 +3,7 @@ import Login from './pages/Login'
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom'
 import Register from './pages/Register'
 import Success from './pages/Success'
-import { ForgotPassword } from './pages/ForgotPassword'
+import ForgotPassword from './pages/ForgotPassword'
 import LinkAccount from './pages/LinkAccount'
 
 const App: React.FC<{}> = () => {
