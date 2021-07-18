@@ -17,28 +17,30 @@ async function logout(): Promise<void> {
   localStorage.removeItem('providerToken')
 }
 
-async function providerSignIn(provider: firebase.auth.AuthProvider): Promise<firebase.auth.UserCredential> {
+async function providerSignIn(
+  provider: firebase.auth.AuthProvider,
+): Promise<firebase.auth.UserCredential> {
   const userCredentail = await auth.signInWithPopup(provider)
-  var credential = userCredentail.credential as firebase.auth.OAuthCredential
+  const credential = userCredentail.credential as firebase.auth.OAuthCredential
   // This gives you a provider Access Token. You can use it to access the provider API.
   if (credential.accessToken) {
     localStorage.setItem('providerToken', credential.accessToken)
   }
-  return userCredentail;
+  return userCredentail
 }
 
 async function signInWithGoogle(): Promise<firebase.auth.UserCredential> {
-  const provider = new firebase.auth.GoogleAuthProvider();
+  const provider = new firebase.auth.GoogleAuthProvider()
   provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
   provider.addScope('https://www.googleapis.com/auth/userinfo.email')
   provider.addScope('https://www.googleapis.com/auth/userinfo.profile')
- 
+
   // Comment: can implement to get more data from user.
   // provider.addScope('https://www.googleapis.com/auth/user.birthday.read')
   // provider.addScope('https://www.googleapis.com/auth/user.phonenumbers.read')
- 
+
   const userCredentail = await providerSignIn(provider)
-  
+
   // get higher quality photo
   // await firebase.auth().currentUser?.updateProfile({
   //   photoURL: firebaseApp.auth().currentUser?.photoURL + '?type=large&return_ssl_resources=1',
@@ -47,10 +49,9 @@ async function signInWithGoogle(): Promise<firebase.auth.UserCredential> {
   return userCredentail
 }
 
-
 async function signInWithFacebook(): Promise<firebase.auth.UserCredential> {
   const provider = new firebase.auth.FacebookAuthProvider()
-  
+
   // Comment: can implement to get more data from user.
   // provider.addScope('user_birthday');
   // provider.addScope('user_age_range');
@@ -64,7 +65,7 @@ async function signInWithFacebook(): Promise<firebase.auth.UserCredential> {
   // provider.addScope('user_friends');
   // provider.addScope('user_birthday');
   // provider.addScope('user_age_range');
-  
+
   const userCredentail = await providerSignIn(provider)
 
   // get higher quality photo
@@ -87,7 +88,7 @@ async function signInWithTwitter(): Promise<firebase.auth.UserCredential> {
   return userCredentail
 }
 
-function getProviderForProviderId(method: string):firebase.auth.AuthProvider | void{
+function getProviderForProviderId(method: string): firebase.auth.AuthProvider | void {
   switch (method) {
     case 'google.com':
       return new firebase.auth.GoogleAuthProvider()
@@ -97,13 +98,13 @@ function getProviderForProviderId(method: string):firebase.auth.AuthProvider | v
       return new firebase.auth.TwitterAuthProvider()
   }
 
-  new firebase.auth.EmailAuthProvider_Instance
+  new firebase.auth.EmailAuthProvider_Instance()
 }
 
-async function linkAccountWithProvider(email:string,pendingCred:firebase.auth.AuthCredential) {
+async function linkAccountWithProvider(email: string, pendingCred: firebase.auth.AuthCredential) {
   const methods = await auth.fetchSignInMethodsForEmail(email)
   const provider = getProviderForProviderId(methods[0])
-  if(provider){
+  if (provider) {
     const result = await auth.signInWithPopup(provider)
     console.log(result)
     await result.user?.linkAndRetrieveDataWithCredential(pendingCred)
@@ -112,7 +113,7 @@ async function linkAccountWithProvider(email:string,pendingCred:firebase.auth.Au
 
 async function linkWithEmailAndPassword(email: string, password: string, pendingCred: any) {
   const result = await auth.signInWithEmailAndPassword(email, password)
-  return result.user?.linkWithCredential(pendingCred);
+  return result.user?.linkWithCredential(pendingCred)
 }
 
 export {

@@ -4,17 +4,15 @@ import { Link, useHistory } from 'react-router-dom'
 import { userInfoStore } from '../store/user.store'
 import { linkWithEmailAndPassword } from '../service/auth'
 
-const LinkAccount:React.FC<{}> = () => {
-
+const LinkAccount: React.FC<{}> = () => {
   const history = useHistory()
 
-  const { email,error } = userInfoStore()
+  const { email, error } = userInfoStore()
 
   const onFinish = (value: any) => {
-    linkWithEmailAndPassword(value.email,value.password,error.credential)
-      .then(() =>
-        history.push('/success')
-      )
+    linkWithEmailAndPassword(value.email, value.password, error.credential).then(() =>
+      history.push('/success'),
+    )
   }
 
   return (
@@ -23,7 +21,7 @@ const LinkAccount:React.FC<{}> = () => {
       <h1 className="text-2xl font-bold ">ใส่พาสเวิร์ดเพื่อเชื่อมแอคเคาต์</h1>
       <Form layout="vertical" onFinish={onFinish}>
         <Form.Item name="email" initialValue={email} label="Email address">
-          <Input placeholder="Email" disabled/>
+          <Input placeholder="Email" disabled />
         </Form.Item>
         <Form.Item name="password" label="password">
           <Input.Password placeholder="password" />

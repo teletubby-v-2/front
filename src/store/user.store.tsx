@@ -1,9 +1,9 @@
-import { UserInfo } from './types/userInfo.type';
-import firebase from 'firebase/app';
+import { UserInfo } from './types/userInfo.type'
+import firebase from 'firebase/app'
 import create from 'zustand'
-import { AuthError } from '../constants/interface/error.interface';
+import { AuthError } from '../constants/interface/error.interface'
 
-export const userInfoStore = create<UserInfo>((set) => ({
+export const userInfoStore = create<UserInfo>(set => ({
   displayName: '',
   photoURL: '',
   uid: '',
@@ -26,9 +26,9 @@ export const userInfoStore = create<UserInfo>((set) => ({
   setEmail: (email: string) => {
     set({ email })
   },
-  setAll: (info:firebase.UserInfo) => {
+  setAll: (info: firebase.UserInfo) => {
     set({
-      displayName:info.displayName || '',
+      displayName: info.displayName || '',
       photoURL: info.photoURL || '',
       uid: info.uid || '',
       providerId: info.providerId || '',
@@ -43,10 +43,10 @@ export const userInfoStore = create<UserInfo>((set) => ({
       uid: '',
       providerId: '',
       phoneNumber: '',
-      email: ''
+      email: '',
     })
-  } ,
+  },
   setError: (error: AuthError) => {
     set({ error })
-  }
+  },
 }))
