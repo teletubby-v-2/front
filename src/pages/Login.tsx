@@ -1,31 +1,31 @@
 import { Alert, Avatar, Button, Divider, Form, Input, Modal, Space } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-
+import firebase from 'firebase/app'
 import {
   linkAccountWithProvider,
   signInWithEmailAndPassword,
   signInWithFacebook,
   signInWithGoogle,
   signInWithTwitter,
-} from '../utils/auth'
+} from '../service/auth'
 import facebookLogo from '../assets/images/facebook_logo.png'
 import googleLogo from '../assets/images/google_logo.png'
 import twitterLogo from '../assets/images/twitter_logo.png'
 import { userInfoStore } from '../store/user.store'
 import { firebaseApp } from '../config/firebase'
+import { AuthError } from '../constants/interface/error.interface'
+import { ErrorStore } from '../store/error.store'
 
 const Login: React.FC<{}> = () => {
 
-  const { setError,email,error } = userInfoStore()
+  const { authError, setAuthError } = ErrorStore()
 
   const history = useHistory()
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState<string>()
   const { setAll } = userInfoStore()
   const [method, setMethod] = useState<string>('')
-
-  const { setEmail } = userInfoStore()
 
   const onFinish = (value: any) => {
     setIsLoading(true)
@@ -37,19 +37,19 @@ const Login: React.FC<{}> = () => {
         }
         history.push('/success')
       })
-      .catch(error => {
-        console.log(error)
+      .catch((error:AuthError) => {
+        // console.log(error)
         setMessage(error.message)
       })
       .finally(() => setIsLoading(false))
   }
 
-  const manageSameLogInAccount = (error: any) => {
+  const manageSameLogInAccount = (error: AuthError) => {
+    // console.log(error)
     if (error.code === 'auth/account-exists-with-different-credential') {
-      setError(error)
-      const email = error.email
+      setAuthError(error)
+      const email = error.email as string
       firebaseApp.auth().fetchSignInMethodsForEmail(email).then((methods) => {
-        setEmail(error.email)
         if( methods[0] === 'password' ){
           setMethod('อีเมล')
         }
@@ -72,10 +72,10 @@ const Login: React.FC<{}> = () => {
     if ( method === 'อีเมล' ) {
       history.push('/linkAccount')
     } else {
-      console.log(email)
-      linkAccountWithProvider(email as string,error.credential).then(() => {
-        history.push('/success')
-      })
+      linkAccountWithProvider(authError.email as string,authError.credential as firebase.auth.AuthCredential)
+        .then(() => {
+          history.push('/success')
+        })
     }
   }
 
@@ -96,15 +96,15 @@ const Login: React.FC<{}> = () => {
       case 'google':
         return signInWithGoogle()
           .then(() => history.push('/success'))
-          .catch(error => manageSameLogInAccount(error))
+          .catch((error: AuthError) => manageSameLogInAccount(error))
       case 'facebook':
         return signInWithFacebook()
           .then(() => history.push('/success'))
-          .catch(error => manageSameLogInAccount(error))
+          .catch((error: AuthError) => manageSameLogInAccount(error))
       case 'twitter':
         return signInWithTwitter()
           .then(() => history.push('/success'))
-          .catch(error => manageSameLogInAccount(error))
+          .catch((error: AuthError) => manageSameLogInAccount(error))
     }
   }
 
@@ -114,7 +114,7 @@ const Login: React.FC<{}> = () => {
 
     </Modal>
     <div className="App">
-      <h1 className="text-3xl font-bold	" style={{ marginBottom: 20 }}>
+      <h1 className="text-3xl font-bold	mb-4">
         Login
       </h1>
       {message && (
@@ -123,7 +123,7 @@ const Login: React.FC<{}> = () => {
           description={message}
           type="error"
           showIcon
-          style={{ textAlign: 'left', marginBottom: 10 }}
+          className='m-auto text-left mb-3'
         />
       )}
       <Form onFinish={onFinish}>
@@ -136,7 +136,7 @@ const Login: React.FC<{}> = () => {
         <a href="#/forgotpassword" className="flex justify-end mb-2 text-blue-500 text-xs">
           forgot password
         </a>
-        <Form.Item style={{ marginBottom: 5 }}>
+        <Form.Item className='m-3'>
           <Button type="primary" htmlType="submit" size="large" block loading={isLoading}>
             login
           </Button>
@@ -144,7 +144,7 @@ const Login: React.FC<{}> = () => {
       </Form>
       <Divider orientation="center">or</Divider>
       <p className="mb-2">sign in with your social media account</p>
-      <Space size="middle" style={{ paddingBottom: 7 }}>
+      <Space size="middle" className='pb-2' >
         <a onClick={() => signInProvider('facebook')}>
           <Avatar
             className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-125"

@@ -1,7 +1,8 @@
 import firebase from 'firebase/app';
+import { AuthError } from '../../constants/interface/error.interface';
 
 export interface UserInfo extends firebase.UserInfo { 
-  error: any;
+  error: AuthError;
   setDisplayName: (displayName: string) => void;
   setPhotoURL: (photoURL: string) => void;
   setUid: (uid: string) => void;
@@ -9,5 +10,5 @@ export interface UserInfo extends firebase.UserInfo {
   setEmail: (email: string) => void;
   setAll: (info: firebase.UserInfo) => void;
   clearAll: () => void;
-  setError: (error: any) => void;
+  setError: (error: AuthError) => void;
 }

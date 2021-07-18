@@ -2,7 +2,7 @@ import { Button, Form, Input } from 'antd'
 import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { userInfoStore } from '../store/user.store'
-import { linkWithEmailAndPassword } from '../utils/auth'
+import { linkWithEmailAndPassword } from '../service/auth'
 
 const LinkAccount:React.FC<{}> = () => {
 

@@ -1,16 +1,14 @@
-import { Button, Result, Image, Avatar } from 'antd'
+import { Button, Result, Avatar } from 'antd'
 import React, { useEffect, useState } from 'react'
 import firebase from 'firebase/app'
-import { UserOutlined } from '@ant-design/icons'
 import { useHistory } from 'react-router-dom'
 
 import { firebaseApp } from '../config/firebase'
-import { logout } from '../utils/auth'
+import { logout } from '../service/auth'
 import noUser from '../assets/images/no_user.png'
 // import { userInfoStore } from 'store/user'
 const Success: React.FC<{}> = () => {
   const history = useHistory()
-  const [thisUser, setThisUser] = useState<firebase.User>()
   const [css, setCss] = useState('')
 
   useEffect(() => {

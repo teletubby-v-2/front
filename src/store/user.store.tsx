@@ -1,6 +1,7 @@
 import { UserInfo } from './types/userInfo.type';
 import firebase from 'firebase/app';
 import create from 'zustand'
+import { AuthError } from '../constants/interface/error.interface';
 
 export const userInfoStore = create<UserInfo>((set) => ({
   displayName: '',
@@ -45,7 +46,7 @@ export const userInfoStore = create<UserInfo>((set) => ({
       email: ''
     })
   } ,
-  setError: (error: any) => {
+  setError: (error: AuthError) => {
     set({ error })
   }
 }))

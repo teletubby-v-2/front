@@ -17,27 +17,29 @@ const Register:React.FC<{}> = () => {
       return setIsFail(true)
     }
     setIsLoading(true)
-    firebaseApp.auth().createUserWithEmailAndPassword(value.email, value.password).then((userCredentail) => {
-      userCredentail.user?.getIdToken().then((token) => localStorage.setItem('idToken', token))
-      userCredentail.user?.updateProfile({displayName: value.username})
-    }).then(() => history.push('/success'))
-      .catch((error) => {
-        console.log(error)
-        setMessage(error.message)
-        setIsFail(true)
-      })
-      .finally(() => setIsLoading(false))
+    firebaseApp.auth().createUserWithEmailAndPassword(value.email, value.password)
+      .then((userCredentail) => {
+        userCredentail.user?.updateProfile({displayName: value.username})
+        }).then(() => history.push('/success'))
+        .catch((error) => {
+          console.log(error)
+          setMessage(error.message)
+          setIsFail(true)
+        })
+        .finally(() => setIsLoading(false))
   }
 
   return (
     <div className="App">
-    <h1  className='text-3xl font-bold' style={{marginBottom:20}}>Register</h1>
+    <h1  className='text-3xl font-bold m-5'>Register</h1>
     {isFail &&
     <Alert 
-      message={message}
+      message="Error"
+      description={message}
       type="error"
       showIcon
-      style={{textAlign:'left', marginBottom:10}}/>
+      className='m-auto mb-3 text-left'
+      />
     }
     <Form onFinish={onFinish}>
     <Form.Item name='username' >
