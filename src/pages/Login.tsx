@@ -15,10 +15,10 @@ import twitterLogo from '../assets/images/twitter_logo.png'
 import { userInfoStore } from '../store/user.store'
 import { firebaseApp } from '../config/firebase'
 import { AuthError } from '../constants/interface/error.interface'
-import { ErrorStore } from '../store/error.store'
+import { errorStore } from '../store/error.store'
 
 const Login: React.FC<{}> = () => {
-  const { authError, setAuthError } = ErrorStore()
+  const { authError, setAuthError } = errorStore()
 
   const history = useHistory()
   const [isLoading, setIsLoading] = useState(false)
@@ -44,7 +44,7 @@ const Login: React.FC<{}> = () => {
   }
 
   const manageSameLogInAccount = (error: AuthError) => {
-    // console.log(error)
+    console.log(error)
     if (error.code === 'auth/account-exists-with-different-credential') {
       setAuthError(error)
       const email = error.email as string

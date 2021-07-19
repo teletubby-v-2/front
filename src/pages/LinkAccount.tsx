@@ -3,24 +3,24 @@ import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { userInfoStore } from '../store/user.store'
 import { linkWithEmailAndPassword } from '../service/auth'
+import { errorStore } from '../store/error.store'
 
 const LinkAccount: React.FC<{}> = () => {
   const history = useHistory()
 
-  const { email, error } = userInfoStore()
+  const { authError } = errorStore()
 
   const onFinish = (value: any) => {
-    linkWithEmailAndPassword(value.email, value.password, error.credential).then(() =>
+    linkWithEmailAndPassword(value.email, value.password, authError.credential).then(() =>
       history.push('/success'),
     )
   }
 
   return (
     <div className={`App grid gap-y-4`}>
-      {console.log(error)}
       <h1 className="text-2xl font-bold ">ใส่พาสเวิร์ดเพื่อเชื่อมแอคเคาต์</h1>
       <Form layout="vertical" onFinish={onFinish}>
-        <Form.Item name="email" initialValue={email} label="Email address">
+        <Form.Item name="email" initialValue={authError.email} label="Email address">
           <Input placeholder="Email" disabled />
         </Form.Item>
         <Form.Item name="password" label="password">
