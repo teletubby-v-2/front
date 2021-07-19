@@ -6,16 +6,14 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 .App {
@@ -28,32 +26,10 @@ code {
   margin-top: 50px;
 }
 
-@media screen and (max-width: 380px){
+@media screen and (max-width: 380px) {
   .App {
     margin-top: 50px;
-    margin-left:  15px;
+    margin-left: 15px;
     margin-right: 15px;
   }
-}
-.login-with-btn{
-  transition-delay:0.1s;
-}
-
-.login-with-btn:hover {
-  box-shadow: 2px -1px 3px rgba(0, 0, 0, .04), 0 2px 4px rgba(0, 0, 0, .25);
-  margin: 3px;
-/*  Making button bigger on hover  */
-  transform: scale(1.5) perspective(1px);
-}
-
-.login-with-btn:active {
-  background-color: #eeeeee;
-}
-
-.login-with-btn:focus {
-  outline: none;
-  box-shadow: 
-    0 -1px 0 rgba(0, 0, 0, .04),
-    0 4px 4px rgba(0, 0, 0, .25),
-    0 0 0 5px #c8dafc;
 }
