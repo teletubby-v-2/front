@@ -14,7 +14,7 @@ export interface MyUser {
   follower: string[]
   folowing: string[]
   lecture?: Lecture[]
-  notificationUnReadedCount: number
+  notificationUnReadCount: number
   notificationCount: number
   notification?: Notification[]
   createAt: firebase.firestore.Timestamp
