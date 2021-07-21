@@ -1,6 +1,5 @@
 import { Button, Divider, Form, Input, Modal, Space, Avatar } from 'antd'
-import { ok } from 'assert'
-import React from 'react'
+import React, { useState } from 'react'
 import { Typography } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import facebookLogo from '../../assets/images/facebook_logo.png'
@@ -8,6 +7,10 @@ import googleLogo from '../../assets/images/google_logo.png'
 import twitterLogo from '../../assets/images/twitter_logo.png'
 
 export const Login: React.FC = () => {
+  function onFinish(value: any) {
+    console.log(value)
+  }
+
   function info() {
     Modal.info({
       title: (
@@ -18,23 +21,19 @@ export const Login: React.FC = () => {
       icon: <></>,
       content: (
         <div>
-          <Form name="normal_login" className="login-form" initialValues={{ remember: true }}>
+          <Form name="normal_login" onFinish={onFinish}>
             <Form.Item
               name="username"
               rules={[{ required: true, message: 'Please input your Username!' }]}
             >
-              <Input
-                prefix={<UserOutlined className="site-form-item-icon" />}
-                placeholder="Username"
-                size="large"
-              />
+              <Input prefix={<UserOutlined />} placeholder="Username" size="large" />
             </Form.Item>
             <Form.Item
               name="password"
               rules={[{ required: true, message: 'Please input your Password!' }]}
             >
-              <Input
-                prefix={<LockOutlined className="site-form-item-icon" />}
+              <Input.Password
+                prefix={<LockOutlined />}
                 type="password"
                 placeholder="Password"
                 size="large"
@@ -86,7 +85,7 @@ export const Login: React.FC = () => {
         </div>
       ),
       closable: true,
-      okButtonProps: { style: { display: 'none' } },
+      okButtonProps: { className: 'hidden' },
     })
   }
   return (
