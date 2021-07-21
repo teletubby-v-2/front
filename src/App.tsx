@@ -5,11 +5,13 @@ import Register from './pages/Register'
 import Success from './pages/Success'
 import ForgotPassword from './pages/ForgotPassword'
 import LinkAccount from './pages/LinkAccount'
+import Navbar from './components/navbar'
 
 const App: React.FC<{}> = () => {
   return (
     <div>
       <HashRouter>
+        <Navbar />
         <Switch>
           <Route exact path="/">
             <Redirect to="/login" />
