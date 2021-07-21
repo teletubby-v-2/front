@@ -39,7 +39,7 @@ export const Login: React.FC = () => {
                 size="large"
               />
             </Form.Item>
-            <Form.Item>
+            <Form.Item className="mb-1">
               <Button
                 type="primary"
                 htmlType="submit"
