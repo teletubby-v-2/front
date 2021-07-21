@@ -10,6 +10,9 @@ export interface Lecture {
   lectureTitle?: string
   description?: string
   keyword?: string[]
+  commentCount: number
+  reviewCount: number
+  qaCount: number
   isMid?: boolean
   isFinal?: boolean
   tags?: string
@@ -35,7 +38,7 @@ export interface Comment extends CommentNoReply {
   reply?: CommentNoReply[]
 }
 
-export interface Review extends Comment {
+export interface Review extends CommentNoReply {
   rating?: number
 }
 
