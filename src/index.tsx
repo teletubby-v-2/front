@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './style/global.css'
-import 'antd/dist/antd.less'
+import './style/light-theme.less'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 

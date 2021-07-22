@@ -135,7 +135,7 @@ const Login: React.FC<{}> = () => {
           <a href="#/forgotpassword" className="flex justify-end mb-2 text-blue-500 text-xs">
             forgot password
           </a>
-          <Form.Item className="m-3">
+          <Form.Item className="mb-3">
             <Button type="primary" htmlType="submit" size="large" block loading={isLoading}>
               login
             </Button>
