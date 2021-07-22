@@ -1,4 +1,22 @@
+const CracoLessPlugin = require('craco-less');
+
 module.exports = {
+  plugins: [
+    {
+      plugin: CracoLessPlugin,
+      options: {
+        lessLoaderOptions: {
+          lessOptions: {
+            modifyVars: {
+              //can customize and theme by override variables.
+              //https://github.com/ant-design/ant-design/blob/master/components/style/themes/default.less
+            },
+            javascriptEnabled: true,
+          },
+        },
+      },
+    },
+  ],
   style: {
     postcss: {
       plugins: [
