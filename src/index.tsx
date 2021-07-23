@@ -3,10 +3,18 @@ import ReactDOM from 'react-dom'
 import './style/theme.less'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
+import { ConfigProvider } from 'antd'
+import thTH from 'antd/lib/locale/th_TH'
+import moment from 'moment'
+import 'moment/locale/th'
+
+moment.locale('th')
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ConfigProvider locale={thTH}>
+      <App />
+    </ConfigProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 )
