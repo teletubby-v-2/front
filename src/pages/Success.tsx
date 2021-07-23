@@ -1,6 +1,5 @@
 import { Button, Result, Avatar } from 'antd'
 import React, { useEffect, useState } from 'react'
-import firebase from 'firebase/app'
 import { useHistory } from 'react-router-dom'
 
 import { firebaseApp } from '../config/firebase'
