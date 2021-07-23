@@ -16,6 +16,7 @@ import { userInfoStore } from '../store/user.store'
 import { firebaseApp } from '../config/firebase'
 import { AuthError } from '../constants/interface/error.interface'
 import { errorStore } from '../store/error.store'
+import styled from 'styled-components'
 
 const Login: React.FC<{}> = () => {
   const { authError, setAuthError } = errorStore()
@@ -122,7 +123,7 @@ const Login: React.FC<{}> = () => {
             description={message}
             type="error"
             showIcon
-            className="m-auto text-left mb-3"
+            className="m-auto text-left p-10"
           />
         )}
         <Form onFinish={onFinish}>
@@ -135,7 +136,7 @@ const Login: React.FC<{}> = () => {
           <a href="#/forgotpassword" className="flex justify-end mb-2 text-blue-500 text-xs">
             forgot password
           </a>
-          <Form.Item className="mb-3">
+          <Form.Item className="mb-0">
             <Button type="primary" htmlType="submit" size="large" block loading={isLoading}>
               login
             </Button>
