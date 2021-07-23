@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { Input, Space, Avatar, Button, Image, Menu, Dropdown } from 'antd'
+import { Input, Space, Avatar, Button, Image, Menu, Dropdown, Badge } from 'antd'
 import { useHistory } from 'react-router'
 import 'tailwindcss/tailwind.css'
 import KUshare from '../../assets/svg/KUshare.svg'
-import { UserOutlined } from '@ant-design/icons'
+import { UserOutlined, BellOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
 
 const { Search } = Input
@@ -32,7 +32,7 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      <nav className="flex top-0 sticky h-20 text-xl items-center justify-center bg-gray-200">
+      <nav className="fixed flex top-0 w-full h-20 text-xl items-center justify-center bg-gray-200 z-50">
         <img width={129} src={KUshare} onClick={onLogo} />
         <Search
           placeholder="ค้นหารายวิชา"
@@ -40,6 +40,9 @@ const Navbar: React.FC = () => {
           size="large"
           className="max-w-xl mx-44"
         />
+        <Badge count={null} className="mx-6 text-xl pb-2">
+          <BellOutlined />
+        </Badge>
         <Dropdown overlay={menu}>
           {photoURL ? <Avatar src={photoURL} /> : <Avatar icon={<UserOutlined />} />}
         </Dropdown>
