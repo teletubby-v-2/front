@@ -4,6 +4,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { userInfoStore } from '../store/user.store'
 import { linkWithEmailAndPassword } from '../service/auth'
 import { errorStore } from '../store/error.store'
+import firebase from 'firebase/app'
 
 const LinkAccount: React.FC<{}> = () => {
   const history = useHistory()
@@ -11,9 +12,11 @@ const LinkAccount: React.FC<{}> = () => {
   const { authError } = errorStore()
 
   const onFinish = (value: any) => {
-    linkWithEmailAndPassword(value.email, value.password, authError.credential).then(() =>
-      history.push('/success'),
-    )
+    linkWithEmailAndPassword(
+      value.email,
+      value.password,
+      authError.credential as firebase.auth.AuthCredential,
+    ).then(() => history.push('/success'))
   }
 
   return (
