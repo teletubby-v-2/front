@@ -5,11 +5,13 @@ import Register from './pages/Register'
 import Success from './pages/Success'
 import ForgotPassword from './pages/ForgotPassword'
 import LinkAccount from './pages/LinkAccount'
+import homeIcon from './assets/icons/.gitkeep/home_icon.svg'
 
 const App: React.FC<{}> = () => {
   return (
     <div>
       <HashRouter>
+        {/* <img src={homeIcon} alt="this is home icon" className='-m-2' /> */}
         <Switch>
           <Route exact path="/">
             <Redirect to="/login" />

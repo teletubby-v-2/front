@@ -23,7 +23,7 @@ const Login: React.FC<{}> = () => {
   const history = useHistory()
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState<string>()
-  const { setAll } = userInfoStore()
+  const { setAllFirebase } = userInfoStore()
   const [method, setMethod] = useState<string>('')
 
   const onFinish = (value: any) => {
@@ -32,7 +32,7 @@ const Login: React.FC<{}> = () => {
       .then(userCredential => {
         console.log(userCredential.user)
         if (userCredential.user) {
-          setAll(userCredential.user)
+          setAllFirebase(userCredential.user)
         }
         history.push('/success')
       })
