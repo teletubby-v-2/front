@@ -142,18 +142,22 @@ export const Login: React.FC<{}> = () => {
           <Form.Item name="email" rules={[{ type: 'email', required: true }]}>
             <Input prefix={<UserOutlined />} placeholder="Email" size="large" />
           </Form.Item>
-          <Form.Item className="mb-2" name="password" rules={[{ required: true }]}>
+          <Form.Item name="password" rules={[{ required: true }]}>
             <Input.Password prefix={<KeyOutlined />} placeholder="password" size="large" />
           </Form.Item>
           <div className="flex justify-between px-1">
             <a className="text-blue-500" onClick={toggleHaveAccount}>
               no account
             </a>
-            <a href="#/forgotpassword" className="flex justify-end mb-2 text-blue-500 ">
+            <a
+              href="#/forgotpassword"
+              onClick={closeModal}
+              className="flex justify-end mb-2 text-blue-500 "
+            >
               forgot password?
             </a>
           </div>
-          <Form.Item className="mb-3">
+          <Form.Item>
             <Button type="primary" htmlType="submit" size="large" block loading={isLoading}>
               login
             </Button>

@@ -9,32 +9,23 @@ import { firebaseApp } from './config/firebase'
 import { modalAccountStore } from './store/modalAccount.store'
 import { Button } from 'antd'
 import { AccountManage } from './components/AccountManage'
+import { PrivatRoute } from './components/PrivateRouth'
 
 const App: React.FC<{}> = () => {
-  const { openModal } = modalAccountStore()
-
-  const checkIsUser = () => {
-    if (!firebaseApp.auth().currentUser) {
-      openModal()
-    }
-  }
-
   return (
     <>
       <HashRouter>
         <AccountManage />
-        <div onClick={checkIsUser} style={{ minHeight: '100vh' }}>
-          <Switch>
-            <Route exact path="/">
-              <Redirect to="/login" />
-            </Route>
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/success" component={Success} />
-            <Route exact path="/forgotpassword" component={ForgotPassword} />
-            <Route exact path="/linkAccount" component={LinkAccount} />
-          </Switch>
-        </div>
+        <Switch>
+          <Route exact path="/">
+            <Redirect to="/login" />
+          </Route>
+          <PrivatRoute exact path="/login" component={Login} />
+          <PrivatRoute exact path="/register" component={Register} />
+          <PrivatRoute exact path="/success" component={Success} />
+          <Route exact path="/linkAccount" component={LinkAccount} />
+          <Route exact path="/forgotpassword" component={ForgotPassword} />
+        </Switch>
       </HashRouter>
     </>
   )
