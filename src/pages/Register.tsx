@@ -24,7 +24,6 @@ const Register: React.FC<{}> = () => {
       })
       .then(() => history.push('/success'))
       .catch(error => {
-        console.log(error)
         setMessage(error.message)
         setIsFail(true)
       })

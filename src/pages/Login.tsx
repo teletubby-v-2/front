@@ -30,21 +30,18 @@ const Login: React.FC<{}> = () => {
     setIsLoading(true)
     signInWithEmailAndPassword(value.email, value.password)
       .then(userCredential => {
-        console.log(userCredential.user)
         if (userCredential.user) {
           setAllFirebase(userCredential.user)
         }
         history.push('/success')
       })
       .catch((error: AuthError) => {
-        // console.log(error)
         setMessage(error.message)
       })
       .finally(() => setIsLoading(false))
   }
 
   const manageSameLogInAccount = (error: AuthError) => {
-    console.log(error)
     if (error.code === 'auth/account-exists-with-different-credential') {
       setAuthError(error)
       const email = error.email as string
@@ -69,7 +66,6 @@ const Login: React.FC<{}> = () => {
   }, [method])
 
   const linkAccount = () => {
-    console.log(method === 'password')
     if (method === 'อีเมล') {
       history.push('/linkAccount')
     } else {

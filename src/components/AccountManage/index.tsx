@@ -13,7 +13,6 @@ export const AccountManage: React.FC<AccountManageProps> = props => {
 
   return (
     <>
-      {console.log(isModalVisible)}
       <Modal
         visible={isModalVisible && !isHaveAccount}
         footer={false}

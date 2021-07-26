@@ -32,7 +32,6 @@ export const Login: React.FC<{}> = () => {
     setIsLoading(true)
     signInWithEmailAndPassword(value.email, value.password)
       .then(userCredential => {
-        console.log(userCredential.user)
         if (userCredential.user) {
           setAllFirebase(userCredential.user)
         }
@@ -46,7 +45,6 @@ export const Login: React.FC<{}> = () => {
   }
 
   const manageSameLogInAccount = (error: AuthError) => {
-    console.log(error)
     if (error.code === 'auth/account-exists-with-different-credential') {
       setAuthError(error)
       const email = error.email as string
@@ -71,8 +69,8 @@ export const Login: React.FC<{}> = () => {
   }, [method])
 
   const linkAccount = () => {
-    console.log(method === 'password')
     if (method === 'อีเมล') {
+      closeModal()
       history.push('/linkAccount')
     } else {
       linkAccountWithProvider(
@@ -109,8 +107,6 @@ export const Login: React.FC<{}> = () => {
       case 'facebook':
         return signInWithFacebook()
           .then(() => {
-            console.log(history)
-            console.log('hello')
             closeModal()
             history.push('/success')
           })

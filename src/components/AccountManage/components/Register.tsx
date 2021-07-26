@@ -30,7 +30,6 @@ export const Register: React.FC<{}> = () => {
         closeModal()
       })
       .catch(error => {
-        console.log(error)
         setMessage(error.message)
         setIsFail(true)
       })

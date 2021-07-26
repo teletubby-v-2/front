@@ -11,7 +11,6 @@ const Success: React.FC<{}> = () => {
   const [css, setCss] = useState('')
 
   useEffect(() => {
-    console.log(firebaseApp.auth().currentUser)
     if (firebaseApp.auth().currentUser?.emailVerified) {
       setCss('border-green-500')
     } else {

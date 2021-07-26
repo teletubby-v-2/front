@@ -8,7 +8,6 @@ export const modalAccountStore = create<TModalAccount>((set, get) => ({
     set({ isModalVisible: true })
   },
   closeModal: () => {
-    console.log('close')
     set({ isModalVisible: false })
   },
   toggleModal: () => {
