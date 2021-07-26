@@ -71,7 +71,7 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
     set({ follower: [...get().follower, userid] })
   },
   removeFollower: (userid: string) => {
-    set({})
+    set({ follower: get().follower.filter(i => i != userid) })
   },
   setFollowing: (following: string[]) => {
     set({ following })
@@ -80,7 +80,7 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
     set({ following: [...get().following, userid] })
   },
   removeFollowing: (userid: string) => {
-    set({})
+    set({ following: get().following.filter(i => i != userid) })
   },
   setLecture: (lectureId: string[]) => {
     set({ lecture: lectureId })
