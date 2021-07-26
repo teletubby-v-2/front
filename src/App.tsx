@@ -1,6 +1,6 @@
 import React from 'react'
 import Login from './pages/Login'
-import { HashRouter, Redirect, Route, Switch, useHistory } from 'react-router-dom'
+import { HashRouter, Redirect, Route, Switch } from 'react-router-dom'
 import Register from './pages/Register'
 import Success from './pages/Success'
 import ForgotPassword from './pages/ForgotPassword'
