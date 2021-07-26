@@ -111,7 +111,11 @@ async function linkAccountWithProvider(email: string, pendingCred: firebase.auth
   }
 }
 
-async function linkWithEmailAndPassword(email: string, password: string, pendingCred: any) {
+async function linkWithEmailAndPassword(
+  email: string,
+  password: string,
+  pendingCred: firebase.auth.AuthCredential,
+) {
   const result = await auth.signInWithEmailAndPassword(email, password)
   return result.user?.linkWithCredential(pendingCred)
 }
