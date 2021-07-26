@@ -5,23 +5,26 @@ import Register from './pages/Register'
 import Success from './pages/Success'
 import ForgotPassword from './pages/ForgotPassword'
 import LinkAccount from './pages/LinkAccount'
+import { AccountManage } from './components/AccountManage'
+import { PrivatRoute } from './components/PrivateRouth'
 
 const App: React.FC<{}> = () => {
   return (
-    <div>
+    <>
       <HashRouter>
+        <AccountManage />
         <Switch>
           <Route exact path="/">
             <Redirect to="/login" />
           </Route>
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/success" component={Success} />
-          <Route exact path="/forgotpassword" component={ForgotPassword} />
+          <PrivatRoute exact path="/login" component={Login} />
+          <PrivatRoute exact path="/register" component={Register} />
+          <PrivatRoute exact path="/success" component={Success} />
           <Route exact path="/linkAccount" component={LinkAccount} />
+          <Route exact path="/forgotpassword" component={ForgotPassword} />
         </Switch>
       </HashRouter>
-    </div>
+    </>
   )
 }
 
