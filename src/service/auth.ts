@@ -106,12 +106,15 @@ async function linkAccountWithProvider(email: string, pendingCred: firebase.auth
   const provider = getProviderForProviderId(methods[0])
   if (provider) {
     const result = await auth.signInWithPopup(provider)
-    console.log(result)
     await result.user?.linkAndRetrieveDataWithCredential(pendingCred)
   }
 }
 
-async function linkWithEmailAndPassword(email: string, password: string, pendingCred: any) {
+async function linkWithEmailAndPassword(
+  email: string,
+  password: string,
+  pendingCred: firebase.auth.AuthCredential,
+) {
   const result = await auth.signInWithEmailAndPassword(email, password)
   return result.user?.linkWithCredential(pendingCred)
 }

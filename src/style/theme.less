@@ -1,9 +1,17 @@
-@import '~antd/dist/antd.css';
-@import url(https://fonts.googleapis.com/css2?family=Prompt&family=B612);
+@import './variables.less';
+@import url('https://fonts.googleapis.com/css2?family=Prompt&family=B612');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+a {
+  color: @blue-6;
+}
+
+a:hover {
+  color: @blue-4;
+}
 
 body{
   margin: 0;
@@ -12,7 +20,7 @@ body{
   -moz-osx-font-smoothing: grayscale;
 }
 
-div[lang=en]{
+*[lang=en]{
   margin: 0;
   font-family: 'B612' ,serif;
   -webkit-font-smoothing: antialiased;
@@ -39,4 +47,8 @@ code {
     margin-left: 15px;
     margin-right: 15px;
   }
+}
+
+.ant-form-item-has-error :not(.ant-input-disabled).ant-input:hover{
+  box-shadow: none;
 }
