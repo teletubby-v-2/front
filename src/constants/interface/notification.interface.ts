@@ -8,6 +8,6 @@ export interface Notification {
   body: string
   link: string
   isRead: boolean
-  createAt: firebase.firestore.Timestamp
-  updateAt: firebase.firestore.Timestamp
+  createAt?: firebase.firestore.Timestamp
+  updateAt?: firebase.firestore.Timestamp
 }

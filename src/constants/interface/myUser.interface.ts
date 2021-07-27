@@ -3,20 +3,20 @@ import firebase from 'firebase/app'
 
 export interface MyUser {
   userId: string
-  email: string
+  email?: string
+  providerId?: string
   displayName: string
-  imageUrl: string
-  type: number
-  likedLectures: Lecture[]
-  followerCount: number
-  folowingCount: number
+  photoURL: string
+  phoneNumber?: string
+  type?: number
+  likedLectures: string[] //lecture id
   lectureCount: number
-  follower: string[]
-  folowing: string[]
-  lecture?: Lecture[]
+  follower: string[] //user id
+  following: string[] //user id
+  lecture: string[] //lecture id
   notificationUnReadCount: number
   notificationCount: number
-  notification?: Notification[]
-  createAt: firebase.firestore.Timestamp
-  updateAt: firebase.firestore.Timestamp
+  notification?: string[] //notification id
+  createAt?: firebase.firestore.Timestamp
+  updateAt?: firebase.firestore.Timestamp
 }

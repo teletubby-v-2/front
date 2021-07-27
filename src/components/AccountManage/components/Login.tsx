@@ -8,16 +8,18 @@ import {
   signInWithFacebook,
   signInWithGoogle,
   signInWithTwitter,
-} from '../service/auth'
-import facebookLogo from '../assets/images/facebook_logo.png'
-import googleLogo from '../assets/images/google_logo.png'
-import twitterLogo from '../assets/images/twitter_logo.png'
-import { userInfoStore } from '../store/user.store'
-import { firebaseApp } from '../config/firebase'
-import { AuthError } from '../constants/interface/error.interface'
-import { errorStore } from '../store/error.store'
-
-const Login: React.FC<{}> = () => {
+} from '../../../service/auth'
+import facebookLogo from '../../../assets/images/facebook_logo.png'
+import googleLogo from '../../../assets/images/google_logo.png'
+import twitterLogo from '../../../assets/images/twitter_logo.png'
+import { userInfoStore } from '../../../store/user.store'
+import { firebaseApp } from '../../../config/firebase'
+import { AuthError } from '../../../constants/interface/error.interface'
+import { errorStore } from '../../../store/error.store'
+import { modalAccountStore } from '../../../store/modalAccount.store'
+import { UserOutlined, KeyOutlined } from '@ant-design/icons'
+export const Login: React.FC<{}> = () => {
+  const { toggleHaveAccount, closeModal } = modalAccountStore()
   const { authError, setAuthError } = errorStore()
 
   const history = useHistory()
@@ -33,6 +35,7 @@ const Login: React.FC<{}> = () => {
         if (userCredential.user) {
           setAllFirebase(userCredential.user)
         }
+        closeModal()
         history.push('/success')
       })
       .catch((error: AuthError) => {
@@ -67,6 +70,7 @@ const Login: React.FC<{}> = () => {
 
   const linkAccount = () => {
     if (method === 'อีเมล') {
+      closeModal()
       history.push('/linkAccount')
     } else {
       linkAccountWithProvider(
@@ -74,6 +78,7 @@ const Login: React.FC<{}> = () => {
         authError.credential as firebase.auth.AuthCredential,
       ).then(() => {
         history.push('/success')
+        closeModal()
       })
     }
   }
@@ -94,24 +99,32 @@ const Login: React.FC<{}> = () => {
     switch (provider) {
       case 'google':
         return signInWithGoogle()
-          .then(() => history.push('/success'))
+          .then(() => {
+            history.push('/success')
+            closeModal()
+          })
           .catch((error: AuthError) => manageSameLogInAccount(error))
       case 'facebook':
         return signInWithFacebook()
-          .then(() => history.push('/success'))
+          .then(() => {
+            closeModal()
+            history.push('/success')
+          })
           .catch((error: AuthError) => manageSameLogInAccount(error))
       case 'twitter':
         return signInWithTwitter()
-          .then(() => history.push('/success'))
+          .then(() => {
+            history.push('/success')
+            closeModal()
+          })
           .catch((error: AuthError) => manageSameLogInAccount(error))
     }
   }
 
   return (
     <>
-      <Modal></Modal>
-      <div className="App">
-        <h1 className="text-3xl font-bold	mb-4">Login</h1>
+      <div>
+        <h1 className="text-3xl font-bold	mb-5 text-center">Sign In</h1>
         {message && (
           <Alert
             message="Error"
@@ -122,53 +135,58 @@ const Login: React.FC<{}> = () => {
           />
         )}
         <Form onFinish={onFinish}>
-          <Form.Item name="email">
-            <Input placeholder="Email" />
+          <Form.Item name="email" rules={[{ type: 'email', required: true }]}>
+            <Input prefix={<UserOutlined />} placeholder="Email" size="large" />
           </Form.Item>
-          <Form.Item className="mb-1" name="password">
-            <Input.Password placeholder="password" />
+          <Form.Item name="password" rules={[{ required: true }]}>
+            <Input.Password prefix={<KeyOutlined />} placeholder="password" size="large" />
           </Form.Item>
-          <a href="#/forgotpassword" className="flex justify-end mb-2 text-blue-500 text-xs">
-            forgot password
-          </a>
-          <Form.Item className="mb-3">
+          <div className="flex justify-between px-1">
+            <a className="text-blue-500" onClick={toggleHaveAccount}>
+              no account
+            </a>
+            <a
+              href="#/forgotpassword"
+              onClick={closeModal}
+              className="flex justify-end mb-2 text-blue-500 "
+            >
+              forgot password?
+            </a>
+          </div>
+          <Form.Item>
             <Button type="primary" htmlType="submit" size="large" block loading={isLoading}>
               login
             </Button>
           </Form.Item>
         </Form>
         <Divider orientation="center">or</Divider>
-        <p className="mb-2">sign in with your social media account</p>
-        <Space size="middle" className="pb-2">
-          <a onClick={() => signInProvider('facebook')}>
-            <Avatar
-              className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-125"
-              size="default"
-              src={facebookLogo}
-            />
-          </a>
-          <a onClick={() => signInProvider('google')}>
-            <Avatar
-              className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-125"
-              size="default"
-              src={googleLogo}
-            />
-          </a>
-          <a onClick={() => signInProvider('twitter')}>
-            <Avatar
-              className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-125"
-              size="default"
-              src={twitterLogo}
-            />
-          </a>
-        </Space>
-        <br />
-        <a href="#/register" className="text-blue-500">
-          no account
-        </a>
+        <div className="text-center">
+          <p className="mb-2">sign in with your social media account</p>
+          <Space size="large" className="pb-2">
+            <a onClick={() => signInProvider('facebook')}>
+              <Avatar
+                className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-125"
+                size="large"
+                src={facebookLogo}
+              />
+            </a>
+            <a onClick={() => signInProvider('google')}>
+              <Avatar
+                className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-125"
+                size="large"
+                src={googleLogo}
+              />
+            </a>
+            <a onClick={() => signInProvider('twitter')}>
+              <Avatar
+                className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-125"
+                size="large"
+                src={twitterLogo}
+              />
+            </a>
+          </Space>
+        </div>
       </div>
     </>
   )
 }
-
-export default Login
