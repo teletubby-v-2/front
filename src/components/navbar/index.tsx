@@ -6,13 +6,16 @@ import 'tailwindcss/tailwind.css'
 import KUshare from '../../assets/svg/KUshare.svg'
 import { UserOutlined, BellOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
+import { modalAccountStore } from '../../store/modalAccount.store'
+import { AccountManage } from '../AccountManage'
+import { logout } from '../../service/auth'
 
 const { Search } = Input
 
 const Navbar: React.FC = () => {
   const history = useHistory()
   const photoURL = userInfoStore(state => state.photoURL)
-
+  const { closeModal, openModal, toLogin, toRegister } = modalAccountStore()
   const onSearch = (value: string) => {
     value ? history.push(`/item/${value}`) : null
   }
@@ -21,12 +24,33 @@ const Navbar: React.FC = () => {
     history.push('/home')
   }
 
+  const Login = () => {
+    toLogin()
+    openModal()
+  }
+
+  const Regis = () => {
+    toRegister()
+    openModal()
+  }
+
+  const logout_tohome = () => {
+    logout()
+    history.push('/home')
+  }
+
   const menu = (
     <Menu>
-      <Menu.Item>Login</Menu.Item>
-      <Menu.Item>Register</Menu.Item>
-      <Menu.Item>Profile</Menu.Item>
-      <Menu.Item>Logout</Menu.Item>
+      <Menu.Item onClick={Login}>Login</Menu.Item>
+      <Menu.Item onClick={Regis}>Signup</Menu.Item>
+      <Menu.Item
+        onClick={() => {
+          history.push('/Profile')
+        }}
+      >
+        Profile
+      </Menu.Item>
+      <Menu.Item onClick={logout_tohome}>Logout</Menu.Item>
     </Menu>
   )
 
@@ -46,6 +70,7 @@ const Navbar: React.FC = () => {
         <Dropdown overlay={menu}>
           {photoURL ? <Avatar src={photoURL} /> : <Avatar icon={<UserOutlined />} />}
         </Dropdown>
+        <AccountManage />
       </nav>
     </>
   )

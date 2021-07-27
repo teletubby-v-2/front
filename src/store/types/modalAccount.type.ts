@@ -5,4 +5,6 @@ export type TModalAccount = {
   closeModal: () => void
   toggleModal: () => void
   toggleHaveAccount: () => void
+  toLogin: () => void
+  toRegister: () => void
 }

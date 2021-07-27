@@ -16,4 +16,10 @@ export const modalAccountStore = create<TModalAccount>((set, get) => ({
   toggleHaveAccount: () => {
     set({ isHaveAccount: !get().isHaveAccount })
   },
+  toLogin: () => {
+    set({ isHaveAccount: false })
+  },
+  toRegister: () => {
+    set({ isHaveAccount: true })
+  },
 }))
