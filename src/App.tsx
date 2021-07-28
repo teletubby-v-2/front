@@ -9,7 +9,7 @@ import { AccountManage } from './components/AccountManage'
 import { PrivateRoute } from './components/PrivateRouth'
 import { Profile } from './pages/Profile'
 
-const App: React.FC<{}> = () => {
+const App: React.FC = () => {
   return (
     <>
       <HashRouter>

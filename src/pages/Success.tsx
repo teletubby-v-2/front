@@ -6,7 +6,7 @@ import { firebaseApp } from '../config/firebase'
 import { logout } from '../service/auth'
 import noUser from '../assets/images/no_user.png'
 
-const Success: React.FC<{}> = () => {
+const Success: React.FC = () => {
   const history = useHistory()
   const [css, setCss] = useState('')
 
