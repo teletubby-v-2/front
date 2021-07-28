@@ -6,7 +6,7 @@ import Success from './pages/Success'
 import ForgotPassword from './pages/ForgotPassword'
 import LinkAccount from './pages/LinkAccount'
 import Navbar from './components/navbar'
-import { PrivatRoute } from './components/PrivateRouth'
+import { PrivateRoute } from './components/PrivateRouth'
 import { AccountManage } from './components/AccountManage'
 
 const App: React.FC<{}> = () => {
@@ -24,7 +24,7 @@ const App: React.FC<{}> = () => {
           <Route exact path="/success" component={Success} />
           <Route exact path="/linkAccount" component={LinkAccount} />
           <Route exact path="/forgotpassword" component={ForgotPassword} />
-          <PrivatRoute exact path="/Profile" component={Success} />
+          <PrivateRoute exact path="/Profile" component={Success} />
         </Switch>
       </HashRouter>
     </>

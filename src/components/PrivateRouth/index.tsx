@@ -4,7 +4,7 @@ import { firebaseApp } from '../../config/firebase'
 import { modalAccountStore } from '../../store/modalAccount.store'
 import { userInfoStore } from '../../store/user.store'
 
-export const PrivatRoute: React.FC<RouteProps> = ({ component, ...rest }: any) => {
+export const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }: any) => {
   const { openModal, toLogin } = modalAccountStore()
   const { userId } = userInfoStore()
 
