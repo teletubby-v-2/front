@@ -6,7 +6,7 @@ import Success from './pages/Success'
 import ForgotPassword from './pages/ForgotPassword'
 import LinkAccount from './pages/LinkAccount'
 import { AccountManage } from './components/AccountManage'
-import { PrivatRoute } from './components/PrivateRouth'
+import { PrivateRoute } from './components/PrivateRouth'
 
 const App: React.FC<{}> = () => {
   return (
@@ -17,9 +17,9 @@ const App: React.FC<{}> = () => {
           <Route exact path="/">
             <Redirect to="/login" />
           </Route>
-          <PrivatRoute exact path="/login" component={Login} />
-          <PrivatRoute exact path="/register" component={Register} />
-          <PrivatRoute exact path="/success" component={Success} />
+          <PrivateRoute exact path="/login" component={Login} />
+          <PrivateRoute exact path="/register" component={Register} />
+          <PrivateRoute exact path="/success" component={Success} />
           <Route exact path="/linkAccount" component={LinkAccount} />
           <Route exact path="/forgotpassword" component={ForgotPassword} />
         </Switch>

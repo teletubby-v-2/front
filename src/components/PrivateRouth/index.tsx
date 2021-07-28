@@ -3,7 +3,7 @@ import { Route, RouteProps } from 'react-router-dom'
 import { firebaseApp } from '../../config/firebase'
 import { modalAccountStore } from '../../store/modalAccount.store'
 
-export const PrivatRoute: React.FC<RouteProps> = props => {
+export const PrivateRoute: React.FC<RouteProps> = props => {
   const { component: Component, ...rest } = props
 
   const { openModal } = modalAccountStore()
