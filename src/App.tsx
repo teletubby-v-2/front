@@ -8,6 +8,7 @@ import LinkAccount from './pages/LinkAccount'
 import { AccountManage } from './components/AccountManage'
 import { PrivateRoute } from './components/PrivateRouth'
 import { Profile } from './pages/Profile'
+import HomeIcon from './assets/icons/home_icon.svg'
 
 const App: React.FC = () => {
   return (
@@ -23,6 +24,7 @@ const App: React.FC = () => {
           <PrivateRoute exact path="/register" component={Register} />
           <PrivateRoute exact path="/success" component={Success} />
           <Route exact path="/linkAccount" component={LinkAccount} />
+          <Route exact path="/forgotpassword" component={ForgotPassword} />
           <Route exact path="/forgotpassword" component={ForgotPassword} />
         </Switch>
       </HashRouter>
