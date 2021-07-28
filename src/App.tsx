@@ -7,6 +7,7 @@ import ForgotPassword from './pages/ForgotPassword'
 import LinkAccount from './pages/LinkAccount'
 import { AccountManage } from './components/AccountManage'
 import { PrivateRoute } from './components/PrivateRouth'
+import { Profile } from './pages/Profile'
 
 const App: React.FC<{}> = () => {
   return (
@@ -17,6 +18,7 @@ const App: React.FC<{}> = () => {
           <Route exact path="/">
             <Redirect to="/login" />
           </Route>
+          <PrivateRoute exact path="/profile" component={Profile} />
           <PrivateRoute exact path="/login" component={Login} />
           <PrivateRoute exact path="/register" component={Register} />
           <PrivateRoute exact path="/success" component={Success} />

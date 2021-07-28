@@ -3,7 +3,7 @@ import firebase from 'firebase/app'
 export interface Lecture {
   lectureId: string
   userId: string
-  imagesUrl?: string[]
+  imagesUrl: string[]
   subjectId: string
   likeCount: number
   viewCount: number
@@ -15,10 +15,10 @@ export interface Lecture {
   qaCount: number
   isMid?: boolean
   isFinal?: boolean
-  tags?: string
-  qa?: QAndA[]
-  Comment?: Comment[]
-  review?: Review[]
+  tags?: string[]
+  qa: QAndA[]
+  Comment: Comment[]
+  review: Review[]
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp
 }
