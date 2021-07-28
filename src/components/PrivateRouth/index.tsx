@@ -1,27 +1,20 @@
 import React from 'react'
-import { Route, RouteProps } from 'react-router-dom'
+import { Redirect, Route, RouteProps } from 'react-router-dom'
 import { firebaseApp } from '../../config/firebase'
 import { modalAccountStore } from '../../store/modalAccount.store'
+import { userInfoStore } from '../../store/user.store'
 
-export const PrivatRoute: React.FC<RouteProps> = props => {
-  const { component: Component, ...rest } = props
+export const PrivatRoute: React.FC<RouteProps> = ({ component, ...rest }: any) => {
+  const { openModal, toLogin } = modalAccountStore()
+  const { userId } = userInfoStore()
 
-  const { openModal } = modalAccountStore()
-
-  const checkIsUser = () => {
-    if (!firebaseApp.auth().currentUser) {
-      openModal()
-    }
+  const NotLogin = () => {
+    toLogin()
+    openModal()
+    return <Redirect to="/Home" />
   }
+  const routeComponent = (props: any) =>
+    userId ? React.createElement(component, props) : NotLogin()
 
-  return (
-    <Route
-      {...rest}
-      render={props => (
-        <div className="min-h-screen" onClick={checkIsUser}>
-          {Component && <Component {...props} />}
-        </div>
-      )}
-    />
-  )
+  return <Route {...rest} render={routeComponent} />
 }

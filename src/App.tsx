@@ -17,11 +17,12 @@ const App: React.FC<{}> = () => {
           <Route exact path="/">
             <Redirect to="/login" />
           </Route>
-          <PrivatRoute exact path="/login" component={Login} />
-          <PrivatRoute exact path="/register" component={Register} />
-          <PrivatRoute exact path="/success" component={Success} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/success" component={Success} />
           <Route exact path="/linkAccount" component={LinkAccount} />
           <Route exact path="/forgotpassword" component={ForgotPassword} />
+          <PrivatRoute exact path="/Profile" component={Success} />
         </Switch>
       </HashRouter>
     </>

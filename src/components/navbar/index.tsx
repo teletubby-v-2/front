@@ -9,19 +9,20 @@ import { userInfoStore } from '../../store/user.store'
 import { modalAccountStore } from '../../store/modalAccount.store'
 import { AccountManage } from '../AccountManage'
 import { logout } from '../../service/auth'
+import { firebaseApp } from '../../config/firebase'
 
 const { Search } = Input
 
 const Navbar: React.FC = () => {
   const history = useHistory()
-  const photoURL = userInfoStore(state => state.photoURL)
+  const { userId, photoURL, clearAll } = userInfoStore()
   const { closeModal, openModal, toLogin, toRegister } = modalAccountStore()
   const onSearch = (value: string) => {
     value ? history.push(`/item/${value}`) : null
   }
 
   const onLogo = () => {
-    history.push('/home')
+    history.push('/Home')
   }
 
   const Login = () => {
@@ -36,21 +37,32 @@ const Navbar: React.FC = () => {
 
   const logout_tohome = () => {
     logout()
+    clearAll()
     history.push('/home')
   }
 
+  const isLogin = () => (userId ? true : false)
+
   const menu = (
     <Menu>
-      <Menu.Item onClick={Login}>Login</Menu.Item>
-      <Menu.Item onClick={Regis}>Signup</Menu.Item>
+      <Menu.Item onClick={Login} hidden={isLogin()}>
+        Login
+      </Menu.Item>
+      <Menu.Item onClick={Regis} hidden={isLogin()}>
+        Signup
+      </Menu.Item>
       <Menu.Item
         onClick={() => {
           history.push('/Profile')
         }}
+        hidden={!isLogin()}
       >
         Profile
       </Menu.Item>
-      <Menu.Item onClick={logout_tohome}>Logout</Menu.Item>
+      <Menu.Item onClick={logout_tohome} hidden={!isLogin()}>
+        {' '}
+        Logout
+      </Menu.Item>
     </Menu>
   )
 
