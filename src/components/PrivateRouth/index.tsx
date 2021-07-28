@@ -8,13 +8,12 @@ export const PrivatRoute: React.FC<RouteProps> = ({ component, ...rest }: any) =
   const { openModal, toLogin } = modalAccountStore()
   const { userId } = userInfoStore()
 
-  const NotLogin = () => {
+  const NotLogin: React.ReactNode = () => {
     toLogin()
     openModal()
     return <Redirect to="/Home" />
   }
-  const routeComponent = (props: any) =>
-    userId ? React.createElement(component, props) : NotLogin()
+  const routeComponent = (props: any) => (userId ? React.createElement(component, props) : NotLogin)
 
   return <Route {...rest} render={routeComponent} />
 }

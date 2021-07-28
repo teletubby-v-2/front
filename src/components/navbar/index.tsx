@@ -7,9 +7,7 @@ import KUshare from '../../assets/svg/KUshare.svg'
 import { UserOutlined, BellOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
 import { modalAccountStore } from '../../store/modalAccount.store'
-import { AccountManage } from '../AccountManage'
 import { logout } from '../../service/auth'
-import { firebaseApp } from '../../config/firebase'
 
 const { Search } = Input
 
@@ -25,17 +23,17 @@ const Navbar: React.FC = () => {
     history.push('/Home')
   }
 
-  const Login = () => {
+  const login = () => {
     toLogin()
     openModal()
   }
 
-  const Regis = () => {
+  const register = () => {
     toRegister()
     openModal()
   }
 
-  const logout_tohome = () => {
+  const logoutToHome = () => {
     logout()
     clearAll()
     history.push('/home')
@@ -45,10 +43,10 @@ const Navbar: React.FC = () => {
 
   const menu = (
     <Menu>
-      <Menu.Item onClick={Login} hidden={isLogin()}>
+      <Menu.Item onClick={login} hidden={isLogin()}>
         Login
       </Menu.Item>
-      <Menu.Item onClick={Regis} hidden={isLogin()}>
+      <Menu.Item onClick={register} hidden={isLogin()}>
         Signup
       </Menu.Item>
       <Menu.Item
@@ -59,7 +57,7 @@ const Navbar: React.FC = () => {
       >
         Profile
       </Menu.Item>
-      <Menu.Item onClick={logout_tohome} hidden={!isLogin()}>
+      <Menu.Item onClick={logoutToHome} hidden={!isLogin()}>
         {' '}
         Logout
       </Menu.Item>
@@ -82,7 +80,6 @@ const Navbar: React.FC = () => {
         <Dropdown overlay={menu}>
           {photoURL ? <Avatar src={photoURL} /> : <Avatar icon={<UserOutlined />} />}
         </Dropdown>
-        <AccountManage />
       </nav>
     </>
   )
