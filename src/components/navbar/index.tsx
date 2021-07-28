@@ -4,7 +4,7 @@ import { Input, Space, Avatar, Button, Image, Menu, Dropdown, Badge } from 'antd
 import { useHistory } from 'react-router'
 import 'tailwindcss/tailwind.css'
 import KUshare from '../../assets/svg/KUshare.svg'
-import { UserOutlined, BellOutlined } from '@ant-design/icons'
+import { UserOutlined, BellOutlined, LogoutOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
 import { modalAccountStore } from '../../store/modalAccount.store'
 import { logout } from '../../service/auth'
@@ -42,7 +42,7 @@ const Navbar: React.FC = () => {
   const isLogin = () => (userId ? true : false)
 
   const menu = (
-    <Menu>
+    <Menu className="mt-4">
       <Menu.Item onClick={login} hidden={isLogin()}>
         Login
       </Menu.Item>
@@ -59,6 +59,7 @@ const Navbar: React.FC = () => {
       </Menu.Item>
       <Menu.Item onClick={logoutToHome} hidden={!isLogin()}>
         {' '}
+        <LogoutOutlined />
         Logout
       </Menu.Item>
     </Menu>
@@ -77,8 +78,12 @@ const Navbar: React.FC = () => {
         <Badge count={null} className="mx-6 text-xl pb-2">
           <BellOutlined />
         </Badge>
-        <Dropdown overlay={menu}>
-          {photoURL ? <Avatar src={photoURL} /> : <Avatar icon={<UserOutlined />} />}
+        <Dropdown overlay={menu} trigger={['click']} placement={'bottomRight'}>
+          {photoURL ? (
+            <Avatar src={photoURL} size="large" />
+          ) : (
+            <Avatar icon={<UserOutlined />} size="large" />
+          )}
         </Dropdown>
       </nav>
     </>
