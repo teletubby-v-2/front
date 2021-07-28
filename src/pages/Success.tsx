@@ -5,8 +5,8 @@ import { useHistory } from 'react-router-dom'
 import { firebaseApp } from '../config/firebase'
 import { logout } from '../service/auth'
 import noUser from '../assets/images/no_user.png'
-// import { userInfoStore } from 'store/user'
-const Success: React.FC<{}> = () => {
+
+const Success: React.FC = () => {
   const history = useHistory()
   const [css, setCss] = useState('')
 
