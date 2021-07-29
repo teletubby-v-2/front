@@ -17,7 +17,7 @@ import { firebaseApp } from '../config/firebase'
 import { AuthError } from '../constants/interface/error.interface'
 import { errorStore } from '../store/error.store'
 
-const Login: React.FC = () => {
+export const Login: React.FC = () => {
   const { authError, setAuthError } = errorStore()
 
   const history = useHistory()
@@ -170,5 +170,3 @@ const Login: React.FC = () => {
     </>
   )
 }
-
-export default Login

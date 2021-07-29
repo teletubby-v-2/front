@@ -6,7 +6,7 @@ import { linkWithEmailAndPassword } from '../service/auth'
 import { errorStore } from '../store/error.store'
 import firebase from 'firebase/app'
 
-const LinkAccount: React.FC = () => {
+export const LinkAccount: React.FC = () => {
   const history = useHistory()
 
   const { authError } = errorStore()
@@ -41,5 +41,3 @@ const LinkAccount: React.FC = () => {
     </div>
   )
 }
-
-export default LinkAccount
