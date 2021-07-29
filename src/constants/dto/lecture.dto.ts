@@ -2,7 +2,7 @@ import firebase from 'firebase/app'
 
 //-------------------------- Lecture -------------------------
 
-export interface postLecture {
+export interface PostLectureDTO {
   lectureId?: string
   userId: string
   lectureTitle: string
@@ -19,7 +19,7 @@ export interface postLecture {
   // todo: คณะ ภาค ชื่อวิชา รหัสวิชา
 }
 
-export interface editLecture {
+export interface EditLectureDTO {
   lectureId?: string
   userId: string
   lectureTitle?: string
@@ -30,15 +30,13 @@ export interface editLecture {
   keyword: string[]
   createDate: firebase.firestore.Timestamp
   updateDate: firebase.firestore.Timestamp
-  likeCount?: number
-  viewCount?: number
 
   // todo: คณะ ภาค ชื่อวิชา รหัสวิชา
 }
 
 //-------------------------- review -------------------------
 
-export interface review {
+export interface ReviewDTO {
   reviewId: string
   lectureId: string
   userId: string
@@ -49,7 +47,7 @@ export interface review {
   createDate: firebase.firestore.Timestamp
 }
 
-export interface editReview {
+export interface EditReviewDTO {
   reviewId: string
   lectureId: string
   userId: string
@@ -63,7 +61,7 @@ export interface editReview {
 
 //-------------------------- Q&A -------------------------
 
-export interface qAndA {
+export interface QAndADTO {
   qaId?: string
   lectureId: string
   userId: string
@@ -75,7 +73,7 @@ export interface qAndA {
   createDate: firebase.firestore.Timestamp
 }
 
-export interface editQAndA {
+export interface EditQAndADTO {
   qaId?: string
   lectureId: string
   userId: string
@@ -90,7 +88,7 @@ export interface editQAndA {
 
 //-------------------------- Comment -------------------------
 
-export interface comment {
+export interface CommentDTO {
   commentId: string
   lectureId: string
   userId: string
@@ -101,7 +99,7 @@ export interface comment {
   createDate: firebase.firestore.Timestamp
 }
 
-export interface comment {
+export interface EditCommentDTO {
   commentId: string
   lectureId: string
   userId: string
