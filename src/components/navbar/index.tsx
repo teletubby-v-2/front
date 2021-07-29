@@ -8,15 +8,29 @@ import { UserOutlined, BellOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
 import { modalAccountStore } from '../../store/modalAccount.store'
 import { logout } from '../../service/auth'
+import styled from 'styled-components'
 
 const { Search } = Input
 
-const Navbar: React.FC = () => {
+const Nav = styled.nav`
+  background-color: #fff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  position: fixed;
+  display: flex;
+  top: 0;
+  width: 100%;
+  height: 80px;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+`
+
+export const Navbar: React.FC = () => {
   const history = useHistory()
   const { userId, photoURL, clearAll } = userInfoStore()
   const { closeModal, openModal, toLogin, toRegister } = modalAccountStore()
   const onSearch = (value: string) => {
-    value ? history.push(`/item/${value}`) : null
+    value ? history.push(`${value}`) : null
   }
 
   const onLogo = () => {
@@ -66,7 +80,7 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      <nav className="fixed flex top-0 w-full h-20 text-xl items-center justify-center bg-gray-200 z-50">
+      <Nav className="text-xl">
         <img width={129} src={KUshare} onClick={onLogo} />
         <Search
           placeholder="ค้นหารายวิชา"
@@ -80,9 +94,7 @@ const Navbar: React.FC = () => {
         <Dropdown overlay={menu}>
           {photoURL ? <Avatar src={photoURL} /> : <Avatar icon={<UserOutlined />} />}
         </Dropdown>
-      </nav>
+      </Nav>
     </>
   )
 }
-
-export default Navbar

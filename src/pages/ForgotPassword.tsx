@@ -3,7 +3,7 @@ import firebase from 'firebase'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-const ForgotPassword: React.FC = () => {
+export const ForgotPassword: React.FC = () => {
   const [isReset, setIsReset] = useState(false)
   const [message, setMessage] = useState<string>()
 
@@ -63,5 +63,3 @@ const ForgotPassword: React.FC = () => {
     </div>
   )
 }
-
-export default ForgotPassword

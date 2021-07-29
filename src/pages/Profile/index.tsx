@@ -1,6 +1,5 @@
-import { Card } from 'antd'
 import React, { useState } from 'react'
-import { LectureContainer } from '../../components/LectureContainer'
+import { LectureContainer } from '../../components'
 import { dummyLecture } from '../../constants/dummyData/lecture.dummy'
 
 export const Profile: React.FC = () => {
