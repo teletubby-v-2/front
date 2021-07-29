@@ -8,6 +8,12 @@ export interface MyUser {
   displayName: string
   photoURL: string
   phoneNumber?: string
+  aboutMe?: string // เพิ่ม
+  socialLinkIG?: string // เพิ่ม
+  socialLinkFB?: string
+  socialLinkYT?: string
+  donatePicture?: string // เพิ่ม
+  aboutDonate?: string // เพิ่ม
   type?: number
   likedLectures: string[] //lecture id
   lectureCount: number
