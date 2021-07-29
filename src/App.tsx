@@ -1,27 +1,26 @@
 import React from 'react'
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom'
 import { Profile } from './pages/Profile'
-import { Login, Register, Success, ForgotPassword, LinkAccount } from './pages'
-import { MyLayout, AccountManage, PrivateRoute } from './components'
+import { Login, Register, Success, ForgotPassword, LinkAccount, NotFound } from './pages'
+import { LayoutRoute, AccountManage, PrivateRoute } from './components'
 
 const App: React.FC = () => {
   return (
     <>
       <HashRouter>
-        <MyLayout>
-          <AccountManage />
-          <Switch>
-            <Route exact path="/">
-              <Redirect to="/login" />
-            </Route>
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/success" component={Success} />
-            <Route exact path="/linkAccount" component={LinkAccount} />
-            <Route exact path="/forgotpassword" component={ForgotPassword} />
-            <Route exact path="/profile" component={Profile} />
-          </Switch>
-        </MyLayout>
+        <AccountManage />
+        <Switch>
+          <Route exact path="/">
+            <Redirect to="/login" />
+          </Route>
+          <LayoutRoute exact path="/login" component={Login} />
+          <LayoutRoute exact path="/register" component={Register} />
+          <LayoutRoute exact path="/success" component={Success} />
+          <LayoutRoute exact path="/linkAccount" component={LinkAccount} />
+          <LayoutRoute exact path="/forgotpassword" component={ForgotPassword} />
+          <LayoutRoute exact path="/profile" component={Profile} />
+          <Route exact path="*" component={NotFound} />
+        </Switch>
       </HashRouter>
     </>
   )

@@ -1,5 +1,4 @@
 export * from './AccountManage'
 export * from './LectureContainer'
-export * from './PrivateRouth'
 export * from './Navbar'
-export * from './Layout'
+export * from './Route'
