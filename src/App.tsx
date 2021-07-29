@@ -1,7 +1,6 @@
 import React from 'react'
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom'
-import { Profile } from './pages/Profile'
-import { Login, Register, Success, ForgotPassword, LinkAccount, NotFound } from './pages'
+import { Login, Register, Success, ForgotPassword, LinkAccount, NotFound, Profile } from './pages'
 import { LayoutRoute, AccountManage, PrivateRoute } from './components'
 
 const App: React.FC = () => {
