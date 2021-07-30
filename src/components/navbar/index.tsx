@@ -44,6 +44,8 @@ export const Navbar: React.FC = () => {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
         setAllFirebase(user as firebase.UserInfo)
+      } else {
+        clearAll()
       }
     })
   }, [])
