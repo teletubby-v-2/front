@@ -1,12 +1,11 @@
 import { Button, Form, Input } from 'antd'
 import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import { userInfoStore } from '../store/user.store'
 import { linkWithEmailAndPassword } from '../service/auth'
 import { errorStore } from '../store/error.store'
 import firebase from 'firebase/app'
 
-const LinkAccount: React.FC<{}> = () => {
+export const LinkAccount: React.FC = () => {
   const history = useHistory()
 
   const { authError } = errorStore()
@@ -41,5 +40,3 @@ const LinkAccount: React.FC<{}> = () => {
     </div>
   )
 }
-
-export default LinkAccount

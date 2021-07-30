@@ -37,7 +37,7 @@ firebaseApp.auth().onAuthStateChanged(user => {
   }
 })
 
-export const firstore = firebaseApp.firestore()
+export const firestore = firebaseApp.firestore()
 
 export const storage = firebaseApp.storage()
 

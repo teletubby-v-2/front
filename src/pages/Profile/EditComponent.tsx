@@ -1,16 +1,17 @@
 import React from 'react'
 import { Button, Divider, Form, Image, Input } from 'antd'
 import { RightOutlined, UserOutlined } from '@ant-design/icons'
-import { any } from 'prop-types'
+import { userInfoStore } from '../../store/user.store'
 
-export default function EditComponent({ onfin }: any) {
+export function EditComponent({ onfin }: any) {
+  const { email, displayName, photoURL } = userInfoStore()
   const { TextArea } = Input
   const onFinish = (value: any) => {
     onfin()
   }
 
   return (
-    <div className="w-96 content-center justify-center bg-gray-200 flex-initial px-8 py-6 border-4 rounded">
+    <div className="mx-10 my-10">
       <h1 className="text-center text-2xl">Placeholder</h1>
       <Image />
       <div className="text-center">
@@ -22,10 +23,10 @@ export default function EditComponent({ onfin }: any) {
       <Form onFinish={onFinish}>
         <Divider>General</Divider>
         <Form.Item name="nickname">
-          <Input placeholder="Nickname" />
+          <Input placeholder="Nickname" defaultValue={displayName} />
         </Form.Item>
         <Form.Item name="email">
-          <Input placeholder="Email" prefix={<UserOutlined />} />
+          <Input placeholder="Email" prefix={<UserOutlined />} defaultValue={email} />
         </Form.Item>
         <Form.Item name="aboutme">
           <TextArea showCount maxLength={300} placeholder="about me" />

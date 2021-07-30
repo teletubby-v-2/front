@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom'
 import { firebaseApp } from '../../../config/firebase'
 import { modalAccountStore } from '../../../store/modalAccount.store'
 
-export const Register: React.FC<{}> = () => {
+export const Register: React.FC = () => {
   const { toggleHaveAccount, closeModal } = modalAccountStore()
 
   const history = useHistory()
