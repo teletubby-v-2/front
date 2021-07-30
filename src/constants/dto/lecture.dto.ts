@@ -1,5 +1,7 @@
 import firebase from 'firebase/app'
 
+const queryOperators = ['<', '<=', '==', '>', '>=', '!=', 'in', 'not-in']
+
 //-------------------------- Lecture -------------------------
 
 export interface PostLectureDTO {
@@ -16,7 +18,7 @@ export interface PostLectureDTO {
   // no likeCount: number
   // no viewCount: number
   // no updateDate: firebase.firestore.Timestamp
-  // todo: คณะ ภาค ชื่อวิชา รหัสวิชา
+  // todo: คณะ ภาค ชื่อวิชา รหัสวิชา tags
 }
 
 export interface EditLectureDTO {
@@ -31,7 +33,7 @@ export interface EditLectureDTO {
   createDate: firebase.firestore.Timestamp
   updateDate: firebase.firestore.Timestamp
 
-  // todo: คณะ ภาค ชื่อวิชา รหัสวิชา
+  // todo: คณะ ภาค ชื่อวิชา รหัสวิชา tags
 }
 
 //-------------------------- review -------------------------
@@ -109,4 +111,19 @@ export interface EditCommentDTO {
   reply?: string[]
   createDate: firebase.firestore.Timestamp
   updateDate: firebase.firestore.Timestamp
+}
+
+//-------------------------- Filter -------------------------
+
+export interface FilterLectureDTO {
+  queryOperator: string
+  lectureID?: string
+  userId?: string
+  subjectId?: string
+  createDate?: firebase.firestore.Timestamp
+  lectureTitile?: string
+  keyword?: string[]
+  isMid?: boolean
+  isFinal?: boolean
+  tags?: string
 }
