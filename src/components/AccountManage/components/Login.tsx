@@ -26,16 +26,12 @@ export const Login: React.FC = () => {
   const history = useHistory()
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState<string>()
-  const { setAllFirebase } = userInfoStore()
   const [method, setMethod] = useState<string>('')
 
   const onFinish = (value: any) => {
     setIsLoading(true)
     signInWithEmailAndPassword(value.email, value.password)
       .then(userCredential => {
-        if (userCredential.user) {
-          setAllFirebase(userCredential.user)
-        }
         closeModal()
         history.push('/success')
       })
@@ -101,9 +97,6 @@ export const Login: React.FC = () => {
       case 'google':
         return signInWithGoogle()
           .then(userCredential => {
-            if (userCredential.user) {
-              setAllFirebase(userCredential.user)
-            }
             history.push('/success')
             closeModal()
           })
