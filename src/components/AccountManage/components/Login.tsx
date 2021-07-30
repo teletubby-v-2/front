@@ -31,7 +31,7 @@ export const Login: React.FC = () => {
   const onFinish = (value: any) => {
     setIsLoading(true)
     signInWithEmailAndPassword(value.email, value.password)
-      .then(userCredential => {
+      .then(() => {
         closeModal()
         history.push('/success')
       })
