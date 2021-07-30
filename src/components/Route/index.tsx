@@ -5,6 +5,7 @@ import { Navbar } from '../Navbar'
 import { Route, RouteProps, Redirect } from 'react-router-dom'
 import { modalAccountStore } from '../../store/modalAccount.store'
 import { userInfoStore } from '../../store/user.store'
+import { firebaseApp } from '../../config/firebase'
 
 const { Content, Footer } = Layout
 
@@ -38,7 +39,8 @@ export const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }: any) 
     openModal()
     return <Redirect to="/Home" />
   }
-  const routeComponent = (props: any) => (userId ? React.createElement(component, props) : NotLogin)
+  const routeComponent = (props: any) =>
+    firebaseApp.auth().currentUser ? React.createElement(component, props) : NotLogin
 
   return <Route {...rest} render={routeComponent} />
 }

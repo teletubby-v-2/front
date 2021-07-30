@@ -9,6 +9,7 @@ import { userInfoStore } from '../../store/user.store'
 import { modalAccountStore } from '../../store/modalAccount.store'
 import { logout } from '../../service/auth'
 import styled from 'styled-components'
+import { firebaseApp } from '../../config/firebase'
 
 const { Search } = Input
 
@@ -53,7 +54,12 @@ export const Navbar: React.FC = () => {
     history.push('/home')
   }
 
-  const isLogin = () => (userId ? true : false)
+  const isLogin = () => {
+    if (firebaseApp.auth().currentUser != null) {
+      return true
+    }
+    return false
+  }
 
   const menu = (
     <Menu className="mt-4">
