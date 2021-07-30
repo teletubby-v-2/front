@@ -1,6 +1,6 @@
 import { Lecture } from '../interface/lecture.interface'
 
-export const dummyLecture: Lecture[] = [
+export const dummyLectures: Lecture[] = [
   {
     lectureId: '1',
     userId: '12345678',

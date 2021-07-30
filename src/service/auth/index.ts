@@ -1,4 +1,4 @@
-import { firebaseApp } from '../config/firebase'
+import { firebaseApp } from '../../config/firebase'
 import firebase from 'firebase/app'
 
 const auth = firebaseApp.auth()
