@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 
 import { firebaseApp } from '../config/firebase'
 
-const Register: React.FC<{}> = () => {
+export const Register: React.FC = () => {
   const history = useHistory()
   const [isFail, setIsFail] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -75,5 +75,3 @@ const Register: React.FC<{}> = () => {
     </div>
   )
 }
-
-export default Register
