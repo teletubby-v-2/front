@@ -1,6 +1,6 @@
 import firebase from 'firebase/app'
 
-const queryOperators = ['<', '<=', '==', '>', '>=', '!=', 'in', 'not-in']
+export type queryOperator = '<' | '<=' | '==' | '>' | '>=' | '!=' | 'in' | 'not-in'
 
 export interface SubjectDTO {
   subjectId: string
@@ -14,7 +14,7 @@ export interface SubjectDTO {
 }
 
 export interface FilterSubjectDTO {
-  queryOperator: string
+  queryOperator: queryOperator
   subjectId?: string
   subjectCode?: string
   subjectName?: string

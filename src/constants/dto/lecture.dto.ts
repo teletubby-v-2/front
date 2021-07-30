@@ -1,12 +1,13 @@
 import firebase from 'firebase/app'
 
-const queryOperators = ['<', '<=', '==', '>', '>=', '!=', 'in', 'not-in']
+export type queryOperator = '<' | '<=' | '==' | '>' | '>=' | '!=' | 'in' | 'not-in'
 
 //-------------------------- Lecture -------------------------
 
 export interface PostLectureDTO {
   lectureId?: string
   userId: string
+  subjectId: string
   lectureTitle: string
   description?: string
   isMid?: boolean
@@ -24,6 +25,7 @@ export interface PostLectureDTO {
 export interface EditLectureDTO {
   lectureId?: string
   userId: string
+  subjectId?: string
   lectureTitle?: string
   description?: string
   isMid?: boolean
@@ -116,7 +118,7 @@ export interface EditCommentDTO {
 //-------------------------- Filter -------------------------
 
 export interface FilterLectureDTO {
-  queryOperator: string
+  queryOperator: queryOperator
   lectureID?: string
   userId?: string
   subjectId?: string
