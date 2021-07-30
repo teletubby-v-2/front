@@ -26,16 +26,6 @@ export const firebaseApp = !firebase.apps.length
 // firebase.analytics();
 firebaseApp.auth().languageCode = 'TH'
 
-firebaseApp.auth().onAuthStateChanged(user => {
-  if (user) {
-    user.getIdToken().then(token => {
-      localStorage.setItem('idToken', token)
-    })
-  } else {
-    console.log('invalid user')
-  }
-})
-
 export const firestore = firebaseApp.firestore()
 
 export const storage = firebaseApp.storage()
