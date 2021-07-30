@@ -96,7 +96,7 @@ export const Login: React.FC = () => {
     switch (provider) {
       case 'google':
         return signInWithGoogle()
-          .then(userCredential => {
+          .then(() => {
             history.push('/success')
             closeModal()
           })

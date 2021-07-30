@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import {
   Button,
   Checkbox,
@@ -14,10 +14,8 @@ import {
 } from 'antd'
 import { PlusOutlined, InfoCircleOutlined } from '@ant-design/icons'
 import { dontSubmitWhenEnter } from '../../../../utils/eventManage'
-import { UploadFile } from 'antd/lib/upload/interface'
 import { dummySubjects } from '../../../../constants/dummyData/subject.dummy'
-import { uploadImage } from '../../../../service/storage'
-import { firebaseApp } from '../../../../config/firebase'
+import { useFileList, useLectureForm } from './hook'
 
 const formItemLayout = {
   labelCol: { span: 4 },
@@ -31,55 +29,23 @@ export interface CreateLectureProps extends ModalProps {
 
 export const CreateLecture: React.FC<CreateLectureProps> = props => {
   const { isOnCreate, setIsOnCreate, ...rest } = props
-  const [form] = Form.useForm()
-  const [inputValue, setInputValue] = useState('')
-  const [fileList, setFileList] = useState<UploadFile<any>[]>()
-  const [photoUrl, setPhotoUrl] = useState<string[]>([])
-  const [isOnAddTag, setIsOnAddTag] = useState(false)
-  const [checkTagSize, setCheckTagSize] = useState(true)
 
-  useEffect(() => {
-    setIsOnAddTag(false)
-  }, [])
+  const {
+    form,
+    inputValue,
+    checkTagSize,
+    isOnAddTag,
+    handleClose,
+    handleInputChange,
+    handleInputBlur,
+    handleInputAdd,
+    onFinish,
+    uploadNewImage,
+    handleCloseModal,
+    OnAddTag,
+  } = useLectureForm(isOnCreate, setIsOnCreate)
 
-  useEffect(() => {
-    if (!isOnCreate) {
-      form.resetFields()
-      form.setFieldsValue({ tags: [] })
-      setPhotoUrl([])
-    }
-  }, [isOnCreate])
-
-  const handleClose = (deletetag: string) => {
-    setIsOnAddTag(false)
-    const oldTags = form.getFieldValue('tags') as string[]
-    form.setFieldsValue({ tags: oldTags.filter(tag => tag != deletetag) })
-    setCheckTagSize(true)
-  }
-
-  const handleInputBlur = () => {
-    if (inputValue.length) {
-      const oldTags = form.getFieldValue('tags')
-      form.setFieldsValue({ tags: oldTags ? [...oldTags, inputValue] : [inputValue] })
-      setInputValue('')
-    }
-    if (form.getFieldValue('tags').length >= 4) {
-      setCheckTagSize(false)
-    }
-    setIsOnAddTag(false)
-  }
-
-  const handleInputAdd = () => {
-    if (inputValue.length) {
-      const oldTags = form.getFieldValue('tags')
-      form.setFieldsValue({ tags: oldTags ? [...oldTags, inputValue] : [inputValue] })
-      setInputValue('')
-    }
-    if (form.getFieldValue('tags').length >= 4) {
-      setCheckTagSize(false)
-      setIsOnAddTag(false)
-    }
-  }
+  const { fileList, handleFilelist } = useFileList()
 
   const normFile = (event: any) => {
     console.log(event)
@@ -89,29 +55,13 @@ export const CreateLecture: React.FC<CreateLectureProps> = props => {
     return event && event.fileList
   }
 
-  const onFinish = () => {
-    console.log(form.getFieldsValue())
-    setIsOnCreate(false)
-  }
-
-  const uploadNewImage = async (file: File) => {
-    try {
-      const downloadUrl = await uploadImage(file)
-      setPhotoUrl([...photoUrl, downloadUrl])
-      return downloadUrl
-    } catch (error: any) {
-      console.log(error.code)
-      return error.code
-    }
-  }
-
   return (
     <Modal
       width="700px"
       maskClosable={false}
       visible={isOnCreate}
       centered
-      onCancel={() => setIsOnCreate(false)}
+      onCancel={handleCloseModal}
       destroyOnClose
       closable
       footer={false}
@@ -181,13 +131,13 @@ export const CreateLecture: React.FC<CreateLectureProps> = props => {
                 size="small"
                 className="tag-input"
                 value={inputValue}
-                onChange={e => setInputValue(e.target.value)}
+                onChange={handleInputChange}
                 onBlur={handleInputBlur}
                 onPressEnter={handleInputAdd}
                 onKeyDown={dontSubmitWhenEnter}
               />
             ) : (
-              <Tag className="site-tag-plus" onClick={() => setIsOnAddTag(true)}>
+              <Tag className="site-tag-plus" onClick={OnAddTag}>
                 <PlusOutlined /> New Tag
               </Tag>
             ))}
@@ -212,7 +162,7 @@ export const CreateLecture: React.FC<CreateLectureProps> = props => {
             accept="image/*"
             fileList={fileList}
             multiple
-            onChange={file => setFileList(file.fileList)}
+            onChange={handleFilelist}
           >
             <div>
               <PlusOutlined />
