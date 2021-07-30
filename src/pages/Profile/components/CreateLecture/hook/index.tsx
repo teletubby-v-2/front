@@ -1,5 +1,4 @@
 import Form from 'antd/lib/form'
-import form from 'antd/lib/form'
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface'
 import { useEffect, useState } from 'react'
 import { uploadImage } from '../../../../../service/storage'
