@@ -12,7 +12,6 @@ import {
 import facebookLogo from '../assets/images/facebook_logo.png'
 import googleLogo from '../assets/images/google_logo.png'
 import twitterLogo from '../assets/images/twitter_logo.png'
-import { userInfoStore } from '../store/user.store'
 import { firebaseApp } from '../config/firebase'
 import { AuthError } from '../constants/interface/error.interface'
 import { errorStore } from '../store/error.store'
@@ -23,16 +22,12 @@ export const Login: React.FC = () => {
   const history = useHistory()
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState<string>()
-  const { setAllFirebase } = userInfoStore()
   const [method, setMethod] = useState<string>('')
 
   const onFinish = (value: any) => {
     setIsLoading(true)
     signInWithEmailAndPassword(value.email, value.password)
-      .then(userCredential => {
-        if (userCredential.user) {
-          setAllFirebase(userCredential.user)
-        }
+      .then(() => {
         history.push('/success')
       })
       .catch((error: AuthError) => {

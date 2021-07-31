@@ -32,7 +32,7 @@ export const LayoutRoute: React.FC<RouteProps> = props => {
 
 export const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }: any) => {
   const { openModal, toLogin } = modalAccountStore()
-  const { userId } = userInfoStore()
+  const { userInfo } = userInfoStore()
 
   const NotLogin: React.ReactNode = () => {
     toLogin()
@@ -40,7 +40,7 @@ export const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }: any) 
     return <Redirect to="/Home" />
   }
   const routeComponent = (props: any) =>
-    firebaseApp.auth().currentUser ? React.createElement(component, props) : NotLogin
+    userInfo.userId ? React.createElement(component, props) : NotLogin
 
   return <Route {...rest} render={routeComponent} />
 }

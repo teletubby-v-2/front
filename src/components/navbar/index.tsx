@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
-import { Input, Space, Avatar, Button, Image, Menu, Dropdown, Badge } from 'antd'
+import React, { useEffect } from 'react'
+import { Input, Avatar, Menu, Dropdown, Badge } from 'antd'
 import { useHistory } from 'react-router'
 import 'tailwindcss/tailwind.css'
 import KUshare from '../../assets/svg/KUshare.svg'
@@ -9,8 +8,8 @@ import { userInfoStore } from '../../store/user.store'
 import { modalAccountStore } from '../../store/modalAccount.store'
 import { logout } from '../../service/auth'
 import styled from 'styled-components'
-import { firebaseApp } from '../../config/firebase'
 import { MenuInfo } from 'rc-menu/lib/interface'
+import { firebaseApp } from '../../config/firebase'
 import firebase from 'firebase'
 
 const { Search } = Input
@@ -30,15 +29,26 @@ const Nav = styled.nav`
 
 export const Navbar: React.FC = () => {
   const history = useHistory()
-  const { userId, photoURL, clearAll, setAllFirebase } = userInfoStore()
-  const { closeModal, openModal, toLogin, toRegister } = modalAccountStore()
+  const { userInfo, clearAll, setAllFirebase } = userInfoStore()
+  const { openModal, toLogin, toRegister } = modalAccountStore()
+
   const onSearch = (value: string) => {
     value ? history.push(`${value}`) : null
   }
 
-  const onLogo = () => {
+  const onClickLogo = () => {
     history.push('/Home')
   }
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        setAllFirebase(user as firebase.UserInfo)
+      } else {
+        clearAll()
+      }
+    })
+  }, [])
 
   const handleMenuClick = (info: MenuInfo) => {
     switch (info.key) {
@@ -52,7 +62,7 @@ export const Navbar: React.FC = () => {
         return history.push('/Profile')
       case 'logout':
         logout().then(() => clearAll())
-        return history.push('/Home')
+        return history.push('/home')
     }
   }
 
@@ -86,8 +96,9 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
+      {console.log(userInfo)}
       <Nav className="text-xl">
-        <img width={129} src={KUshare} onClick={onLogo} />
+        <img width={129} src={KUshare} onClick={onClickLogo} />
         <Search
           placeholder="ค้นหารายวิชา"
           onSearch={onSearch}
@@ -97,11 +108,11 @@ export const Navbar: React.FC = () => {
         <Badge count={null} className="mx-6 text-xl pb-2">
           <BellOutlined />
         </Badge>
-        <Dropdown overlay={menu} trigger={['click']} placement={'bottomRight'}>
-          {photoURL ? (
-            <Avatar src={photoURL} size="large" />
+        <Dropdown overlay={menu}>
+          {userInfo.photoURL ? (
+            <Avatar src={userInfo.photoURL} />
           ) : (
-            <Avatar icon={<UserOutlined />} size="large" />
+            <Avatar icon={<UserOutlined />} />
           )}
         </Dropdown>
       </Nav>
