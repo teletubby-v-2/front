@@ -61,7 +61,7 @@ export const CreateLecture: React.FC<CreateLectureProps> = props => {
   return (
     <>
       <Modal visible={previewVisible} footer={null} onCancel={previewCancel}>
-        <img alt="example" style={{ width: '100%' }} src={previewImage} />
+        <img alt="example" className="w-full" src={previewImage} />
       </Modal>
       <Modal
         width="700px"
