@@ -1,6 +1,7 @@
 import React from 'react'
 import {
   Button,
+  ButtonProps,
   Checkbox,
   Form,
   Input,
@@ -18,6 +19,7 @@ import { dummySubjects } from '../../../../constants/dummyData/subject.dummy'
 import { useLectureForm } from './hook'
 import { UploadLocale } from 'antd/lib/upload/interface'
 import { getFilePath } from '../../../../service/storage'
+import { lectureStore } from '../../../../store/lecture.store'
 
 const formItemLayout = {
   labelCol: { span: 4 },
@@ -30,15 +32,18 @@ const myLocale: UploadLocale = {
 }
 
 export interface CreateLectureProps extends ModalProps {
-  isOnCreate: boolean
-  setIsOnCreate: (isOnCreate: boolean) => void
+  label?: string
+  className?: string
 }
 
 export const CreateLecture: React.FC<CreateLectureProps> = props => {
-  const { isOnCreate, setIsOnCreate, ...rest } = props
+  const { label = 'Add New', className, ...rest } = props
+
+  const { addOwnLecture } = lectureStore()
 
   const {
     form,
+    isOnCreate,
     inputValue,
     checkTagSize,
     isOnAddTag,
@@ -46,6 +51,8 @@ export const CreateLecture: React.FC<CreateLectureProps> = props => {
     isUploading,
     previewVisible,
     previewImage,
+    openModal,
+    closeModal,
     handleFilelist,
     handleClose,
     handleInputChange,
@@ -53,13 +60,13 @@ export const CreateLecture: React.FC<CreateLectureProps> = props => {
     handleRequest,
     handleInputAdd,
     onFinish,
-    handleCloseModal,
     OnAddTag,
     handlePreview,
     previewCancel,
-  } = useLectureForm(isOnCreate, setIsOnCreate)
+  } = useLectureForm(addOwnLecture)
   return (
-    <>
+    <div className={className}>
+      <a onClick={openModal}>{label}</a>
       <Modal visible={previewVisible} footer={null} onCancel={previewCancel}>
         <img alt="example" className="w-full" src={previewImage} />
       </Modal>
@@ -68,7 +75,7 @@ export const CreateLecture: React.FC<CreateLectureProps> = props => {
         maskClosable={false}
         visible={isOnCreate}
         centered
-        onCancel={handleCloseModal}
+        onCancel={closeModal}
         destroyOnClose
         closable
         footer={false}
@@ -88,12 +95,7 @@ export const CreateLecture: React.FC<CreateLectureProps> = props => {
           >
             <Input onKeyDown={dontSubmitWhenEnter} />
           </Form.Item>
-          <Form.Item
-            label="คำอธิบาย"
-            name="description"
-            rules={[{ required: true }]}
-            {...formItemLayout}
-          >
+          <Form.Item label="คำอธิบาย" name="description" {...formItemLayout}>
             <Input.TextArea
               showCount
               allowClear
@@ -126,8 +128,8 @@ export const CreateLecture: React.FC<CreateLectureProps> = props => {
           </Form.Item>
           <Form.Item name="tags" label="แทค" {...formItemLayout}>
             {form.getFieldValue('tags') &&
-              form.getFieldValue('tags').map((tag: string) => (
-                <Tag key={tag} closable onClose={() => handleClose(tag)}>
+              form.getFieldValue('tags').map((tag: string, index: number) => (
+                <Tag key={index} closable onClose={() => handleClose(tag)}>
                   {tag.length > 20 ? `${tag.slice(0, 20)}...` : tag}
                 </Tag>
               ))}
@@ -151,7 +153,6 @@ export const CreateLecture: React.FC<CreateLectureProps> = props => {
               ))}
           </Form.Item>
           <Form.Item
-            name="upload"
             label="รูปภาพ"
             validateStatus="warning"
             help={
@@ -182,7 +183,7 @@ export const CreateLecture: React.FC<CreateLectureProps> = props => {
           <Form.Item wrapperCol={{ offset: 18 }} className="mb-0">
             <Space className="pl-5">
               <Form.Item noStyle>
-                <Button onClick={() => setIsOnCreate(false)}>ยกเลิก</Button>
+                <Button onClick={closeModal}>ยกเลิก</Button>
               </Form.Item>
               <Form.Item noStyle>
                 <Button type="primary" htmlType="submit">
@@ -193,6 +194,6 @@ export const CreateLecture: React.FC<CreateLectureProps> = props => {
           </Form.Item>
         </Form>
       </Modal>
-    </>
+    </div>
   )
 }

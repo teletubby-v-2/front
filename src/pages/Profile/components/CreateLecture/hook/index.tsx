@@ -1,13 +1,13 @@
 import Form from 'antd/lib/form'
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface'
 import { useEffect, useState } from 'react'
+import { Lecture } from '../../../../../constants/interface/lecture.interface'
 import { deleteImages, uploadImage } from '../../../../../service/storage'
+import { removeUndefined } from '../../../../../utils/object'
 
-export const useLectureForm = (
-  isOnCreate: boolean,
-  setIsOnCreate: (isOnCreate: boolean) => void,
-) => {
+export const useLectureForm = (addOwnLecture: (lecture: Lecture) => void) => {
   const [form] = Form.useForm()
+  const [isOnCreate, setIsOnCreate] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const [isOnAddTag, setIsOnAddTag] = useState(false)
   const [checkTagSize, setCheckTagSize] = useState(true)
@@ -85,7 +85,11 @@ export const useLectureForm = (
     setPreviewImage(undefined)
   }
 
-  const handleCloseModal = () => {
+  const openModal = () => {
+    setIsOnCreate(true)
+  }
+
+  const closeModal = () => {
     setIsOnCreate(false)
   }
 
@@ -109,12 +113,19 @@ export const useLectureForm = (
   }
 
   const onFinish = () => {
-    console.log(form.getFieldsValue(), fileList)
+    const value: any = removeUndefined({
+      ...form.getFieldsValue(),
+      imageUrl: fileList.map(file => file.url),
+    })
+    //TODO: Add เข้า DB
+    addOwnLecture(value as Lecture)
+    console.log(value)
     setIsOnCreate(false)
   }
 
   return {
     form,
+    isOnCreate,
     inputValue,
     checkTagSize,
     isOnAddTag,
@@ -122,13 +133,14 @@ export const useLectureForm = (
     isUploading,
     previewVisible,
     previewImage,
+    openModal,
     handleClose,
     handleInputChange,
     handleInputBlur,
     handleRequest,
     handleInputAdd,
     onFinish,
-    handleCloseModal,
+    closeModal,
     handleFilelist,
     OnAddTag,
     handlePreview,
