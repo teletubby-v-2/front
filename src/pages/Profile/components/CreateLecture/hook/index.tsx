@@ -1,7 +1,7 @@
 import Form from 'antd/lib/form'
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface'
 import { useEffect, useState } from 'react'
-import { uploadImage } from '../../../../../service/storage'
+import { deleteImages, uploadImage } from '../../../../../service/storage'
 
 export const useLectureForm = (
   isOnCreate: boolean,
@@ -9,9 +9,12 @@ export const useLectureForm = (
 ) => {
   const [form] = Form.useForm()
   const [inputValue, setInputValue] = useState('')
-  const [photoUrl, setPhotoUrl] = useState<string[]>([])
   const [isOnAddTag, setIsOnAddTag] = useState(false)
   const [checkTagSize, setCheckTagSize] = useState(true)
+  const [isUploading, setIsUploading] = useState(false)
+  const [fileList, setFileList] = useState<UploadFile<any>[]>([])
+  const [previewVisible, setPreviewVisible] = useState(false)
+  const [previewImage, setPreviewImage] = useState<string>()
 
   useEffect(() => {
     setIsOnAddTag(false)
@@ -21,7 +24,8 @@ export const useLectureForm = (
     if (!isOnCreate) {
       form.resetFields()
       form.setFieldsValue({ tags: [] })
-      setPhotoUrl([])
+      form.setFieldsValue({ imageUrl: [] })
+      setFileList([])
     }
   }, [isOnCreate])
 
@@ -60,20 +64,25 @@ export const useLectureForm = (
     }
   }
 
-  const onFinish = () => {
-    console.log(form.getFieldsValue())
-    setIsOnCreate(false)
-  }
-
   const uploadNewImage = async (file: File) => {
     try {
-      const downloadUrl = await uploadImage(file)
-      setPhotoUrl([...photoUrl, downloadUrl])
-      return downloadUrl
+      const uploadStatus = await uploadImage(file)
+      if (uploadStatus.url) {
+        setFileList([...fileList, uploadStatus])
+      }
     } catch (error: any) {
-      console.log(error.code)
-      return error.code
+      console.log(error)
     }
+  }
+
+  const handlePreview = (file: UploadFile<any>) => {
+    setPreviewVisible(true)
+    setPreviewImage(file.url as string)
+  }
+
+  const previewCancel = () => {
+    setPreviewVisible(false)
+    setPreviewImage(undefined)
   }
 
   const handleCloseModal = () => {
@@ -84,26 +93,45 @@ export const useLectureForm = (
     setIsOnAddTag(true)
   }
 
+  const handleFilelist = (file: UploadChangeParam<UploadFile<any>>) => {
+    if (file.file.status === 'removed') {
+      setFileList(file.fileList)
+      form.setFieldsValue({ imageUrl: file.fileList.map(file => file.url) })
+      deleteImages(file.file.url as string)
+    }
+    if (file.file.status === 'uploading') {
+      setIsUploading(true)
+    }
+  }
+
+  const handleRequest = (option: any) => {
+    uploadNewImage(option.file).finally(() => setIsUploading(false))
+  }
+
+  const onFinish = () => {
+    console.log(form.getFieldsValue(), fileList)
+    setIsOnCreate(false)
+  }
+
   return {
     form,
     inputValue,
     checkTagSize,
     isOnAddTag,
+    fileList,
+    isUploading,
+    previewVisible,
+    previewImage,
     handleClose,
     handleInputChange,
     handleInputBlur,
+    handleRequest,
     handleInputAdd,
     onFinish,
-    uploadNewImage,
     handleCloseModal,
+    handleFilelist,
     OnAddTag,
+    handlePreview,
+    previewCancel,
   }
-}
-
-export const useFileList = () => {
-  const [fileList, setFileList] = useState<UploadFile<any>[]>()
-  const handleFilelist = (file: UploadChangeParam<UploadFile<any>>) => {
-    setFileList(file.fileList)
-  }
-  return { fileList, handleFilelist }
 }
