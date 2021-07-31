@@ -31,14 +31,15 @@ export const LayoutRoute: React.FC<RouteProps> = props => {
 
 export const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }: any) => {
   const { openModal, toLogin } = modalAccountStore()
-  const { userId } = userInfoStore()
+  const { userInfo } = userInfoStore()
 
   const NotLogin: React.ReactNode = () => {
     toLogin()
     openModal()
     return <Redirect to="/Home" />
   }
-  const routeComponent = (props: any) => (userId ? React.createElement(component, props) : NotLogin)
+  const routeComponent = (props: any) =>
+    userInfo.userId ? React.createElement(component, props) : NotLogin
 
   return <Route {...rest} render={routeComponent} />
 }

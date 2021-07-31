@@ -1,15 +1,15 @@
 import { Avatar, Button, Divider, Space, Image } from 'antd'
 import React from 'react'
 import { DashOutlined } from '@ant-design/icons'
-import { userInfoStore } from '../../store/user.store'
+import { userInfoStore } from '../../../../store/user.store'
 
 export function ProfileComponent({ onEdit }: any) {
-  const { email, displayName, photoURL } = userInfoStore()
+  const { userInfo } = userInfoStore()
 
   return (
     <div className="mx-10 my-10">
-      <h1 className="text-center text-2xl">{displayName}</h1>
-      <Image src={photoURL} />
+      <h1 className="text-center text-2xl">{userInfo.displayName}</h1>
+      <img src={userInfo.photoURL} className="object-center object-none" />
       <div className="text-center space-x-4">
         <Button className="w-48" onClick={onEdit}>
           Edit
@@ -21,10 +21,11 @@ export function ProfileComponent({ onEdit }: any) {
       <Divider>General</Divider>
       <ul className="list-none">
         <li>
-          <p>Email : {email} </p>
+          <p>Email : {userInfo.email} </p>
         </li>
         <li>
           <p>About me: </p>
+          <p className="text-left break-words"></p>
         </li>
         <p></p>
       </ul>

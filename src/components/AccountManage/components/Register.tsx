@@ -53,7 +53,7 @@ export const Register: React.FC = () => {
           <Input placeholder="Email" size="large" />
         </Form.Item>
         <Form.Item name="username" rules={[{ required: true }]}>
-          <Input placeholder="username" size="large" />
+          <Input placeholder="rules={[{ type: 'email', required: true }]}" size="large" />
         </Form.Item>
         <Form.Item name="password" rules={[{ required: true }]}>
           <Input.Password placeholder="password" size="large" />

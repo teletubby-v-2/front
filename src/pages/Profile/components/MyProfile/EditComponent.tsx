@@ -1,19 +1,32 @@
 import React from 'react'
 import { Button, Divider, Form, Image, Input } from 'antd'
 import { RightOutlined, UserOutlined } from '@ant-design/icons'
-import { userInfoStore } from '../../store/user.store'
+import { userInfoStore } from '../../../../store/user.store'
+import { firebaseApp } from '../../../../config/firebase'
 
 export function EditComponent({ onfin }: any) {
-  const { email, displayName, photoURL } = userInfoStore()
+  const { userInfo } = userInfoStore()
   const { TextArea } = Input
+
   const onFinish = (value: any) => {
-    onfin()
+    const user = firebaseApp.auth().currentUser
+    user
+      ?.updateProfile({
+        displayName: value.username,
+        photoURL: value.email,
+      })
+      .then(() => {
+        onfin()
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   return (
     <div className="mx-10 my-10">
-      <h1 className="text-center text-2xl">Placeholder</h1>
-      <Image />
+      <h1 className="text-center text-2xl">Edit</h1>
+      <img src={userInfo.photoURL} />
       <div className="text-center">
         <Button className="w-48">
           <RightOutlined />
@@ -22,11 +35,11 @@ export function EditComponent({ onfin }: any) {
       </div>
       <Form onFinish={onFinish}>
         <Divider>General</Divider>
-        <Form.Item name="nickname">
-          <Input placeholder="Nickname" defaultValue={displayName} />
+        <Form.Item name="username" rules={[{ required: true }]}>
+          <Input placeholder="username" defaultValue={userInfo.displayName} />
         </Form.Item>
-        <Form.Item name="email">
-          <Input placeholder="Email" prefix={<UserOutlined />} defaultValue={email} />
+        <Form.Item name="email" rules={[{ type: 'email', required: true }]}>
+          <Input placeholder="email" prefix={<UserOutlined />} defaultValue={userInfo.email} />
         </Form.Item>
         <Form.Item name="aboutme">
           <TextArea showCount maxLength={300} placeholder="about me" />
@@ -42,8 +55,18 @@ export function EditComponent({ onfin }: any) {
           <Input addonBefore="https://" defaultValue="mysite.com" placeholder="Youtube" />
         </Form.Item>
         <Form.Item className="m-3 text-center">
-          <Button type="primary" htmlType="submit" size="large">
-            Submit
+          <Button type="primary" htmlType="submit" size="large" className="mx-4">
+            Save
+          </Button>
+          <Button
+            type="primary"
+            size="large"
+            onClick={() => {
+              onfin()
+            }}
+            className="mx-4"
+          >
+            Cancel
           </Button>
         </Form.Item>
       </Form>
