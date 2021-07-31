@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { Input, Space, Avatar, Button, Image, Menu, Dropdown, Badge } from 'antd'
 import { useHistory } from 'react-router'
@@ -10,6 +10,8 @@ import { modalAccountStore } from '../../store/modalAccount.store'
 import { logout } from '../../service/auth'
 import styled from 'styled-components'
 import { firebaseApp } from '../../config/firebase'
+import { MenuInfo } from 'rc-menu/lib/interface'
+import firebase from 'firebase'
 
 const { Search } = Input
 
@@ -28,7 +30,7 @@ const Nav = styled.nav`
 
 export const Navbar: React.FC = () => {
   const history = useHistory()
-  const { userId, photoURL, clearAll } = userInfoStore()
+  const { userId, photoURL, clearAll, setAllFirebase } = userInfoStore()
   const { closeModal, openModal, toLogin, toRegister } = modalAccountStore()
   const onSearch = (value: string) => {
     value ? history.push(`${value}`) : null
@@ -38,52 +40,49 @@ export const Navbar: React.FC = () => {
     history.push('/Home')
   }
 
-  const login = () => {
-    toLogin()
-    openModal()
-  }
-
-  const register = () => {
-    toRegister()
-    openModal()
-  }
-
-  const logoutToHome = () => {
-    logout()
-    clearAll()
-    history.push('/home')
-  }
-
-  const isLogin = () => {
-    if (firebaseApp.auth().currentUser != null) {
-      return true
+  const handleMenuClick = (info: MenuInfo) => {
+    switch (info.key) {
+      case 'login':
+        toLogin()
+        return openModal()
+      case 'register':
+        toRegister()
+        return openModal()
+      case 'profile':
+        return history.push('/Profile')
+      case 'logout':
+        logout().then(() => clearAll())
+        return history.push('/Home')
     }
-    return false
   }
+
+  const isLogin = () => (firebaseApp.auth().currentUser ? true : false)
 
   const menu = (
-    <Menu className="mt-4">
-      <Menu.Item onClick={login} hidden={isLogin()}>
+    <Menu onClick={handleMenuClick}>
+      <Menu.Item key="login" hidden={isLogin()}>
         Login
       </Menu.Item>
-      <Menu.Item onClick={register} hidden={isLogin()}>
+      <Menu.Item key="register" hidden={isLogin()}>
         Signup
       </Menu.Item>
-      <Menu.Item
-        onClick={() => {
-          history.push('/Profile')
-        }}
-        hidden={!isLogin()}
-      >
+      <Menu.Item key="profile" hidden={!isLogin()}>
         Profile
       </Menu.Item>
-      <Menu.Item onClick={logoutToHome} hidden={!isLogin()}>
+      <Menu.Item key="logout" hidden={!isLogin()}>
         {' '}
-        <LogoutOutlined />
         Logout
       </Menu.Item>
     </Menu>
   )
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        setAllFirebase(user as firebase.UserInfo)
+      }
+    })
+  }, [])
 
   return (
     <>
