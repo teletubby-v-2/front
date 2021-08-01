@@ -8,8 +8,8 @@ async function signInWithEmailAndPassword(
   password: string,
 ): Promise<firebase.auth.UserCredential> {
   const userCredential = await auth.signInWithEmailAndPassword(email, password)
-  if (userCredential.user?.emailVerified) {
-    userCredential.user.sendEmailVerification()
+  if (!userCredential.user?.emailVerified) {
+    userCredential.user?.sendEmailVerification()
   }
   return userCredential
 }
@@ -71,8 +71,8 @@ async function signInWithFacebook(): Promise<firebase.auth.UserCredential> {
 
   const userCredential = await providerSignIn(provider)
 
-  if (userCredential.user?.emailVerified) {
-    userCredential.user.sendEmailVerification()
+  if (!userCredential.user?.emailVerified) {
+    userCredential.user?.sendEmailVerification()
   }
   // get higher quality photo
   // await firebaseApp.auth().currentUser?.updateProfile({
