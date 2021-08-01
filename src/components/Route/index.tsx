@@ -5,7 +5,6 @@ import { Navbar } from '../Navbar'
 import { Route, RouteProps, Redirect } from 'react-router-dom'
 import { modalAccountStore } from '../../store/modalAccount.store'
 import { userInfoStore } from '../../store/user.store'
-import { firebaseApp } from '../../config/firebase'
 
 const { Content, Footer } = Layout
 
