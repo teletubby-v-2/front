@@ -53,6 +53,7 @@ export interface ReviewDTO {
   rating: number
   message?: string
   createDate: firebase.firestore.Timestamp
+  updateDate: firebase.firestore.Timestamp
 }
 
 export interface EditReviewDTO {
