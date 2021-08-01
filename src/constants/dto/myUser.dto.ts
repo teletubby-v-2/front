@@ -35,9 +35,12 @@ export interface FilterUserDTO {
   userId?: string
   email?: string
   displayName?: string
-  createDate?: firebase.firestore.Timestamp
+  socialLinkIG?: string
+  socialLinkFB?: string
+  socialLinkYT?: string
   likedLectureId?: string[]
   followers?: string[]
   following?: string[]
   lectureCount?: number
+  createDate?: firebase.firestore.Timestamp
 }

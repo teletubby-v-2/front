@@ -8,11 +8,12 @@ export interface PostLectureDTO {
   lectureId?: string
   userId: string
   lectureTitle: string
+  subjectId: string
   description?: string
   isMid?: boolean
   isFinal?: boolean
   imagesUrl: string[]
-  keyword: string[]
+  keyword?: string[]
   createDate: firebase.firestore.Timestamp
 
   // no likeCount: number
@@ -25,11 +26,12 @@ export interface EditLectureDTO {
   lectureId?: string
   userId: string
   lectureTitle?: string
+  subjectId: string
   description?: string
   isMid?: boolean
   isFinal?: boolean
   imagesUrl: string[]
-  keyword: string[]
+  keyword?: string[]
   createDate: firebase.firestore.Timestamp
   updateDate: firebase.firestore.Timestamp
 
