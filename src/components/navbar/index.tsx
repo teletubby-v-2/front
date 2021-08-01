@@ -3,7 +3,7 @@ import { Input, Avatar, Menu, Dropdown, Badge } from 'antd'
 import { useHistory } from 'react-router'
 import 'tailwindcss/tailwind.css'
 import KUshare from '../../assets/svg/KUshare.svg'
-import { UserOutlined, BellOutlined, LogoutOutlined } from '@ant-design/icons'
+import { UserOutlined, BellOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
 import { modalAccountStore } from '../../store/modalAccount.store'
 import { logout } from '../../service/auth'
@@ -85,14 +85,6 @@ export const Navbar: React.FC = () => {
       </Menu.Item>
     </Menu>
   )
-
-  useEffect(() => {
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        setAllFirebase(user as firebase.UserInfo)
-      }
-    })
-  }, [])
 
   return (
     <>
