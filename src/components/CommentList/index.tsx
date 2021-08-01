@@ -1,5 +1,4 @@
 import { List, Avatar, ListProps } from 'antd'
-import { type } from 'os'
 import React from 'react'
 import { CommentNoReply, QAndA, Review } from '../../constants/interface/lecture.interface'
 export interface CommentListProps extends ListProps<QAndA | CommentNoReply | Comment | Review> {
