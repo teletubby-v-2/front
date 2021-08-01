@@ -1,4 +1,4 @@
-import { queryOperatorObject } from './queryOperatorDTO'
+import { queryOperator, queryOperatorObject } from './queryOperatorDTO'
 
 import { Lecture } from '../interface/lecture.interface'
 
@@ -107,12 +107,12 @@ export interface EditCommentDTO {
 //-------------------------- Filter -------------------------
 
 export interface FilterLectureDTO {
-  lectureID?: string | queryOperatorObject<string>
-  userId?: string | queryOperatorObject<string>
-  subjectId?: string | queryOperatorObject<string>
-  lectureTitile?: string | queryOperatorObject<string>
-  keyword?: string[] | queryOperatorObject<string[]>
-  isMid?: boolean | queryOperatorObject<boolean>
-  isFinal?: boolean | queryOperatorObject<boolean>
-  tags?: string | queryOperatorObject<string>
+  lectureID?: string | [queryOperator, string]
+  userId?: string | [queryOperator, string]
+  subjectId?: string | [queryOperator, string]
+  lectureTitile?: string | [queryOperator, string]
+  keyword?: string[] | [queryOperator, string[]]
+  isMid?: boolean | [queryOperator, boolean]
+  isFinal?: boolean | [queryOperator, boolean]
+  tags?: string | [queryOperator, string]
 }
