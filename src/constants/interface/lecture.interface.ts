@@ -55,7 +55,7 @@ export interface QAndA {
   updateAt?: firebase.firestore.Timestamp
 }
 
-export interface subject {
+export interface Subject {
   subjectId: string
   subjectCode: string
   subjectName: string
