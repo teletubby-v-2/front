@@ -1,5 +1,7 @@
 import firebase from 'firebase/app'
 
+import { MyUser } from '../interface/myUser.interface'
+
 export type queryOperator = '<' | '<=' | '==' | '>' | '>=' | '!=' | 'in' | 'not-in'
 
 export interface CreateUserEmailDTO {
@@ -21,16 +23,18 @@ export interface UpdateProfileDTO {
   donatePicture?: string
   aboutDonate?: string
 
-  //ต้องแยกส่วนหรือป่าว
-  likedLectureId?: string[] //lecturnId
-  followers?: string[] //userId
-  following?: string[] //userId
-  lectureCount?: number
-  notificationCount?: number
-  notificationUnreadCount?: number
-  createDate?: firebase.firestore.Timestamp
-  updateDate?: firebase.firestore.Timestamp
+  // ต้องแยกส่วนหรือป่าว
+  // likedLectureId?: string[] //lectureId
+  // followers?: string[] //userId
+  // following?: string[] //userId
+  // lectureCount?: number
+  // notificationCount?: number
+  // notificationUnreadCount?: number
+  // createDate?: firebase.firestore.Timestamp
+  // updateDate?: firebase.firestore.Timestamp
 }
+
+export interface MyUserDTO extends MyUser {} //รวมProfile
 
 export interface FilterUserDTO {
   queryOperator: queryOperator

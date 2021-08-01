@@ -1,5 +1,7 @@
 import firebase from 'firebase/app'
 
+import { Lecture } from '../interface/lecture.interface'
+
 export type queryOperator = '<' | '<=' | '==' | '>' | '>=' | '!=' | 'in' | 'not-in'
 
 //-------------------------- Lecture -------------------------
@@ -37,6 +39,8 @@ export interface EditLectureDTO {
 
   // todo: คณะ ภาค ชื่อวิชา รหัสวิชา tags
 }
+
+export interface LectureDTO extends Lecture {}
 
 //-------------------------- review -------------------------
 
