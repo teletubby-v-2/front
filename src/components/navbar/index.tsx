@@ -108,7 +108,7 @@ export const Navbar: React.FC = () => {
         <Badge count={null} className="mx-6 text-xl pb-2">
           <BellOutlined />
         </Badge>
-        <Dropdown overlay={menu}>
+        <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
           {userInfo.photoURL ? (
             <Avatar src={userInfo.photoURL} />
           ) : (
