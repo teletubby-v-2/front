@@ -1,8 +1,7 @@
+import { queryOperatorObject } from './queryOperatorDTO'
 import firebase from 'firebase/app'
 
 import { Lecture } from '../interface/lecture.interface'
-
-export type queryOperator = '<' | '<=' | '==' | '>' | '>=' | '!=' | 'in' | 'not-in'
 
 //-------------------------- Lecture -------------------------
 
@@ -48,8 +47,8 @@ export interface ReviewDTO {
   reviewId: string
   lectureId: string
   userId: string
-  displayName: string
-  imageUrl: string
+  displayName?: string
+  imageUrl?: string
   rating: number
   message?: string
   createDate: firebase.firestore.Timestamp
@@ -60,8 +59,8 @@ export interface EditReviewDTO {
   reviewId: string
   lectureId: string
   userId: string
-  displayName: string
-  imageUrl: string
+  displayName?: string
+  imageUrl?: string
   rating?: number
   message?: string
   createDate: firebase.firestore.Timestamp
@@ -74,8 +73,8 @@ export interface QAndADTO {
   qaId?: string
   lectureId: string
   userId: string
-  displayName: string
-  imageUrl: string
+  displayName?: string
+  imageUrl?: string
   question: string
   answer?: string[]
   status?: number
@@ -86,8 +85,8 @@ export interface EditQAndADTO {
   qaId?: string
   lectureId: string
   userId: string
-  displayName: string
-  imageUrl: string
+  displayName?: string
+  imageUrl?: string
   question: string
   answer?: string[]
   status?: number
@@ -101,8 +100,8 @@ export interface CommentDTO {
   commentId: string
   lectureId: string
   userId: string
-  displayName: string
-  imageUrl: string
+  displayName?: string
+  imageUrl?: string
   message?: string
   reply?: string[]
   createDate: firebase.firestore.Timestamp
@@ -112,8 +111,8 @@ export interface EditCommentDTO {
   commentId: string
   lectureId: string
   userId: string
-  displayName: string
-  imageUrl: string
+  displayName?: string
+  imageUrl?: string
   message?: string
   reply?: string[]
   createDate: firebase.firestore.Timestamp
@@ -123,14 +122,12 @@ export interface EditCommentDTO {
 //-------------------------- Filter -------------------------
 
 export interface FilterLectureDTO {
-  queryOperator: queryOperator
-  lectureID?: string
-  userId?: string
-  subjectId?: string
-  createDate?: firebase.firestore.Timestamp
-  lectureTitile?: string
-  keyword?: string[]
-  isMid?: boolean
-  isFinal?: boolean
-  tags?: string
+  lectureID?: string | queryOperatorObject<string>
+  userId?: string | queryOperatorObject<string>
+  subjectId?: string | queryOperatorObject<string>
+  lectureTitile?: string | queryOperatorObject<string>
+  keyword?: string[] | queryOperatorObject<string[]>
+  isMid?: boolean | queryOperatorObject<boolean>
+  isFinal?: boolean | queryOperatorObject<boolean>
+  tags?: string | queryOperatorObject<string>
 }

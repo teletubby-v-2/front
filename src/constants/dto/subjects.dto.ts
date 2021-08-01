@@ -1,6 +1,6 @@
 import firebase from 'firebase/app'
 
-export type queryOperator = '<' | '<=' | '==' | '>' | '>=' | '!=' | 'in' | 'not-in'
+import { queryOperator } from './queryOperatorDTO'
 
 export interface SubjectDTO {
   subjectId: string

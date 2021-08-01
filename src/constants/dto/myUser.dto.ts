@@ -1,8 +1,7 @@
 import firebase from 'firebase/app'
 
 import { MyUser } from '../interface/myUser.interface'
-
-export type queryOperator = '<' | '<=' | '==' | '>' | '>=' | '!=' | 'in' | 'not-in'
+import { queryOperator } from './queryOperatorDTO'
 
 export interface CreateUserEmailDTO {
   userId: string
