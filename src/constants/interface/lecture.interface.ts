@@ -24,6 +24,7 @@ export interface Lecture {
 }
 
 export interface CommentNoReply {
+  parentCommendId?: string
   id?: string
   lectureId: string
   userId: string
@@ -52,4 +53,15 @@ export interface QAndA {
   status?: number
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp
+}
+
+export interface Subject {
+  subjectId: string
+  subjectCode: string
+  subjectName: string
+  subjectYear: string
+  subjectGroup: string
+  subjectGroup2?: string
+  subjectFaculty: string
+  subjectMajor: string
 }
