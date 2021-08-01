@@ -9,7 +9,6 @@ export interface PostLectureDTO {
   userId: string
   subjectId: string
   lectureTitle: string
-  subjectId: string
   description?: string
   isMid?: boolean
   isFinal?: boolean
@@ -26,7 +25,6 @@ export interface PostLectureDTO {
 export interface EditLectureDTO {
   lectureId?: string
   userId: string
-  subjectId?: string
   lectureTitle?: string
   subjectId: string
   description?: string
