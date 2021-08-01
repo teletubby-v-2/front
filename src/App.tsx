@@ -12,11 +12,11 @@ const App: React.FC = () => {
           <Route exact path="/">
             <Redirect to="/login" />
           </Route>
-          <LayoutRoute exact path="/login" component={Login} />
-          <LayoutRoute exact path="/register" component={Register} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
           <LayoutRoute exact path="/success" component={Success} />
-          <LayoutRoute exact path="/linkAccount" component={LinkAccount} />
-          <LayoutRoute exact path="/forgotpassword" component={ForgotPassword} />
+          <Route exact path="/linkAccount" component={LinkAccount} />
+          <Route exact path="/forgotpassword" component={ForgotPassword} />
           <LayoutRoute exact path="/profile" component={Profile} />
           <Route exact path="*" component={NotFound} />
         </Switch>
