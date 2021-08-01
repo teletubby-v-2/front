@@ -1,8 +1,8 @@
 import { MyUser } from './../../constants/interface/myUser.interface'
 import firebase from 'firebase/app'
-import { AuthError } from '../../constants/interface/error.interface'
 
-export interface UserInfo extends MyUser {
+export interface UserInfo {
+  userInfo: MyUser
   setDisplayName: (displayName: string) => void
   setPhotoURL: (photoURL: string) => void
   setUserId: (userId: string) => void

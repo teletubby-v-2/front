@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
-import { Input, Space, Avatar, Button, Image, Menu, Dropdown, Badge } from 'antd'
+import React, { useEffect } from 'react'
+import { Input, Avatar, Menu, Dropdown, Badge } from 'antd'
 import { useHistory } from 'react-router'
 import 'tailwindcss/tailwind.css'
 import KUshare from '../../assets/svg/KUshare.svg'
@@ -8,56 +7,79 @@ import { UserOutlined, BellOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
 import { modalAccountStore } from '../../store/modalAccount.store'
 import { logout } from '../../service/auth'
+import styled from 'styled-components'
+import { MenuInfo } from 'rc-menu/lib/interface'
+import { firebaseApp } from '../../config/firebase'
+import firebase from 'firebase'
 
 const { Search } = Input
 
-const Navbar: React.FC = () => {
+const Nav = styled.nav`
+  background-color: #fff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  position: fixed;
+  display: flex;
+  top: 0;
+  width: 100%;
+  height: 80px;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+`
+
+export const Navbar: React.FC = () => {
   const history = useHistory()
-  const { userId, photoURL, clearAll } = userInfoStore()
-  const { closeModal, openModal, toLogin, toRegister } = modalAccountStore()
+  const { userInfo, clearAll, setAllFirebase } = userInfoStore()
+  const { openModal, toLogin, toRegister } = modalAccountStore()
+
   const onSearch = (value: string) => {
-    value ? history.push(`/item/${value}`) : null
+    value ? history.push(`${value}`) : null
   }
 
-  const onLogo = () => {
+  const onClickLogo = () => {
     history.push('/Home')
   }
 
-  const login = () => {
-    toLogin()
-    openModal()
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        setAllFirebase(user as firebase.UserInfo)
+      } else {
+        clearAll()
+      }
+    })
+  }, [])
+
+  const handleMenuClick = (info: MenuInfo) => {
+    switch (info.key) {
+      case 'login':
+        toLogin()
+        return openModal()
+      case 'register':
+        toRegister()
+        return openModal()
+      case 'profile':
+        return history.push('/Profile')
+      case 'logout':
+        logout().then(() => clearAll())
+        return history.push('/home')
+    }
   }
 
-  const register = () => {
-    toRegister()
-    openModal()
-  }
-
-  const logoutToHome = () => {
-    logout()
-    clearAll()
-    history.push('/home')
-  }
-
-  const isLogin = () => (userId ? true : false)
+  const isLogin = () => (firebaseApp.auth().currentUser ? true : false)
 
   const menu = (
-    <Menu>
-      <Menu.Item onClick={login} hidden={isLogin()}>
+    <Menu onClick={handleMenuClick}>
+      <Menu.Item key="login" hidden={isLogin()}>
         Login
       </Menu.Item>
-      <Menu.Item onClick={register} hidden={isLogin()}>
+      <Menu.Item key="register" hidden={isLogin()}>
         Signup
       </Menu.Item>
-      <Menu.Item
-        onClick={() => {
-          history.push('/Profile')
-        }}
-        hidden={!isLogin()}
-      >
+      <Menu.Item key="profile" hidden={!isLogin()}>
         Profile
       </Menu.Item>
-      <Menu.Item onClick={logoutToHome} hidden={!isLogin()}>
+      <Menu.Item key="logout" hidden={!isLogin()}>
         {' '}
         Logout
       </Menu.Item>
@@ -66,8 +88,9 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      <nav className="fixed flex top-0 w-full h-20 text-xl items-center justify-center bg-gray-200 z-50">
-        <img width={129} src={KUshare} onClick={onLogo} />
+      {console.log(userInfo)}
+      <Nav className="text-xl">
+        <img width={129} src={KUshare} onClick={onClickLogo} />
         <Search
           placeholder="ค้นหารายวิชา"
           onSearch={onSearch}
@@ -78,11 +101,13 @@ const Navbar: React.FC = () => {
           <BellOutlined />
         </Badge>
         <Dropdown overlay={menu}>
-          {photoURL ? <Avatar src={photoURL} /> : <Avatar icon={<UserOutlined />} />}
+          {userInfo.photoURL ? (
+            <Avatar src={userInfo.photoURL} />
+          ) : (
+            <Avatar icon={<UserOutlined />} />
+          )}
         </Dropdown>
-      </nav>
+      </Nav>
     </>
   )
 }
-
-export default Navbar

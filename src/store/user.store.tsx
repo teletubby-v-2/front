@@ -1,112 +1,119 @@
-import { UserInfo } from './types/userInfo.type'
 import firebase from 'firebase/app'
 import create from 'zustand'
 import { MyUser } from '../constants/interface/myUser.interface'
+import { UserInfo } from './types/userInfo.type'
 
 export const userInfoStore = create<UserInfo>((set, get) => ({
-  displayName: '',
-  photoURL: '',
-  userId: '',
-  providerId: '',
-  phoneNumber: '',
-  email: '',
-  type: 0,
-  likedLectures: [], //lecture id
-  lectureCount: 0,
-  follower: [], //user id
-  following: [], //user id
-  lecture: [], //lecture id
-  notificationUnReadCount: 0,
-  notificationCount: 0,
+  userInfo: {
+    displayName: '',
+    photoURL: '',
+    userId: '',
+    providerId: '',
+    phoneNumber: '',
+    email: '',
+    type: 0,
+    likedLectures: [], //lecture id
+    lectureCount: 0,
+    follower: [], //user id
+    following: [], //user id
+    lecture: [], //lecture id
+    notificationUnReadCount: 0,
+    notificationCount: 0,
+  },
   setDisplayName: (displayName: string) => {
-    set({ displayName })
+    set({ userInfo: { ...get().userInfo, displayName } })
   },
   setPhotoURL: (photoURL: string) => {
-    set({ photoURL })
+    set({ userInfo: { ...get().userInfo, photoURL } })
   },
   setUserId: (userId: string) => {
-    set({ userId })
+    set({ userInfo: { ...get().userInfo, userId } })
   },
   setProviderId: (providerId: string) => {
-    set({ providerId })
+    set({ userInfo: { ...get().userInfo, providerId } })
   },
   setEmail: (email: string) => {
-    set({ email })
+    set({ userInfo: { ...get().userInfo, email } })
   },
   setAll: (info: MyUser) => {
-    set({
-      displayName: info.displayName,
-      photoURL: info.photoURL,
-      userId: info.userId,
-      providerId: info.providerId,
-      phoneNumber: info.phoneNumber,
-      email: info.email,
-      type: info.type,
-      likedLectures: info.likedLectures,
-      lectureCount: info.lectureCount,
-      follower: info.follower,
-      following: info.following,
-      lecture: info.lecture,
-      notificationUnReadCount: info.notificationUnReadCount,
-      notificationCount: info.notificationCount,
-    })
+    set({ userInfo: info })
   },
   setAllFirebase: (info: firebase.UserInfo) => {
     set({
-      displayName: info.displayName || '',
-      photoURL: info.photoURL || '',
-      userId: info.uid || '',
-      providerId: info.providerId || '',
-      phoneNumber: info.phoneNumber || '',
-      email: info.email || '',
+      userInfo: {
+        ...get().userInfo,
+        displayName: info.displayName || '',
+        photoURL: info.photoURL || '',
+        userId: info.uid || '',
+        providerId: info.providerId || '',
+        phoneNumber: info.phoneNumber || '',
+        email: info.email || '',
+      },
     })
   },
   setLikedLectures: (lectureId: string[]) => {
-    set({ likedLectures: lectureId })
+    set({ userInfo: { ...get().userInfo, likedLectures: lectureId } })
   },
   setFollower: (follower: string[]) => {
-    set({ follower })
+    set({ userInfo: { ...get().userInfo, follower } })
   },
   addFollower: (userid: string) => {
-    set({ follower: [...get().follower, userid] })
+    set({ userInfo: { ...get().userInfo, follower: [...get().userInfo.follower, userid] } })
   },
   removeFollower: (userid: string) => {
-    set({ follower: get().follower.filter(i => i != userid) })
+    set({
+      userInfo: {
+        ...get().userInfo,
+        follower: get().userInfo.follower.filter((i: string) => i != userid),
+      },
+    })
   },
   setFollowing: (following: string[]) => {
-    set({ following })
+    set({ userInfo: { ...get().userInfo, following } })
   },
   addFollowing: (userid: string) => {
-    set({ following: [...get().following, userid] })
+    set({ userInfo: { ...get().userInfo, following: [...get().userInfo.following, userid] } })
   },
   removeFollowing: (userid: string) => {
-    set({ following: get().following.filter(i => i != userid) })
+    set({
+      userInfo: {
+        ...get().userInfo,
+        following: get().userInfo.following.filter((i: string) => i != userid),
+      },
+    })
   },
   setLecture: (lectureId: string[]) => {
-    set({ lecture: lectureId })
+    set({ userInfo: { ...get().userInfo, lecture: lectureId } })
   },
   addLecture: (lectureId: string) => {
-    set({ lecture: [...get().lecture, lectureId] })
+    set({ userInfo: { ...get().userInfo, lecture: [...get().userInfo.lecture, lectureId] } })
   },
   removeLecture: (lectureId: string) => {
-    set({ lecture: get().lecture.filter(i => i != lectureId) })
+    set({
+      userInfo: {
+        ...get().userInfo,
+        lecture: get().userInfo.lecture.filter((i: string) => i != lectureId),
+      },
+    })
   },
   clearAll: () => {
     set({
-      displayName: '',
-      photoURL: '',
-      userId: '',
-      providerId: '',
-      phoneNumber: '',
-      email: '',
-      type: 0,
-      likedLectures: [],
-      lectureCount: 0,
-      follower: [],
-      following: [],
-      lecture: [],
-      notificationUnReadCount: 0,
-      notificationCount: 0,
+      userInfo: {
+        displayName: '',
+        photoURL: '',
+        userId: '',
+        providerId: '',
+        phoneNumber: '',
+        email: '',
+        type: 0,
+        likedLectures: [],
+        lectureCount: 0,
+        follower: [],
+        following: [],
+        lecture: [],
+        notificationUnReadCount: 0,
+        notificationCount: 0,
+      },
     })
   },
 }))
