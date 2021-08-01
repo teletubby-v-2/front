@@ -24,6 +24,7 @@ export interface Lecture {
 }
 
 export interface CommentNoReply {
+  parentCommendId?: string
   id?: string
   lectureId: string
   userId: string
