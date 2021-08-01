@@ -7,8 +7,11 @@ async function signInWithEmailAndPassword(
   email: string,
   password: string,
 ): Promise<firebase.auth.UserCredential> {
-  const userCredentail = await auth.signInWithEmailAndPassword(email, password)
-  return userCredentail
+  const userCredential = await auth.signInWithEmailAndPassword(email, password)
+  if (userCredential.user?.emailVerified) {
+    userCredential.user.sendEmailVerification()
+  }
+  return userCredential
 }
 
 async function logout(): Promise<void> {
@@ -66,26 +69,29 @@ async function signInWithFacebook(): Promise<firebase.auth.UserCredential> {
   // provider.addScope('user_birthday');
   // provider.addScope('user_age_range');
 
-  const userCredentail = await providerSignIn(provider)
+  const userCredential = await providerSignIn(provider)
 
+  if (userCredential.user?.emailVerified) {
+    userCredential.user.sendEmailVerification()
+  }
   // get higher quality photo
   // await firebaseApp.auth().currentUser?.updateProfile({
   //   photoURL: firebase.auth().currentUser?.photoURL + '?type=large&return_ssl_resources=1',
   // })
 
-  return userCredentail
+  return userCredential
 }
 
 async function signInWithTwitter(): Promise<firebase.auth.UserCredential> {
   const provider = new firebase.auth.TwitterAuthProvider()
-  const userCredentail = await providerSignIn(provider)
+  const userCredential = await providerSignIn(provider)
 
   // get higher quality photo
   // await firebase.auth().currentUser?.updateProfile({
   //   photoURL: firebaseApp.auth().currentUser?.photoURL?.replace('_normal', ''),
   // })
 
-  return userCredentail
+  return userCredential
 }
 
 function getProviderForProviderId(method: string): firebase.auth.AuthProvider | void {
