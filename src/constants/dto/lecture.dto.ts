@@ -1,5 +1,4 @@
 import { queryOperatorObject } from './queryOperatorDTO'
-import firebase from 'firebase/app'
 
 import { Lecture } from '../interface/lecture.interface'
 
@@ -15,11 +14,9 @@ export interface PostLectureDTO {
   isFinal?: boolean
   imagesUrl: string[]
   keyword?: string[]
-  createDate: firebase.firestore.Timestamp
 
   // no likeCount: number
   // no viewCount: number
-  // no updateDate: firebase.firestore.Timestamp
   // todo: คณะ ภาค ชื่อวิชา รหัสวิชา tags
 }
 
@@ -33,8 +30,6 @@ export interface EditLectureDTO {
   isFinal?: boolean
   imagesUrl: string[]
   keyword?: string[]
-  createDate: firebase.firestore.Timestamp
-  updateDate: firebase.firestore.Timestamp
 
   // todo: คณะ ภาค ชื่อวิชา รหัสวิชา tags
 }
@@ -51,8 +46,6 @@ export interface ReviewDTO {
   imageUrl?: string
   rating: number
   message?: string
-  createDate: firebase.firestore.Timestamp
-  updateDate: firebase.firestore.Timestamp
 }
 
 export interface EditReviewDTO {
@@ -63,8 +56,6 @@ export interface EditReviewDTO {
   imageUrl?: string
   rating?: number
   message?: string
-  createDate: firebase.firestore.Timestamp
-  updateDate: firebase.firestore.Timestamp
 }
 
 //-------------------------- Q&A -------------------------
@@ -78,7 +69,6 @@ export interface QAndADTO {
   question: string
   answer?: string[]
   status?: number
-  createDate: firebase.firestore.Timestamp
 }
 
 export interface EditQAndADTO {
@@ -90,8 +80,6 @@ export interface EditQAndADTO {
   question: string
   answer?: string[]
   status?: number
-  createDate: firebase.firestore.Timestamp
-  updateDate: firebase.firestore.Timestamp
 }
 
 //-------------------------- Comment -------------------------
@@ -104,7 +92,6 @@ export interface CommentDTO {
   imageUrl?: string
   message?: string
   reply?: string[]
-  createDate: firebase.firestore.Timestamp
 }
 
 export interface EditCommentDTO {
@@ -115,8 +102,6 @@ export interface EditCommentDTO {
   imageUrl?: string
   message?: string
   reply?: string[]
-  createDate: firebase.firestore.Timestamp
-  updateDate: firebase.firestore.Timestamp
 }
 
 //-------------------------- Filter -------------------------

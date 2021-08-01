@@ -8,7 +8,6 @@ export interface CreateUserEmailDTO {
   email: string
   displayName: string
   password: string
-  createDate: firebase.firestore.Timestamp
 }
 
 export interface UpdateProfileDTO {
@@ -29,8 +28,6 @@ export interface UpdateProfileDTO {
   // lectureCount?: number
   // notificationCount?: number
   // notificationUnreadCount?: number
-  // createDate?: firebase.firestore.Timestamp
-  // updateDate?: firebase.firestore.Timestamp
 }
 
 export interface MyUserDTO extends MyUser {} //รวมProfile
@@ -47,5 +44,4 @@ export interface FilterUserDTO {
   followers?: string[]
   following?: string[]
   lectureCount?: number
-  createDate?: firebase.firestore.Timestamp
 }
