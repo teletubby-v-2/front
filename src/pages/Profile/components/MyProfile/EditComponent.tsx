@@ -1,58 +1,73 @@
 import React from 'react'
-import { Button, Divider, Form, Image, Input } from 'antd'
-import { RightOutlined, UserOutlined } from '@ant-design/icons'
+import { Button, Divider, Form, Upload, Input } from 'antd'
+import { RightOutlined, UserOutlined, UploadOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../../../store/user.store'
 import { firebaseApp } from '../../../../config/firebase'
+import { dontSubmitWhenEnter } from '../../../../utils/eventManage'
 
 export function EditComponent({ onfin }: any) {
   const { userInfo } = userInfoStore()
   const { TextArea } = Input
 
   const onFinish = (value: any) => {
-    const user = firebaseApp.auth().currentUser
-    user
-      ?.updateProfile({
-        displayName: value.username,
-        photoURL: value.email,
-      })
-      .then(() => {
-        onfin()
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    onfin()
   }
 
   return (
     <div className="mx-10 my-10">
-      <h1 className="text-center text-2xl">Edit</h1>
-      <img src={userInfo.photoURL} />
-      <div className="text-center">
-        <Button className="w-48">
-          <RightOutlined />
-          change Image
-        </Button>
-      </div>
-      <Form onFinish={onFinish}>
-        <Divider>General</Divider>
-        <Form.Item name="username" rules={[{ required: true }]}>
-          <Input placeholder="username" defaultValue={userInfo.displayName} />
-        </Form.Item>
-        <Form.Item name="email" rules={[{ type: 'email', required: true }]}>
-          <Input placeholder="email" prefix={<UserOutlined />} defaultValue={userInfo.email} />
+      <h1 className="text-center text-2xl font-black">Edit Profile</h1>
+      <img src={userInfo.photoURL} className="my-8 mx-auto" width="200" />
+      <Form onFinish={onFinish} initialValues={userInfo}>
+        <div className="text-center">
+          <Form.Item>
+            <Upload>
+              <Button className="w-48">
+                <UploadOutlined />
+                change Image
+              </Button>
+            </Upload>
+          </Form.Item>
+        </div>
+        <Divider>
+          <p className="text-gray-400">General</p>
+        </Divider>
+        <Form.Item name="displayName" rules={[{ required: true }]}>
+          <Input placeholder="username" onKeyDown={dontSubmitWhenEnter} />
         </Form.Item>
         <Form.Item name="aboutme">
-          <TextArea showCount maxLength={300} placeholder="about me" />
+          <TextArea
+            showCount
+            maxLength={300}
+            placeholder="about me"
+            onKeyDown={dontSubmitWhenEnter}
+          />
         </Form.Item>
-        <Divider>Social Link</Divider>
+        <Divider>
+          <p className="text-gray-400">Social Link</p>
+        </Divider>
         <Form.Item name="instagram">
-          <Input addonBefore="https://" defaultValue="mysite.com" placeholder="Instagram" />
+          <Input
+            addonBefore="https://"
+            defaultValue="mysite.com"
+            placeholder="Instagram"
+            onKeyDown={dontSubmitWhenEnter}
+          />
         </Form.Item>
         <Form.Item name="facebook">
-          <Input addonBefore="https://" defaultValue="mysite.com" placeholder="Facebook" />
+          <Input
+            addonBefore="https://"
+            defaultValue="mysite.com"
+            placeholder="Facebook"
+            onKeyDown={dontSubmitWhenEnter}
+          />
         </Form.Item>
         <Form.Item name="youtube">
-          <Input addonBefore="https://" defaultValue="mysite.com" placeholder="Youtube" />
+          <Input
+            addonBefore="https://"
+            defaultValue=""
+            placeholder="Youtube"
+            onKeyDown={dontSubmitWhenEnter}
+          />
         </Form.Item>
         <Form.Item className="m-3 text-center">
           <Button type="primary" htmlType="submit" size="large" className="mx-4">

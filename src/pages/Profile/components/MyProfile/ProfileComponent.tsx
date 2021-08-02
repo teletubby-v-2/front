@@ -8,8 +8,8 @@ export function ProfileComponent({ onEdit }: any) {
 
   return (
     <div className="mx-10 my-10">
-      <h1 className="text-center text-2xl">{userInfo.displayName}</h1>
-      <img src={userInfo.photoURL} className="object-center object-none" />
+      <h1 className="text-center text-2xl font-black ">{userInfo.displayName}</h1>
+      <img src={userInfo.photoURL} className="my-8 mx-auto" width="200" />
       <div className="text-center space-x-4">
         <Button className="w-48" onClick={onEdit}>
           Edit
@@ -18,7 +18,9 @@ export function ProfileComponent({ onEdit }: any) {
           <DashOutlined />
         </Button>
       </div>
-      <Divider>General</Divider>
+      <Divider>
+        <p className="text-gray-400">General</p>
+      </Divider>
       <ul className="list-none">
         <li>
           <p>Email : {userInfo.email} </p>
@@ -29,7 +31,9 @@ export function ProfileComponent({ onEdit }: any) {
         </li>
         <p></p>
       </ul>
-      <Divider>Social Link</Divider>
+      <Divider>
+        <p className="text-gray-400">Social Link</p>
+      </Divider>
       <ul className="list-none">
         <li>
           <p>Instagram: </p>

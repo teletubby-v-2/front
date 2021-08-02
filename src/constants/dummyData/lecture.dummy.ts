@@ -1,8 +1,9 @@
+import { logRoles } from '@testing-library/react'
 import { Lecture } from '../interface/lecture.interface'
 
 export const dummyLectures: Lecture[] = [
   {
-    lectureId: '1',
+    lectureId: '01204341',
     userId: '12345678',
     imagesUrl: ['https://api.chulabook.com/images/pid-20494.jpg'],
     subjectId: 'พาสาไทย',
@@ -18,8 +19,27 @@ export const dummyLectures: Lecture[] = [
     isMid: true,
     isFinal: false,
     tags: ['ไทยๆ'],
-    qa: [],
-    Comment: [],
+    qa: [
+      {
+        id: '1',
+        lectureId: '01204341',
+        userId: '62xxxxxxxx',
+        displayName: 'นาย สมศักดิ์',
+        question: 'สำหรับคนถาม',
+        answer: [
+          {
+            id: '01204341',
+            lectureId: '01204341',
+            userId: '62xxxxxxxx',
+            displayName: 'นาย สรวิช',
+            imageUrl: '1234',
+            message: 'lorem',
+          },
+        ],
+        status: 1,
+      },
+    ],
+    comment: [],
     review: [],
   },
   {
@@ -40,7 +60,7 @@ export const dummyLectures: Lecture[] = [
     isFinal: false,
     tags: ['ไทยๆ'],
     qa: [],
-    Comment: [],
+    comment: [],
     review: [],
   },
   {
@@ -61,7 +81,7 @@ export const dummyLectures: Lecture[] = [
     isFinal: false,
     tags: ['ไทยๆ'],
     qa: [],
-    Comment: [],
+    comment: [],
     review: [],
   },
   {
@@ -82,7 +102,7 @@ export const dummyLectures: Lecture[] = [
     isFinal: false,
     tags: ['ไทยๆ'],
     qa: [],
-    Comment: [],
+    comment: [],
     review: [],
   },
   {
@@ -103,7 +123,7 @@ export const dummyLectures: Lecture[] = [
     isFinal: false,
     tags: ['ไทยๆ'],
     qa: [],
-    Comment: [],
+    comment: [],
     review: [],
   },
   {
@@ -124,7 +144,7 @@ export const dummyLectures: Lecture[] = [
     isFinal: false,
     tags: ['ไทยๆ'],
     qa: [],
-    Comment: [],
+    comment: [],
     review: [],
   },
 
@@ -146,7 +166,7 @@ export const dummyLectures: Lecture[] = [
     isFinal: false,
     tags: ['ไทยๆ'],
     qa: [],
-    Comment: [],
+    comment: [],
     review: [],
   },
   {
@@ -167,7 +187,7 @@ export const dummyLectures: Lecture[] = [
     isFinal: false,
     tags: ['ไทยๆ'],
     qa: [],
-    Comment: [],
+    comment: [],
     review: [],
   },
   {
@@ -188,7 +208,7 @@ export const dummyLectures: Lecture[] = [
     isFinal: false,
     tags: ['ไทยๆ'],
     qa: [],
-    Comment: [],
+    comment: [],
     review: [],
   },
   {
@@ -209,7 +229,7 @@ export const dummyLectures: Lecture[] = [
     isFinal: false,
     tags: ['ไทยๆ'],
     qa: [],
-    Comment: [],
+    comment: [],
     review: [],
   },
   {
@@ -230,7 +250,7 @@ export const dummyLectures: Lecture[] = [
     isFinal: false,
     tags: ['ไทยๆ'],
     qa: [],
-    Comment: [],
+    comment: [],
     review: [],
   },
   {
@@ -251,7 +271,7 @@ export const dummyLectures: Lecture[] = [
     isFinal: false,
     tags: ['ไทยๆ'],
     qa: [],
-    Comment: [],
+    comment: [],
     review: [],
   },
   {
@@ -272,7 +292,7 @@ export const dummyLectures: Lecture[] = [
     isFinal: false,
     tags: ['ไทยๆ'],
     qa: [],
-    Comment: [],
+    comment: [],
     review: [],
   },
   {
@@ -293,7 +313,7 @@ export const dummyLectures: Lecture[] = [
     isFinal: false,
     tags: ['ไทยๆ'],
     qa: [],
-    Comment: [],
+    comment: [],
     review: [],
   },
   {
@@ -314,7 +334,7 @@ export const dummyLectures: Lecture[] = [
     isFinal: false,
     tags: ['ไทยๆ'],
     qa: [],
-    Comment: [],
+    comment: [],
     review: [],
   },
 ]
