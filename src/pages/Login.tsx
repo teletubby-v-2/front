@@ -15,6 +15,7 @@ import twitterLogo from '../assets/images/twitter_logo.png'
 import { firebaseApp } from '../config/firebase'
 import { AuthError } from '../constants/interface/error.interface'
 import { errorStore } from '../store/error.store'
+import { getAllCollection } from '../service/firestore'
 
 export const Login: React.FC = () => {
   const { authError, setAuthError } = errorStore()
@@ -116,6 +117,10 @@ export const Login: React.FC = () => {
             className="m-auto text-left mb-3"
           />
         )}
+        <Button onClick={() => getAllCollection('Subjects').then(data => console.log(data))}>
+          fetch
+        </Button>
+
         <Form onFinish={onFinish}>
           <Form.Item name="email">
             <Input placeholder="Email" />
