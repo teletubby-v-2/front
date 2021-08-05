@@ -1,16 +1,15 @@
 import firebase from 'firebase/app'
 import { Notification } from '../interface/notification.interface'
+import { queryOperator } from './queryOperatorDTO'
 
 export interface NotificationDTO extends Notification {}
 
 export interface FilterNotificationDTO {
-  notificationId?: string
-  targetUserId?: string
-  relevantUserId?: string
-  type?: string
-  body?: string
-  link?: string
-  isRead?: boolean
-  createAt?: firebase.firestore.Timestamp
-  updateAt?: firebase.firestore.Timestamp
+  notificationId?: string | [queryOperator, string]
+  targetUserId?: string | [queryOperator, string]
+  relevantUserId?: string | [queryOperator, string]
+  type?: string | [queryOperator, string]
+  body?: string | [queryOperator, string]
+  link?: string | [queryOperator, string]
+  isRead?: boolean | [queryOperator, boolean]
 }

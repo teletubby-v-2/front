@@ -26,12 +26,12 @@ export interface MyUserDTO extends MyUser {} //รวมProfile
 
 export interface FilterUserDTO {
   queryOperator: queryOperator
-  userId?: string
-  email?: string
-  userName?: string
-  socialLink?: SocialLink[]
-  followLecture?: string[]
-  followers?: string[]
-  following?: string[]
-  lectureCount?: number
+  userId?: string | [queryOperator, string]
+  email?: string | [queryOperator, string]
+  userName?: string | [queryOperator, string]
+  socialLink?: SocialLink[] | [queryOperator, SocialLink[]]
+  followLecture?: string[] | [queryOperator, string[]]
+  followers?: string[] | [queryOperator, string[]]
+  following?: string[] | [queryOperator, string[]]
+  lectureCount?: number | [queryOperator, number]
 }

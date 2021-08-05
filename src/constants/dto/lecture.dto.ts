@@ -1,6 +1,6 @@
+import firebase from 'firebase/app'
+import { Review, Lecture, QAndA, Comments } from './../interface/lecture.interface'
 import { queryOperator, queryOperatorObject } from './queryOperatorDTO'
-
-import { Lecture } from '../interface/lecture.interface'
 
 //-------------------------- Lecture -------------------------
 
@@ -10,14 +10,10 @@ export interface PostLectureDTO {
   subjectId: string
   lectureTitle: string
   description?: string
-  isMid?: boolean
-  isFinal?: boolean
+  isMid: boolean
+  isFinal: boolean
   imagesUrl: string[]
-  keyword?: string[]
-
-  // no likeCount: number
-  // no viewCount: number
-  // todo: คณะ ภาค ชื่อวิชา รหัสวิชา tags
+  tags: string[]
 }
 
 export interface EditLectureDTO {
@@ -30,46 +26,26 @@ export interface EditLectureDTO {
   isFinal?: boolean
   imagesUrl: string[]
   keyword?: string[]
-
-  // todo: คณะ ภาค ชื่อวิชา รหัสวิชา tags
 }
 
 export interface LectureDTO extends Lecture {}
 
 //-------------------------- review -------------------------
 
-export interface ReviewDTO {
-  reviewId: string
-  lectureId: string
-  userId: string
-  displayName?: string
-  imageUrl?: string
-  rating: number
-  message?: string
-}
-
+export interface ReviewDTO extends Review {}
 export interface EditReviewDTO {
-  reviewId: string
-  lectureId: string
-  userId: string
-  displayName?: string
-  imageUrl?: string
+  reviewId?: string
+  lectureId?: string
+  userId?: string
   rating?: number
   message?: string
+  createAt?: firebase.firestore.Timestamp
+  updateAt?: firebase.firestore.Timestamp
 }
 
 //-------------------------- Q&A -------------------------
 
-export interface QAndADTO {
-  qaId?: string
-  lectureId: string
-  userId: string
-  displayName?: string
-  imageUrl?: string
-  question: string
-  answer?: string[]
-  status?: number
-}
+export interface QAndADTO extends QAndA {}
 
 export interface EditQAndADTO {
   qaId?: string
@@ -84,15 +60,7 @@ export interface EditQAndADTO {
 
 //-------------------------- Comment -------------------------
 
-export interface CommentDTO {
-  commentId: string
-  lectureId: string
-  userId: string
-  displayName?: string
-  imageUrl?: string
-  message?: string
-  reply: CommentDTO[]
-}
+export interface CommentsDTO extends Comments {}
 
 export interface EditCommentDTO {
   commentId: string
