@@ -3,7 +3,7 @@ import firebase from 'firebase/app'
 export interface Notification {
   notificationId: string
   targetUserId: string
-  noitCreatorId: string
+  relevantUserId: string
   type: string
   body: string
   link: string
