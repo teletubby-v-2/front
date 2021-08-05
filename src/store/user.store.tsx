@@ -1,58 +1,63 @@
 import firebase from 'firebase/app'
 import create from 'zustand'
-import { MyUser } from '../constants/interface/myUser.interface'
+import { MyUser, SocialLink } from '../constants/interface/myUser.interface'
 import { UserInfo } from './types/userInfo.type'
 
 export const userInfoStore = create<UserInfo>((set, get) => ({
   userInfo: {
-    displayName: '',
-    photoURL: '',
     userId: '',
-    providerId: '',
-    phoneNumber: '',
     email: '',
-    type: 0,
-    likedLectures: [], //lecture id
-    lectureCount: 0,
+    imageUrl: '',
+    userName: '',
+    socialLink: [],
+    userSubject: [],
+    followLecture: [],
     follower: [], //user id
     following: [], //user id
-    lecture: [], //lecture id
-    notificationUnReadCount: 0,
-    notificationCount: 0,
+    donateImage: '',
+    donateDescription: '',
   },
-  setDisplayName: (displayName: string) => {
-    set({ userInfo: { ...get().userInfo, displayName } })
+  setUserName: (userName: string) => {
+    set({ userInfo: { ...get().userInfo, userName } })
   },
-  setPhotoURL: (photoURL: string) => {
-    set({ userInfo: { ...get().userInfo, photoURL } })
+  setImageURL: (imageUrl: string) => {
+    set({ userInfo: { ...get().userInfo, imageUrl } })
   },
-  setUserId: (userId: string) => {
-    set({ userInfo: { ...get().userInfo, userId } })
-  },
-  setProviderId: (providerId: string) => {
-    set({ userInfo: { ...get().userInfo, providerId } })
-  },
-  setEmail: (email: string) => {
-    set({ userInfo: { ...get().userInfo, email } })
-  },
-  setAll: (info: MyUser) => {
-    set({ userInfo: info })
+  setSocialLink: (socialLink: SocialLink[]) => {
+    set({ userInfo: { ...get().userInfo, socialLink } })
   },
   setAllFirebase: (info: firebase.UserInfo) => {
     set({
       userInfo: {
         ...get().userInfo,
-        displayName: info.displayName || '',
-        photoURL: info.photoURL || '',
+        userName: info.displayName || '',
+        imageUrl: info.photoURL || '',
         userId: info.uid || '',
-        providerId: info.providerId || '',
-        phoneNumber: info.phoneNumber || '',
         email: info.email || '',
       },
     })
   },
-  setLikedLectures: (lectureId: string[]) => {
-    set({ userInfo: { ...get().userInfo, likedLectures: lectureId } })
+  setAll: (info: MyUser) => {
+    set({ userInfo: info })
+  },
+  setFollowLecture: (lectureId: string[]) => {
+    set({ userInfo: { ...get().userInfo, followLecture: lectureId } })
+  },
+  addFollowLecture: (lectureId: string) => {
+    set({
+      userInfo: {
+        ...get().userInfo,
+        followLecture: [lectureId, ...get().userInfo.followLecture],
+      },
+    })
+  },
+  removeFollowLecture: (lectureId: string) => {
+    set({
+      userInfo: {
+        ...get().userInfo,
+        followLecture: get().userInfo.followLecture.filter(lecture => lecture !== lectureId),
+      },
+    })
   },
   setFollower: (follower: string[]) => {
     set({ userInfo: { ...get().userInfo, follower } })
@@ -82,37 +87,20 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
       },
     })
   },
-  setLecture: (lectureId: string[]) => {
-    set({ userInfo: { ...get().userInfo, lecture: lectureId } })
-  },
-  addLecture: (lectureId: string) => {
-    set({ userInfo: { ...get().userInfo, lecture: [...get().userInfo.lecture, lectureId] } })
-  },
-  removeLecture: (lectureId: string) => {
-    set({
-      userInfo: {
-        ...get().userInfo,
-        lecture: get().userInfo.lecture.filter((i: string) => i != lectureId),
-      },
-    })
-  },
   clearAll: () => {
     set({
       userInfo: {
-        displayName: '',
-        photoURL: '',
         userId: '',
-        providerId: '',
-        phoneNumber: '',
         email: '',
-        type: 0,
-        likedLectures: [],
-        lectureCount: 0,
-        follower: [],
-        following: [],
-        lecture: [],
-        notificationUnReadCount: 0,
-        notificationCount: 0,
+        imageUrl: '',
+        userName: '',
+        socialLink: [],
+        userSubject: [],
+        followLecture: [],
+        follower: [], //user id
+        following: [], //user id
+        donateImage: '',
+        donateDescription: '',
       },
     })
   },

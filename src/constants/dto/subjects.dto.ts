@@ -1,26 +1,22 @@
-import firebase from 'firebase/app'
-
-import { queryOperator } from './queryOperatorDTO'
+import { queryOperator } from './queryOperator.dto'
 
 export interface SubjectDTO {
   subjectId: string
-  subjectCode: string
-  subjectName: string
-  subjectYear: string
-  subjectGroup: string
-  subjectGroup2: string
-  subjectFaculty: string
-  subjectMajor: string
+  subjectNameTH: string
+  subjectNameEN: string
+  semester1: boolean
+  semester2: boolean
+  type?: string
+  subtype?: string
 }
 
 export interface FilterSubjectDTO {
   queryOperator: queryOperator
-  subjectId?: string
-  subjectCode?: string
-  subjectName?: string
-  subjectYear?: string
-  subjectGroup?: string
-  subjectGroup2?: string
-  subjectFaculty?: string
-  subjectMajor?: string
+  subjectId?: string | [queryOperator, string]
+  subjectNameTH?: string | [queryOperator, string]
+  subjectNameEN?: string | [queryOperator, string]
+  semester1?: boolean | [queryOperator, boolean]
+  semester2?: boolean | [queryOperator, boolean]
+  type?: string | [queryOperator, string]
+  subtype?: string | [queryOperator, string]
 }
