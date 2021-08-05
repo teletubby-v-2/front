@@ -91,7 +91,7 @@ export interface CommentDTO {
   displayName?: string
   imageUrl?: string
   message?: string
-  reply?: string[]
+  reply: CommentDTO[]
 }
 
 export interface EditCommentDTO {

@@ -8,7 +8,6 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
     displayName: '',
     photoURL: '',
     userId: '',
-    providerId: '',
     phoneNumber: '',
     email: '',
     type: 0,
@@ -29,9 +28,6 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
   setUserId: (userId: string) => {
     set({ userInfo: { ...get().userInfo, userId } })
   },
-  setProviderId: (providerId: string) => {
-    set({ userInfo: { ...get().userInfo, providerId } })
-  },
   setEmail: (email: string) => {
     set({ userInfo: { ...get().userInfo, email } })
   },
@@ -45,7 +41,6 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
         displayName: info.displayName || '',
         photoURL: info.photoURL || '',
         userId: info.uid || '',
-        providerId: info.providerId || '',
         phoneNumber: info.phoneNumber || '',
         email: info.email || '',
       },
@@ -102,7 +97,6 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
         displayName: '',
         photoURL: '',
         userId: '',
-        providerId: '',
         phoneNumber: '',
         email: '',
         type: 0,

@@ -6,7 +6,6 @@ export interface UserInfo {
   setDisplayName: (displayName: string) => void
   setPhotoURL: (photoURL: string) => void
   setUserId: (userId: string) => void
-  setProviderId: (providerId: string) => void
   setEmail: (email: string) => void
   setLikedLectures: (lectureId: string[]) => void
   setFollower: (follower: string[]) => void

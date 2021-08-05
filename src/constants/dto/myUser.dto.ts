@@ -1,33 +1,25 @@
 import firebase from 'firebase/app'
 
-import { MyUser } from '../interface/myUser.interface'
+import { MyUser, SocialLink } from '../interface/myUser.interface'
 import { queryOperator } from './queryOperatorDTO'
 
 export interface CreateUserEmailDTO {
   userId: string
   email: string
-  displayName: string
-  password: string
+  userName: string
+  createAt?: firebase.firestore.Timestamp
+  updateAt?: firebase.firestore.Timestamp
 }
 
 export interface UpdateProfileDTO {
   userId: string
-  photoURL?: string
-  displayName?: string
-  aboutme?: string
-  socialLinkIG?: string
-  socialLinkFB?: string
-  socialLinkYT?: string
-  donatePicture?: string
-  aboutDonate?: string
-
-  // ต้องแยกส่วนหรือป่าว
-  // likedLectureId?: string[] //lectureId
-  // followers?: string[] //userId
-  // following?: string[] //userId
-  // lectureCount?: number
-  // notificationCount?: number
-  // notificationUnreadCount?: number
+  imageUrl?: string
+  userName?: string
+  socialLink: SocialLink[]
+  donateImage?: string
+  donateDescription?: string
+  createAt?: firebase.firestore.Timestamp
+  updateAt?: firebase.firestore.Timestamp
 }
 
 export interface MyUserDTO extends MyUser {} //รวมProfile
@@ -36,11 +28,9 @@ export interface FilterUserDTO {
   queryOperator: queryOperator
   userId?: string
   email?: string
-  displayName?: string
-  socialLinkIG?: string
-  socialLinkFB?: string
-  socialLinkYT?: string
-  likedLectureId?: string[]
+  userName?: string
+  socialLink?: SocialLink[]
+  followLecture?: string[]
   followers?: string[]
   following?: string[]
   lectureCount?: number
