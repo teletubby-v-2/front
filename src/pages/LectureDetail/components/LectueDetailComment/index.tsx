@@ -8,13 +8,13 @@ export const LectureDetailComment: React.FC = () => {
   return (
     <div>
       <Tabs>
-        <TabPane tab={`Review (${dummyLecture.review.length})`} key="1">
+        <TabPane tab={`Review (${dummyLecture})`} key="1">
           Content of tab 1
         </TabPane>
-        <TabPane tab={`Comment (${dummyLecture.comment.length})`} key="2">
+        <TabPane tab={`Comment (${dummyLecture})`} key="2">
           Content of tab 2
         </TabPane>
-        <TabPane tab={`Question & Answer (${dummyLecture.qa.length})`} key="3">
+        <TabPane tab={`Question & Answer (${dummyLecture})`} key="3">
           Content of tab 3
         </TabPane>
       </Tabs>
