@@ -4,23 +4,21 @@ import { queryOperator } from './queryOperatorDTO'
 
 export interface SubjectDTO {
   subjectId: string
-  subjectCode: string
-  subjectName: string
-  subjectYear: string
-  subjectGroup: string
-  subjectGroup2: string
-  subjectFaculty: string
-  subjectMajor: string
+  subjectNameTH: string
+  subjectNameEN: string
+  semester1: boolean
+  semester2: boolean
+  type?: string
+  subtype?: string
 }
 
 export interface FilterSubjectDTO {
   queryOperator: queryOperator
   subjectId?: string
-  subjectCode?: string
-  subjectName?: string
-  subjectYear?: string
-  subjectGroup?: string
-  subjectGroup2?: string
-  subjectFaculty?: string
-  subjectMajor?: string
+  subjectNameTH?: string
+  subjectNameEN?: string
+  semester1?: boolean
+  semester2?: boolean
+  type?: string
+  subtype?: string
 }
