@@ -31,6 +31,7 @@ export interface Comments {
   canReply: boolean
   reply: Comments[]
 }
+
 export interface Review {
   reviewId: string
   lectureId: string
