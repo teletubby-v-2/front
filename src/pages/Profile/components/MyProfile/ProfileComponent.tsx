@@ -1,15 +1,20 @@
-import { Avatar, Button, Divider, Space, Image } from 'antd'
 import React from 'react'
+import { Button, Divider } from 'antd'
 import { DashOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../../../store/user.store'
 
-export function ProfileComponent({ onEdit }: any) {
+export interface ProfileComponentProps {
+  onEdit: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
+}
+
+export const ProfileComponent: React.FC<ProfileComponentProps> = props => {
+  const { onEdit } = props
   const { userInfo } = userInfoStore()
 
   return (
     <div className="mx-10 my-10">
       <h1 className="text-center text-2xl font-black ">{userInfo.userName}</h1>
-      <img src={userInfo.photoURL} className="my-8 mx-auto" width="200" />
+      <img src={userInfo.imageUrl} className="my-8 mx-auto" width="200" />
       <div className="text-center space-x-4">
         <Button className="w-48" onClick={onEdit}>
           Edit
