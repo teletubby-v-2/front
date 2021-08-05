@@ -1,4 +1,3 @@
-import { Lecture } from './lecture.interface'
 import firebase from 'firebase/app'
 
 export interface SocialLink {
@@ -13,7 +12,7 @@ export interface MyUser {
   imageUrl?: string
   socialLink: SocialLink[]
   userSubject: string[]
-  followLecturn: string[]
+  followLecture: string[]
   follower: string[] //user id
   following: string[] //user id
   donateImage?: string

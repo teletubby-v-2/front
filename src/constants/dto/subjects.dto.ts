@@ -1,6 +1,4 @@
-import firebase from 'firebase/app'
-
-import { queryOperator } from './queryOperatorDTO'
+import { queryOperator } from './queryOperator.dto'
 
 export interface SubjectDTO {
   subjectId: string

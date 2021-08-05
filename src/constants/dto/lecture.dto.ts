@@ -1,4 +1,4 @@
-import { queryOperator, queryOperatorObject } from './queryOperatorDTO'
+import { queryOperator } from './queryOperator.dto'
 
 import { Lecture } from '../interface/lecture.interface'
 

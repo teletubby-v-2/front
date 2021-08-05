@@ -1,7 +1,7 @@
 import firebase from 'firebase/app'
 
 import { MyUser, SocialLink } from '../interface/myUser.interface'
-import { queryOperator } from './queryOperatorDTO'
+import { queryOperator } from './queryOperator.dto'
 
 export interface CreateUserEmailDTO {
   userId: string
