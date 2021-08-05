@@ -14,8 +14,8 @@ export interface Lecture {
   tags: string[]
   faculty?: string
   major?: string
-  createAt: firebase.firestore.Timestamp
-  updateAt: firebase.firestore.Timestamp
+  createAt?: firebase.firestore.Timestamp
+  updateAt?: firebase.firestore.Timestamp
   qa?: QAndA[]
   comment?: Comment[]
   review?: Review[]
