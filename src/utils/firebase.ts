@@ -12,8 +12,9 @@ function filterTransfer(
 ): firebase.firestore.Query<firebase.firestore.DocumentData> {
   let setFilter: firebase.firestore.Query<firebase.firestore.DocumentData> =
     firestore.collection(collection)
+
   Object.entries(filter).forEach(([key, value]) => {
-    if (Array.isArray(value)) {
+    if (!Array.isArray(value)) {
       setFilter = setFilter.where(key, '==', value)
     } else {
       setFilter = setFilter.where(key, value[0], value[1])

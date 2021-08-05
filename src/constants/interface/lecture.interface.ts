@@ -17,7 +17,7 @@ export interface Lecture {
   isFinal?: boolean
   tags?: string[]
   qa: QAndA[]
-  Comment: Comment[]
+  comment: Comment[]
   review: Review[]
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp
@@ -28,8 +28,8 @@ export interface CommentNoReply {
   id?: string
   lectureId: string
   userId: string
-  displayName: string
-  imageUrl: string
+  displayName?: string
+  imageUrl?: string
   message?: string
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp
@@ -47,8 +47,7 @@ export interface QAndA {
   id?: string
   lectureId: string
   userId: string
-  displayName: string
-  imageUrl: string
+  displayName?: string
   question: string
   answer?: CommentNoReply[]
   status?: number
