@@ -14,18 +14,22 @@ export interface PostLectureDTO {
   isFinal: boolean
   imagesUrl: string[]
   tags: string[]
+  createAt: firebase.firestore.Timestamp
+  updateAt: firebase.firestore.Timestamp
 }
 
 export interface EditLectureDTO {
   lectureId?: string
-  userId: string
+  userId?: string
+  subjectId?: string
   lectureTitle?: string
-  subjectId: string
   description?: string
   isMid?: boolean
   isFinal?: boolean
   imagesUrl: string[]
-  keyword?: string[]
+  tags: string[]
+  createAt?: firebase.firestore.Timestamp
+  updateAt?: firebase.firestore.Timestamp
 }
 
 export interface LectureDTO extends Lecture {}
@@ -49,13 +53,12 @@ export interface QAndADTO extends QAndA {}
 
 export interface EditQAndADTO {
   qaId?: string
-  lectureId: string
-  userId: string
-  displayName?: string
-  imageUrl?: string
-  question: string
-  answer?: string[]
-  status?: number
+  lectureId?: string
+  userId?: string
+  question?: string
+  answer: string[]
+  createAt?: firebase.firestore.Timestamp
+  updateAt?: firebase.firestore.Timestamp
 }
 
 //-------------------------- Comment -------------------------
@@ -63,13 +66,14 @@ export interface EditQAndADTO {
 export interface CommentsDTO extends Comments {}
 
 export interface EditCommentDTO {
-  commentId: string
-  lectureId: string
-  userId: string
-  displayName?: string
-  imageUrl?: string
+  id?: string
+  lectureId?: string
+  userId?: string
   message?: string
-  reply?: string[]
+  createAt?: firebase.firestore.Timestamp
+  updateAt?: firebase.firestore.Timestamp
+  canReply: boolean
+  reply: Comments[]
 }
 
 //-------------------------- Filter -------------------------
