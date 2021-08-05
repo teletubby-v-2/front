@@ -5,7 +5,7 @@ export interface MyUser {
   userId: string
   email?: string
   providerId?: string
-  displayName: string
+  userName: string
   photoURL: string
   phoneNumber?: string
   aboutMe?: string // เพิ่ม

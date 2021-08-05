@@ -5,7 +5,7 @@ import { UserInfo } from './types/userInfo.type'
 
 export const userInfoStore = create<UserInfo>((set, get) => ({
   userInfo: {
-    displayName: '',
+    userName: '',
     photoURL: '',
     userId: '',
     providerId: '',
@@ -20,8 +20,8 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
     notificationUnReadCount: 0,
     notificationCount: 0,
   },
-  setDisplayName: (displayName: string) => {
-    set({ userInfo: { ...get().userInfo, displayName } })
+  setUserName: (userName: string) => {
+    set({ userInfo: { ...get().userInfo, userName } })
   },
   setPhotoURL: (photoURL: string) => {
     set({ userInfo: { ...get().userInfo, photoURL } })
@@ -42,7 +42,7 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
     set({
       userInfo: {
         ...get().userInfo,
-        displayName: info.displayName || '',
+        userName: info.displayName || '',
         photoURL: info.photoURL || '',
         userId: info.uid || '',
         providerId: info.providerId || '',
@@ -99,7 +99,7 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
   clearAll: () => {
     set({
       userInfo: {
-        displayName: '',
+        userName: '',
         photoURL: '',
         userId: '',
         providerId: '',

@@ -28,7 +28,7 @@ export interface CommentNoReply {
   id?: string
   lectureId: string
   userId: string
-  displayName?: string
+  userName?: string
   imageUrl?: string
   message?: string
   createAt?: firebase.firestore.Timestamp
@@ -47,7 +47,7 @@ export interface QAndA {
   id?: string
   lectureId: string
   userId: string
-  displayName?: string
+  userName?: string
   question: string
   answer?: CommentNoReply[]
   status?: number

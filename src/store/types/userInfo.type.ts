@@ -3,7 +3,7 @@ import firebase from 'firebase/app'
 
 export interface UserInfo {
   userInfo: MyUser
-  setDisplayName: (displayName: string) => void
+  setUserName: (userName: string) => void
   setPhotoURL: (photoURL: string) => void
   setUserId: (userId: string) => void
   setProviderId: (providerId: string) => void

@@ -24,14 +24,14 @@ export const dummyLectures: Lecture[] = [
         id: '1',
         lectureId: '01204341',
         userId: '62xxxxxxxx',
-        displayName: 'นาย สมศักดิ์',
+        userName: 'นาย สมศักดิ์',
         question: 'สำหรับคนถาม',
         answer: [
           {
             id: '01204341',
             lectureId: '01204341',
             userId: '62xxxxxxxx',
-            displayName: 'นาย สรวิช',
+            userName: 'นาย สรวิช',
             imageUrl: '1234',
             message: 'lorem',
           },

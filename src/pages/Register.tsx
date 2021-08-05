@@ -20,7 +20,7 @@ export const Register: React.FC = () => {
       .auth()
       .createUserWithEmailAndPassword(value.email, value.password)
       .then(userCredentail => {
-        userCredentail.user?.updateProfile({ displayName: value.username })
+        userCredentail.user?.updateProfile({ displayName: value.userName })
       })
       .then(() => history.push('/success'))
       .catch(error => {
@@ -43,7 +43,7 @@ export const Register: React.FC = () => {
         />
       )}
       <Form onFinish={onFinish}>
-        <Form.Item name="username">
+        <Form.Item name="userName">
           <Input placeholder="username" />
         </Form.Item>
         <Form.Item

@@ -42,7 +42,7 @@ export interface ReviewDTO {
   reviewId: string
   lectureId: string
   userId: string
-  displayName?: string
+  userName?: string
   imageUrl?: string
   rating: number
   message?: string
@@ -52,7 +52,7 @@ export interface EditReviewDTO {
   reviewId: string
   lectureId: string
   userId: string
-  displayName?: string
+  userName?: string
   imageUrl?: string
   rating?: number
   message?: string
@@ -64,7 +64,7 @@ export interface QAndADTO {
   qaId?: string
   lectureId: string
   userId: string
-  displayName?: string
+  userName?: string
   imageUrl?: string
   question: string
   answer?: string[]
@@ -75,7 +75,7 @@ export interface EditQAndADTO {
   qaId?: string
   lectureId: string
   userId: string
-  displayName?: string
+  userName?: string
   imageUrl?: string
   question: string
   answer?: string[]
@@ -88,7 +88,7 @@ export interface CommentDTO {
   commentId: string
   lectureId: string
   userId: string
-  displayName?: string
+  userName?: string
   imageUrl?: string
   message?: string
   reply?: string[]
@@ -98,7 +98,7 @@ export interface EditCommentDTO {
   commentId: string
   lectureId: string
   userId: string
-  displayName?: string
+  userName?: string
   imageUrl?: string
   message?: string
   reply?: string[]

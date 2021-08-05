@@ -11,6 +11,7 @@ export function EditComponent({ onfin }: any) {
 
   const onFinish = (value: any) => {
     onfin()
+    console.log(value)
   }
 
   return (
@@ -31,8 +32,11 @@ export function EditComponent({ onfin }: any) {
         <Divider>
           <p className="text-gray-400">General</p>
         </Divider>
-        <Form.Item name="displayName" rules={[{ required: true }]}>
-          <Input placeholder="username" onKeyDown={dontSubmitWhenEnter} />
+        <Form.Item>
+          <Input placeholder={userInfo.userName} disabled={true} />
+        </Form.Item>
+        <Form.Item>
+          <Input placeholder={userInfo.email} disabled={true} />
         </Form.Item>
         <Form.Item name="aboutme">
           <TextArea

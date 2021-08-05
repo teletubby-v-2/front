@@ -6,14 +6,14 @@ import { queryOperator } from './queryOperatorDTO'
 export interface CreateUserEmailDTO {
   userId: string
   email: string
-  displayName: string
+  userName: string
   password: string
 }
 
 export interface UpdateProfileDTO {
   userId: string
   photoURL?: string
-  displayName?: string
+  userName?: string
   aboutme?: string
   socialLinkIG?: string
   socialLinkFB?: string
@@ -36,7 +36,7 @@ export interface FilterUserDTO {
   queryOperator: queryOperator
   userId?: string
   email?: string
-  displayName?: string
+  userName?: string
   socialLinkIG?: string
   socialLinkFB?: string
   socialLinkYT?: string
