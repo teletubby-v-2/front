@@ -4,6 +4,7 @@ import { TModalAccount } from './types/modalAccount.type'
 export const modalAccountStore = create<TModalAccount>((set, get) => ({
   isModalVisible: false,
   isHaveAccount: false,
+  isForgotPassword: false,
   openModal: () => {
     set({ isModalVisible: true })
   },
@@ -18,8 +19,13 @@ export const modalAccountStore = create<TModalAccount>((set, get) => ({
   },
   toLogin: () => {
     set({ isHaveAccount: false })
+    set({ isForgotPassword: false })
   },
   toRegister: () => {
     set({ isHaveAccount: true })
+    set({ isForgotPassword: false })
+  },
+  toForgotPassword: () => {
+    set({ isForgotPassword: true })
   },
 }))

@@ -20,7 +20,7 @@ import { modalAccountStore } from '../../../store/modalAccount.store'
 import { UserOutlined, KeyOutlined } from '@ant-design/icons'
 
 export const Login: React.FC = () => {
-  const { toggleHaveAccount, closeModal } = modalAccountStore()
+  const { toggleHaveAccount, closeModal, toForgotPassword } = modalAccountStore()
   const { authError, setAuthError } = errorStore()
 
   const history = useHistory()
@@ -146,13 +146,9 @@ export const Login: React.FC = () => {
             <a className="text-blue-500" onClick={toggleHaveAccount}>
               no account
             </a>
-            <a
-              href="#/forgotpassword"
-              onClick={closeModal}
-              className="flex justify-end mb-2 text-blue-500 "
-            >
+            <p onClick={toForgotPassword} className="flex justify-end mb-2 text-blue-500 ">
               forgot password?
-            </a>
+            </p>
           </div>
           <Form.Item>
             <Button type="primary" htmlType="submit" size="large" block loading={isLoading}>
