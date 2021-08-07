@@ -1,47 +1,37 @@
 import firebase from 'firebase/app'
 
-import { MyUser } from '../interface/myUser.interface'
-import { queryOperator } from './queryOperatorDTO'
+import { MyUser, SocialLink } from '../interface/myUser.interface'
+import { queryOperator } from './queryOperator.dto'
 
 export interface CreateUserEmailDTO {
   userId: string
   email: string
   userName: string
-  password: string
+  createAt?: firebase.firestore.Timestamp
+  updateAt?: firebase.firestore.Timestamp
 }
 
 export interface UpdateProfileDTO {
   userId: string
-  photoURL?: string
+  imageUrl?: string
   userName?: string
-  aboutme?: string
-  socialLinkIG?: string
-  socialLinkFB?: string
-  socialLinkYT?: string
-  donatePicture?: string
-  aboutDonate?: string
-
-  // ต้องแยกส่วนหรือป่าว
-  // likedLectureId?: string[] //lectureId
-  // followers?: string[] //userId
-  // following?: string[] //userId
-  // lectureCount?: number
-  // notificationCount?: number
-  // notificationUnreadCount?: number
+  socialLink: SocialLink[]
+  donateImage?: string
+  donateDescription?: string
+  createAt?: firebase.firestore.Timestamp
+  updateAt?: firebase.firestore.Timestamp
 }
 
 export interface MyUserDTO extends MyUser {} //รวมProfile
 
 export interface FilterUserDTO {
   queryOperator: queryOperator
-  userId?: string
-  email?: string
-  userName?: string
-  socialLinkIG?: string
-  socialLinkFB?: string
-  socialLinkYT?: string
-  likedLectureId?: string[]
-  followers?: string[]
-  following?: string[]
-  lectureCount?: number
+  userId?: string | [queryOperator, string]
+  email?: string | [queryOperator, string]
+  userName?: string | [queryOperator, string]
+  socialLink?: SocialLink[] | [queryOperator, SocialLink[]]
+  followLecture?: string[] | [queryOperator, string[]]
+  followers?: string[] | [queryOperator, string[]]
+  following?: string[] | [queryOperator, string[]]
+  lectureCount?: number | [queryOperator, number]
 }

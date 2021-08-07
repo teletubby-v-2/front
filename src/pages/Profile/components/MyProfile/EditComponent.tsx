@@ -19,9 +19,10 @@ export interface EditComponentProps {
 export const EditComponent: React.FC<EditComponentProps> = props => {
   const { userInfo } = userInfoStore()
   const { TextArea } = Input
+  const { onClose } = props
 
   const onFinish = (value: UpdateValue) => {
-    props.onClose
+    onClose()
     console.log(value)
     /* TODO: update profile */
   }
@@ -29,7 +30,7 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
   return (
     <div className="mx-10 my-10">
       <h1 className="text-center text-2xl font-black">Edit Profile</h1>
-      <img src={userInfo.photoURL} className="my-8 mx-auto" width="200" />
+      <img src={userInfo.imageUrl} className="my-8 mx-auto" width="200" />
       <Form onFinish={onFinish} initialValues={userInfo}>
         <div className="text-center">
           <Form.Item>
@@ -91,7 +92,7 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
           <Button type="primary" htmlType="submit" size="large" className="mx-4">
             Save
           </Button>
-          <Button type="primary" size="large" onClick={props.onClose} className="mx-4">
+          <Button type="primary" size="large" onClick={onClose} className="mx-4">
             Cancel
           </Button>
         </Form.Item>
