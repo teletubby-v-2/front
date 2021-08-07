@@ -5,13 +5,25 @@ import { userInfoStore } from '../../../../store/user.store'
 import { firebaseApp } from '../../../../config/firebase'
 import { dontSubmitWhenEnter } from '../../../../utils/eventManage'
 
-export function EditComponent({ onfin }: any) {
+export interface UpdateValue {
+  aboutme: string
+  instagram: string
+  twitter: string
+  youtube: string
+}
+
+export interface EditComponentProps {
+  onClose: () => void
+}
+
+export const EditComponent: React.FC<EditComponentProps> = props => {
   const { userInfo } = userInfoStore()
   const { TextArea } = Input
 
-  const onFinish = (value: any) => {
-    onfin()
+  const onFinish = (value: UpdateValue) => {
+    props.onClose
     console.log(value)
+    /* TODO: update profile */
   }
 
   return (
@@ -22,6 +34,8 @@ export function EditComponent({ onfin }: any) {
         <div className="text-center">
           <Form.Item>
             <Upload>
+              {' '}
+              {/* TODO: upload Profile picture */}
               <Button className="w-48">
                 <UploadOutlined />
                 change Image
@@ -77,14 +91,7 @@ export function EditComponent({ onfin }: any) {
           <Button type="primary" htmlType="submit" size="large" className="mx-4">
             Save
           </Button>
-          <Button
-            type="primary"
-            size="large"
-            onClick={() => {
-              onfin()
-            }}
-            className="mx-4"
-          >
+          <Button type="primary" size="large" onClick={props.onClose} className="mx-4">
             Cancel
           </Button>
         </Form.Item>

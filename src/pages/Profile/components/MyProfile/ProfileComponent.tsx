@@ -3,7 +3,11 @@ import React from 'react'
 import { DashOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../../../store/user.store'
 
-export function ProfileComponent({ onEdit }: any) {
+export interface ProfileComponentProps {
+  onEdit: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
+}
+
+export const ProfileComponent: React.FC<ProfileComponentProps> = props => {
   const { userInfo } = userInfoStore()
 
   return (
@@ -11,7 +15,7 @@ export function ProfileComponent({ onEdit }: any) {
       <h1 className="text-center text-2xl font-black ">{userInfo.userName}</h1>
       <img src={userInfo.photoURL} className="my-8 mx-auto" width="200" />
       <div className="text-center space-x-4">
-        <Button className="w-48" onClick={onEdit}>
+        <Button className="w-48" onClick={props.onEdit}>
           Edit
         </Button>
         <Button>
@@ -36,16 +40,19 @@ export function ProfileComponent({ onEdit }: any) {
       </Divider>
       <ul className="list-none">
         <li>
-          <p>Instagram: </p>
-          <a href=""></a>
+          <p>
+            Instagram: <a href=""></a>
+          </p>
         </li>
         <li>
-          <p>Facebook: </p>
-          <a href=""></a>
+          <p>
+            Facebook: <a href=""></a>
+          </p>
         </li>
         <li>
-          <p>Youtube:</p>
-          <a href=""></a>
+          <p>
+            Youtube: <a href=""></a>
+          </p>
         </li>
       </ul>
     </div>
