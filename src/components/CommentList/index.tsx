@@ -1,8 +1,8 @@
 import { List, Avatar, ListProps } from 'antd'
 import React from 'react'
-import { CommentNoReply, QAndA, Review } from '../../constants/interface/lecture.interface'
-export interface CommentListProps extends ListProps<QAndA | CommentNoReply | Comment | Review> {
-  dataType?: 'QAndA' | 'CommentNoReply' | 'Comment' | 'Review'
+import { QAndA, Review } from '../../constants/interface/lecture.interface'
+export interface CommentListProps extends ListProps<QAndA | Comment | Review> {
+  dataType?: 'QAndA' | 'Comment' | 'Review'
 }
 // TODO: ยังไม่เสร็จ
 export const CommentList: React.FC<CommentListProps> = props => {

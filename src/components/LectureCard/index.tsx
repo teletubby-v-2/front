@@ -1,6 +1,6 @@
 import { Card, CardProps } from 'antd'
 import React from 'react'
-import { Lecture } from '../../../constants/interface/lecture.interface'
+import { Lecture } from '../../constants/interface/lecture.interface'
 
 export interface LectureCardProps extends CardProps {
   data?: Lecture
