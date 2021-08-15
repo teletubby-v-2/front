@@ -69,7 +69,7 @@ export const Register: React.FC = () => {
           </Button>
         </Form.Item>
       </Form>
-      <a href="#/login" className="text-blue-500">
+      <a href="/login" className="text-blue-500">
         already have account
       </a>
     </div>

@@ -143,7 +143,7 @@ export const Login: React.FC = () => {
               no account
             </a>
             <a
-              href="#/forgotpassword"
+              href="/forgotpassword"
               onClick={closeModal}
               className="flex justify-end mb-2 text-blue-500 "
             >

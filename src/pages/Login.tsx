@@ -123,7 +123,7 @@ export const Login: React.FC = () => {
           <Form.Item className="mb-1" name="password">
             <Input.Password placeholder="password" />
           </Form.Item>
-          <a href="#/forgotpassword" className="flex justify-end mb-2 text-blue-500 text-xs">
+          <a href="/forgotpassword" className="flex justify-end mb-2 text-blue-500 text-xs">
             forgot password
           </a>
           <Form.Item className="mb-3">
@@ -158,7 +158,7 @@ export const Login: React.FC = () => {
           </a>
         </Space>
         <br />
-        <a href="#/register" className="text-blue-500">
+        <a href="/register" className="text-blue-500">
           no account
         </a>
       </div>
