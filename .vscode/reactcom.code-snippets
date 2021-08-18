@@ -1,0 +1,19 @@
+{
+  "React Component with props": {
+    "scope": "javascriptreact, typescriptreact, javascript, typescript",
+    "prefix": ["reactcom", "rc"],
+    "body": [
+      "import React from 'react'",
+      "",
+      "export const ${1:${TM_DIRECTORY/.*[\\\\|\\/]+(.*)/$1/}}:React.FC = () => {",
+      "\treturn (",
+      "\t\t<div>",
+      "\t\t\t$0",
+      "\t\t</div>",
+      "\t)",
+      "}",
+      ""
+    ],
+    "description": "Snippet for creating react component"
+  }
+}
