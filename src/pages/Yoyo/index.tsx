@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { firestore } from '../../config/firebase'
 import { CreateLectureDTO, UpdateLectureDTO } from '../../constants/dto/lecture.dto'
 import { createLecture, deleteLecture, updateLecture } from '../../service/lectures'
+import { convertTimestampToTime } from '../../utils/time'
 
 const Yoyo: React.FC = () => {
   const testCreateLecture = () => {
@@ -50,7 +51,7 @@ const Yoyo: React.FC = () => {
   useEffect(() => {
     firestore
       .collection('Lectures')
-      .orderBy('createAt', 'desc')
+      .orderBy('createAt')
       .limit(5)
       .onSnapshot(querySnapshot => {
         querySnapshot.docChanges().forEach(change => {
@@ -119,7 +120,11 @@ const Yoyo: React.FC = () => {
             ]}
           >
             <Meta title={lecture?.lectureTitle} description={lecture?.description} />
-            <p className="text-right mt-4 mb-2">{lecture.createAt?.toDate().toDateString()}</p>
+            <p className="text-right mt-4 mb-2">
+              {lecture.createAt?.toDate().toDateString()}
+              {'    '}
+              {convertTimestampToTime(lecture.createAt?.toDate() as Date)}
+            </p>
           </Card>
         ))}
       </div>
