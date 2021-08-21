@@ -18,19 +18,7 @@ export interface PostLectureDTO {
   updateAt: firebase.firestore.Timestamp
 }
 
-export interface EditLectureDTO {
-  lectureId?: string
-  userId?: string
-  subjectId?: string
-  lectureTitle?: string
-  description?: string
-  isMid?: boolean
-  isFinal?: boolean
-  imagesUrl: string[]
-  tags: string[]
-  createAt?: firebase.firestore.Timestamp
-  updateAt?: firebase.firestore.Timestamp
-}
+export interface EditLectureDTO extends Partial<PostLectureDTO> {}
 
 export interface LectureDTO extends Lecture {}
 

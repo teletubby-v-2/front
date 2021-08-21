@@ -1,11 +1,15 @@
 import Form from 'antd/lib/form'
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface'
 import { useEffect, useState } from 'react'
-import { Lecture } from '../../../../../constants/interface/lecture.interface'
-import { deleteImages, uploadImage } from '../../../../../service/storage'
-import { removeUndefined } from '../../../../../utils/object'
+import { EditLectureDTO } from '../../../constants/dto/lecture.dto'
+import { Lecture } from '../../../constants/interface/lecture.interface'
+import { deleteImages, uploadImage } from '../../../service/storage'
+import { removeUndefined } from '../../../utils/object'
 
-export const useLectureForm = (addOwnLecture: (lecture: Lecture) => void) => {
+export const useLectureForm = (
+  addOwnLecture: (lecture: Lecture) => void,
+  initData?: EditLectureDTO,
+) => {
   const [form] = Form.useForm()
   const [isOnCreate, setIsOnCreate] = useState(false)
   const [inputValue, setInputValue] = useState('')
@@ -23,8 +27,8 @@ export const useLectureForm = (addOwnLecture: (lecture: Lecture) => void) => {
   useEffect(() => {
     if (!isOnCreate) {
       form.resetFields()
-      form.setFieldsValue({ tags: [] })
-      form.setFieldsValue({ imageUrl: [] })
+      form.setFieldsValue({ tags: initData?.tags || [] })
+      form.setFieldsValue({ imageUrl: initData?.imagesUrl || [] })
       setFileList([])
     }
   }, [isOnCreate])
@@ -113,7 +117,7 @@ export const useLectureForm = (addOwnLecture: (lecture: Lecture) => void) => {
   }
 
   const onFinish = () => {
-    const value: any = removeUndefined({
+    const value: Partial<Lecture> = removeUndefined({
       ...form.getFieldsValue(),
       imageUrl: fileList.map(file => file.url),
     })
