@@ -8,19 +8,23 @@ import {
   signInWithFacebook,
   signInWithGoogle,
   signInWithTwitter,
-} from '../../../service/auth'
-import facebookLogo from '../../../assets/images/facebook_logo.png'
-import googleLogo from '../../../assets/images/google_logo.png'
-import twitterLogo from '../../../assets/images/twitter_logo.png'
-import { userInfoStore } from '../../../store/user.store'
-import { firebaseApp } from '../../../config/firebase'
-import { AuthError } from '../../../constants/interface/error.interface'
-import { errorStore } from '../../../store/error.store'
-import { modalAccountStore } from '../../../store/modalAccount.store'
+} from '../../service/auth'
+import facebookLogo from '../../assets/images/facebook_logo.png'
+import googleLogo from '../../assets/images/google_logo.png'
+import twitterLogo from '../../assets/images/twitter_logo.png'
+import { firebaseApp } from '../../config/firebase'
+import { AuthError } from '../../constants/interface/error.interface'
+import { errorStore } from '../../store/error.store'
 import { UserOutlined, KeyOutlined } from '@ant-design/icons'
 
-export const Login: React.FC = () => {
-  const { toggleHaveAccount, closeModal } = modalAccountStore()
+export interface LoginFormProps {
+  className?: string
+  callback?: () => void
+  modal?: boolean
+  closeModal?: () => void
+}
+
+export const LoginForm: React.FC<LoginFormProps> = ({ className, callback, modal, closeModal }) => {
   const { authError, setAuthError } = errorStore()
 
   const history = useHistory()
@@ -32,8 +36,8 @@ export const Login: React.FC = () => {
     setIsLoading(true)
     signInWithEmailAndPassword(value.email, value.password)
       .then(() => {
-        closeModal()
-        history.push('/success')
+        closeModal && closeModal()
+        history.push('/home')
       })
       .catch((error: AuthError) => {
         setMessage(error.message)
@@ -60,59 +64,52 @@ export const Login: React.FC = () => {
 
   useEffect(() => {
     if (method != '') {
-      warning()
+      Modal.warning({
+        title: `ล็อคอินไม่สำเร็จ`,
+        content: `แอคเค้าของคุณเคยล็อคอินด้วยรูปแบบของ${method}ไปแล้ว ต้องการที่จะเชื่อมต่อแอคเคาต์ไหม`,
+        okText: 'เชื่อมต่อแอคเคาต์',
+        onOk: () => {
+          if (method === 'อีเมล') {
+            closeModal && closeModal()
+            history.push('/linkAccount')
+          } else {
+            linkAccountWithProvider(
+              authError.email as string,
+              authError.credential as firebase.auth.AuthCredential,
+            ).then(() => {
+              history.push('/home')
+              closeModal && closeModal()
+            })
+          }
+        },
+        closable: true,
+      })
       setMethod('')
     }
-  }, [method])
-
-  const linkAccount = () => {
-    if (method === 'อีเมล') {
-      closeModal()
-      history.push('/linkAccount')
-    } else {
-      linkAccountWithProvider(
-        authError.email as string,
-        authError.credential as firebase.auth.AuthCredential,
-      ).then(() => {
-        history.push('/success')
-        closeModal()
-      })
-    }
-  }
-
-  function warning() {
-    Modal.warning({
-      title: `ล็อคอินไม่สำเร็จ`,
-      content: `แอคเค้าของคุณเคยล็อคอินด้วยรูปแบบของ${method}ไปแล้ว ต้องการที่จะเชื่อมต่อแอคเคาต์ไหม`,
-      okText: 'เชื่อมต่อแอคเคาต์',
-      onOk: () => {
-        linkAccount()
-      },
-      closable: true,
-    })
-  }
+  }, [authError.credential, authError.email, closeModal, history, method])
 
   const signInProvider = (provider: string) => {
     switch (provider) {
       case 'google':
         return signInWithGoogle()
           .then(() => {
-            history.push('/success')
-            closeModal()
+            history.push('/home')
+            closeModal && closeModal()
           })
           .catch((error: AuthError) => manageSameLogInAccount(error))
       case 'facebook':
         return signInWithFacebook()
           .then(() => {
-            closeModal()
-            history.push('/success')
+            closeModal && closeModal()
+
+            history.push('/home')
           })
           .catch((error: AuthError) => manageSameLogInAccount(error))
       case 'twitter':
         return signInWithTwitter()
           .then(() => {
-            history.push('/success')
-            closeModal()
+            history.push('/home')
+            closeModal && closeModal()
           })
           .catch((error: AuthError) => manageSameLogInAccount(error))
     }
@@ -120,7 +117,7 @@ export const Login: React.FC = () => {
 
   return (
     <>
-      <div>
+      <div className={className}>
         <h1 className="text-3xl font-bold	mb-5 text-center">Sign In</h1>
         {message && (
           <Alert
@@ -139,7 +136,10 @@ export const Login: React.FC = () => {
             <Input.Password prefix={<KeyOutlined />} placeholder="password" size="large" />
           </Form.Item>
           <div className="flex justify-between px-1">
-            <a className="text-blue-500" onClick={toggleHaveAccount}>
+            <a
+              className="text-blue-500"
+              onClick={() => (modal ? callback && callback() : history.push('/register'))}
+            >
               no account
             </a>
             <a

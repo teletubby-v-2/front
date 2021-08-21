@@ -2,11 +2,11 @@ import { Button, Result, Avatar } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import firebase from 'firebase'
-import { firebaseApp } from '../config/firebase'
-import { logout } from '../service/auth'
-import noUser from '../assets/images/no_user.png'
+import { firebaseApp } from '../../config/firebase'
+import { logout } from '../../service/auth'
+import noUser from '../../assets/images/no_user.png'
 
-export const Success: React.FC = () => {
+export const Home: React.FC = () => {
   const history = useHistory()
   const [css, setCss] = useState('')
   const [user, setUser] = useState<firebase.User>()
