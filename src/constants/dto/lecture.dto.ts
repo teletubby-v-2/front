@@ -49,7 +49,7 @@ export interface UpdateReviewDTO {
 
 //-------------------------- Q&A -------------------------
 
-export interface QAndADTO extends QAndA {}
+export interface CreateQAndADTO extends QAndA {}
 
 export interface UpdateQAndADTO {
   qaId: string
