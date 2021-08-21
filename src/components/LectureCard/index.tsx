@@ -16,7 +16,7 @@ export const LectureCard: React.FC<LectureCardProps> = props => {
     <Card
       hoverable
       //TODO: รอ design ทำ card-lecture ให้ final ก่อน
-      // cover={<img alt="example" src={data?.imagesUrl? data.imagesUrl[0]:''}/>}
+      // cover={<img alt="example" src={data?.imageUrl? data.imageUrl[0]:''}/>}
       className={className}
       {...restCrardProps}
     >

@@ -3,7 +3,7 @@ import firebase from 'firebase/app'
 export interface Lecture {
   lectureId: string
   userId: string
-  imagesUrl: string[]
+  imageUrl: string[]
   subjectId: string
   viewCount: number
   sumRating: number

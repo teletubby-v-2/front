@@ -12,7 +12,7 @@ export interface CreateLectureDTO {
   description?: string
   isMid: boolean
   isFinal: boolean
-  imagesUrl: string[]
+  imageUrl: string[]
   tags: string[]
   createAt: firebase.firestore.Timestamp
   updateAt: firebase.firestore.Timestamp
@@ -26,10 +26,10 @@ export interface UpdateLectureDTO {
   description?: string
   isMid?: boolean
   isFinal?: boolean
-  imagesUrl: string[]
-  tags: string[]
+  imageUrl?: string[]
+  tags?: string[]
   createAt?: firebase.firestore.Timestamp
-  updateAt?: firebase.firestore.Timestamp
+  updateAt: firebase.firestore.Timestamp
 }
 
 export interface LectureDTO extends Lecture {}
