@@ -17,5 +17,8 @@ async function createLecture(lecture: CreateLectureDTO): Promise<any> {
 export { createLecture }
 
 async function updateLecture(lecture: UpdateLectureDTO): Promise<any> {
-  return
+  const data = {
+    ...lecture,
+  }
+  return await lectureCollection.doc()
 }
