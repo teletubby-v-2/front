@@ -13,7 +13,7 @@ export const ForgotPassword: React.FC = () => {
       const email = value.email
       await firebase.auth().sendPasswordResetEmail(email)
       setIsReset(true)
-      history.push('/login')
+      // history.push('/login')
     } catch (error: any) {
       const errorCode = error.code
       const errorMessage = error.message
@@ -25,7 +25,7 @@ export const ForgotPassword: React.FC = () => {
     <div className="App grid gap-y-4 text-left">
       {isReset ? (
         <>
-          <h1 className="text-3xl font-bold ">Send reset password</h1>
+          <h1 className="font-bold ">Send reset password</h1>
           <Link to="/login" className="flex justify-end mb-2 text-blue-500 text-xs mr-1">
             Back to Sign in
           </Link>
@@ -41,7 +41,7 @@ export const ForgotPassword: React.FC = () => {
               style={{ textAlign: 'left', marginBottom: 10 }}
             />
           )}
-          <h1 className="text-3xl font-bold ">Forgot your password?</h1>
+          <h1 className="font-bold ">Forgot your password?</h1>
           <Form layout="vertical" onFinish={resetPassword}>
             <Form.Item
               className="text-left"

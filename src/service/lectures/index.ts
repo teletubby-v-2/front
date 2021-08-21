@@ -9,7 +9,7 @@ async function createLecture(lecture: CreateLectureDTO): Promise<void> {
   const data = {
     ...lecture,
     userId: firebaseApp.auth().currentUser?.uid,
-    createdAt: timeStamp,
+    createAt: timeStamp,
     updateAt: timeStamp,
     viewCount: 0,
     sumRating: 0,
