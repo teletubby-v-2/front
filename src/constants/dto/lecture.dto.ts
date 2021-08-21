@@ -36,7 +36,7 @@ export interface LectureDTO extends Lecture {}
 
 //-------------------------- review -------------------------
 
-export interface ReviewDTO extends Review {}
+export interface CreateReviewDTO extends Review {}
 export interface UpdateReviewDTO {
   reviewId: string
   lectureId: string
