@@ -31,4 +31,4 @@ async function deleteLecture(lectureId: string) {
   return await lectureCollection.doc(lectureId).delete()
 }
 
-export { createLecture, updateLecture }
+export { createLecture, updateLecture, deleteLecture }
