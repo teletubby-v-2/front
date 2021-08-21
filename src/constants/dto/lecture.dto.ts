@@ -38,9 +38,9 @@ export interface LectureDTO extends Lecture {}
 
 export interface ReviewDTO extends Review {}
 export interface UpdateReviewDTO {
-  reviewId?: string
-  lectureId?: string
-  userId?: string
+  reviewId: string
+  lectureId: string
+  userId: string
   rating?: number
   message?: string
   createAt?: firebase.firestore.Timestamp
@@ -52,28 +52,28 @@ export interface UpdateReviewDTO {
 export interface QAndADTO extends QAndA {}
 
 export interface UpdateQAndADTO {
-  qaId?: string
-  lectureId?: string
-  userId?: string
+  qaId: string
+  lectureId: string
+  userId: string
   question?: string
-  answer: string[]
+  answer?: string[]
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp
 }
 
 //-------------------------- Comment -------------------------
 
-export interface CommentsDTO extends Comments {}
+export interface CreateCommentDTO extends Comments {}
 
 export interface UpdateCommentDTO {
-  id?: string
-  lectureId?: string
-  userId?: string
+  id: string
+  lectureId: string
+  userId: string
   message?: string
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp
-  canReply: boolean
-  reply: Comments[]
+  canReply?: boolean
+  reply?: Comments[]
 }
 
 //-------------------------- Filter -------------------------

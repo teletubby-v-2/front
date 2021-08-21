@@ -4,7 +4,7 @@ import { CreateLectureDTO, UpdateLectureDTO } from '../../constants/dto/lecture.
 
 const lectureCollection = firestore.collection('Lectures')
 
-async function createLecture(lecture: CreateLectureDTO): Promise<any> {
+async function createLecture(lecture: CreateLectureDTO): Promise<void> {
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
   const data = {
     ...lecture,
@@ -18,7 +18,7 @@ async function createLecture(lecture: CreateLectureDTO): Promise<any> {
   return await lectureCollection.doc().set(data)
 }
 
-async function updateLecture(lecture: UpdateLectureDTO): Promise<any> {
+async function updateLecture(lecture: UpdateLectureDTO): Promise<void> {
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
   const data = {
     ...lecture,

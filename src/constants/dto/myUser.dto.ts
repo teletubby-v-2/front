@@ -3,7 +3,7 @@ import firebase from 'firebase/app'
 import { MyUser, SocialLink } from '../interface/myUser.interface'
 import { queryOperator } from './queryOperator.dto'
 
-export interface CreateUserEmailDTO {
+export interface CreateUserDTO {
   userId: string
   email: string
   userName: string
@@ -11,7 +11,7 @@ export interface CreateUserEmailDTO {
   updateAt?: firebase.firestore.Timestamp
 }
 
-export interface UpdateProfileDTO {
+export interface UpdateUserDTO {
   userId: string
   imageUrl?: string
   userName?: string
