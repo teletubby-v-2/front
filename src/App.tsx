@@ -11,6 +11,7 @@ import {
   LectureDetail,
 } from './pages'
 import { LayoutRoute, AccountManage } from './components'
+import Yoyo from './pages/Yoyo'
 
 const App: React.FC = () => {
   return (
@@ -28,6 +29,8 @@ const App: React.FC = () => {
           <Route exact path="/linkAccount" component={LinkAccount} />
           <Route exact path="/forgotpassword" component={ForgotPassword} />
           <LayoutRoute exact path="/profile" component={Profile} />
+          {/* for test */}
+          <LayoutRoute exact path="/yoyo" component={Yoyo} />
           <Route exact path="*" component={NotFound} />
         </Switch>
       </BrowserRouter>

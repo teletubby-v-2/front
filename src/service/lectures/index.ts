@@ -14,8 +14,11 @@ async function createLecture(lecture: CreateLectureDTO): Promise<void> {
     viewCount: 0,
     sumRating: 0,
   }
-  console.log(data)
-  return await lectureCollection.doc().set(data)
+  if (firebaseApp.auth().currentUser) {
+    return await lectureCollection.doc().set(data)
+  } else {
+    throw new Error('ออดเฟล')
+  }
 }
 
 async function updateLecture(lecture: UpdateLectureDTO): Promise<void> {

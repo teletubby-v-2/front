@@ -6,21 +6,21 @@ import { queryOperator } from './queryOperator.dto'
 
 export interface CreateLectureDTO {
   lectureId?: string
-  userId: string
+  userId?: string
   subjectId: string
   lectureTitle: string
   description?: string
-  isMid: boolean
-  isFinal: boolean
+  isMid?: boolean
+  isFinal?: boolean
   imageUrl: string[]
-  tags: string[]
-  createAt: firebase.firestore.Timestamp
-  updateAt: firebase.firestore.Timestamp
+  tags?: string[]
+  createAt?: firebase.firestore.Timestamp
+  updateAt?: firebase.firestore.Timestamp
 }
 
 export interface UpdateLectureDTO {
   lectureId: string
-  userId: string
+  userId?: string
   subjectId?: string
   lectureTitle?: string
   description?: string
@@ -29,7 +29,7 @@ export interface UpdateLectureDTO {
   imageUrl?: string[]
   tags?: string[]
   createAt?: firebase.firestore.Timestamp
-  updateAt: firebase.firestore.Timestamp
+  updateAt?: firebase.firestore.Timestamp
 }
 
 export interface LectureDTO extends Lecture {}
