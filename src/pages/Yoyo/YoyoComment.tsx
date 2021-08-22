@@ -1,4 +1,4 @@
-import { Avatar, Button, Card, List } from 'antd'
+import { Avatar, Button, Card, List, Skeleton } from 'antd'
 import { Meta } from 'antd/lib/list/Item'
 import React, { useEffect, useState } from 'react'
 import { firestore } from '../../config/firebase'
@@ -14,6 +14,7 @@ const YoyoComment: React.FC = () => {
   const [count, setCount] = useState(0)
   const [lecture, setLecture] = useState<CreateLectureDTO>({} as CreateLectureDTO)
   const [commentMayo, setCommentMayo] = useState<Comments[]>([])
+  const [loading, setLoading] = useState(false)
 
   const testCreateComment = () => {
     const data = {
@@ -46,13 +47,16 @@ const YoyoComment: React.FC = () => {
   }
 
   useEffect(() => {
+    setLoading(false)
+  }, [commentMayo])
+
+  useEffect(() => {
     const yoyo = async () => {
       const mayo = await firestore.collection('Lectures').doc('qrkx0ON2xXkbj3KYsgtA').get()
       setLecture(mayo.data() as CreateLectureDTO)
       console.log(mayo)
     }
     yoyo()
-
     firestore
       .collection(Collection.Lectures)
       .doc('qrkx0ON2xXkbj3KYsgtA')
@@ -60,6 +64,7 @@ const YoyoComment: React.FC = () => {
       .orderBy('createAt')
       .onSnapshot(querySnapshot => {
         querySnapshot.docChanges().forEach(change => {
+          setLoading(true)
           const data = change.doc.data()
           if (change.type === 'added') {
             console.log('New Lecture: ', data)
@@ -150,13 +155,13 @@ const YoyoComment: React.FC = () => {
                 </a>,
               ]}
             >
-              {/* <Skeleton avatar title={false} loading={item.loading} active> */}
-              <List.Item.Meta
-                avatar={<Avatar src={item.photoURL} size="large" />}
-                title={item.username}
-                description={item.message}
-              />
-              {/* </Skeleton> */}
+              <Skeleton avatar title={false} loading={loading} active>
+                <List.Item.Meta
+                  avatar={<Avatar src={item.photoURL} size="large" />}
+                  title={item.username}
+                  description={item.message}
+                />
+              </Skeleton>
             </List.Item>
           )}
         />
