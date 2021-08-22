@@ -1,6 +1,6 @@
 export * from './AccountManage'
 export * from './LectureContainer'
-export * from './Navbar'
+// export * from './Navbar'
 export * from './Route'
 export * from './CommentList'
 export * from './LectureCard'
