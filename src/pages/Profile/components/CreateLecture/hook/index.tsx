@@ -1,7 +1,9 @@
+import { message } from 'antd'
 import Form from 'antd/lib/form'
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface'
 import { useEffect, useState } from 'react'
 import { Lecture } from '../../../../../constants/interface/lecture.interface'
+import { createLecture } from '../../../../../service/lectures'
 import { deleteImages, uploadImage } from '../../../../../service/storage'
 import { removeUndefined } from '../../../../../utils/object'
 
@@ -117,9 +119,12 @@ export const useLectureForm = (addOwnLecture: (lecture: Lecture) => void) => {
       ...form.getFieldsValue(),
       imageUrl: fileList.map(file => file.url),
     })
-    //TODO: Add เข้า DB
+    //Todo: Add เข้า DB
     addOwnLecture(value as Lecture)
     console.log(value)
+    createLecture(value)
+      .then(() => message.success('อัพได้แล้วไอสัส'))
+      .catch((err: any) => console.error(err))
     setIsOnCreate(false)
   }
 

@@ -4,7 +4,7 @@ import { queryOperator } from './queryOperator.dto'
 
 //-------------------------- Lecture -------------------------
 
-export interface PostLectureDTO {
+export interface CreateLectureDTO {
   lectureId?: string
   userId: string
   subjectId: string
@@ -18,7 +18,7 @@ export interface PostLectureDTO {
   updateAt: firebase.firestore.Timestamp
 }
 
-export interface EditLectureDTO {
+export interface UpdateLectureDTO {
   lectureId?: string
   userId?: string
   subjectId?: string
@@ -37,7 +37,7 @@ export interface LectureDTO extends Lecture {}
 //-------------------------- review -------------------------
 
 export interface ReviewDTO extends Review {}
-export interface EditReviewDTO {
+export interface UpdateReviewDTO {
   reviewId?: string
   lectureId?: string
   userId?: string
@@ -51,7 +51,7 @@ export interface EditReviewDTO {
 
 export interface QAndADTO extends QAndA {}
 
-export interface EditQAndADTO {
+export interface UpdateQAndADTO {
   qaId?: string
   lectureId?: string
   userId?: string
@@ -65,7 +65,7 @@ export interface EditQAndADTO {
 
 export interface CommentsDTO extends Comments {}
 
-export interface EditCommentDTO {
+export interface UpdateCommentDTO {
   id?: string
   lectureId?: string
   userId?: string
