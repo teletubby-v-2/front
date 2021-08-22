@@ -1,0 +1,20 @@
+{
+  "React Component": {
+    "scope": "javascriptreact, typescriptreact, javascript, typescript",
+    "prefix": ["reactcomdefault", "rcd"],
+    "body": [
+      "import React from 'react'",
+      "",
+      "const ${1:${TM_DIRECTORY/.*[\\\\|\\/]+(.*)/$1/}}:React.FC = () => {",
+      "\treturn (",
+      "\t\t<div>",
+      "\t\t\t$0",
+      "\t\t</div>",
+      "\t)",
+      "}",
+      "",
+      "export default ${1:${TM_DIRECTORY/.*[\\\\|\\/]+(.*)/$1/}}"
+    ],
+    "description": "Snippet for creating react component export defaults"
+  }
+}

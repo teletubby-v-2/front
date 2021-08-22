@@ -1,5 +1,5 @@
 import React from 'react'
-import { HashRouter, Redirect, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import {
   Login,
   Register,
@@ -10,12 +10,12 @@ import {
   Profile,
   LectureDetail,
 } from './pages'
-import { LayoutRoute, AccountManage, PrivateRoute } from './components'
+import { LayoutRoute, AccountManage } from './components'
 
 const App: React.FC = () => {
   return (
     <>
-      <HashRouter>
+      <BrowserRouter>
         <AccountManage />
         <Switch>
           <Route exact path="/">
@@ -30,7 +30,7 @@ const App: React.FC = () => {
           <LayoutRoute exact path="/profile" component={Profile} />
           <Route exact path="*" component={NotFound} />
         </Switch>
-      </HashRouter>
+      </BrowserRouter>
     </>
   )
 }
