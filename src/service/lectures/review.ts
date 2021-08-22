@@ -31,7 +31,7 @@ async function updateReview(review: UpdateReviewDTO): Promise<void> {
     createAt: timeStamp,
     updateAt: timeStamp,
   }
-  return await reviewCollection.doc(data.lectureId).update(data)
+  return await reviewCollection.doc(data.reviewId).update(data)
 }
 
 async function daleteReview(reviewId: string, lectureId: string) {

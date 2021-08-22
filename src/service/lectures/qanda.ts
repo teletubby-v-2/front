@@ -31,7 +31,7 @@ async function updateQAndA(qanda: UpdateQAndADTO): Promise<void> {
     createAt: timeStamp,
     updateAt: timeStamp,
   }
-  return await qAndACollection.doc(data.lectureId).update(data)
+  return await qAndACollection.doc(data.qaId).update(data)
 }
 
 async function daleteQAndA(qaId: string, lectureId: string) {
