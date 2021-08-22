@@ -28,15 +28,17 @@ async function createComment(comment: CreateCommentDTO, canReply = false): Promi
 async function updateComment(comment: UpdateCommentDTO): Promise<void> {
   const commentCollection = getCommentCollection(comment?.lectureId as string)
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
+  const id = comment.id
   const data = {
     ...comment,
-    createAt: timeStamp,
     updateAt: timeStamp,
   }
-  return await commentCollection.doc(data.lectureId).update(data)
+  delete data['id']
+  console.log(data)
+  return await commentCollection.doc(id).update(data)
 }
 
-async function deleteComment(id: string, lectureId: string) {
+async function deleteComment(lectureId: string, id: string) {
   const commentCollection = getCommentCollection(lectureId)
   return await commentCollection.doc(id).delete()
 }

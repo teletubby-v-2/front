@@ -24,11 +24,13 @@ export interface Lecture {
 export interface Comments {
   id?: string
   lectureId: string
-  userId: string
+  userId?: string
+  username?: string
+  photoURL?: string
   message: string
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp
-  canReply: boolean
+  canReply?: boolean
   reply: Comments[]
 }
 

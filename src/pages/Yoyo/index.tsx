@@ -5,48 +5,49 @@ import { firestore } from '../../config/firebase'
 import { CreateLectureDTO, UpdateLectureDTO } from '../../constants/dto/lecture.dto'
 import { createLecture, deleteLecture, updateLecture } from '../../service/lectures'
 import { convertTimestampToTime } from '../../utils/time'
+import { description, img, lectureTitle } from './index.dummy'
 
 const Yoyo: React.FC = () => {
+  const [count, setCount] = useState(0)
+  const [lectureMayo, setLectureMayo] = useState<CreateLectureDTO[]>([])
+
   const testCreateLecture = () => {
-    const img = [
-      'https://firebasestorage.googleapis.com/v0/b/teletubby-v2.appspot.com/o/images%2F063765080734.889000000%E0%B8%9F%E0%B9%89%E0%B8%B2%E0%B8%8A%E0%B8%B2%E0%B8%A2%20%E0%B8%AA%E0%B8%B9%E0%B8%97.jpg?alt=media&token=a8b8f907-9ee9-400a-abce-1bfbf31eea6d',
-      'https://cdn.discordapp.com/attachments/867750800193224725/867750850927001630/unknown.png',
-      'https://firebasestorage.googleapis.com/v0/b/teletubby-v2.appspot.com/o/images%2F063765076948.626000000image0.gif?alt=media&token=503299cc-bc0c-4f68-b438-3548daa06d9a',
-      'https://firebasestorage.googleapis.com/v0/b/teletubby-v2.appspot.com/o/images%2F063765080973.657000000duke.png?alt=media&token=2f3dc116-c9c7-4d6f-927f-2845ea7a138d',
-      'https://firebasestorage.googleapis.com/v0/b/teletubby-v2.appspot.com/o/images%2F063765081936.101000000pug-dance.gif?alt=media&token=305837c4-b80c-44f9-a2e6-ff275663e43a',
-    ]
     const data: CreateLectureDTO = {
       lectureId: '01204341',
-      imageUrl: [img[count]],
+      imageUrl: [img[count % 5]],
       subjectId: 'พาสาไทย',
-      lectureTitle: 'This is thai lecture',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi laudantium iste, ut exercitationem obcaecati amet, accusamus dolores repudiandae quidem alias sed. Cum sunt corrupti dolore debitis sapiente voluptates veniam consequuntur.',
+      lectureTitle: lectureTitle[count % 7],
+      description: description[count % 6],
       isMid: true,
       isFinal: false,
       tags: ['ไทยๆ'],
     }
-    setCount((count + 1) % 5)
+    setCount(count + 1)
     createLecture(data)
   }
 
-  const testUpdateLecture = () => {
+  const testUpdateLecture = (id: string) => {
     const data: UpdateLectureDTO = {
-      lectureId: select,
-      description:
-        'หิวแดกข้าว ทำงานตอนตีสามโคตรหิวเลยโว้ยยยยย หิวแบบหิวเหี้ยๆ ละร้านมันปิด กูสั่งไม่ได้อสสสส หิววว ไอเหี้ยตู่ไมไม่เอาวัคซีนเข้ามา อส Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi laudantium iste, dolore debitis sapiente voluptates veniam consequuntur. ',
-      lectureTitle: 'หิวววววววววว',
+      lectureId: id,
+      description: description[count % 6],
+      lectureTitle: lectureTitle[count % 7],
     }
+    setCount(count + 1)
     updateLecture(data)
   }
 
-  const testDeleteLecture = () => {
-    deleteLecture(select)
+  const testDeleteLecture = (id: string) => {
+    deleteLecture(id)
   }
 
-  const [count, setCount] = useState(0)
-  const [lectureMayo, setLectureMayo] = useState<CreateLectureDTO[]>([])
-  const [select, setSelect] = useState<string>('')
+  const handleSelectFor = (action: 'delete' | 'update', id: string) => {
+    switch (action) {
+      case 'delete':
+        return testDeleteLecture(id)
+      case 'update':
+        return testUpdateLecture(id)
+    }
+  }
 
   useEffect(() => {
     firestore
@@ -55,27 +56,28 @@ const Yoyo: React.FC = () => {
       .limit(5)
       .onSnapshot(querySnapshot => {
         querySnapshot.docChanges().forEach(change => {
+          const data = change.doc.data()
           if (change.type === 'added') {
-            console.log('New Lecture: ', change.doc.data())
+            console.log('New Lecture: ', data)
             setLectureMayo(lectureMap => [
-              { ...change.doc.data(), lectureId: change.doc.id } as CreateLectureDTO,
               ...lectureMap,
+              { ...data, lectureId: change.doc.id } as CreateLectureDTO,
             ])
           }
           if (change.type === 'modified') {
-            console.log('Modified Lecture: ', change.doc.data())
+            console.log('Modified Lecture: ', data)
             setLectureMayo(lectureMap => {
               const index = lectureMap.findIndex(lecture => lecture.lectureId === change.doc.id)
 
               return [
                 ...lectureMap.slice(0, index),
-                { ...change.doc.data(), lectureId: change.doc.id } as CreateLectureDTO,
+                { ...data, lectureId: change.doc.id } as CreateLectureDTO,
                 ...lectureMap.slice(index + 1),
               ]
             })
           }
           if (change.type === 'removed') {
-            console.log('Removed Lecture: ', change.doc.data())
+            console.log('Removed Lecture: ', data)
             setLectureMayo(lectureMap =>
               lectureMap.filter(lecture => lecture.lectureId !== change.doc.id),
             )
@@ -90,32 +92,27 @@ const Yoyo: React.FC = () => {
         <h1 className="font-bold text-2xl">path สำหรับ test lecture</h1>
         <ul className="text-lg">
           <li>create lecture -{'>'} สร้าง lecture</li>
-          <li>update lecture -{'>'} กด select เลือก lecture แล้วกดเพื่อ update</li>
-          <li>delete lecture -{'>'} กดเหมือน update อะแต่ลบ</li>
+          <li>update -{'>'} update title กับ des</li>
+          <li>delete -{'>'} ลบบบบบบบบบบบบบบบบบ</li>
         </ul>
       </div>
       <div className="flex justify-center space-x-2">
         <Button size="large" type="primary" onClick={testCreateLecture}>
           create Lecture
         </Button>
-
-        <Button size="large" type="primary" onClick={testUpdateLecture}>
-          update Lecture
-        </Button>
-
-        <Button size="large" type="primary" onClick={testDeleteLecture}>
-          delete Lecture
-        </Button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-5 sm:grid-cols-3 gap-5 container mx-auto">
+      <div className="grid grid-cols-5 gap-5 container mx-auto">
         {lectureMayo.map(lecture => (
           <Card
             className=""
             key={lecture.lectureId}
             cover={<img className="h-96 object-cover" alt="cock" src={lecture.imageUrl[0]} />}
             actions={[
-              <div key="1" onClick={() => setSelect(lecture.lectureId || '')}>
-                select
+              <div key="2" onClick={() => handleSelectFor('delete', lecture.lectureId || '')}>
+                delete
+              </div>,
+              <div key="3" onClick={() => handleSelectFor('update', lecture.lectureId || '')}>
+                update
               </div>,
             ]}
           >

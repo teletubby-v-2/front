@@ -66,9 +66,9 @@ export interface UpdateQAndADTO {
 export interface CreateCommentDTO extends Comments {}
 
 export interface UpdateCommentDTO {
-  id: string
+  id?: string
   lectureId: string
-  userId: string
+  userId?: string
   message?: string
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp
