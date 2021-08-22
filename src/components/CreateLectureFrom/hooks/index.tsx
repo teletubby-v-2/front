@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { EditLectureDTO } from '../../../constants/dto/lecture.dto'
 import { Lecture } from '../../../constants/interface/lecture.interface'
 import { deleteImages, uploadImage } from '../../../service/storage'
-import { removeUndefined } from '../../../utils/object'
+import { initPhoto, removeUndefined } from '../../../utils/object'
 
 export const useLectureForm = (
   addOwnLecture: (lecture: Lecture) => void,
@@ -29,7 +29,7 @@ export const useLectureForm = (
       form.resetFields()
       form.setFieldsValue({ tags: initData?.tags || [] })
       form.setFieldsValue({ imageUrl: initData?.imagesUrl || [] })
-      setFileList([])
+      setFileList(initPhoto(initData?.imagesUrl))
     }
   }, [isOnCreate])
 

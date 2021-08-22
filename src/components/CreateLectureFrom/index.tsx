@@ -27,7 +27,7 @@ export interface CreateLectureFormProps extends ModalProps {
 }
 
 export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
-  const { label = 'Add New', className, initData, ...rest } = props
+  const { label = 'Add New', className, initData = {} as EditLectureDTO, ...rest } = props
 
   const { addOwnLecture } = lectureStore()
 
