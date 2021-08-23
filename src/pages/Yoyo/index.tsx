@@ -13,7 +13,6 @@ const Yoyo: React.FC = () => {
 
   const testCreateLecture = () => {
     const data: CreateLectureDTO = {
-      lectureId: '01204341',
       imageUrl: [img[count % 5]],
       subjectId: 'พาสาไทย',
       lectureTitle: lectureTitle[count % 7],

@@ -1,7 +1,7 @@
 import firebase from 'firebase/app'
 
 export interface Lecture {
-  lectureId: string
+  lectureId?: string
   userId: string
   imageUrl: string[]
   subjectId: string

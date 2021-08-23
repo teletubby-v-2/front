@@ -2,7 +2,6 @@ import { Lecture } from '../interface/lecture.interface'
 
 export const dummyLectures: Lecture[] = [
   {
-    lectureId: '01204341',
     userId: '12345678',
     imageUrl: ['https://api.chulabook.com/images/pid-20494.jpg'],
     subjectId: 'พาสาไทย',

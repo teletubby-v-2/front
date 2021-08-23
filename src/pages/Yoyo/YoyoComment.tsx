@@ -135,7 +135,7 @@ const YoyoComment: React.FC = () => {
         </Card>
 
         <List
-          className="demo-loadmore-list w-2/6"
+          className="demo-loadmore-list w-3/6"
           size="large"
           itemLayout="horizontal"
           dataSource={commentMayo}
