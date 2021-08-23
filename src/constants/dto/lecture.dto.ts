@@ -28,9 +28,7 @@ export interface LectureDTO extends Lecture {}
 
 export interface CreateReviewDTO extends Review {}
 export interface UpdateReviewDTO extends Partial<CreateReviewDTO> {
-  reviewId: string
   lectureId: string
-  userId: string
 }
 
 //-------------------------- Q&A -------------------------
@@ -38,9 +36,7 @@ export interface UpdateReviewDTO extends Partial<CreateReviewDTO> {
 export interface CreateQAndADTO extends QAndA {}
 
 export interface UpdateQAndADTO extends Partial<CreateQAndADTO> {
-  qaId: string
   lectureId: string
-  userId: string
 }
 
 //-------------------------- Comment -------------------------
