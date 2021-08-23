@@ -17,17 +17,17 @@ import { dontSubmitWhenEnter } from '../../utils/eventManage'
 import { dummySubjects } from '../../constants/dummyData/subject.dummy'
 import { useLectureForm } from './hooks'
 import { lectureStore } from '../../store/lecture.store'
-import { EditLectureDTO } from '../../constants/dto/lecture.dto'
+import { updateLectureDTO } from '../../constants/dto/lecture.dto'
 import { formItemLayout, myLocale } from './constants'
 
 export interface CreateLectureFormProps extends ModalProps {
   label?: string
   className?: string
-  initData?: EditLectureDTO
+  initData?: updateLectureDTO
 }
 
 export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
-  const { label = 'Add New', className, initData = {} as EditLectureDTO, ...rest } = props
+  const { label = 'Add New', className, initData = {} as updateLectureDTO, ...rest } = props
 
   const { addOwnLecture } = lectureStore()
 

@@ -18,7 +18,7 @@ export interface CreateLectureDTO {
   updateAt: firebase.firestore.Timestamp
 }
 
-export interface EditLectureDTO extends Partial<CreateLectureDTO> {}
+export interface updateLectureDTO extends Partial<CreateLectureDTO> {}
 
 export interface LectureDTO extends Lecture {}
 
