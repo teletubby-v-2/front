@@ -47,9 +47,9 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
   }
 
   return (
-    <div className="mx-10 my-10">
+    <div className="p-3">
       <h1 className="text-center text-2xl font-black">Edit Profile</h1>
-      <img src={userInfo.imageUrl} className="my-8 mx-auto" width="200" />
+      <img src={userInfo.imageUrl} className="my-8 mx-auto object-cover" />
       <Form onFinish={onFinish} initialValues={userInfo}>
         <div className="text-center">
           <Form.Item>
