@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import { LectureContainer } from '../../components'
 import { dummyLectures } from '../../constants/dummyData/lecture.dummy'
-import { CreateLecture } from './components/CreateLecture'
 import { MyProfile } from './components/MyProfile'
+import { CreateLectureForm } from '../../components/CreateLectureForm'
 
 export const Profile: React.FC = () => {
   const [isViewAllOwn, setIsViewAllOwn] = useState(false)
   const [isViewAllRecent, setIsViewAllRecent] = useState(false)
-  const [isOnCreate, setIsOnCreate] = useState(false)
 
   return (
     <>
@@ -22,7 +21,7 @@ export const Profile: React.FC = () => {
             viewAll={isViewAllOwn}
             extra={
               <>
-                <CreateLecture className="inline-block" />
+                <CreateLectureForm className="inline-block" />
                 <span className="m-2" />
                 <a onClick={() => setIsViewAllOwn(!isViewAllOwn)}>
                   {isViewAllOwn ? 'View Less' : 'View All'}

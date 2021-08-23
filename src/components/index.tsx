@@ -1,4 +1,6 @@
-export * from './AccountManage'
+export * from './AuthZone'
+export * from './LoginForm'
+export * from './RegisterForm'
 export * from './LectureContainer'
 export * from './Navbar'
 export * from './Route'
