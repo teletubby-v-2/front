@@ -8,6 +8,6 @@ const dummyMessage: string[] = [
   '1. สั่งและรับหน้าร้าน ❤️ 📞 063-476-0217',
 ]
 
-const dummyReview = [0, 1, 2, 3, 4, 5]
+const dummyReview = [2.5, 1.5, 3.5, 3, 2, 1, 4, 5, 4.5]
 
 export { dummyMessage, dummyReview }

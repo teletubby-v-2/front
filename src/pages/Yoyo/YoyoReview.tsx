@@ -9,6 +9,7 @@ import { createReview, deleteReview, updateReview } from '../../service/lectures
 import { fetchUser } from '../../utils/fetchUser'
 import { convertTimestampToTime } from '../../utils/time'
 import { dummyMessage, dummyReview } from './YoyoReview.dummy'
+import { Rate } from 'antd'
 
 const YoyoReview: React.FC = () => {
   const [count, setCount] = useState(0)
@@ -18,7 +19,7 @@ const YoyoReview: React.FC = () => {
 
   const testCreateReview = () => {
     const data = {
-      lectureId: 'qrkx0ON2xXkbj3KYsgtA',
+      lectureId: 'pug',
       message: dummyMessage[count % 7],
       rating: dummyReview[count % 6],
     }
@@ -30,6 +31,7 @@ const YoyoReview: React.FC = () => {
       message: dummyMessage[count % 7],
       lectureId: lectureId,
       reviewId: reviewId,
+      rating: 5,
     }
     setCount(count + 1)
     updateReview(data)
@@ -53,48 +55,48 @@ const YoyoReview: React.FC = () => {
 
   useEffect(() => {
     const yoyo = async () => {
-      const mayo = await firestore.collection('Lectures').doc('qrkx0ON2xXkbj3KYsgtA').get()
+      const mayo = await firestore.collection('Lectures').doc('pug').get()
       setLecture(mayo.data() as CreateLectureDTO)
       console.log(mayo)
     }
     yoyo()
     const unsubscribe = firestore
       .collection(Collection.Lectures)
-      .doc('qrkx0ON2xXkbj3KYsgtA')
-      .collection(Collection.Comments)
+      .doc('pug')
+      .collection(Collection.Reviews)
       .orderBy('createAt')
       .onSnapshot(querySnapshot => {
         querySnapshot.docChanges().forEach(change => {
           setLoading(true)
           const data = change.doc.data()
           if (change.type === 'added') {
-            console.log('New Lecture: ', data)
+            // console.log('New Lecture: ', data)
             fetchUser(data.userId).then(user =>
-              setReviewMayo(commentMap => [
-                ...commentMap,
-                { ...data, id: change.doc.id, ...user } as Review,
+              setReviewMayo(reviewMap => [
+                ...reviewMap,
+                { ...data, reviewId: change.doc.id, ...user } as Review,
               ]),
             )
           }
           if (change.type === 'modified') {
-            console.log('Modified Lecture: ', data)
-            setReviewMayo(commentMap => {
-              const index = commentMap.findIndex(comment => comment.reviewId === change.doc.id)
+            // console.log('Modified Lecture: ', data)
+            setReviewMayo(reviewMap => {
+              const index = reviewMap.findIndex(review => review.reviewId === change.doc.id)
               const user = {
-                username: commentMap[index].username,
-                photoURL: commentMap[index].photoURL,
+                username: reviewMap[index].username,
+                photoURL: reviewMap[index].photoURL,
               }
               return [
-                ...commentMap.slice(0, index),
-                { ...data, id: change.doc.id, ...user } as unknown as Review,
-                ...commentMap.slice(index + 1),
+                ...reviewMap.slice(0, index),
+                { ...data, reviewId: change.doc.id, ...user } as unknown as Review,
+                ...reviewMap.slice(index + 1),
               ]
             })
           }
           if (change.type === 'removed') {
-            console.log('Removed Lecture: ', data)
-            setReviewMayo(commentMap =>
-              commentMap.filter(comment => comment.reviewId !== change.doc.id),
+            // console.log('Removed Lecture: ', data)
+            setReviewMayo(reviewMap =>
+              reviewMap.filter(review => review.reviewId !== change.doc.id),
             )
           }
         })
@@ -105,14 +107,26 @@ const YoyoReview: React.FC = () => {
   return (
     <div className=" my-10 space-y-5">
       <div className="flex flex-col items-center">
-        <h1 className="font-bold text-2xl">path สำหรับ test comment</h1>
+        <h1 className="font-bold text-2xl">path สำหรับ test review</h1>
         <ul className="text-lg">
-          <li>create comment -{'>'} สร้าง comment</li>
+          <li>create review -{'>'} สร้าง review</li>
         </ul>
       </div>
       <div className="flex justify-center space-x-2">
         <Button size="large" type="primary" onClick={testCreateReview}>
-          create comment
+          create review
+        </Button>
+        <Button
+          size="large"
+          type="primary"
+          onClick={() => {
+            firestore.collection(Collection.Lectures).doc('pug').update({
+              reviewCount: 0,
+              sumRating: 0,
+            })
+          }}
+        >
+          set zero
         </Button>
       </div>
 
@@ -129,6 +143,14 @@ const YoyoReview: React.FC = () => {
           }
           actions={[]}
         >
+          <Rate disabled value={(lecture.sumRating || 0) / (lecture.reviewCount || 1)} allowHalf />
+          <p>
+            {lecture.reviewCount}
+            {'    '}
+            {lecture.sumRating}
+            {'    '}
+            NOT REAL TIME
+          </p>
           <Meta title={lecture?.lectureTitle} description={lecture?.description} />
           <p className="text-right mt-4 mb-2">
             {lecture?.createAt?.toDate().toDateString()}
@@ -138,7 +160,7 @@ const YoyoReview: React.FC = () => {
         </Card>
 
         <List
-          className="demo-loadmore-list w-2/6"
+          className="demo-loadmore-list w-3/6"
           size="large"
           itemLayout="horizontal"
           dataSource={reviewMayo}
@@ -159,6 +181,7 @@ const YoyoReview: React.FC = () => {
                   title={item.username}
                   description={item.message}
                 />
+                <Rate disabled defaultValue={item.rating} allowHalf />
               </Skeleton>
             </List.Item>
           )}
