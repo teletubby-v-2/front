@@ -19,6 +19,7 @@ import { useLectureForm } from './hooks'
 import { lectureStore } from '../../store/lecture.store'
 import { updateLectureDTO } from '../../constants/dto/lecture.dto'
 import { formItemLayout, myLocale } from './constants'
+import kuSubject from '../../constants/subjects.json'
 
 export interface CreateLectureFormProps extends ModalProps {
   label?: string
@@ -99,12 +100,16 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
             label="ชื่อวิชา"
             name="subjectId"
             rules={[{ required: true }]}
+            getValueFromEvent={value => value.split()[0]}
             {...formItemLayout}
           >
             <Select allowClear showSearch>
-              {dummySubjects.map(subject => (
-                <Select.Option key={subject.id} value={`${subject.id}${subject.name}`}>
-                  {subject.name}
+              {Object.entries(kuSubject.subjects).map(([key, subject]) => (
+                <Select.Option
+                  key={key}
+                  value={`${key} ${subject.subjectNameTh}${subject.subjectNameEn}`}
+                >
+                  {key} {subject.subjectNameTh} {subject.subjectNameEn}
                 </Select.Option>
               ))}
             </Select>

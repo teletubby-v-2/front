@@ -121,6 +121,7 @@ export const useLectureForm = (
   const onFinish = () => {
     const value: Partial<CreateLectureDTO> = removeUndefined({
       ...form.getFieldsValue(),
+      subjectId: form.getFieldValue('subjectId').split(' ')[0],
       imageUrl: fileList.map(file => file.url),
     })
     //Todo: Add เข้า DB
