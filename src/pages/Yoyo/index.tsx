@@ -1,15 +1,20 @@
 import { Button, Card, Skeleton } from 'antd'
 import Meta from 'antd/lib/card/Meta'
 import React, { useEffect, useState } from 'react'
-import { firestore } from '../../config/firebase'
+import { firebaseApp, firestore } from '../../config/firebase'
 import { CreateLectureDTO, UpdateLectureDTO } from '../../constants/dto/lecture.dto'
 import { createLecture, deleteLecture, updateLecture } from '../../service/lectures'
+import { fetchUser } from '../../utils/fetchUser'
 import { convertTimestampToTime } from '../../utils/time'
 import { description, img, lectureTitle } from './index.dummy'
 
+interface LectureUser extends CreateLectureDTO {
+  username?: string
+}
+
 const Yoyo: React.FC = () => {
   const [count, setCount] = useState(0)
-  const [lectureMayo, setLectureMayo] = useState<CreateLectureDTO[]>([])
+  const [lectureMayo, setLectureMayo] = useState<LectureUser[]>([])
 
   const testCreateLecture = () => {
     const data: CreateLectureDTO = {
@@ -56,11 +61,15 @@ const Yoyo: React.FC = () => {
       .onSnapshot(querySnapshot => {
         querySnapshot.docChanges().forEach(change => {
           const data = change.doc.data()
+          let user = {} as {
+            username: string
+          }
+          fetchUser(data.userId).then(u => (user = u))
           if (change.type === 'added') {
             console.log('New Lecture: ', data)
             setLectureMayo(lectureMap => [
               ...lectureMap,
-              { ...data, lectureId: change.doc.id } as CreateLectureDTO,
+              { ...data, lectureId: change.doc.id, username: user.username } as LectureUser,
             ])
           }
           if (change.type === 'modified') {
@@ -86,6 +95,20 @@ const Yoyo: React.FC = () => {
     return () => unsubscribe()
   }, [])
 
+  const getUser = (userId: string) => {
+    fetchUser(userId).then(user => {
+      setLectureMayo(lectureMap => {
+        const index = lectureMap.findIndex(lecture => lecture.userId === userId)
+        const thisUpdate = lectureMap[index]
+        return [
+          ...lectureMap.slice(0, index),
+          { ...thisUpdate, username: user.username } as LectureUser,
+          ...lectureMap.slice(index + 1),
+        ]
+      })
+    })
+  }
+
   return (
     <div className=" my-10 space-y-5">
       <div className="flex flex-col items-center">
@@ -105,6 +128,7 @@ const Yoyo: React.FC = () => {
         {lectureMayo.map(lecture => (
           <Card
             className=""
+            title={lecture.username || ''}
             key={lecture.lectureId}
             cover={<img className="h-96 object-cover" alt="cock" src={lecture.imageUrl[0]} />}
             actions={[
