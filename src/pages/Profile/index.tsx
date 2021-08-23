@@ -9,11 +9,10 @@ export const Profile: React.FC = () => {
   return (
     <>
       <div className="flex justify-center my-10">
-        <div className="w-1/5 h-screen bg-gray-400 mx-2"></div>
-        <div className="w-1/2 m-2.5">
+        <div className="h-screen bg-gray-400 mx-2 w-1/4"></div>
+        <div className="w-3/4 space-y-3">
           <LectureContainer
             title="My Lecture"
-            style={{ minHeight: '500px' }}
             data={dummyLectures}
             limit={8}
             viewAll={isViewAllOwn}
@@ -27,10 +26,9 @@ export const Profile: React.FC = () => {
               </>
             }
           />
-          <div className="m-4"></div>
+          <div></div>
           <LectureContainer
             title="Recent Lecture"
-            style={{ minHeight: '500px' }}
             data={dummyLectures}
             limit={8}
             viewAll={isViewAllRecent}
