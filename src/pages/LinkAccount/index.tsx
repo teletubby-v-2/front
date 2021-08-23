@@ -1,8 +1,8 @@
 import { Button, Form, Input } from 'antd'
 import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import { linkWithEmailAndPassword } from '../service/auth'
-import { errorStore } from '../store/error.store'
+import { linkWithEmailAndPassword } from '../../service/auth'
+import { errorStore } from '../../store/error.store'
 import firebase from 'firebase/app'
 
 export const LinkAccount: React.FC = () => {
@@ -15,7 +15,7 @@ export const LinkAccount: React.FC = () => {
       value.email,
       value.password,
       authError.credential as firebase.auth.AuthCredential,
-    ).then(() => history.push('/success'))
+    ).then(() => history.push('/home'))
   }
 
   return (

@@ -1,7 +1,6 @@
 import React from 'react'
 import {
   Button,
-  ButtonProps,
   Checkbox,
   Form,
   Input,
@@ -14,30 +13,21 @@ import {
   Upload,
 } from 'antd'
 import { LoadingOutlined, PlusOutlined, InfoCircleOutlined } from '@ant-design/icons'
-import { dontSubmitWhenEnter } from '../../../../utils/eventManage'
-import { dummySubjects } from '../../../../constants/dummyData/subject.dummy'
-import { useLectureForm } from './hook'
-import { UploadLocale } from 'antd/lib/upload/interface'
-import { getFilePath } from '../../../../service/storage'
-import { lectureStore } from '../../../../store/lecture.store'
+import { dontSubmitWhenEnter } from '../../utils/eventManage'
+import { dummySubjects } from '../../constants/dummyData/subject.dummy'
+import { useLectureForm } from './hooks'
+import { lectureStore } from '../../store/lecture.store'
+import { updateLectureDTO } from '../../constants/dto/lecture.dto'
+import { formItemLayout, myLocale } from './constants'
 
-const formItemLayout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 20 },
-}
-
-const myLocale: UploadLocale = {
-  uploading: 'Uploading...',
-  uploadError: 'อัพโหลดไฟล์ไม่สำเร็จ',
-}
-
-export interface CreateLectureProps extends ModalProps {
+export interface CreateLectureFormProps extends ModalProps {
   label?: string
   className?: string
+  initData?: updateLectureDTO
 }
 
-export const CreateLecture: React.FC<CreateLectureProps> = props => {
-  const { label = 'Add New', className, ...rest } = props
+export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
+  const { label = 'Add New', className, initData = {} as updateLectureDTO, ...rest } = props
 
   const { addOwnLecture } = lectureStore()
 
@@ -63,7 +53,7 @@ export const CreateLecture: React.FC<CreateLectureProps> = props => {
     OnAddTag,
     handlePreview,
     previewCancel,
-  } = useLectureForm(addOwnLecture)
+  } = useLectureForm(addOwnLecture, initData)
   return (
     <div className={className}>
       <a onClick={openModal}>{label}</a>
@@ -75,6 +65,7 @@ export const CreateLecture: React.FC<CreateLectureProps> = props => {
         maskClosable={false}
         visible={isOnCreate}
         centered
+        forceRender
         onCancel={closeModal}
         destroyOnClose
         closable
@@ -84,9 +75,9 @@ export const CreateLecture: React.FC<CreateLectureProps> = props => {
         {...rest}
       >
         <Typography.Title level={3} className="text-center mt-3">
-          สร้างโพสต์สรุป
+          {initData ? 'แก้ไขโพสต์สรุป' : 'สร้างโพสต์สรุป'}
         </Typography.Title>
-        <Form form={form} name="createLecture" onFinish={onFinish}>
+        <Form form={form} name="createLecture" onFinish={onFinish} initialValues={initData}>
           <Form.Item
             label="ชื่อหัวข้อสรุป"
             name="lectureTitle"
@@ -126,7 +117,7 @@ export const CreateLecture: React.FC<CreateLectureProps> = props => {
               <Checkbox>final</Checkbox>
             </Form.Item>
           </Form.Item>
-          <Form.Item name="tags" label="แทค" {...formItemLayout}>
+          <Form.Item name="tags" label="แทค" {...formItemLayout} initialValue={initData?.tags}>
             {form.getFieldValue('tags') &&
               form.getFieldValue('tags').map((tag: string, index: number) => (
                 <Tag key={index} closable onClose={() => handleClose(tag)}>

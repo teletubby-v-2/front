@@ -1,6 +1,6 @@
 import firebase from 'firebase'
 import { firebaseApp, firestore } from '../../config/firebase'
-import { CreateLectureDTO, UpdateLectureDTO } from '../../constants/dto/lecture.dto'
+import { CreateLectureDTO } from '../../constants/dto/lecture.dto'
 
 const lectureCollection = firestore.collection('Lectures')
 async function createLecture(lecture: CreateLectureDTO): Promise<any> {
@@ -15,7 +15,3 @@ async function createLecture(lecture: CreateLectureDTO): Promise<any> {
 }
 
 export { createLecture }
-
-async function updateLecture(lecture: UpdateLectureDTO): Promise<any> {
-  return
-}

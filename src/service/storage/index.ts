@@ -1,13 +1,13 @@
 import { UploadFile } from 'antd/lib/upload/interface'
-import { firebaseApp, imagesRef, storageRef, Timestamp } from './../../config/firebase'
+import { imagesRef, storageRef } from './../../config/firebase'
 import firebase from 'firebase/app'
 
-async function uploadImage(file: File): Promise<UploadFile<any>> {
+async function uploadImage(file: File): Promise<UploadFile> {
   const timeStamp: firebase.firestore.Timestamp = firebase.firestore.Timestamp.fromDate(new Date())
   const metadata = {
     contentType: file.type,
   }
-  return new Promise<UploadFile<any>>((resolve, rejects) => {
+  return new Promise<UploadFile>((resolve, rejects) => {
     try {
       const uploadTask = imagesRef.child(timeStamp + file.name).put(file, metadata)
       uploadTask.on(
@@ -27,21 +27,7 @@ async function uploadImage(file: File): Promise<UploadFile<any>> {
           }
         },
         (error: firebase.storage.FirebaseStorageError) => {
-          // console.log(error.code)
-          // switch (error.code) {
-          //   case 'storage/unauthorized':
-          //     // User doesn't have permission to access the object
-          //     break
-          //   case 'storage/canceled':
-          //     // User canceled the upload
-          //     break
-
-          //   // ...
-
-          //   case 'storage/unknown':
-          //     // Unknown error occurred, inspect error.serverResponse
-          //     break
-          // }
+          console.error(error)
           throw error
         },
         () => {
@@ -76,18 +62,10 @@ const getFilePath = (imageUrl: string) => {
   return decodeURIComponent(path[0])
 }
 
-const deleteImages = (imageUrl: string) => {
+const deleteImages = async (imageUrl: string) => {
   const desertRef = storageRef.child(getFilePath(imageUrl))
   // Delete the file
-  desertRef
-    .delete()
-    .then(() => {
-      // File deleted successfully
-    })
-    .catch(error => {
-      // Uh-oh, an error occurred!
-    })
+  desertRef.delete()
 }
 
 export { uploadImage, getFilePath, deleteImages }
-//"https://firebasestorage.googleapis.com/v0/b/teletubby-v2.appspot.com/o/images%2F063763325135.316000000download%20(1).png?alt=media&token=0c482c16-42ff-4a7b-ae59-54e206d5a2d4"
