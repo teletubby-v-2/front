@@ -1,0 +1,24 @@
+{
+  "React Component with props": {
+    "scope": "javascriptreact, typescriptreact, javascript, typescript",
+    "prefix": ["reactcomdefaultprops", "rcdp"],
+    "body": [
+      "import React from 'react'",
+      "",
+      "export interface ${1:${TM_DIRECTORY/.*[\\\\|\\/]+(.*)/$1/}}Props {",
+      "\t$2",
+      "}",
+      "",
+      "const ${1:${TM_DIRECTORY/.*[\\\\|\\/]+(.*)/$1/}}:React.FC<${1:${TM_DIRECTORY/.*[\\\\|\\/]+(.*)/$1/}}Props> = (props) => {",
+      "\treturn (",
+      "\t\t<div>",
+      "\t\t\t$0",
+      "\t\t</div>",
+      "\t)",
+      "}",
+      "",
+      "export default ${1:${TM_DIRECTORY/.*[\\\\|\\/]+(.*)/$1/}}"
+    ],
+    "description": "Snippet for creating react component export defult with props"
+  }
+}
