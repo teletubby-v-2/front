@@ -18,7 +18,7 @@ const YoyoComment: React.FC = () => {
 
   const testCreateComment = () => {
     const data = {
-      lectureId: 'qrkx0ON2xXkbj3KYsgtA',
+      lectureId: 'pug',
       message: dummyMessage[count % 7],
       reply: [],
     }
@@ -135,7 +135,7 @@ const YoyoComment: React.FC = () => {
         </Card>
 
         <List
-          className="demo-loadmore-list w-2/6"
+          className="demo-loadmore-list w-3/6"
           size="large"
           itemLayout="horizontal"
           dataSource={commentMayo}
