@@ -1,6 +1,5 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
-// import 'firebase/database'
 import 'firebase/firestore'
 import 'firebase/storage'
 
@@ -26,16 +25,6 @@ export const firebaseApp = !firebase.apps.length
   : firebase.app()
 // firebase.analytics();
 firebaseApp.auth().languageCode = 'TH'
-
-firebaseApp.auth().onAuthStateChanged(user => {
-  if (user) {
-    user.getIdToken().then(token => {
-      localStorage.setItem('idToken', token)
-    })
-  } else {
-    console.log('invalid user')
-  }
-})
 
 export const firestore = firebaseApp.firestore()
 

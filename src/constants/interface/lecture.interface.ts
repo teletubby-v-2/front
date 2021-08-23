@@ -5,52 +5,48 @@ export interface Lecture {
   userId: string
   imagesUrl: string[]
   subjectId: string
-  likeCount: number
   viewCount: number
-  lectureTitle?: string
+  sumRating: number
+  lectureTitle: string
   description?: string
-  keyword?: string[]
-  commentCount: number
-  reviewCount: number
-  qaCount: number
-  isMid?: boolean
-  isFinal?: boolean
-  tags?: string[]
-  qa: QAndA[]
-  Comment: Comment[]
-  review: Review[]
+  isMid: boolean
+  isFinal: boolean
+  tags: string[]
+  faculty?: string
+  major?: string
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp
+  qa?: QAndA[]
+  comment?: Comment[]
+  review?: Review[]
 }
 
-export interface CommentNoReply {
+export interface Comments {
   id?: string
   lectureId: string
   userId: string
-  displayName: string
-  imageUrl: string
-  message?: string
+  message: string
+  createAt?: firebase.firestore.Timestamp
+  updateAt?: firebase.firestore.Timestamp
+  canReply: boolean
+  reply: Comments[]
+}
+
+export interface Review {
+  reviewId: string
+  lectureId: string
+  userId: string
+  rating: number
+  message: string
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp
 }
-
-export interface Comment extends CommentNoReply {
-  reply?: CommentNoReply[]
-}
-
-export interface Review extends CommentNoReply {
-  rating?: number
-}
-
 export interface QAndA {
-  id?: string
+  qaId?: string
   lectureId: string
   userId: string
-  displayName: string
-  imageUrl: string
   question: string
-  answer?: CommentNoReply[]
-  status?: number
+  answer: Comments[]
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp
 }

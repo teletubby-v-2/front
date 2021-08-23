@@ -1,8 +1,8 @@
-import { Card, CardProps, Col, Row, Skeleton } from 'antd'
+import { Card, CardProps, Skeleton } from 'antd'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Lecture } from '../../constants/interface/lecture.interface'
-import { LectureCard } from './components/LectureCard'
+import { LectureCard } from '../LectureCard'
 
 export interface LectureContainerProps extends CardProps {
   limit?: number
@@ -36,7 +36,6 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
 
   return (
     <MyCard {...restCradProps}>
-      {console.log(size)}
       <Skeleton loading={loading} paragraph active>
         <div className="flex flex-wrap ">
           {data?.slice(0, size).map(lecture => (

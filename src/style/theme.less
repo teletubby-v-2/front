@@ -6,25 +6,19 @@
 @tailwind utilities;
 
 a {
-  color: @blue-6;
+  color: @blue-6 !important;
 }
 
 a:hover {
-  color: @blue-4;
+  color: @blue-4 !important;
 }
 
-body{
+body {
   margin: 0;
-  font-family: 'Prompt' ,serif;
+  font-family: 'B612', 'Prompt', serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-*[lang=en]{
-  margin: 0;
-  font-family: 'B612' ,serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
 }
 
 code {
@@ -33,12 +27,12 @@ code {
 
 .App {
   text-align: center;
-  max-width: 450px;
+  max-width: 500px;
   border: #cbcfd6 1px solid;
   padding: 10px;
   margin: auto;
   border-radius: 10px;
-  margin-top: 10px;
+  margin-top: 50px;
   background-color: white;
 }
 
@@ -50,7 +44,7 @@ code {
   }
 }
 
-.ant-form-item-has-error :not(.ant-input-disabled).ant-input:hover{
+.ant-form-item-has-error :not(.ant-input-disabled).ant-input:hover {
   box-shadow: none;
 }
 
@@ -60,4 +54,28 @@ code {
   left: 50%;
   /* bring your own prefixes */
   transform: translate(-50%, -50%);
+}
+
+.site-tag-plus {
+  background: #fff;
+  border-style: dashed;
+}
+
+.tag-input {
+  width: 78px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.tag-icon {
+  vertical-align: middle;
+}
+
+.lecture-hoverable {
+  cursor: pointer;
+  transition: box-shadow 0.3s, border-color 0.3s;
+  transition-property: box-shadow, border-color;
+  transition-duration: 0.3s, 0.3s;
+  transition-timing-function: ease, ease;
+  transition-delay: 0s, 0s;
 }

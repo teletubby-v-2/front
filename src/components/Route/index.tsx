@@ -2,13 +2,14 @@ import { Layout } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
 import { Navbar } from '../Navbar'
-import { Route, RouteProps, Redirect } from 'react-router-dom'
-import { modalAccountStore } from '../../store/modalAccount.store'
-import { userInfoStore } from '../../store/user.store'
+import { Route, RouteProps } from 'react-router-dom'
 
 const { Content, Footer } = Layout
 
 const MyContent = styled(Content)`
+  background-color: #fafafa;
+`
+const MyLayout = styled(Content)`
   background-color: #fafafa;
 `
 
@@ -19,26 +20,14 @@ export const LayoutRoute: React.FC<RouteProps> = props => {
     <Route
       {...rest}
       render={props => (
-        <Layout className="min-h-screen">
+        <MyLayout className="min-h-screen flex flex-col">
           <Navbar />
-          <MyContent className="pt-20">{Component && <Component {...props} />}</MyContent>
-          <Footer>{/* //TODO: footer commponent here */}</Footer>
-        </Layout>
+          <Content className="mt-16 container mx-auto">
+            {Component && <Component {...props} />}
+          </Content>
+          <Footer className="justify-self-end">{/* //TODO: footer commponent here */}</Footer>
+        </MyLayout>
       )}
     />
   )
-}
-
-export const PrivateRoute: React.FC<RouteProps> = ({ component, ...rest }: any) => {
-  const { openModal, toLogin } = modalAccountStore()
-  const { userId } = userInfoStore()
-
-  const NotLogin: React.ReactNode = () => {
-    toLogin()
-    openModal()
-    return <Redirect to="/Home" />
-  }
-  const routeComponent = (props: any) => (userId ? React.createElement(component, props) : NotLogin)
-
-  return <Route {...rest} render={routeComponent} />
 }
