@@ -75,7 +75,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
         {...rest}
       >
         <Typography.Title level={3} className="text-center mt-3">
-          สร้างโพสต์สรุป
+          {initData ? 'แก้ไขโพสต์สรุป' : 'สร้างโพสต์สรุป'}
         </Typography.Title>
         <Form form={form} name="createLecture" onFinish={onFinish} initialValues={initData}>
           <Form.Item
