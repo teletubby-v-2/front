@@ -2,7 +2,7 @@ import { message } from 'antd'
 import Form from 'antd/lib/form'
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface'
 import { useEffect, useState } from 'react'
-import { CreateLectureDTO, updateLectureDTO } from '../../../constants/dto/lecture.dto'
+import { CreateLectureDTO, UpdateLectureDTO } from '../../../constants/dto/lecture.dto'
 import { Lecture } from '../../../constants/interface/lecture.interface'
 import { createLecture } from '../../../service/lectures'
 import { deleteImages, uploadImage } from '../../../service/storage'
@@ -10,7 +10,7 @@ import { initPhoto, removeUndefined } from '../../../utils/object'
 
 export const useLectureForm = (
   addOwnLecture: (lecture: Lecture) => void,
-  initData?: updateLectureDTO,
+  initData?: UpdateLectureDTO,
 ) => {
   const [form] = Form.useForm()
   const [isOnCreate, setIsOnCreate] = useState(false)

@@ -1,6 +1,6 @@
 import firebase from 'firebase'
 import { firebaseApp, firestore } from '../../config/firebase'
-import { CreateLectureDTO } from '../../constants/dto/lecture.dto'
+import { CreateLectureDTO, UpdateLectureDTO } from '../../constants/dto/lecture.dto'
 
 const lectureCollection = firestore.collection('Lectures')
 
