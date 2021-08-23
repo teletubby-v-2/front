@@ -13,6 +13,7 @@ async function createLecture(lecture: CreateLectureDTO): Promise<void> {
     updateAt: timeStamp,
     viewCount: 0,
     sumRating: 0,
+    reviewCount: 0,
   }
   if (firebaseApp.auth().currentUser) {
     console.log('Print', data)

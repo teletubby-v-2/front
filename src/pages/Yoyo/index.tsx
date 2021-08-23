@@ -49,7 +49,7 @@ const Yoyo: React.FC = () => {
   }
 
   useEffect(() => {
-    firestore
+    const unsubscribe = firestore
       .collection('Lectures')
       .orderBy('createAt')
       .limit(5)
@@ -83,6 +83,7 @@ const Yoyo: React.FC = () => {
           }
         })
       })
+    return () => unsubscribe()
   }, [])
 
   return (
@@ -92,7 +93,7 @@ const Yoyo: React.FC = () => {
         <ul className="text-lg">
           <li>create lecture -{'>'} สร้าง lecture</li>
           <li>update -{'>'} update title กับ des</li>
-          <li>delete -{'>'} ลบบบบบบบบบบบบบบบบบ</li>
+          <li>delete -{'>'} ลบบบบบบบบบบบ บบบบบบ</li>
         </ul>
       </div>
       <div className="flex justify-center space-x-2">
