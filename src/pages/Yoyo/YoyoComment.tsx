@@ -52,14 +52,14 @@ const YoyoComment: React.FC = () => {
 
   useEffect(() => {
     const yoyo = async () => {
-      const mayo = await firestore.collection('Lectures').doc('qrkx0ON2xXkbj3KYsgtA').get()
+      const mayo = await firestore.collection('Lectures').doc('pug').get()
       setLecture(mayo.data() as CreateLectureDTO)
       console.log(mayo)
     }
     yoyo()
     const unsubscribe = firestore
       .collection(Collection.Lectures)
-      .doc('qrkx0ON2xXkbj3KYsgtA')
+      .doc('pug')
       .collection(Collection.Comments)
       .orderBy('createAt')
       .onSnapshot(querySnapshot => {

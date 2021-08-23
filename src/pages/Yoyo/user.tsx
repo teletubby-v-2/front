@@ -7,14 +7,13 @@ import { createUser, updateUser, deleteUser } from '../../service/user'
 import { convertTimestampToTime } from '../../utils/time'
 import { description, img, username } from './index.dummy'
 
-const eiei: React.FC = () => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+const User: React.FC = () => {
   const [count, setCount] = useState(0)
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [userProfile, setuserProfile] = useState<CreateUserDTO[]>([])
 
   const testCreateUser = () => {
     const data: CreateUserDTO = {
+      imageUrl: 'https://image.taiwannews.com.tw/photos/2021/08/21/1629525624-612096782050a.PNG',
       email: 'polybeareie@iglu.com',
       userName: 'eiei',
     }
@@ -49,7 +48,6 @@ const eiei: React.FC = () => {
     }
   }
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     firestore
       .collection('Users')
@@ -128,4 +126,4 @@ const eiei: React.FC = () => {
   )
 }
 
-export default eiei
+export default User
