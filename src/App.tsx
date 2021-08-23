@@ -9,6 +9,7 @@ import {
   NotFound,
   Profile,
   LectureDetail,
+  VerifyEmail,
 } from './pages'
 import { LayoutRoute } from './components'
 
@@ -26,6 +27,7 @@ const App: React.FC = () => {
           <LayoutRoute exact path="/lecturedetail" component={LectureDetail} />
           <Route exact path="/linkAccount" component={LinkAccount} />
           <Route exact path="/forgotpassword" component={ForgotPassword} />
+          <Route exact path="/verifyEmail" component={VerifyEmail} />
           <LayoutRoute exact path="/profile" component={Profile} />
           <Route exact path="*" component={NotFound} />
         </Switch>
