@@ -6,6 +6,7 @@ export interface Lecture {
   imageUrl: string[]
   subjectId: string
   viewCount: number
+  reviewCount: number
   sumRating: number
   lectureTitle: string
   description?: string
