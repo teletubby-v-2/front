@@ -1,4 +1,4 @@
-import { Button, Card, Skeleton } from 'antd'
+import { Button, Card } from 'antd'
 import Meta from 'antd/lib/card/Meta'
 import React, { useEffect, useState } from 'react'
 import { firestore } from '../../config/firebase'

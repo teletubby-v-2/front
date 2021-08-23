@@ -5,6 +5,7 @@ import { queryOperator } from './queryOperator.dto'
 //-------------------------- Lecture -------------------------
 
 export interface CreateLectureDTO {
+  username?: string
   lectureId?: string
   userId?: string
   subjectId: string
