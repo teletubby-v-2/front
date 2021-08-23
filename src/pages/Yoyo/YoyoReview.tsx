@@ -3,52 +3,55 @@ import { Meta } from 'antd/lib/list/Item'
 import React, { useEffect, useState } from 'react'
 import { firestore } from '../../config/firebase'
 import { Collection } from '../../constants'
-import { CreateLectureDTO } from '../../constants/dto/lecture.dto'
-import { Comments } from '../../constants/interface/lecture.interface'
-import { createComment, deleteComment, updateComment } from '../../service/lectures/comment'
+import { CreateLectureDTO, CreateReviewDTO } from '../../constants/dto/lecture.dto'
+import { Review } from '../../constants/interface/lecture.interface'
+import { createReview, deleteReview, updateReview } from '../../service/lectures/review'
 import { fetchUser } from '../../utils/fetchUser'
 import { convertTimestampToTime } from '../../utils/time'
-import { dummyMessage } from './YoyoComment.dummy'
+import { dummyMessage, dummyReview } from './YoyoReview.dummy'
+import { Rate } from 'antd'
 
-const YoyoComment: React.FC = () => {
+const YoyoReview: React.FC = () => {
   const [count, setCount] = useState(0)
   const [lecture, setLecture] = useState<CreateLectureDTO>({} as CreateLectureDTO)
-  const [commentMayo, setCommentMayo] = useState<Comments[]>([])
+  const [reviewMayo, setReviewMayo] = useState<Review[]>([])
   const [loading, setLoading] = useState(false)
 
-  const testCreateComment = () => {
+  const testCreateReview = () => {
     const data = {
       lectureId: 'pug',
       message: dummyMessage[count % 7],
-      reply: [],
+      rating: dummyReview[count % 6],
     }
     setCount(count + 1)
-    createComment(data)
+    createReview(data)
   }
-  const testUpdateComment = (lectureId: string, id: string) => {
+  const testUpdateReview = (lectureId: string, reviewId: string) => {
     const data = {
       message: dummyMessage[count % 7],
       lectureId: lectureId,
-      id: id,
+      reviewId: reviewId,
+      rating: 5,
     }
     setCount(count + 1)
-    updateComment(data)
+    updateReview(data)
   }
-  const testDeleteComment = (lectureId: string, id: string) => {
-    deleteComment(lectureId, id)
+  const testDeleteReview = (review: CreateReviewDTO) => {
+    deleteReview(review)
   }
-  const handleSelectFor = (action: 'delete' | 'update', lectureId = '', id: string) => {
+
+  const handleSelectFor = (action: 'delete' | 'update', review: CreateReviewDTO) => {
     switch (action) {
       case 'delete':
-        return testDeleteComment(lectureId, id)
+        return testDeleteReview(review)
       case 'update':
-        return testUpdateComment(lectureId, id)
+        if (review.reviewId) return testUpdateReview(review.lectureId, review.reviewId)
     }
   }
 
   useEffect(() => {
     setLoading(false)
-  }, [commentMayo])
+  }, [reviewMayo])
 
   useEffect(() => {
     const yoyo = async () => {
@@ -60,39 +63,41 @@ const YoyoComment: React.FC = () => {
     const unsubscribe = firestore
       .collection(Collection.Lectures)
       .doc('pug')
-      .collection(Collection.Comments)
+      .collection(Collection.Reviews)
       .orderBy('createAt')
       .onSnapshot(querySnapshot => {
         querySnapshot.docChanges().forEach(change => {
           setLoading(true)
           const data = change.doc.data()
           if (change.type === 'added') {
-            console.log('New Lecture: ', data)
+            // console.log('New Lecture: ', data)
             fetchUser(data.userId).then(user =>
-              setCommentMayo(commentMap => [
-                ...commentMap,
-                { ...data, id: change.doc.id, ...user } as Comments,
+              setReviewMayo(reviewMap => [
+                ...reviewMap,
+                { ...data, reviewId: change.doc.id, ...user } as Review,
               ]),
             )
           }
           if (change.type === 'modified') {
-            console.log('Modified Lecture: ', data)
-            setCommentMayo(commentMap => {
-              const index = commentMap.findIndex(comment => comment.id === change.doc.id)
+            // console.log('Modified Lecture: ', data)
+            setReviewMayo(reviewMap => {
+              const index = reviewMap.findIndex(review => review.reviewId === change.doc.id)
               const user = {
-                username: commentMap[index].username,
-                photoURL: commentMap[index].photoURL,
+                username: reviewMap[index].username,
+                photoURL: reviewMap[index].photoURL,
               }
               return [
-                ...commentMap.slice(0, index),
-                { ...data, id: change.doc.id, ...user } as Comments,
-                ...commentMap.slice(index + 1),
+                ...reviewMap.slice(0, index),
+                { ...data, reviewId: change.doc.id, ...user } as unknown as Review,
+                ...reviewMap.slice(index + 1),
               ]
             })
           }
           if (change.type === 'removed') {
-            console.log('Removed Lecture: ', data)
-            setCommentMayo(commentMap => commentMap.filter(comment => comment.id !== change.doc.id))
+            // console.log('Removed Lecture: ', data)
+            setReviewMayo(reviewMap =>
+              reviewMap.filter(review => review.reviewId !== change.doc.id),
+            )
           }
         })
       })
@@ -102,14 +107,26 @@ const YoyoComment: React.FC = () => {
   return (
     <div className=" my-10 space-y-5">
       <div className="flex flex-col items-center">
-        <h1 className="font-bold text-2xl">path สำหรับ test comment</h1>
+        <h1 className="font-bold text-2xl">path สำหรับ test review</h1>
         <ul className="text-lg">
-          <li>create comment -{'>'} สร้าง comment</li>
+          <li>create review -{'>'} สร้าง review</li>
         </ul>
       </div>
       <div className="flex justify-center space-x-2">
-        <Button size="large" type="primary" onClick={testCreateComment}>
-          create comment
+        <Button size="large" type="primary" onClick={testCreateReview}>
+          create review
+        </Button>
+        <Button
+          size="large"
+          type="primary"
+          onClick={() => {
+            firestore.collection(Collection.Lectures).doc('pug').update({
+              reviewCount: 0,
+              sumRating: 0,
+            })
+          }}
+        >
+          set zero
         </Button>
       </div>
 
@@ -126,6 +143,14 @@ const YoyoComment: React.FC = () => {
           }
           actions={[]}
         >
+          <Rate disabled value={(lecture.sumRating || 0) / (lecture.reviewCount || 1)} allowHalf />
+          <p>
+            {lecture.reviewCount}
+            {'    '}
+            {lecture.sumRating}
+            {'    '}
+            NOT REAL TIME
+          </p>
           <Meta title={lecture?.lectureTitle} description={lecture?.description} />
           <p className="text-right mt-4 mb-2">
             {lecture?.createAt?.toDate().toDateString()}
@@ -138,20 +163,14 @@ const YoyoComment: React.FC = () => {
           className="demo-loadmore-list w-3/6"
           size="large"
           itemLayout="horizontal"
-          dataSource={commentMayo}
+          dataSource={reviewMayo}
           renderItem={item => (
             <List.Item
               actions={[
-                <a
-                  key="edit"
-                  onClick={() => handleSelectFor('update', item.lectureId || '', item.id || '')}
-                >
+                <a key="edit" onClick={() => handleSelectFor('update', item)}>
                   edit
                 </a>,
-                <a
-                  key="delete"
-                  onClick={() => handleSelectFor('delete', item.lectureId || '', item.id || '')}
-                >
+                <a key="delete" onClick={() => handleSelectFor('delete', item)}>
                   delete
                 </a>,
               ]}
@@ -162,6 +181,7 @@ const YoyoComment: React.FC = () => {
                   title={item.username}
                   description={item.message}
                 />
+                <Rate disabled defaultValue={item.rating} allowHalf />
               </Skeleton>
             </List.Item>
           )}
@@ -171,4 +191,4 @@ const YoyoComment: React.FC = () => {
   )
 }
 
-export default YoyoComment
+export default YoyoReview

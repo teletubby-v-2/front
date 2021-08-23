@@ -36,9 +36,11 @@ export interface Comments {
 }
 
 export interface Review {
-  reviewId: string
+  reviewId?: string
   lectureId: string
-  userId: string
+  userId?: string
+  username?: string
+  photoURL?: string
   rating: number
   message: string
   createAt?: firebase.firestore.Timestamp

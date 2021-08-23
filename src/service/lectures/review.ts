@@ -1,23 +1,25 @@
+import { Collection } from './../../constants/index'
 import firebase from 'firebase'
 import { firebaseApp, firestore } from '../../config/firebase'
 import { CreateReviewDTO, UpdateReviewDTO } from '../../constants/dto/lecture.dto'
 
-const lectureCollection = firestore.collection('Lectures')
+const lectureCollection = firestore.collection(Collection.Lectures)
 
 function getReviewCollection(
   lectureId: string,
 ): firebase.firestore.CollectionReference<firebase.firestore.DocumentData> {
-  return lectureCollection.doc(lectureId).collection('Review')
+  return lectureCollection.doc(lectureId).collection(Collection.Reviews)
 }
 
 async function createReview(review: CreateReviewDTO): Promise<void> {
   const reviewCollection = getReviewCollection(review.lectureId)
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
-  const batch = firestore.batch()
-  const sfRef = lectureCollection.doc(review.lectureId)
-  const lectureData = await sfRef.get()
-  batch.update(sfRef, { reviewCount: lectureData.data()?.reviewCount + 1 })
-  batch.update(sfRef, { reviewCount: lectureData.data()?.sumRating + review.rating })
+  const lectureRef = lectureCollection.doc(review.lectureId)
+  const lectureData = await lectureRef.get()
+  lectureRef.update({
+    reviewCount: lectureData.data()?.reviewCount + 1,
+    sumRating: lectureData.data()?.sumRating + review.rating,
+  })
   const data: CreateReviewDTO = {
     ...review,
     createAt: timeStamp,
@@ -31,22 +33,33 @@ async function createReview(review: CreateReviewDTO): Promise<void> {
 async function updateReview(review: UpdateReviewDTO): Promise<void> {
   const reviewCollection = getReviewCollection(review?.lectureId as string)
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
+  const lectureRef = lectureCollection.doc(review.lectureId)
+  const originReview = await getReviewCollection(review.lectureId).doc(review.reviewId).get()
+  const lectureData = await lectureRef.get()
+  if (review.rating && lectureData.exists)
+    lectureRef.update({
+      sumRating: lectureData.data()?.sumRating + review.rating - originReview.data()?.rating,
+    })
+  const id = review.reviewId
+  delete review['reviewId']
   const data = {
     ...review,
-    createAt: timeStamp,
     updateAt: timeStamp,
   }
-  return await reviewCollection.doc(data.reviewId).update(data)
+  console.log(data)
+  return await reviewCollection.doc(id).update(data)
 }
 
-async function daleteReview(reviewId: string, lectureId: string, review: CreateReviewDTO) {
-  const batch = firestore.batch()
-  const sfRef = lectureCollection.doc(review.lectureId)
-  const lectureData = await sfRef.get()
-  batch.update(sfRef, { reviewCount: lectureData.data()?.reviewCount - 1 })
-  batch.update(sfRef, { reviewCount: lectureData.data()?.sumRating - review.rating })
-  const reviewCollection = getReviewCollection(lectureId)
-  return await reviewCollection.doc(reviewId).delete()
+async function deleteReview(review: CreateReviewDTO) {
+  const lectureRef = lectureCollection.doc(review.lectureId)
+  const lectureData = await lectureRef.get()
+  lectureRef.update({
+    reviewCount: lectureData.data()?.reviewCount - 1,
+    sumRating: lectureData.data()?.sumRating - review.rating,
+  })
+  const reviewCollection = getReviewCollection(review.lectureId)
+  console.log(review)
+  return await reviewCollection.doc(review.reviewId).delete()
 }
 
-export { createReview, updateReview, daleteReview }
+export { createReview, updateReview, deleteReview }
