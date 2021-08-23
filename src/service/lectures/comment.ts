@@ -21,7 +21,6 @@ async function createComment(comment: CreateCommentDTO, canReply = false): Promi
     canReply: canReply,
     reply: [],
   }
-  console.log(data)
   return await commentCollection.doc().set(data)
 }
 
@@ -34,7 +33,6 @@ async function updateComment(comment: UpdateCommentDTO): Promise<void> {
     updateAt: timeStamp,
   }
   delete data['id']
-  console.log(data)
   return await commentCollection.doc(id).update(data)
 }
 

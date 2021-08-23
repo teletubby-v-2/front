@@ -26,7 +26,6 @@ async function createReview(review: CreateReviewDTO): Promise<void> {
     updateAt: timeStamp,
     userId: firebaseApp.auth().currentUser?.uid as string,
   }
-  console.log(data)
   return await reviewCollection.doc().set(data)
 }
 
@@ -46,7 +45,6 @@ async function updateReview(review: UpdateReviewDTO): Promise<void> {
     ...review,
     updateAt: timeStamp,
   }
-  console.log(data)
   return await reviewCollection.doc(id).update(data)
 }
 
@@ -58,7 +56,6 @@ async function deleteReview(review: CreateReviewDTO) {
     sumRating: lectureData.data()?.sumRating - review.rating,
   })
   const reviewCollection = getReviewCollection(review.lectureId)
-  console.log(review)
   return await reviewCollection.doc(review.reviewId).delete()
 }
 

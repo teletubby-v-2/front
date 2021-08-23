@@ -61,29 +61,31 @@ const Yoyo: React.FC = () => {
       .onSnapshot(querySnapshot => {
         querySnapshot.docChanges().forEach(change => {
           const data = change.doc.data()
-          let user = {} as {
-            username: string
-          }
-          fetchUser(data.userId).then(u => (user = u))
-          if (change.type === 'added') {
-            console.log('New Lecture: ', data)
-            setLectureMayo(lectureMap => [
-              ...lectureMap,
-              { ...data, lectureId: change.doc.id, username: user.username } as LectureUser,
-            ])
-          }
-          if (change.type === 'modified') {
-            console.log('Modified Lecture: ', data)
-            setLectureMayo(lectureMap => {
-              const index = lectureMap.findIndex(lecture => lecture.lectureId === change.doc.id)
+          fetchUser(data.userId).then(user => {
+            if (change.type === 'added') {
+              console.log('New Lecture: ', data)
+              setLectureMayo(lectureMap => [
+                ...lectureMap,
+                { ...data, lectureId: change.doc.id, username: user.username } as LectureUser,
+              ])
+            }
+            if (change.type === 'modified') {
+              console.log('Modified Lecture: ', data)
+              setLectureMayo(lectureMap => {
+                const index = lectureMap.findIndex(lecture => lecture.lectureId === change.doc.id)
 
-              return [
-                ...lectureMap.slice(0, index),
-                { ...data, lectureId: change.doc.id } as CreateLectureDTO,
-                ...lectureMap.slice(index + 1),
-              ]
-            })
-          }
+                return [
+                  ...lectureMap.slice(0, index),
+                  {
+                    ...data,
+                    lectureId: change.doc.id,
+                    username: user.username,
+                  } as CreateLectureDTO,
+                  ...lectureMap.slice(index + 1),
+                ]
+              })
+            }
+          })
           if (change.type === 'removed') {
             console.log('Removed Lecture: ', data)
             setLectureMayo(lectureMap =>

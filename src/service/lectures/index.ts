@@ -16,12 +16,7 @@ async function createLecture(lecture: CreateLectureDTO): Promise<void> {
     reviewCount: 0,
   }
   if (firebaseApp.auth().currentUser) {
-    console.log('Print', data)
-    try {
-      return await lectureCollection.doc().set(data)
-    } catch {
-      console.log('error')
-    }
+    return await lectureCollection.doc().set(data)
   } else {
     throw new Error('ออดเฟล')
   }
