@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
-import { Button, Divider, Form, Upload, Input } from 'antd'
+import { Button, Divider, Form, Upload, Input, message } from 'antd'
 import { RightOutlined, UserOutlined, UploadOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../../../store/user.store'
 import { firebaseApp } from '../../../../config/firebase'
 import { dontSubmitWhenEnter } from '../../../../utils/eventManage'
 import { UploadChangeParam, UploadFile, UploadLocale } from 'antd/lib/upload/interface'
+import { uploadImage } from '../../../../service/storage'
 
 export interface UpdateValue {
   aboutme: string
   instagram: string
   twitter: string
   youtube: string
+  imageUrl: string
 }
 
 export interface EditComponentProps {
@@ -20,20 +22,29 @@ export interface EditComponentProps {
 {
   /* TODO: upload Profile picture function*/
 }
-// const handleFilelist = (file: UploadChangeParam<UploadFile<any>>) => {
-
-// }
-
-// const handleRequest = () =>{
-
-// }
 
 export const EditComponent: React.FC<EditComponentProps> = props => {
-  const [fileList, setFileList] = useState<UploadFile<any>[]>([])
-  const [isUploading, setUploading] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
   const { userInfo } = userInfoStore()
   const { TextArea } = Input
   const { onClose } = props
+  const [imageUrl, setimageUrl] = useState(userInfo.imageUrl)
+
+  const uploadNewImage = async (file: File) => {
+    try {
+      setIsUploading(true)
+      const uploadStatus = await uploadImage(file)
+      if (uploadStatus.url) {
+        setimageUrl(uploadStatus.url)
+      }
+    } catch (error: any) {
+      console.log(error)
+    }
+  }
+
+  const handleRequest = (option: any) => {
+    uploadNewImage(option.file).finally(() => setIsUploading(false))
+  }
 
   const onFinish = (value: UpdateValue) => {
     onClose()
@@ -41,34 +52,40 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
     /* TODO: update profile */
   }
 
-  const myLocale: UploadLocale = {
-    uploading: 'Uploading...',
-    uploadError: 'อัพโหลดไฟล์ไม่สำเร็จ',
+  function beforeUpload(file: any) {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
+    if (!isJpgOrPng) {
+      message.error('You can only upload JPG/PNG file!')
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2
+    if (!isLt2M) {
+      message.error('Image must smaller than 2MB!')
+    }
+    return isJpgOrPng && isLt2M
   }
 
   return (
     <div className="mx-10 my-10">
       <h1 className="text-center text-2xl font-black">Edit Profile</h1>
-      <img src={userInfo.imageUrl} className="my-8 mx-auto" width="200" />
+      {/* <img src={userInfo.imageUrl} className="my-8 mx-auto" width="200" /> */}
+      {imageUrl ? (
+        <img src={imageUrl} alt="avatar" className="my-8 mx-auto" width="200" />
+      ) : (
+        <img src={userInfo.imageUrl} className="my-8 mx-auto" width="200" />
+      )}
       <Form onFinish={onFinish} initialValues={userInfo}>
         <div className="text-center">
-          <Form.Item>
+          <Form.Item name="imageUrl">
             <Upload
-              listType="picture-card"
               accept="image/*"
-              fileList={fileList}
               maxCount={1}
-              locale={myLocale}
-              // onChange={handleFilelist}
               disabled={isUploading}
-              // customRequest={handleRequest}
+              customRequest={handleRequest}
+              beforeUpload={beforeUpload}
+              showUploadList={false}
             >
-              {' '}
-              {/* TODO: upload Profile picture */}
-              <Button className="w-48">
-                <UploadOutlined />
-                change Image
-              </Button>
+              {/* TODO: upload Profile picture */}{' '}
+              <Button icon={<UploadOutlined />}>Click to Upload</Button>
             </Upload>
           </Form.Item>
         </div>
