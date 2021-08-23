@@ -2,12 +2,21 @@ import { Alert, Button, Form, Input } from 'antd'
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
-import { firebaseApp } from '../../../config/firebase'
-import { modalAccountStore } from '../../../store/modalAccount.store'
+import { firebaseApp } from '../../config/firebase'
 
-export const Register: React.FC = () => {
-  const { toggleHaveAccount, closeModal } = modalAccountStore()
+export interface RegisterFormProps {
+  className?: string
+  callback?: () => void
+  modal?: boolean
+  closeModal?: () => void
+}
 
+export const RegisterForm: React.FC<RegisterFormProps> = ({
+  className,
+  callback,
+  modal,
+  closeModal,
+}) => {
   const history = useHistory()
   const [isFail, setIsFail] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -23,11 +32,11 @@ export const Register: React.FC = () => {
       .auth()
       .createUserWithEmailAndPassword(value.email, value.password)
       .then(userCredentail => {
-        userCredentail.user?.updateProfile({ displayName: value.username })
+        userCredentail.user?.updateProfile({ displayName: value.userName })
       })
       .then(() => {
-        history.push('/success')
-        closeModal()
+        history.push('/home')
+        closeModal && closeModal()
       })
       .catch(error => {
         setMessage(error.message)
@@ -37,7 +46,7 @@ export const Register: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className={className}>
       <h1 className="text-3xl font-bold mb-5 text-center">Sign Up</h1>
       {isFail && (
         <Alert
@@ -52,7 +61,7 @@ export const Register: React.FC = () => {
         <Form.Item name="email" rules={[{ type: 'email', required: true }]}>
           <Input placeholder="Email" size="large" />
         </Form.Item>
-        <Form.Item name="username" rules={[{ required: true }]}>
+        <Form.Item name="userName" rules={[{ required: true }]}>
           <Input placeholder="username" size="large" />
         </Form.Item>
         <Form.Item name="password" rules={[{ required: true }]}>
@@ -68,7 +77,10 @@ export const Register: React.FC = () => {
         </Form.Item>
       </Form>
       <div className="text-center">
-        <a onClick={toggleHaveAccount} className="text-blue-500 ">
+        <a
+          onClick={() => (modal ? callback && callback() : history.push('/login'))}
+          className="text-blue-500 "
+        >
           already have account
         </a>
       </div>

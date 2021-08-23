@@ -3,29 +3,28 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import {
   Login,
   Register,
-  Success,
+  Home,
   ForgotPassword,
   LinkAccount,
   NotFound,
   Profile,
   LectureDetail,
 } from './pages'
-import { LayoutRoute, AccountManage } from './components'
 import Yoyo from './pages/Yoyo'
 import YoyoComment from './pages/Yoyo/YoyoComment'
+import { LayoutRoute } from './components'
 
 const App: React.FC = () => {
   return (
     <>
       <BrowserRouter>
-        <AccountManage />
         <Switch>
           <Route exact path="/">
             <Redirect to="/login" />
           </Route>
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
-          <LayoutRoute exact path="/success" component={Success} />
+          <LayoutRoute exact path="/home" component={Home} />
           <LayoutRoute exact path="/lecturedetail" component={LectureDetail} />
           <Route exact path="/linkAccount" component={LinkAccount} />
           <Route exact path="/forgotpassword" component={ForgotPassword} />

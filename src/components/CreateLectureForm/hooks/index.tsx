@@ -2,12 +2,16 @@ import { message } from 'antd'
 import Form from 'antd/lib/form'
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface'
 import { useEffect, useState } from 'react'
-import { Lecture } from '../../../../../constants/interface/lecture.interface'
-import { createLecture } from '../../../../../service/lectures'
-import { deleteImages, uploadImage } from '../../../../../service/storage'
-import { removeUndefined } from '../../../../../utils/object'
+import { CreateLectureDTO, updateLectureDTO } from '../../../constants/dto/lecture.dto'
+import { Lecture } from '../../../constants/interface/lecture.interface'
+import { createLecture } from '../../../service/lectures'
+import { deleteImages, uploadImage } from '../../../service/storage'
+import { initPhoto, removeUndefined } from '../../../utils/object'
 
-export const useLectureForm = (addOwnLecture: (lecture: Lecture) => void) => {
+export const useLectureForm = (
+  addOwnLecture: (lecture: Lecture) => void,
+  initData?: updateLectureDTO,
+) => {
   const [form] = Form.useForm()
   const [isOnCreate, setIsOnCreate] = useState(false)
   const [inputValue, setInputValue] = useState('')
@@ -25,9 +29,9 @@ export const useLectureForm = (addOwnLecture: (lecture: Lecture) => void) => {
   useEffect(() => {
     if (!isOnCreate) {
       form.resetFields()
-      form.setFieldsValue({ tags: [] })
-      form.setFieldsValue({ imageUrl: [] })
-      setFileList([])
+      form.setFieldsValue({ tags: initData?.tags || [] })
+      form.setFieldsValue({ imageUrl: initData?.imageUrl || [] })
+      setFileList(initPhoto(initData?.imageUrl))
     }
   }, [isOnCreate])
 
@@ -115,14 +119,15 @@ export const useLectureForm = (addOwnLecture: (lecture: Lecture) => void) => {
   }
 
   const onFinish = () => {
-    const value: any = removeUndefined({
+    const value: Partial<CreateLectureDTO> = removeUndefined({
       ...form.getFieldsValue(),
+      subjectId: form.getFieldValue('subjectId').split(' ')[0],
       imageUrl: fileList.map(file => file.url),
     })
     //Todo: Add เข้า DB
     addOwnLecture(value as Lecture)
     console.log(value)
-    createLecture(value)
+    createLecture(value as CreateLectureDTO)
       .then(() => message.success('อัพได้แล้วไอสัส'))
       .catch((err: any) => console.error(err))
     setIsOnCreate(false)

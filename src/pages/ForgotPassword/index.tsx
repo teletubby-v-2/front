@@ -15,7 +15,6 @@ export const ForgotPassword: React.FC = () => {
       setIsReset(true)
       // history.push('/login')
     } catch (error: any) {
-      const errorCode = error.code
       const errorMessage = error.message
       setMessage(errorMessage)
     }
