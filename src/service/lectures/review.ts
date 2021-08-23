@@ -13,6 +13,11 @@ function getReviewCollection(
 async function createReview(review: CreateReviewDTO): Promise<void> {
   const reviewCollection = getReviewCollection(review.lectureId)
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
+  const batch = firestore.batch()
+  const sfRef = lectureCollection.doc(review.lectureId)
+  const lectureData = await sfRef.get()
+  batch.update(sfRef, { reviewCount: lectureData.data()?.reviewCount + 1 })
+  batch.update(sfRef, { reviewCount: lectureData.data()?.sumRating + review.rating })
   const data: CreateReviewDTO = {
     ...review,
     createAt: timeStamp,
@@ -34,7 +39,12 @@ async function updateReview(review: UpdateReviewDTO): Promise<void> {
   return await reviewCollection.doc(data.reviewId).update(data)
 }
 
-async function daleteReview(reviewId: string, lectureId: string) {
+async function daleteReview(reviewId: string, lectureId: string, review: CreateReviewDTO) {
+  const batch = firestore.batch()
+  const sfRef = lectureCollection.doc(review.lectureId)
+  const lectureData = await sfRef.get()
+  batch.update(sfRef, { reviewCount: lectureData.data()?.reviewCount - 1 })
+  batch.update(sfRef, { reviewCount: lectureData.data()?.sumRating - review.rating })
   const reviewCollection = getReviewCollection(lectureId)
   return await reviewCollection.doc(reviewId).delete()
 }

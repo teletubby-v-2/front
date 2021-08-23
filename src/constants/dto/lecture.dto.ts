@@ -14,6 +14,7 @@ export interface CreateLectureDTO {
   isFinal?: boolean
   imageUrl: string[]
   tags?: string[]
+  sumRating?: number
   reviewCount?: number
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp
