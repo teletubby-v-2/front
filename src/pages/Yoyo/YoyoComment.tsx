@@ -57,7 +57,7 @@ const YoyoComment: React.FC = () => {
       console.log(mayo)
     }
     yoyo()
-    firestore
+    const unsubscribe = firestore
       .collection(Collection.Lectures)
       .doc('qrkx0ON2xXkbj3KYsgtA')
       .collection(Collection.Comments)
@@ -96,6 +96,7 @@ const YoyoComment: React.FC = () => {
           }
         })
       })
+    return () => unsubscribe()
   }, [])
 
   return (
