@@ -15,7 +15,12 @@ async function createLecture(lecture: CreateLectureDTO): Promise<void> {
     sumRating: 0,
   }
   if (firebaseApp.auth().currentUser) {
-    return await lectureCollection.doc().set(data)
+    console.log('Print', data)
+    try {
+      return await lectureCollection.doc().set(data)
+    } catch {
+      console.log('error')
+    }
   } else {
     throw new Error('ออดเฟล')
   }
@@ -27,7 +32,8 @@ async function updateLecture(lecture: UpdateLectureDTO): Promise<void> {
     ...lecture,
     updateAt: timeStamp,
   }
-  return await lectureCollection.doc(data.lectureId).update(data)
+  delete data.lectureId
+  return await lectureCollection.doc(lecture.lectureId).update(data)
 }
 
 async function deleteLecture(lectureId: string) {

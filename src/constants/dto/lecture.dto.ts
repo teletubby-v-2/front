@@ -19,7 +19,7 @@ export interface CreateLectureDTO {
 }
 
 export interface UpdateLectureDTO {
-  lectureId: string
+  lectureId?: string
   userId?: string
   subjectId?: string
   lectureTitle?: string

@@ -13,7 +13,7 @@ import {
 import Yoyo from './pages/Yoyo'
 import YoyoComment from './pages/Yoyo/YoyoComment'
 import { LayoutRoute } from './components'
-
+import eiei from './pages/Yoyo/user'
 const App: React.FC = () => {
   return (
     <>
@@ -32,7 +32,7 @@ const App: React.FC = () => {
           {/* for test */}
           <LayoutRoute exact path="/yoyo" component={Yoyo} />
           <LayoutRoute exact path="/yoyoComment" component={YoyoComment} />
-
+          <LayoutRoute exact path="/pong" component={eiei} />
           <Route exact path="*" component={NotFound} />
         </Switch>
       </BrowserRouter>
