@@ -1,5 +1,6 @@
+import { UploadFile } from 'antd/lib/upload/interface'
 interface Json {
-  [key: string]: any
+  [key: string]: unknown
 }
 
 export const removeUndefined = (json: Json): Json => {
@@ -7,4 +8,13 @@ export const removeUndefined = (json: Json): Json => {
     key => (json[key] === undefined || json[key] === '') && delete json[key],
   )
   return json
+}
+
+export const initPhoto = (urls = [] as string[]): UploadFile[] => {
+  return urls.map(url => ({
+    uid: url,
+    name: url,
+    status: 'done',
+    url: url,
+  }))
 }

@@ -1,28 +1,28 @@
 import React, { useState } from 'react'
 import { LectureContainer } from '../../components'
 import { dummyLectures } from '../../constants/dummyData/lecture.dummy'
-import { CreateLecture } from './components/CreateLecture'
 import { MyProfile } from './components/MyProfile'
+import { CreateLectureForm } from '../../components/CreateLectureForm'
 
 export const Profile: React.FC = () => {
   const [isViewAllOwn, setIsViewAllOwn] = useState(false)
   const [isViewAllRecent, setIsViewAllRecent] = useState(false)
-  const [isOnCreate, setIsOnCreate] = useState(false)
 
   return (
     <>
-      <div className="flex justify-center my-10">
-        <MyProfile />
-        <div className="w-1/2 m-2.5">
+      <div className="flex justify-center my-10 space-x-5">
+        <div className="w-1/4">
+          <MyProfile />
+        </div>
+        <div className="w-3/4 space-y-5">
           <LectureContainer
             title="My Lecture"
-            style={{ minHeight: '500px' }}
             data={dummyLectures}
             limit={8}
             viewAll={isViewAllOwn}
             extra={
               <>
-                <CreateLecture className="inline-block" />
+                <CreateLectureForm className="inline-block" />
                 <span className="m-2" />
                 <a onClick={() => setIsViewAllOwn(!isViewAllOwn)}>
                   {isViewAllOwn ? 'View Less' : 'View All'}
@@ -30,10 +30,9 @@ export const Profile: React.FC = () => {
               </>
             }
           />
-          <div className="m-4"></div>
+          <div></div>
           <LectureContainer
             title="Recent Lecture"
-            style={{ minHeight: '500px' }}
             data={dummyLectures}
             limit={8}
             viewAll={isViewAllRecent}

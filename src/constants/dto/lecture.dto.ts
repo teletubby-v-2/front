@@ -12,25 +12,13 @@ export interface CreateLectureDTO {
   description?: string
   isMid: boolean
   isFinal: boolean
-  imagesUrl: string[]
+  imageUrl: string[]
   tags: string[]
   createAt: firebase.firestore.Timestamp
   updateAt: firebase.firestore.Timestamp
 }
 
-export interface UpdateLectureDTO {
-  lectureId?: string
-  userId?: string
-  subjectId?: string
-  lectureTitle?: string
-  description?: string
-  isMid?: boolean
-  isFinal?: boolean
-  imagesUrl: string[]
-  tags: string[]
-  createAt?: firebase.firestore.Timestamp
-  updateAt?: firebase.firestore.Timestamp
-}
+export interface updateLectureDTO extends Partial<CreateLectureDTO> {}
 
 export interface LectureDTO extends Lecture {}
 
