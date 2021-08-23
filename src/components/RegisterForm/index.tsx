@@ -32,7 +32,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
       .auth()
       .createUserWithEmailAndPassword(value.email, value.password)
       .then(userCredentail => {
-        userCredentail.user?.updateProfile({ displayName: value.username })
+        userCredentail.user?.updateProfile({ displayName: value.userName })
       })
       .then(() => {
         history.push('/home')
@@ -61,7 +61,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
         <Form.Item name="email" rules={[{ type: 'email', required: true }]}>
           <Input placeholder="Email" size="large" />
         </Form.Item>
-        <Form.Item name="username" rules={[{ required: true }]}>
+        <Form.Item name="userName" rules={[{ required: true }]}>
           <Input placeholder="username" size="large" />
         </Form.Item>
         <Form.Item name="password" rules={[{ required: true }]}>

@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { LectureContainer } from '../../components'
 import { dummyLectures } from '../../constants/dummyData/lecture.dummy'
+import { MyProfile } from './components/MyProfile'
 import { CreateLectureForm } from '../../components/CreateLectureForm'
 
 export const Profile: React.FC = () => {
   const [isViewAllOwn, setIsViewAllOwn] = useState(false)
   const [isViewAllRecent, setIsViewAllRecent] = useState(false)
+
   return (
     <>
       <div className="flex justify-center my-10">
