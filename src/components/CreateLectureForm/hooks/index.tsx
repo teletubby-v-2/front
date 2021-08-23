@@ -1,8 +1,10 @@
+import { message } from 'antd'
 import Form from 'antd/lib/form'
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface'
 import { useEffect, useState } from 'react'
-import { EditLectureDTO } from '../../../constants/dto/lecture.dto'
+import { CreateLectureDTO, EditLectureDTO } from '../../../constants/dto/lecture.dto'
 import { Lecture } from '../../../constants/interface/lecture.interface'
+import { createLecture } from '../../../service/lectures'
 import { deleteImages, uploadImage } from '../../../service/storage'
 import { initPhoto, removeUndefined } from '../../../utils/object'
 
@@ -28,8 +30,8 @@ export const useLectureForm = (
     if (!isOnCreate) {
       form.resetFields()
       form.setFieldsValue({ tags: initData?.tags || [] })
-      form.setFieldsValue({ imageUrl: initData?.imagesUrl || [] })
-      setFileList(initPhoto(initData?.imagesUrl))
+      form.setFieldsValue({ imageUrl: initData?.imageUrl || [] })
+      setFileList(initPhoto(initData?.imageUrl))
     }
   }, [isOnCreate])
 
@@ -117,13 +119,16 @@ export const useLectureForm = (
   }
 
   const onFinish = () => {
-    const value: Partial<Lecture> = removeUndefined({
+    const value: Partial<CreateLectureDTO> = removeUndefined({
       ...form.getFieldsValue(),
       imageUrl: fileList.map(file => file.url),
     })
-    //TODO: Add เข้า DB
+    //Todo: Add เข้า DB
     addOwnLecture(value as Lecture)
     console.log(value)
+    createLecture(value as CreateLectureDTO)
+      .then(() => message.success('อัพได้แล้วไอสัส'))
+      .catch((err: any) => console.error(err))
     setIsOnCreate(false)
   }
 
