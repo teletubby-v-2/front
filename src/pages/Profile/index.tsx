@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { LectureContainer } from '../../components'
 import { dummyLectures } from '../../constants/dummyData/lecture.dummy'
-import { CreateLectureForm } from '../../components/CreateLectureFrom'
+import { CreateLectureForm } from '../../components/CreateLectureForm'
 
 export const Profile: React.FC = () => {
   const [isViewAllOwn, setIsViewAllOwn] = useState(false)
