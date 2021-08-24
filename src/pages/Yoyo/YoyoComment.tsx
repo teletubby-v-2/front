@@ -1,4 +1,4 @@
-import { Avatar, Button, Card, List, Skeleton } from 'antd'
+import { Avatar, Breadcrumb, Button, Card, Dropdown, List, Menu, Skeleton } from 'antd'
 import { Meta } from 'antd/lib/list/Item'
 import React, { useEffect, useState } from 'react'
 import { firestore } from '../../config/firebase'
@@ -9,6 +9,7 @@ import { createComment, deleteComment, updateComment } from '../../service/lectu
 import { fetchUser } from '../../utils/fetchUser'
 import { convertTimestampToTime } from '../../utils/time'
 import { dummyMessage } from './YoyoComment.dummy'
+import { DownOutlined } from '@ant-design/icons'
 
 const YoyoComment: React.FC = () => {
   const [count, setCount] = useState(0)
@@ -99,8 +100,41 @@ const YoyoComment: React.FC = () => {
     return () => unsubscribe()
   }, [])
 
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <a target="" rel="noopener noreferrer" href="https://localhost:3000/yoyo">
+          yoyoLectures
+        </a>
+      </Menu.Item>
+      <Menu.Item>
+        <a target="" rel="noopener noreferrer" href="https://localhost:3000/yoyoReview">
+          yoyoReviews
+        </a>
+      </Menu.Item>
+      <Menu.Item>
+        <a target="" rel="noopener noreferrer" href="https://localhost:3000/pong">
+          pongUser
+        </a>
+      </Menu.Item>
+    </Menu>
+  )
+
   return (
     <div className=" my-10 space-y-5">
+      <div>
+        <Breadcrumb>
+          <Breadcrumb.Item>Tester</Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <a href="https://localhost:3000/yoyoComment">yoyoComment</a>
+          </Breadcrumb.Item>
+        </Breadcrumb>
+        <Dropdown overlay={menu}>
+          <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+            go to <DownOutlined />
+          </a>
+        </Dropdown>
+      </div>
       <div className="flex flex-col items-center">
         <h1 className="font-bold text-2xl">path สำหรับ test comment</h1>
         <ul className="text-lg">

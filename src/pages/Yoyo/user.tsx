@@ -1,4 +1,4 @@
-import { Button, Card } from 'antd'
+import { Breadcrumb, Button, Card, Dropdown, Menu } from 'antd'
 import Meta from 'antd/lib/card/Meta'
 import React, { useEffect, useState } from 'react'
 import { firestore } from '../../config/firebase'
@@ -6,6 +6,7 @@ import { CreateUserDTO, UpdateUserDTO } from '../../constants/dto/myUser.dto'
 import { createUser, updateUser, deleteUser } from '../../service/user'
 import { convertTimestampToTime } from '../../utils/time'
 import { description, img, username } from './index.dummy'
+import { DownOutlined } from '@ant-design/icons'
 
 const User: React.FC = () => {
   const [count, setCount] = useState(0)
@@ -83,8 +84,41 @@ const User: React.FC = () => {
       })
   }, [])
 
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <a target="" rel="noopener noreferrer" href="https://localhost:3000/yoyo">
+          yoyoLectures
+        </a>
+      </Menu.Item>
+      <Menu.Item>
+        <a target="" rel="noopener noreferrer" href="https://localhost:3000/yoyoComment">
+          yoyoComments
+        </a>
+      </Menu.Item>
+      <Menu.Item>
+        <a target="" rel="noopener noreferrer" href="https://localhost:3000/yoyoReview">
+          yoyoReviews
+        </a>
+      </Menu.Item>
+    </Menu>
+  )
+
   return (
     <div className=" my-10 space-y-5">
+      <div>
+        <Breadcrumb>
+          <Breadcrumb.Item>Tester</Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <a href="https://localhost:3000/pong">pongUser</a>
+          </Breadcrumb.Item>
+        </Breadcrumb>
+        <Dropdown overlay={menu}>
+          <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+            go to <DownOutlined />
+          </a>
+        </Dropdown>
+      </div>
       <div className="flex flex-col items-center">
         <h1 className="font-bold text-2xl">path สำหรับ test user</h1>
         <ul className="text-lg">

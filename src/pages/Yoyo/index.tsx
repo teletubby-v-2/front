@@ -1,13 +1,13 @@
-import { Button, Card } from 'antd'
+import { Breadcrumb, Button, Card, Dropdown, Menu } from 'antd'
 import Meta from 'antd/lib/card/Meta'
 import React, { useEffect, useState } from 'react'
-import { firebaseApp, firestore } from '../../config/firebase'
+import { firestore } from '../../config/firebase'
 import { CreateLectureDTO, UpdateLectureDTO } from '../../constants/dto/lecture.dto'
 import { createLecture, deleteLecture, updateLecture } from '../../service/lectures'
 import { fetchUser } from '../../utils/fetchUser'
 import { convertTimestampToTime } from '../../utils/time'
 import { description, img, lectureTitle } from './index.dummy'
-
+import { DownOutlined } from '@ant-design/icons'
 interface LectureUser extends CreateLectureDTO {
   username?: string
 }
@@ -111,8 +111,40 @@ const Yoyo: React.FC = () => {
     })
   }
 
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <a target="" rel="noopener noreferrer" href="https://localhost:3000/yoyoComment">
+          yoyoComment
+        </a>
+      </Menu.Item>
+      <Menu.Item>
+        <a target="" rel="noopener noreferrer" href="https://localhost:3000/yoyoReview">
+          yoyoReview
+        </a>
+      </Menu.Item>
+      <Menu.Item>
+        <a target="" rel="noopener noreferrer" href="https://localhost:3000/pong">
+          pongUser
+        </a>
+      </Menu.Item>
+    </Menu>
+  )
   return (
     <div className=" my-10 space-y-5">
+      <div>
+        <Breadcrumb>
+          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <a href="https://localhost:3000/yoyo">yoyo</a>
+          </Breadcrumb.Item>
+        </Breadcrumb>
+        <Dropdown overlay={menu}>
+          <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+            go to <DownOutlined />
+          </a>
+        </Dropdown>
+      </div>
       <div className="flex flex-col items-center">
         <h1 className="font-bold text-2xl">path สำหรับ test lecture</h1>
         <ul className="text-lg">
@@ -126,6 +158,7 @@ const Yoyo: React.FC = () => {
           create Lecture
         </Button>
       </div>
+      <div></div>
       <div className="grid grid-cols-5 gap-5 container mx-auto">
         {lectureMayo.map(lecture => (
           <Card
