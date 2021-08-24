@@ -3,6 +3,7 @@ import { LectureContainer } from '../../components'
 import { dummyLectures } from '../../constants/dummyData/lecture.dummy'
 import { MyProfile } from './components/MyProfile'
 import { CreateLectureForm } from '../../components/CreateLectureForm'
+import { MyQR } from './components/MyQR'
 
 export const Profile: React.FC = () => {
   const [isViewAllOwn, setIsViewAllOwn] = useState(false)
@@ -12,7 +13,12 @@ export const Profile: React.FC = () => {
     <>
       <div className="flex justify-center my-10 space-x-5">
         <div className="w-1/4">
-          <MyProfile />
+          <div className="mb-10">
+            <MyProfile />
+          </div>
+          <div>
+            <MyQR />
+          </div>
         </div>
         <div className="w-3/4 space-y-5">
           <LectureContainer

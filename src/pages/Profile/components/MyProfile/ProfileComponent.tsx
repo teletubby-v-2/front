@@ -14,9 +14,15 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = props => {
   return (
     <div className="p-3">
       <h1 className="text-center text-2xl font-black ">{userInfo.userName}</h1>
-      <img src={userInfo.imageUrl} className="my-8 mx-auto" width="200" />
+      {userInfo.imageUrl ? (
+        <img src={userInfo.imageUrl} alt="Profile picture" className="my-8 mx-auto" width="200" />
+      ) : (
+        <div className="mx auto my-8 shadow text-center h-52 text-2xl place-content-center">
+          No Picture
+        </div>
+      )}
       <div className="text-center space-x-4">
-        <Button className="w-48" onClick={onEdit}>
+        <Button className="w-1/2" onClick={onEdit}>
           Edit
         </Button>
         <Button>

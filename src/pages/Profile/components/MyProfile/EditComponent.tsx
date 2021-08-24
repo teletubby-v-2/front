@@ -19,9 +19,7 @@ export interface EditComponentProps {
   onClose: () => void
 }
 
-{
-  /* TODO: upload Profile picture function*/
-}
+/* TODO: upload Profile picture function*/
 
 export const EditComponent: React.FC<EditComponentProps> = props => {
   const [isUploading, setIsUploading] = useState(false)
@@ -49,6 +47,7 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
   const onFinish = (value: UpdateValue) => {
     onClose()
     console.log(value)
+    console.log(value.imageUrl)
     /* TODO: update profile */
   }
 
@@ -67,11 +66,12 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
   return (
     <div className="p-3">
       <h1 className="text-center text-2xl font-black">Edit Profile</h1>
-      {/* <img src={userInfo.imageUrl} className="my-8 mx-auto" width="200" /> */}
       {imageUrl ? (
-        <img src={imageUrl} alt="avatar" className="my-8 mx-auto" width="200" />
+        <img src={imageUrl} alt="Profile picture" className="my-8 mx-auto" width="200" />
       ) : (
-        <img src={userInfo.imageUrl} className="my-8 mx-auto" width="200" />
+        <div className="mx auto my-8 shadow text-center h-52 text-2xl place-content-center">
+          No Picture
+        </div>
       )}
       <Form onFinish={onFinish} initialValues={userInfo}>
         <div className="text-center">
