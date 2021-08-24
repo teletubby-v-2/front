@@ -8,9 +8,6 @@ import { DownOutlined } from '@ant-design/icons'
 import { Redirect, useHistory, useParams } from 'react-router'
 import { ReviewCom } from './components/Review'
 import { CommentCom } from './components/CommentCom'
-import { Link } from 'react-router-dom'
-import { CreateLectureForm } from '../../components/CreateLectureForm'
-
 // import CommentCom from './components/comment'
 
 const Post: React.FC = () => {
@@ -26,7 +23,7 @@ const Post: React.FC = () => {
   useEffect(() => {
     const yoyo = async () => {
       const mayo = await firestore.collection('Lectures').doc(id).get()
-      setLecture({ ...mayo.data(), lectureId: mayo.id } as CreateLectureDTO)
+      setLecture(mayo.data() as CreateLectureDTO)
       // console.log(mayo)
     }
     yoyo()
@@ -35,10 +32,14 @@ const Post: React.FC = () => {
   const menu = (
     <Menu>
       <Menu.Item>
-        <Link to="/yoyo">Lectures</Link>
+        <a target="" rel="noopener noreferrer" href="https://localhost:3000/yoyo">
+          Lectures
+        </a>
       </Menu.Item>
       <Menu.Item>
-        <Link to="pong">pongUser</Link>
+        <a target="" rel="noopener noreferrer" href="https://localhost:3000/pong">
+          pongUser
+        </a>
       </Menu.Item>
     </Menu>
   )
@@ -52,10 +53,10 @@ const Post: React.FC = () => {
         <Breadcrumb>
           <Breadcrumb.Item>Tester</Breadcrumb.Item>
           <Breadcrumb.Item>
-            <Link to="/yoyo">Lectures</Link>
+            <a href="https://localhost:3000/yoyo">Lectures</a>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a href={`/post/${id}`}>{id}</a>
+            <a href={`https://localhost:3000/post/${id}`}>{id}</a>
           </Breadcrumb.Item>
         </Breadcrumb>
         <Dropdown overlay={menu}>
@@ -66,12 +67,14 @@ const Post: React.FC = () => {
       </div>
 
       <div className="flex flex-col items-center">
-        <h1 className="font-bold text-2xl">path สำหรับ test comment, review, QandA bra bra bra</h1>
+        <h1 className="font-bold text-2xl">path สำหรับ test comment</h1>
+        <ul className="text-lg">
+          <li>create comment -{'>'} สร้าง comment</li>
+        </ul>
       </div>
 
       <div className="flex justify-center">
         <Card
-          title={<CreateLectureForm className="text-right block" label="edit" initData={lecture} />}
           className="w-2/7"
           key={lecture?.lectureId}
           cover={
@@ -93,7 +96,7 @@ const Post: React.FC = () => {
         </Card>
         <Tabs
           onChange={key => {
-            history.push(`${history.location.pathname}${key}`)
+            history.replace(`${history.location.pathname}${key}`)
           }}
           activeKey={history.location.hash}
           className="w-3/6 ml-3"
