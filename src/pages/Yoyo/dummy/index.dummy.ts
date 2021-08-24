@@ -1,5 +1,5 @@
 const img: string[] = [
-  'https://firebasestorage.googleapis.com/v0/b/teletubby-v2.appspot.com/o/images%2F063765080734.889000000%E0%B8%9F%E0%B9%89%E0%B8%B2%E0%B8%8A%E0%B8%B2%E0%B8%A2%20%E0%B8%AA%E0%B8%B9%E0%B8%97.jpg?alt=media&token=a8b8f907-9ee9-400a-abce-1bfbf31eea6d',
+  'https://firebasestorage.googleapis.com/v0/b/teletubby-v2.appspot.com/o/images%2F063765081178.193000000eakgrean.png?alt=media&token=5d5c9748-dc82-4c3a-815e-afd84115c1e1',
   'https://cdn.discordapp.com/attachments/867750800193224725/867750850927001630/unknown.png',
   'https://firebasestorage.googleapis.com/v0/b/teletubby-v2.appspot.com/o/images%2F063765078032.164000000jamescomfirm.png?alt=media&token=d73ee4bd-6df1-418f-8dc5-2042603636ed',
   'https://firebasestorage.googleapis.com/v0/b/teletubby-v2.appspot.com/o/images%2F063765080973.657000000duke.png?alt=media&token=2f3dc116-c9c7-4d6f-927f-2845ea7a138d',

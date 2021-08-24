@@ -1,4 +1,4 @@
-import { Breadcrumb, Button, Card, Dropdown, Menu } from 'antd'
+import { Breadcrumb, Button, Card, Dropdown, Menu, message } from 'antd'
 import Meta from 'antd/lib/card/Meta'
 import React, { useEffect, useState } from 'react'
 import { firestore } from '../../config/firebase'
@@ -10,6 +10,7 @@ import { description, img, lectureTitle } from './dummy/index.dummy'
 import { DownOutlined } from '@ant-design/icons'
 import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
+import { CreateLectureForm } from '../../components/CreateLectureForm'
 interface LectureUser extends CreateLectureDTO {
   username?: string
 }
@@ -31,6 +32,8 @@ const Yoyo: React.FC = () => {
     }
     setCount(count + 1)
     createLecture(data)
+      .then(() => message.success('สร้างแล้วคับ'))
+      .catch(() => message.error('สร้างไม่ได้จ้า login ด้วยอส'))
   }
 
   const testUpdateLecture = (id: string) => {
@@ -142,8 +145,13 @@ const Yoyo: React.FC = () => {
       </div>
       <div className="flex justify-center space-x-2">
         <Button size="large" type="primary" onClick={testCreateLecture}>
-          create Lecture
+          create Fast!!!!
         </Button>
+        <CreateLectureForm className=" ml-10">
+          <Button type="primary" size="large">
+            create custom
+          </Button>
+        </CreateLectureForm>
       </div>
       <div></div>
       <div className="grid grid-cols-5 gap-5 container mx-auto">

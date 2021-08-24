@@ -93,7 +93,7 @@ export const CommentCom: React.FC<CommentComProps> = ({ id }) => {
     <div>
       <Form form={form} layout="inline" onFinish={testCreateComment}>
         <Form.Item name="message" rules={[{ required: true }]} className="w-96">
-          <Input placeholder="comment" />
+          <Input.TextArea placeholder="comment" />
         </Form.Item>
         <Form.Item shouldUpdate>
           {() => (
