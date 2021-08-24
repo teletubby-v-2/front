@@ -109,21 +109,14 @@ export const ReviewCom: React.FC<ReviewComProps> = ({ id }) => {
         </Form.Item>
         <Form.Item shouldUpdate>
           {() => (
-            <Button
-              type="primary"
-              htmlType="submit"
-              disabled={
-                !form.isFieldsTouched(true) ||
-                !!form.getFieldsError().filter(({ errors }) => errors.length).length
-              }
-            >
+            <Button type="primary" htmlType="submit" disabled={!form.getFieldValue('rating')}>
               review
             </Button>
           )}
         </Form.Item>
       </Form>
       <List
-        className="demo-loadmore-list w-full"
+        className="w-full"
         size="large"
         itemLayout="horizontal"
         dataSource={review}
