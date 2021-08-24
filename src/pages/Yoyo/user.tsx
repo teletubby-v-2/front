@@ -5,7 +5,7 @@ import { firestore } from '../../config/firebase'
 import { CreateUserDTO, UpdateUserDTO } from '../../constants/dto/myUser.dto'
 import { createUser, updateUser, deleteUser } from '../../service/user'
 import { convertTimestampToTime } from '../../utils/time'
-import { description, img, username } from './index.dummy'
+import { description, img, username } from './dummy/index.dummy'
 import { DownOutlined } from '@ant-design/icons'
 
 const User: React.FC = () => {
@@ -87,7 +87,7 @@ const User: React.FC = () => {
   const menu = (
     <Menu>
       <Menu.Item>
-        <a target="" rel="noopener noreferrer" href="https://localhost:3000/yoyo">
+        <a target="" href="/yoyo">
           Lectures
         </a>
       </Menu.Item>
@@ -100,11 +100,11 @@ const User: React.FC = () => {
         <Breadcrumb>
           <Breadcrumb.Item>Tester</Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a href="https://localhost:3000/pong">pongUser</a>
+            <a href="/pong">pongUser</a>
           </Breadcrumb.Item>
         </Breadcrumb>
         <Dropdown overlay={menu}>
-          <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+          <a onClick={e => e.preventDefault()}>
             go to <DownOutlined />
           </a>
         </Dropdown>

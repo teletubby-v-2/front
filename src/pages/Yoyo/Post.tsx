@@ -8,6 +8,7 @@ import { DownOutlined } from '@ant-design/icons'
 import { Redirect, useHistory, useParams } from 'react-router'
 import { ReviewCom } from './components/Review'
 import { CommentCom } from './components/CommentCom'
+import { Link } from 'react-router-dom'
 // import CommentCom from './components/comment'
 
 const Post: React.FC = () => {
@@ -32,14 +33,10 @@ const Post: React.FC = () => {
   const menu = (
     <Menu>
       <Menu.Item>
-        <a target="" rel="noopener noreferrer" href="https://localhost:3000/yoyo">
-          Lectures
-        </a>
+        <Link to="/yoyo">Lectures</Link>
       </Menu.Item>
       <Menu.Item>
-        <a target="" rel="noopener noreferrer" href="https://localhost:3000/pong">
-          pongUser
-        </a>
+        <Link to="pong">pongUser</Link>
       </Menu.Item>
     </Menu>
   )
@@ -53,10 +50,10 @@ const Post: React.FC = () => {
         <Breadcrumb>
           <Breadcrumb.Item>Tester</Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a href="https://localhost:3000/yoyo">Lectures</a>
+            <Link to="/yoyo">Lectures</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a href={`https://localhost:3000/post/${id}`}>{id}</a>
+            <a href={`/post/${id}`}>{id}</a>
           </Breadcrumb.Item>
         </Breadcrumb>
         <Dropdown overlay={menu}>
@@ -67,10 +64,7 @@ const Post: React.FC = () => {
       </div>
 
       <div className="flex flex-col items-center">
-        <h1 className="font-bold text-2xl">path สำหรับ test comment</h1>
-        <ul className="text-lg">
-          <li>create comment -{'>'} สร้าง comment</li>
-        </ul>
+        <h1 className="font-bold text-2xl">path สำหรับ test comment, review, QandA bra bra bra</h1>
       </div>
 
       <div className="flex justify-center">

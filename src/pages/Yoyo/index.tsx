@@ -6,9 +6,10 @@ import { CreateLectureDTO, UpdateLectureDTO } from '../../constants/dto/lecture.
 import { createLecture, deleteLecture, updateLecture } from '../../service/lectures'
 import { fetchUser } from '../../utils/fetchUser'
 import { convertTimestampToTime } from '../../utils/time'
-import { description, img, lectureTitle } from './index.dummy'
+import { description, img, lectureTitle } from './dummy/index.dummy'
 import { DownOutlined } from '@ant-design/icons'
 import { useHistory } from 'react-router'
+import { Link } from 'react-router-dom'
 interface LectureUser extends CreateLectureDTO {
   username?: string
 }
@@ -117,9 +118,7 @@ const Yoyo: React.FC = () => {
   const menu = (
     <Menu>
       <Menu.Item>
-        <a target="" rel="noopener noreferrer" href="https://localhost:3000/pong">
-          pongUser
-        </a>
+        <Link to="/pong">pongUser</Link>
       </Menu.Item>
     </Menu>
   )
@@ -129,7 +128,7 @@ const Yoyo: React.FC = () => {
         <Breadcrumb>
           <Breadcrumb.Item>Tester</Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a href="https://localhost:3000/yoyo">Lectures</a>
+            <Link to="/yoyo">Lectures</Link>
           </Breadcrumb.Item>
         </Breadcrumb>
         <Dropdown overlay={menu}>
