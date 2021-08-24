@@ -36,12 +36,12 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
         return userCredentail
       })
       .then(user => {
+        closeModal && closeModal()
         if (user.user?.emailVerified) {
-          history.push('/home')
+          !closeModal && history.push('/home')
         } else {
           history.push('/verifyEmail')
         }
-        closeModal && closeModal()
       })
       .catch(error => {
         setMessage(error.message)

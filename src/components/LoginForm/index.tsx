@@ -38,7 +38,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ className, callback, modal
       .then(user => {
         closeModal && closeModal()
         if (user.user?.emailVerified) {
-          history.push('/home')
+          !closeModal && history.push('/home')
         } else {
           history.push('/verifyEmail')
         }
@@ -83,7 +83,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ className, callback, modal
             ).then(user => {
               closeModal && closeModal()
               if (user?.user?.emailVerified) {
-                history.push('/home')
+                !closeModal && history.push('/home')
               } else {
                 history.push('/verifyEmail')
               }
@@ -101,7 +101,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ className, callback, modal
       case 'google':
         return signInWithGoogle()
           .then(() => {
-            history.push('/home')
+            !closeModal && history.push('/home')
             closeModal && closeModal()
           })
           .catch((error: AuthError) => manageSameLogInAccount(error))
@@ -110,7 +110,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ className, callback, modal
           .then(user => {
             closeModal && closeModal()
             if (user.user?.emailVerified) {
-              history.push('/home')
+              !closeModal && history.push('/home')
             } else {
               history.push('/verifyEmail')
             }
@@ -121,7 +121,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ className, callback, modal
           .then(user => {
             closeModal && closeModal()
             if (user.user?.emailVerified) {
-              history.push('/home')
+              !closeModal && history.push('/home')
             } else {
               history.push('/verifyEmail')
             }
