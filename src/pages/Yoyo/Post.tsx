@@ -33,12 +33,7 @@ const Post: React.FC = () => {
     <Menu>
       <Menu.Item>
         <a target="" rel="noopener noreferrer" href="https://localhost:3000/yoyo">
-          yoyoLectures
-        </a>
-      </Menu.Item>
-      <Menu.Item>
-        <a target="" rel="noopener noreferrer" href="https://localhost:3000/yoyoReview">
-          yoyoReviews
+          Lectures
         </a>
       </Menu.Item>
       <Menu.Item>
@@ -58,7 +53,10 @@ const Post: React.FC = () => {
         <Breadcrumb>
           <Breadcrumb.Item>Tester</Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a href="https://localhost:3000/yoyoComment">yoyoComment</a>
+            <a href="https://localhost:3000/yoyo">Lectures</a>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <a href={`https://localhost:3000/post/${id}`}>{id}</a>
           </Breadcrumb.Item>
         </Breadcrumb>
         <Dropdown overlay={menu}>

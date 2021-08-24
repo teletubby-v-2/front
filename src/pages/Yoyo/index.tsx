@@ -34,6 +34,7 @@ const Yoyo: React.FC = () => {
 
   const testUpdateLecture = (id: string) => {
     const data: UpdateLectureDTO = {
+      imageUrl: [img[count % 5]],
       lectureId: id,
       description: description[count % 6],
       lectureTitle: lectureTitle[count % 7],
@@ -116,16 +117,6 @@ const Yoyo: React.FC = () => {
   const menu = (
     <Menu>
       <Menu.Item>
-        <a target="" rel="noopener noreferrer" href="https://localhost:3000/yoyoComment">
-          yoyoComment
-        </a>
-      </Menu.Item>
-      <Menu.Item>
-        <a target="" rel="noopener noreferrer" href="https://localhost:3000/yoyoReview">
-          yoyoReview
-        </a>
-      </Menu.Item>
-      <Menu.Item>
         <a target="" rel="noopener noreferrer" href="https://localhost:3000/pong">
           pongUser
         </a>
@@ -136,9 +127,9 @@ const Yoyo: React.FC = () => {
     <div className=" my-10 space-y-5">
       <div>
         <Breadcrumb>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>Tester</Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a href="https://localhost:3000/yoyo">yoyo</a>
+            <a href="https://localhost:3000/yoyo">Lectures</a>
           </Breadcrumb.Item>
         </Breadcrumb>
         <Dropdown overlay={menu}>
@@ -149,11 +140,6 @@ const Yoyo: React.FC = () => {
       </div>
       <div className="flex flex-col items-center">
         <h1 className="font-bold text-2xl">path สำหรับ test lecture</h1>
-        <ul className="text-lg">
-          <li>create lecture -{'>'} สร้าง lecture</li>
-          <li>update -{'>'} update title กับ des</li>
-          <li>delete -{'>'} ลบบบบบบบบบบบ บบบบบบ</li>
-        </ul>
       </div>
       <div className="flex justify-center space-x-2">
         <Button size="large" type="primary" onClick={testCreateLecture}>
@@ -169,7 +155,7 @@ const Yoyo: React.FC = () => {
             cover={<img className="h-96 object-cover" alt="cock" src={lecture.imageUrl[0]} />}
             actions={[
               <div key="2" onClick={() => history.push(`post/${lecture.lectureId}`)}>
-                see comment
+                show all
               </div>,
               <div key="2" onClick={() => handleSelectFor('delete', lecture.lectureId || '')}>
                 delete

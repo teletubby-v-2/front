@@ -88,17 +88,7 @@ const User: React.FC = () => {
     <Menu>
       <Menu.Item>
         <a target="" rel="noopener noreferrer" href="https://localhost:3000/yoyo">
-          yoyoLectures
-        </a>
-      </Menu.Item>
-      <Menu.Item>
-        <a target="" rel="noopener noreferrer" href="https://localhost:3000/yoyoComment">
-          yoyoComments
-        </a>
-      </Menu.Item>
-      <Menu.Item>
-        <a target="" rel="noopener noreferrer" href="https://localhost:3000/yoyoReview">
-          yoyoReviews
+          Lectures
         </a>
       </Menu.Item>
     </Menu>
