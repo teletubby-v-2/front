@@ -8,6 +8,7 @@ import { DownOutlined } from '@ant-design/icons'
 import { Redirect, useHistory, useParams } from 'react-router'
 import { ReviewCom } from './components/Review'
 import { CommentCom } from './components/CommentCom'
+import { CreateLectureForm } from '../../components/CreateLectureForm'
 // import CommentCom from './components/comment'
 
 const Post: React.FC = () => {
@@ -75,6 +76,7 @@ const Post: React.FC = () => {
 
       <div className="flex justify-center">
         <Card
+          title={<CreateLectureForm className="text-right block" label="edit" initData={lecture} />}
           className="w-2/7"
           key={lecture?.lectureId}
           cover={
