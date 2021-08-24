@@ -6,7 +6,7 @@ function convertTimestampToTime(date: Date) {
 
     return hours.substr(-2) + ':' + minutes.substr(-2) + ':' + seconds.substr(-2)
   } catch {
-    console.error('time มาไม่ทัน')
+    return '00:00:00'
   }
 }
 

@@ -8,7 +8,7 @@ import { Review } from '../../constants/interface/lecture.interface'
 import { createReview, deleteReview, updateReview } from '../../service/lectures/review'
 import { fetchUser } from '../../utils/fetchUser'
 import { convertTimestampToTime } from '../../utils/time'
-import { dummyMessage, dummyReview } from './YoyoReview.dummy'
+import { dummyMessage, dummyReview } from './dummy/YoyoReview.dummy'
 import { Rate } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
 

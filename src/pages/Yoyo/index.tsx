@@ -164,12 +164,11 @@ const Yoyo: React.FC = () => {
       <div className="grid grid-cols-5 gap-5 container mx-auto">
         {lectureMayo.map(lecture => (
           <Card
-            className=""
             title={lecture.username || ''}
             key={lecture.lectureId}
             cover={<img className="h-96 object-cover" alt="cock" src={lecture.imageUrl[0]} />}
             actions={[
-              <div key="2" onClick={() => history.push(`yoyocomment/${lecture.lectureId}`)}>
+              <div key="2" onClick={() => history.push(`post/${lecture.lectureId}`)}>
                 see comment
               </div>,
               <div key="2" onClick={() => handleSelectFor('delete', lecture.lectureId || '')}>

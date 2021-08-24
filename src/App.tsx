@@ -16,6 +16,7 @@ import { LayoutRoute } from './components'
 import YoyoReview from './pages/Yoyo/YoyoReview'
 
 import eiei from './pages/Yoyo/user'
+import Post from './pages/Yoyo/Post'
 const App: React.FC = () => {
   return (
     <>
@@ -36,7 +37,7 @@ const App: React.FC = () => {
           {/* <LayoutRoute path="/yoyoComment" component={YoyoComment} /> */}
           <LayoutRoute exact path="/yoyoComment/:id" component={YoyoComment} />
           <LayoutRoute exact path="/yoyoReview" component={YoyoReview} />
-
+          <LayoutRoute exact path="/post/:id" component={Post} />
           <LayoutRoute exact path="/pong" component={eiei} />
           <Route exact path="*" component={NotFound} />
         </Switch>

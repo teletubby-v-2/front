@@ -8,9 +8,9 @@ import { Comments } from '../../constants/interface/lecture.interface'
 import { createComment, deleteComment, updateComment } from '../../service/lectures/comment'
 import { fetchUser } from '../../utils/fetchUser'
 import { convertTimestampToTime } from '../../utils/time'
-import { dummyMessage } from './YoyoComment.dummy'
+import { dummyMessage } from './dummy/YoyoComment.dummy'
 import { DownOutlined } from '@ant-design/icons'
-import { useParams } from 'react-router'
+import { Redirect, useHistory, useLocation, useParams } from 'react-router'
 
 const YoyoComment: React.FC = () => {
   const [count, setCount] = useState(0)
@@ -18,7 +18,8 @@ const YoyoComment: React.FC = () => {
   const [commentMayo, setCommentMayo] = useState<Comments[]>([])
   const [loading, setLoading] = useState(false)
   const { id } = useParams<{ id: string }>()
-
+  const location = useLocation()
+  const history = useHistory()
   const testCreateComment = () => {
     const data = {
       lectureId: id,
@@ -57,7 +58,7 @@ const YoyoComment: React.FC = () => {
     const yoyo = async () => {
       const mayo = await firestore.collection('Lectures').doc(id).get()
       setLecture(mayo.data() as CreateLectureDTO)
-      console.log(mayo)
+      // console.log(mayo)
     }
     yoyo()
     const unsubscribe = firestore
@@ -70,7 +71,7 @@ const YoyoComment: React.FC = () => {
           setLoading(true)
           const data = change.doc.data()
           if (change.type === 'added') {
-            console.log('New Lecture: ', data)
+            // console.log('New Lecture: ', data)
             fetchUser(data.userId).then(user =>
               setCommentMayo(commentMap => [
                 ...commentMap,
@@ -79,7 +80,7 @@ const YoyoComment: React.FC = () => {
             )
           }
           if (change.type === 'modified') {
-            console.log('Modified Lecture: ', data)
+            // console.log('Modified Lecture: ', data)
             setCommentMayo(commentMap => {
               const index = commentMap.findIndex(comment => comment.id === change.doc.id)
               const user = {
@@ -94,13 +95,13 @@ const YoyoComment: React.FC = () => {
             })
           }
           if (change.type === 'removed') {
-            console.log('Removed Lecture: ', data)
+            // console.log('Removed Lecture: ', data)
             setCommentMayo(commentMap => commentMap.filter(comment => comment.id !== change.doc.id))
           }
         })
       })
     return () => unsubscribe()
-  }, [])
+  }, [id])
 
   const menu = (
     <Menu>
@@ -124,6 +125,9 @@ const YoyoComment: React.FC = () => {
 
   return (
     <div className=" my-10 space-y-5">
+      {history.location.hash.length == 0 && (
+        <Redirect to={`${history.location.pathname}#comment`} />
+      )}
       <div>
         <Breadcrumb>
           <Breadcrumb.Item>Tester</Breadcrumb.Item>
@@ -137,7 +141,6 @@ const YoyoComment: React.FC = () => {
           </a>
         </Dropdown>
       </div>
-      {console.log(id)}
 
       <div className="flex flex-col items-center">
         <h1 className="font-bold text-2xl">path สำหรับ test comment</h1>
@@ -171,7 +174,6 @@ const YoyoComment: React.FC = () => {
             {convertTimestampToTime(lecture?.createAt?.toDate() as Date)}
           </p>
         </Card>
-
         <List
           className="demo-loadmore-list w-3/6"
           size="large"
