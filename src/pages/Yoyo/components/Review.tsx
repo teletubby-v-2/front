@@ -6,6 +6,7 @@ import { CreateReviewDTO } from '../../../constants/dto/lecture.dto'
 import { Review } from '../../../constants/interface/lecture.interface'
 import { createReview, deleteReview, updateReview } from '../../../service/lectures/review'
 import { fetchUser } from '../../../utils/fetchUser'
+import { Json, removeUndefined } from '../../../utils/object'
 import { dummyMessage } from '../dummy/YoyoComment.dummy'
 import { dummyReview } from '../dummy/YoyoReview.dummy'
 
@@ -22,11 +23,13 @@ export const ReviewCom: React.FC<ReviewComProps> = ({ id }) => {
   const testCreateReview = (value?: any) => {
     const data = {
       lectureId: id,
-      message: value.message || dummyMessage[count % 7],
+      message: value.message,
       rating: value.rating || dummyReview[count % 6],
     }
     setCount(count + 1)
-    createReview(data)
+
+    const cleanData = removeUndefined(data as Json) as unknown as CreateReviewDTO
+    createReview(cleanData)
   }
   const testUpdateReview = (lectureId: string, reviewId: string) => {
     const data = {
