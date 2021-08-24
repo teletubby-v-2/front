@@ -8,6 +8,7 @@ import { fetchUser } from '../../utils/fetchUser'
 import { convertTimestampToTime } from '../../utils/time'
 import { description, img, lectureTitle } from './index.dummy'
 import { DownOutlined } from '@ant-design/icons'
+import { useHistory } from 'react-router'
 interface LectureUser extends CreateLectureDTO {
   username?: string
 }
@@ -15,6 +16,7 @@ interface LectureUser extends CreateLectureDTO {
 const Yoyo: React.FC = () => {
   const [count, setCount] = useState(0)
   const [lectureMayo, setLectureMayo] = useState<LectureUser[]>([])
+  const history = useHistory()
 
   const testCreateLecture = () => {
     const data: CreateLectureDTO = {
@@ -167,6 +169,9 @@ const Yoyo: React.FC = () => {
             key={lecture.lectureId}
             cover={<img className="h-96 object-cover" alt="cock" src={lecture.imageUrl[0]} />}
             actions={[
+              <div key="2" onClick={() => history.push(`yoyocomment/${lecture.lectureId}`)}>
+                see comment
+              </div>,
               <div key="2" onClick={() => handleSelectFor('delete', lecture.lectureId || '')}>
                 delete
               </div>,

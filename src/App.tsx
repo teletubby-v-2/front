@@ -33,7 +33,8 @@ const App: React.FC = () => {
           <LayoutRoute exact path="/profile" component={Profile} />
           {/* for test */}
           <LayoutRoute exact path="/yoyo" component={Yoyo} />
-          <LayoutRoute exact path="/yoyoComment" component={YoyoComment} />
+          {/* <LayoutRoute path="/yoyoComment" component={YoyoComment} /> */}
+          <LayoutRoute exact path="/yoyoComment/:id" component={YoyoComment} />
           <LayoutRoute exact path="/yoyoReview" component={YoyoReview} />
 
           <LayoutRoute exact path="/pong" component={eiei} />

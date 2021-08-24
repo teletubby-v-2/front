@@ -10,16 +10,18 @@ import { fetchUser } from '../../utils/fetchUser'
 import { convertTimestampToTime } from '../../utils/time'
 import { dummyMessage } from './YoyoComment.dummy'
 import { DownOutlined } from '@ant-design/icons'
+import { useParams } from 'react-router'
 
 const YoyoComment: React.FC = () => {
   const [count, setCount] = useState(0)
   const [lecture, setLecture] = useState<CreateLectureDTO>({} as CreateLectureDTO)
   const [commentMayo, setCommentMayo] = useState<Comments[]>([])
   const [loading, setLoading] = useState(false)
+  const { id } = useParams<{ id: string }>()
 
   const testCreateComment = () => {
     const data = {
-      lectureId: 'pug',
+      lectureId: id,
       message: dummyMessage[count % 7],
       reply: [],
     }
@@ -53,14 +55,14 @@ const YoyoComment: React.FC = () => {
 
   useEffect(() => {
     const yoyo = async () => {
-      const mayo = await firestore.collection('Lectures').doc('pug').get()
+      const mayo = await firestore.collection('Lectures').doc(id).get()
       setLecture(mayo.data() as CreateLectureDTO)
       console.log(mayo)
     }
     yoyo()
     const unsubscribe = firestore
       .collection(Collection.Lectures)
-      .doc('pug')
+      .doc(id)
       .collection(Collection.Comments)
       .orderBy('createAt')
       .onSnapshot(querySnapshot => {
@@ -135,6 +137,8 @@ const YoyoComment: React.FC = () => {
           </a>
         </Dropdown>
       </div>
+      {console.log(id)}
+
       <div className="flex flex-col items-center">
         <h1 className="font-bold text-2xl">path สำหรับ test comment</h1>
         <ul className="text-lg">
