@@ -101,7 +101,7 @@ export const ReviewCom: React.FC<ReviewComProps> = ({ id }) => {
   return (
     <>
       <Form form={form} layout="inline" onFinish={testCreateReview}>
-        <Form.Item name="message" rules={[{ required: false }]} className="w-80">
+        <Form.Item name="message" className="w-80">
           <Input.TextArea placeholder="comment" />
         </Form.Item>
         <Form.Item name="rating" rules={[{ required: true }]}>
