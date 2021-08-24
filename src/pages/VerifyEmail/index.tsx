@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import kushare from '../../assets/icons/KUshare.svg'
 import { Button, Card } from 'antd'
 import { firebaseApp } from '../../config/firebase'
+import { useHistory } from 'react-router'
+import { logout } from '../../service/auth'
 
 export const VerifyEmail: React.FC = () => {
   const [isClick, setIsClick] = useState(false)
+  const history = useHistory()
+
   const handleVerifyEmail = () => {
     if (firebaseApp.auth().currentUser) {
       firebaseApp
@@ -13,10 +17,33 @@ export const VerifyEmail: React.FC = () => {
         .then(() => setIsClick(true))
     }
   }
+
+  useEffect(() => {
+    const unsub = setInterval(() => {
+      if (firebaseApp.auth().currentUser) {
+        firebaseApp
+          .auth()
+          .currentUser?.reload()
+          .then(() => {
+            if (firebaseApp.auth().currentUser?.emailVerified) {
+              history.push('/home')
+            }
+          })
+      } else {
+        history.push('/login')
+      }
+    }, 1000)
+    return () => clearInterval(unsub)
+  }, [])
+
+  const handleLoginAsGuest = () => {
+    logout().then(() => history.push('/home'))
+  }
+
   return (
     <div className="flex flex-col items-center text-center">
       <img src={kushare} alt="" width="200px" className="p-10" />
-      <Card style={{ maxWidth: 700, boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}>
+      <Card className="verify-card">
         <div className="space-y-5">
           <p className="text-2xl font-bold">Verify your email address</p>
           <p className="text-sm text-gray-500">
@@ -27,6 +54,12 @@ export const VerifyEmail: React.FC = () => {
             {isClick ? 'Resend Verification Email' : 'Verify My Email'}
           </Button>
         </div>
+        <a
+          onClick={handleLoginAsGuest}
+          className="text-right text-blue-500 mt-1 text-sm -mb-3 block"
+        >
+          login as guest user
+        </a>
       </Card>
     </div>
   )

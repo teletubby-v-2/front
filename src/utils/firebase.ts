@@ -23,4 +23,36 @@ function filterTransfer(
   return setFilter
 }
 
-export { filterTransfer }
+const getUserFromIndexDB = async () => {
+  return new Promise(resolve => {
+    const asyncForEach = (array: any, callback: any, done: any) => {
+      const runAndWait = (i: any) => {
+        if (i === array.length) return done()
+        return callback(array[i], () => runAndWait(i + 1))
+      }
+      return runAndWait(0)
+    }
+    const dump = {} as any
+    const dbRequest = window.indexedDB.open('firebaseLocalStorageDb')
+    dbRequest.onsuccess = () => {
+      const db = dbRequest.result
+      const stores = ['firebaseLocalStorage']
+
+      const tx = db.transaction(stores)
+      asyncForEach(
+        stores,
+        (store: any, next: any) => {
+          const req = tx.objectStore(store).getAll()
+          req.onsuccess = () => {
+            dump[store] = req.result
+            next()
+          }
+        },
+        () => {
+          resolve(dump)
+        },
+      )
+    }
+  })
+}
+export { filterTransfer, getUserFromIndexDB }

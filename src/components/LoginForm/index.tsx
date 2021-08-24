@@ -35,9 +35,13 @@ export const LoginForm: React.FC<LoginFormProps> = ({ className, callback, modal
   const onFinish = (value: any) => {
     setIsLoading(true)
     signInWithEmailAndPassword(value.email, value.password)
-      .then(() => {
+      .then(user => {
         closeModal && closeModal()
-        history.push('/home')
+        if (user.user?.emailVerified) {
+          history.push('/home')
+        } else {
+          history.push('/verifyEmail')
+        }
       })
       .catch((error: AuthError) => {
         setMessage(error.message)
@@ -76,9 +80,13 @@ export const LoginForm: React.FC<LoginFormProps> = ({ className, callback, modal
             linkAccountWithProvider(
               authError.email as string,
               authError.credential as firebase.auth.AuthCredential,
-            ).then(() => {
-              history.push('/home')
+            ).then(user => {
               closeModal && closeModal()
+              if (user?.user?.emailVerified) {
+                history.push('/home')
+              } else {
+                history.push('/verifyEmail')
+              }
             })
           }
         },
@@ -99,17 +107,24 @@ export const LoginForm: React.FC<LoginFormProps> = ({ className, callback, modal
           .catch((error: AuthError) => manageSameLogInAccount(error))
       case 'facebook':
         return signInWithFacebook()
-          .then(() => {
+          .then(user => {
             closeModal && closeModal()
-
-            history.push('/home')
+            if (user.user?.emailVerified) {
+              history.push('/home')
+            } else {
+              history.push('/verifyEmail')
+            }
           })
           .catch((error: AuthError) => manageSameLogInAccount(error))
       case 'twitter':
         return signInWithTwitter()
-          .then(() => {
-            history.push('/home')
+          .then(user => {
             closeModal && closeModal()
+            if (user.user?.emailVerified) {
+              history.push('/home')
+            } else {
+              history.push('/verifyEmail')
+            }
           })
           .catch((error: AuthError) => manageSameLogInAccount(error))
     }
