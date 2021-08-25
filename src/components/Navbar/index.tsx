@@ -52,7 +52,7 @@ export const Navbar: React.FC = () => {
         return history.push('/Profile')
       case 'logout':
         logout().then(() => clearAll())
-        return history.push('/home')
+      // return history.push('/home')
     }
   }
 

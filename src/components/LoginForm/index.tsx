@@ -150,12 +150,12 @@ export const LoginForm: React.FC<LoginFormProps> = ({ className, callback, modal
           <Form.Item name="password" rules={[{ required: true }]}>
             <Input.Password prefix={<KeyOutlined />} placeholder="password" size="large" />
           </Form.Item>
-          <div className="flex justify-between px-1">
+          <div className="flex justify-between px-1 -mt-1">
             <a
               className="text-blue-500"
               onClick={() => (modal ? callback && callback() : history.push('/register'))}
             >
-              no account
+              register
             </a>
             <a
               href="/forgotpassword"
