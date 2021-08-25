@@ -31,8 +31,6 @@ export interface Comments {
   message: string
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp
-  canReply?: boolean
-  reply: Comments[]
 }
 
 export interface Review {

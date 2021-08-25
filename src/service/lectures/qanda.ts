@@ -36,11 +36,13 @@ async function createQAndA(qanda: CreateQAndADTO): Promise<void> {
 async function updateQAndA(qanda: UpdateQAndADTO): Promise<void> {
   const qAndACollection = getQAndACollection(qanda?.lectureId as string)
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
+  const qaId = qanda.qaId
   const data = {
     ...qanda,
     updateAt: timeStamp,
   }
-  return await qAndACollection.doc(data.qaId).update(data)
+  delete data['qaId']
+  return await qAndACollection.doc(qaId).update(data)
 }
 
 async function daleteQAndA(qaId: string, lectureId: string) {
@@ -63,12 +65,14 @@ async function createAnswer(ansqanda: AnswerDTO): Promise<void> {
 async function updateAnswer(ansqanda: AnswerDTO): Promise<void> {
   const answerCollection = getAnswerCollection(ansqanda.lectureId, ansqanda.qaId as string)
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
+  const answerId = ansqanda.answerId
   const data: AnswerDTO = {
     ...ansqanda,
     updateAt: timeStamp,
     userId: firebaseApp.auth().currentUser?.uid as string,
   }
-  return await answerCollection.doc(ansqanda.answerId).update(data)
+  delete data['answerId']
+  return await answerCollection.doc(answerId).update(data)
 }
 
 async function deleteAnswer(ansqanda: AnswerDTO): Promise<void> {
