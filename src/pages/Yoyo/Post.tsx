@@ -9,11 +9,11 @@ import { Redirect, useHistory, useParams } from 'react-router'
 import { ReviewCom } from './components/Review'
 import { CommentCom } from './components/CommentCom'
 import { CreateLectureForm } from '../../components/CreateLectureForm'
+import { QACom } from './components/QA'
 // import CommentCom from './components/comment'
 
 const Post: React.FC = () => {
   const [lecture, setLecture] = useState<CreateLectureDTO>({} as CreateLectureDTO)
-  // const [loading, setLoading] = useState(false)
   const { id } = useParams<{ id: string }>()
   const history = useHistory()
 
@@ -110,9 +110,9 @@ const Post: React.FC = () => {
           <Tabs.TabPane tab="review" key="#review">
             <ReviewCom id={id} />
           </Tabs.TabPane>
-          {/* <Tabs.TabPane tab="qa" key="#qa">
-            //TODO QA
-          </Tabs.TabPane> */}
+          <Tabs.TabPane tab="qa" key="#qa">
+            <QACom id={id} />
+          </Tabs.TabPane>
         </Tabs>
       </div>
     </div>

@@ -49,7 +49,9 @@ export interface Review {
 export interface QAndA {
   qaId?: string
   lectureId: string
-  userId: string
+  username?: string
+  photoURL?: string
+  userId?: string
   question: string
   answer: Comments[]
   createAt?: firebase.firestore.Timestamp

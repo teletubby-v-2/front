@@ -29,6 +29,7 @@ async function createQAndA(qanda: CreateQAndADTO): Promise<void> {
     updateAt: timeStamp,
     userId: firebaseApp.auth().currentUser?.uid as string,
   }
+  console.log('qanddata', data)
   return await qAndACollection.doc().set(data)
 }
 
