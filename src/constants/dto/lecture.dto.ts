@@ -40,7 +40,7 @@ export interface UpdateQAndADTO extends Partial<CreateQAndADTO> {
   lectureId: string
 }
 
-export interface AnswerDTO {
+export interface AnswersDTO {
   answerId?: string
   qaId: string
   lectureId: string

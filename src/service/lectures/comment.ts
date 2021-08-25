@@ -83,16 +83,4 @@ async function deleteReply(reply: ReplyDTO) {
   return await replyCollection.doc(reply.replyId).delete()
 }
 
-// export interface ReplyDTO {
-//   replyId: string
-//   id: string
-//   lectureId: string
-//   userId?: string
-//   username?: string
-//   photoURL?: string
-//   message: string
-//   createAt?: firebase.firestore.Timestamp
-//   updateAt?: firebase.firestore.Timestamp
-// }
-
 export { createComment, updateComment, deleteComment, createReply, updateReply, deleteReply }
