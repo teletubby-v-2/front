@@ -62,7 +62,7 @@ export interface UpdateCommentDTO extends Partial<CreateCommentDTO> {
 
 export interface ReplyDTO {
   replyId?: string
-  id: string
+  commentId: string
   lectureId: string
   userId?: string
   username?: string

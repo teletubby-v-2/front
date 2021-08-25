@@ -1,4 +1,4 @@
-import { Breadcrumb, Card, Dropdown, Menu, Rate, Tabs } from 'antd'
+import { Breadcrumb, Card, Dropdown, Menu, Rate, Skeleton, Tabs } from 'antd'
 import { Meta } from 'antd/lib/list/Item'
 import React, { useEffect, useState } from 'react'
 import { firestore } from '../../config/firebase'
@@ -16,18 +16,19 @@ const Post: React.FC = () => {
   const [lecture, setLecture] = useState<CreateLectureDTO>({} as CreateLectureDTO)
   const { id } = useParams<{ id: string }>()
   const history = useHistory()
-
+  const [loading, setLoading] = useState(false)
   // useEffect(() => {
   //   setLoading(false)
   // }, [commentMayo])
 
   useEffect(() => {
+    setLoading(true)
     const yoyo = async () => {
       const mayo = await firestore.collection('Lectures').doc(id).get()
       setLecture(mayo.data() as CreateLectureDTO)
       // console.log(mayo)
     }
-    yoyo()
+    yoyo().then(() => setLoading(false))
   }, [id])
 
   const menu = (
@@ -75,27 +76,35 @@ const Post: React.FC = () => {
       </div>
 
       <div className="flex justify-center">
-        <Card
-          title={<CreateLectureForm className="text-right block" label="edit" initData={lecture} />}
-          className="w-2/7"
-          key={lecture?.lectureId}
-          cover={
-            <img
-              className="object-cover"
-              alt="cock"
-              src={lecture.imageUrl ? lecture?.imageUrl[0] : ''}
+        <Skeleton loading={loading} paragraph={{ rows: 10 }} active className="w-96">
+          <Card
+            title={
+              <CreateLectureForm className="text-right block" label="edit" initData={lecture} />
+            }
+            className="w-2/7"
+            key={lecture?.lectureId}
+            cover={
+              <img
+                className="object-cover"
+                alt="cock"
+                src={lecture.imageUrl ? lecture?.imageUrl[0] : ''}
+              />
+            }
+            actions={[]}
+          >
+            <Meta title={lecture?.lectureTitle} description={lecture?.description} />
+            <Rate
+              disabled
+              value={(lecture.sumRating || 0) / (lecture.reviewCount || 1)}
+              allowHalf
             />
-          }
-          actions={[]}
-        >
-          <Meta title={lecture?.lectureTitle} description={lecture?.description} />
-          <Rate disabled value={(lecture.sumRating || 0) / (lecture.reviewCount || 1)} allowHalf />
-          <p className="text-right mt-4 mb-2">
-            {lecture?.createAt?.toDate().toDateString()}
-            {'    '}
-            {convertTimestampToTime(lecture?.createAt?.toDate() as Date)}
-          </p>
-        </Card>
+            <p className="text-right mt-4 mb-2">
+              {lecture?.createAt?.toDate().toDateString()}
+              {'    '}
+              {convertTimestampToTime(lecture?.createAt?.toDate() as Date)}
+            </p>
+          </Card>
+        </Skeleton>
         <Tabs
           onChange={key => {
             history.replace(`${history.location.pathname}${key}`)

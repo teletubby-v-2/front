@@ -17,67 +17,71 @@ function getAnswerCollection(
   qaId: string,
 ): firebase.firestore.CollectionReference<firebase.firestore.DocumentData> {
   const qAndA = getQAndACollection(lectureId)
-  return qAndA.doc(qaId).collection(Collection.Answer)
+  return qAndA.doc(qaId).collection(Collection.Answers)
 }
 
-async function createQAndA(qanda: CreateQAndADTO): Promise<void> {
-  const qAndACollection = getQAndACollection(qanda.lectureId)
+async function createQAndA(qAndA: CreateQAndADTO): Promise<void> {
+  const qAndACollection = getQAndACollection(qAndA.lectureId)
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
   const data: CreateQAndADTO = {
-    ...qanda,
+    ...qAndA,
     createAt: timeStamp,
     updateAt: timeStamp,
     userId: firebaseApp.auth().currentUser?.uid as string,
   }
-  console.log('qanddata', data)
   return await qAndACollection.doc().set(data)
 }
 
-async function updateQAndA(qanda: UpdateQAndADTO): Promise<void> {
-  const qAndACollection = getQAndACollection(qanda?.lectureId as string)
+async function updateQAndA(qAndA: UpdateQAndADTO): Promise<void> {
+  const qAndACollection = getQAndACollection(qAndA?.lectureId as string)
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
-  const qaId = qanda.qaId
+  const qaId = qAndA.qaId
   const data = {
-    ...qanda,
+    ...qAndA,
     updateAt: timeStamp,
   }
   delete data['qaId']
+  console.log(data)
   return await qAndACollection.doc(qaId).update(data)
 }
 
-async function daleteQAndA(qaId: string, lectureId: string) {
+async function deleteQAndA(lectureId: string, qaId: string) {
   const qAndACollection = getQAndACollection(lectureId)
   return await qAndACollection.doc(qaId).delete()
 }
 
-async function createAnswer(ansqanda: AnswerDTO): Promise<void> {
-  const answerCollection = getAnswerCollection(ansqanda.lectureId, ansqanda.qaId as string)
+async function createAnswer(ansQAndA: AnswerDTO): Promise<void> {
+  const answerCollection = getAnswerCollection(ansQAndA.lectureId, ansQAndA.qaId as string)
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
   const data: AnswerDTO = {
-    ...ansqanda,
+    ...ansQAndA,
     createAt: timeStamp,
     updateAt: timeStamp,
     userId: firebaseApp.auth().currentUser?.uid as string,
   }
+  console.log(data)
+
   return await answerCollection.doc().set(data)
 }
 
-async function updateAnswer(ansqanda: AnswerDTO): Promise<void> {
-  const answerCollection = getAnswerCollection(ansqanda.lectureId, ansqanda.qaId as string)
+async function updateAnswer(ansQAndA: AnswerDTO): Promise<void> {
+  const answerCollection = getAnswerCollection(ansQAndA.lectureId, ansQAndA.qaId as string)
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
-  const answerId = ansqanda.answerId
+  const answerId = ansQAndA.answerId
   const data: AnswerDTO = {
-    ...ansqanda,
+    ...ansQAndA,
     updateAt: timeStamp,
     userId: firebaseApp.auth().currentUser?.uid as string,
   }
+  console.log(data)
+
   delete data['answerId']
   return await answerCollection.doc(answerId).update(data)
 }
 
-async function deleteAnswer(ansqanda: AnswerDTO): Promise<void> {
-  const answerCollection = getAnswerCollection(ansqanda.lectureId, ansqanda.qaId as string)
-  return await answerCollection.doc(ansqanda.answerId).delete()
+async function deleteAnswer(ansQAndA: AnswerDTO): Promise<void> {
+  const answerCollection = getAnswerCollection(ansQAndA.lectureId, ansQAndA.qaId as string)
+  return await answerCollection.doc(ansQAndA.answerId).delete()
 }
 
 // export interface AnswerDTO {
@@ -91,4 +95,4 @@ async function deleteAnswer(ansqanda: AnswerDTO): Promise<void> {
 //   updateAt?: firebase.firestore.Timestamp
 // }
 
-export { createQAndA, updateQAndA, daleteQAndA, createAnswer, updateAnswer, deleteAnswer }
+export { createQAndA, updateQAndA, deleteQAndA, createAnswer, updateAnswer, deleteAnswer }

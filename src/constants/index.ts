@@ -1,9 +1,9 @@
 export enum Collection {
   Lectures = 'Lectures',
   Comments = 'Comments',
-  Reply = 'Reply',
+  Replies = 'Replies',
   QAs = 'QAs',
-  Answer = 'Answer',
+  Answers = 'Answers',
   Reviews = 'Reviews',
   Notifications = 'Notifications',
   Users = 'Users',

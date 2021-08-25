@@ -7,13 +7,18 @@ import { Comments } from '../../../constants/interface/lecture.interface'
 import { createComment, deleteComment, updateComment } from '../../../service/lectures/comment'
 import { fetchUser } from '../../../utils/fetchUser'
 import { dummyMessage } from '../dummy/YoyoComment.dummy'
-
+import { Reply } from './Reply'
+import { DownOutlined, UpOutlined } from '@ant-design/icons'
 export interface CommentComProps {
   id: string
 }
 
+interface CommentsReply extends Comments {
+  show: boolean
+}
+
 export const CommentCom: React.FC<CommentComProps> = ({ id }) => {
-  const [comment, setComment] = useState<Comments[]>([])
+  const [comment, setComment] = useState<CommentsReply[]>([])
   const [count, setCount] = useState(0)
   const [form] = Form.useForm()
   // const [loading, setLoading] = useState(false)
@@ -22,7 +27,6 @@ export const CommentCom: React.FC<CommentComProps> = ({ id }) => {
     const data = {
       lectureId: id,
       message: value.message || dummyMessage[count % 7],
-      reply: [],
     }
     setCount(count + 1)
     createComment(data)
@@ -63,7 +67,7 @@ export const CommentCom: React.FC<CommentComProps> = ({ id }) => {
             fetchUser(data.userId).then(user =>
               setComment(commentMap => [
                 ...commentMap,
-                { ...data, id: change.doc.id, ...user } as Comments,
+                { ...data, id: change.doc.id, ...user, show: false } as CommentsReply,
               ]),
             )
           }
@@ -77,7 +81,7 @@ export const CommentCom: React.FC<CommentComProps> = ({ id }) => {
               }
               return [
                 ...commentMap.slice(0, index),
-                { ...data, id: change.doc.id, ...user } as Comments,
+                { ...data, id: change.doc.id, ...user, show: false } as CommentsReply,
                 ...commentMap.slice(index + 1),
               ]
             })
@@ -118,31 +122,54 @@ export const CommentCom: React.FC<CommentComProps> = ({ id }) => {
         size="large"
         itemLayout="horizontal"
         dataSource={comment}
-        renderItem={item => (
-          <List.Item
-            actions={[
-              <a
-                key="edit"
-                onClick={() => handleSelectFor('update', item.lectureId || '', item.id || '')}
-              >
-                edit
-              </a>,
-              <a
-                key="delete"
-                onClick={() => handleSelectFor('delete', item.lectureId || '', item.id || '')}
-              >
-                delete
-              </a>,
-            ]}
-          >
-            <Skeleton avatar title={false} loading={false} active>
-              <List.Item.Meta
-                avatar={<Avatar src={item.photoURL} size="large" />}
-                title={item.username}
-                description={item.message}
-              />
-            </Skeleton>
-          </List.Item>
+        loading={!comment}
+        renderItem={(item, index) => (
+          <>
+            <List.Item
+              actions={[
+                <Button
+                  key="reply"
+                  type="link"
+                  icon={item.show ? <UpOutlined /> : <DownOutlined />}
+                  onClick={() =>
+                    setComment(commentMap => [
+                      ...commentMap.slice(0, index),
+                      { ...commentMap[index], show: !commentMap[index].show } as CommentsReply,
+                      ...commentMap.slice(index + 1),
+                    ])
+                  }
+                >
+                  reply
+                </Button>,
+                <a
+                  key="edit"
+                  onClick={() => handleSelectFor('update', item.lectureId || '', item.id || '')}
+                >
+                  edit
+                </a>,
+                <a
+                  key="delete"
+                  onClick={() => handleSelectFor('delete', item.lectureId || '', item.id || '')}
+                >
+                  delete
+                </a>,
+              ]}
+            >
+              <Skeleton avatar title={false} loading={false} active>
+                <List.Item.Meta
+                  avatar={<Avatar src={item.photoURL} size="large" />}
+                  title={item.username}
+                  description={item.message}
+                />
+              </Skeleton>
+            </List.Item>
+
+            {item.show && (
+              <div className="flex justify-end">
+                <Reply id={id} commentId={item.id as string} className="w-11/12" />
+              </div>
+            )}
+          </>
         )}
       />
     </div>

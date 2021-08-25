@@ -1,14 +1,14 @@
-import { Avatar, Button, Form, Input, List, Skeleton } from 'antd'
+import { Avatar, Button, Divider, Form, Input, List, Skeleton } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { AuthZone } from '../../../components'
 import { firestore } from '../../../config/firebase'
 import { Collection } from '../../../constants'
-import { CreateCommentDTO, CreateQAndADTO } from '../../../constants/dto/lecture.dto'
+import { CreateQAndADTO } from '../../../constants/dto/lecture.dto'
 import { QAndA } from '../../../constants/interface/lecture.interface'
-import { createComment, deleteComment, updateComment } from '../../../service/lectures/comment'
-import { createQAndA } from '../../../service/lectures/qanda'
+import { createQAndA, deleteQAndA, updateQAndA } from '../../../service/lectures/qanda'
 import { fetchUser } from '../../../utils/fetchUser'
 import { dummyMessage } from '../dummy/YoyoComment.dummy'
+import { AnswerCom } from './Answer'
 
 export interface QAComProps {
   id: string
@@ -33,13 +33,13 @@ export const QACom: React.FC<QAComProps> = ({ id }) => {
     const data = {
       question: dummyMessage[count % 7],
       lectureId: lectureId,
-      id: id,
+      qaId: id,
     }
     setCount(count + 1)
-    updateComment(data)
+    updateQAndA(data)
   }
   const testDeleteComment = (lectureId: string, id: string) => {
-    deleteComment(lectureId, id)
+    deleteQAndA(lectureId, id)
   }
   const handleSelectFor = (action: 'delete' | 'update', lectureId = '', id: string) => {
     switch (action) {
@@ -96,8 +96,8 @@ export const QACom: React.FC<QAComProps> = ({ id }) => {
     <div>
       <AuthZone>
         <Form form={form} layout="inline" onFinish={testCreateQAndA}>
-          <Form.Item name="question" rules={[{ required: true }]} className="w-96">
-            <Input.TextArea placeholder="comment" />
+          <Form.Item name="question" rules={[{ required: true, message: '' }]} className="w-96">
+            <Input.TextArea placeholder="question" />
           </Form.Item>
           <Form.Item shouldUpdate>
             {() => (
@@ -109,7 +109,7 @@ export const QACom: React.FC<QAComProps> = ({ id }) => {
                   !!form.getFieldsError().filter(({ errors }) => errors.length).length
                 }
               >
-                comment
+                ask
               </Button>
             )}
           </Form.Item>
@@ -119,31 +119,41 @@ export const QACom: React.FC<QAComProps> = ({ id }) => {
         size="large"
         itemLayout="horizontal"
         dataSource={qAndA}
+        loading={!qAndA}
         renderItem={item => (
-          <List.Item
-            actions={[
-              <a
-                key="edit"
-                onClick={() => handleSelectFor('update', item.lectureId || '', item.qaId || '')}
-              >
-                edit
-              </a>,
-              <a
-                key="delete"
-                onClick={() => handleSelectFor('delete', item.lectureId || '', item.qaId || '')}
-              >
-                delete
-              </a>,
-            ]}
-          >
-            <Skeleton avatar title={false} loading={false} active>
-              <List.Item.Meta
-                avatar={<Avatar src={item.photoURL} size="large" />}
-                title={item.username}
-                description={item.question}
+          <>
+            <List.Item
+              actions={[
+                <a
+                  key="edit"
+                  onClick={() => handleSelectFor('update', item.lectureId || '', item.qaId || '')}
+                >
+                  edit
+                </a>,
+                <a
+                  key="delete"
+                  onClick={() => handleSelectFor('delete', item.lectureId || '', item.qaId || '')}
+                >
+                  delete
+                </a>,
+              ]}
+            >
+              <Skeleton avatar title={false} loading={false} active>
+                <List.Item.Meta
+                  avatar={<Avatar src={item.photoURL} size="large" />}
+                  title={item.username}
+                  description={item.question}
+                />
+              </Skeleton>
+            </List.Item>
+            <div className="flex justify-end">
+              <AnswerCom
+                id={id}
+                qaId={item.qaId as string}
+                className="w-11/12 border-l border-black"
               />
-            </Skeleton>
-          </List.Item>
+            </div>
+          </>
         )}
       />
     </div>

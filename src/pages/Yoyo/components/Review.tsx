@@ -101,7 +101,7 @@ export const ReviewCom: React.FC<ReviewComProps> = ({ id }) => {
         })
       })
     return () => unsubscribe()
-  }, [])
+  }, [id])
 
   return (
     <>
@@ -126,6 +126,7 @@ export const ReviewCom: React.FC<ReviewComProps> = ({ id }) => {
         className="w-full"
         size="large"
         itemLayout="horizontal"
+        loading={!review}
         dataSource={review}
         renderItem={item => (
           <List.Item

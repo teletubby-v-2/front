@@ -16,7 +16,7 @@ function getReplyCollection(
   id: string,
 ): firebase.firestore.CollectionReference<firebase.firestore.DocumentData> {
   const comment = getCommentCollection(lectureId)
-  return comment.doc(id).collection(Collection.Reply)
+  return comment.doc(id).collection(Collection.Replies)
 }
 
 async function createComment(comment: CreateCommentDTO): Promise<void> {
@@ -54,7 +54,7 @@ async function deleteComment(lectureId: string, id: string) {
 async function createReply(reply: ReplyDTO): Promise<void> {
   firebaseApp.auth().currentUser?.reload()
   const batch = firestore.batch()
-  const replyCollection = getReplyCollection(reply.lectureId, reply.id)
+  const replyCollection = getReplyCollection(reply.lectureId, reply.commentId)
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
   const data: ReplyDTO = {
     ...reply,
@@ -67,7 +67,7 @@ async function createReply(reply: ReplyDTO): Promise<void> {
 }
 
 async function updateReply(reply: ReplyDTO): Promise<void> {
-  const replyCollection = getReplyCollection(reply.lectureId, reply.id)
+  const replyCollection = getReplyCollection(reply.lectureId, reply.commentId)
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
   const replyId = reply.replyId
   const data = {
@@ -79,7 +79,7 @@ async function updateReply(reply: ReplyDTO): Promise<void> {
 }
 
 async function deleteReply(reply: ReplyDTO) {
-  const replyCollection = getReplyCollection(reply.lectureId, reply.id)
+  const replyCollection = getReplyCollection(reply.lectureId, reply.commentId)
   return await replyCollection.doc(reply.replyId).delete()
 }
 
