@@ -111,7 +111,7 @@ export const ReviewCom: React.FC<ReviewComProps> = ({ id }) => {
             <Input.TextArea placeholder="comment" />
           </Form.Item>
           <Form.Item name="rating" rules={[{ required: true }]}>
-            <Rate allowHalf allowClear={false} />
+            <Rate allowHalf />
           </Form.Item>
           <Form.Item shouldUpdate>
             {() => (

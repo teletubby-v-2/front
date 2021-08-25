@@ -137,12 +137,7 @@ export const Reply: React.FC<ReplyProps> = ({ id, commentId, className }) => {
       )}
       <AuthZone>
         <Form form={form} layout="inline" onFinish={testcreateReply}>
-          <Form.Item
-            name="message"
-            rules={[{ required: true, message: '' }]}
-            hasFeedback={false}
-            className="w-3/4"
-          >
+          <Form.Item name="message" className="w-3/4">
             <Input.TextArea placeholder="reply" />
           </Form.Item>
           <Form.Item shouldUpdate>
@@ -150,10 +145,7 @@ export const Reply: React.FC<ReplyProps> = ({ id, commentId, className }) => {
               <Button
                 type="primary"
                 htmlType="submit"
-                disabled={
-                  !form.isFieldsTouched(true) ||
-                  !!form.getFieldsError().filter(({ errors }) => errors.length).length
-                }
+                disabled={!form.isFieldsTouched(true) || !form.getFieldValue('message')?.length}
               >
                 reply
               </Button>

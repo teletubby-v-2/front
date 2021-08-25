@@ -99,7 +99,7 @@ export const CommentCom: React.FC<CommentComProps> = ({ id }) => {
     <div>
       <AuthZone>
         <Form form={form} layout="inline" onFinish={testCreateComment}>
-          <Form.Item name="message" rules={[{ required: true }]} className="w-96">
+          <Form.Item name="message" className="w-96">
             <Input.TextArea placeholder="comment" />
           </Form.Item>
           <Form.Item shouldUpdate>
@@ -107,10 +107,7 @@ export const CommentCom: React.FC<CommentComProps> = ({ id }) => {
               <Button
                 type="primary"
                 htmlType="submit"
-                disabled={
-                  !form.isFieldsTouched(true) ||
-                  !!form.getFieldsError().filter(({ errors }) => errors.length).length
-                }
+                disabled={!form.isFieldsTouched(true) || !form.getFieldValue('message')?.length}
               >
                 comment
               </Button>

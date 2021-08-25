@@ -96,7 +96,7 @@ export const QACom: React.FC<QAComProps> = ({ id }) => {
     <div>
       <AuthZone>
         <Form form={form} layout="inline" onFinish={testCreateQAndA}>
-          <Form.Item name="question" rules={[{ required: true, message: '' }]} className="w-96">
+          <Form.Item name="question" className="w-96">
             <Input.TextArea placeholder="question" />
           </Form.Item>
           <Form.Item shouldUpdate>
@@ -104,10 +104,7 @@ export const QACom: React.FC<QAComProps> = ({ id }) => {
               <Button
                 type="primary"
                 htmlType="submit"
-                disabled={
-                  !form.isFieldsTouched(true) ||
-                  !!form.getFieldsError().filter(({ errors }) => errors.length).length
-                }
+                disabled={!form.isFieldsTouched(true) || !form.getFieldValue('question')?.length}
               >
                 ask
               </Button>

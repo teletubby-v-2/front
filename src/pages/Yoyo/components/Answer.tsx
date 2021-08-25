@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { AuthZone } from '../../../components'
 import { firestore } from '../../../config/firebase'
 import { Collection } from '../../../constants'
-import { AnswerDTO } from '../../../constants/dto/lecture.dto'
+import { AnswersDTO } from '../../../constants/dto/lecture.dto'
 import { createAnswer, deleteAnswer, updateAnswer } from '../../../service/lectures/qanda'
 import { fetchUser } from '../../../utils/fetchUser'
 import { dummyMessage } from '../dummy/YoyoComment.dummy'
@@ -15,7 +15,7 @@ export interface AnswerComProps {
 }
 
 export const AnswerCom: React.FC<AnswerComProps> = ({ id, qaId, className }) => {
-  const [answer, setAnswer] = useState<AnswerDTO[]>([])
+  const [answer, setAnswer] = useState<AnswersDTO[]>([])
   const [count, setCount] = useState(0)
   const [form] = Form.useForm()
   // const [loading, setLoading] = useState(false)
@@ -27,7 +27,7 @@ export const AnswerCom: React.FC<AnswerComProps> = ({ id, qaId, className }) => 
       message: value.message || dummyMessage[count % 7],
     }
     setCount(count + 1)
-    createAnswer(data as AnswerDTO)
+    createAnswer(data as AnswersDTO)
     form.resetFields()
   }
   const testUpdateComment = (lectureId: string, id: string) => {
@@ -40,10 +40,10 @@ export const AnswerCom: React.FC<AnswerComProps> = ({ id, qaId, className }) => 
     setCount(count + 1)
     updateAnswer(data)
   }
-  const testDeleteComment = (answer: AnswerDTO) => {
+  const testDeleteComment = (answer: AnswersDTO) => {
     deleteAnswer(answer)
   }
-  const handleSelectFor = (action: 'delete' | 'update', lectureId = '', answer: AnswerDTO) => {
+  const handleSelectFor = (action: 'delete' | 'update', lectureId = '', answer: AnswersDTO) => {
     switch (action) {
       case 'delete':
         return testDeleteComment(answer)
@@ -68,7 +68,7 @@ export const AnswerCom: React.FC<AnswerComProps> = ({ id, qaId, className }) => 
             fetchUser(data.userId).then(user =>
               setAnswer(commentMap => [
                 ...commentMap,
-                { ...data, answerId: change.doc.id, ...user } as AnswerDTO,
+                { ...data, answerId: change.doc.id, ...user } as AnswersDTO,
               ]),
             )
           }
@@ -83,7 +83,7 @@ export const AnswerCom: React.FC<AnswerComProps> = ({ id, qaId, className }) => 
                 }
                 return [
                   ...commentMap.slice(0, index),
-                  { ...data, answerId: change.doc.id, ...user } as AnswerDTO,
+                  { ...data, answerId: change.doc.id, ...user } as AnswersDTO,
                   ...commentMap.slice(index + 1),
                 ]
               } else {
@@ -138,7 +138,7 @@ export const AnswerCom: React.FC<AnswerComProps> = ({ id, qaId, className }) => 
       )}
       <AuthZone>
         <Form form={form} layout="inline" onFinish={testcreateAnswer}>
-          <Form.Item name="message" rules={[{ required: true, message: '' }]} className="w-96">
+          <Form.Item name="message" className="w-96">
             <Input.TextArea placeholder="message" />
           </Form.Item>
           <Form.Item shouldUpdate>
@@ -146,10 +146,7 @@ export const AnswerCom: React.FC<AnswerComProps> = ({ id, qaId, className }) => 
               <Button
                 type="primary"
                 htmlType="submit"
-                disabled={
-                  !form.isFieldsTouched(true) ||
-                  !!form.getFieldsError().filter(({ errors }) => errors.length).length
-                }
+                disabled={!form.isFieldsTouched(true) || !form.getFieldValue('message')?.length}
               >
                 ans
               </Button>
