@@ -40,6 +40,18 @@ export interface UpdateQAndADTO extends Partial<CreateQAndADTO> {
   lectureId: string
 }
 
+export interface AnswerDTO {
+  answerId: string
+  qaId: string
+  lectureId: string
+  userId?: string
+  username?: string
+  photoURL?: string
+  message: string
+  createAt?: firebase.firestore.Timestamp
+  updateAt?: firebase.firestore.Timestamp
+}
+
 //-------------------------- Comment -------------------------
 
 export interface CreateCommentDTO extends Comments {}
