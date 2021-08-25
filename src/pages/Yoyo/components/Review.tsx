@@ -1,5 +1,6 @@
 import { Avatar, Button, Form, Input, List, Rate, Skeleton } from 'antd'
 import React, { useEffect, useState } from 'react'
+import { AuthZone } from '../../../components'
 import { firestore } from '../../../config/firebase'
 import { Collection } from '../../../constants'
 import { CreateReviewDTO } from '../../../constants/dto/lecture.dto'
@@ -30,6 +31,7 @@ export const ReviewCom: React.FC<ReviewComProps> = ({ id }) => {
 
     const cleanData = removeUndefined(data as Json) as unknown as CreateReviewDTO
     createReview(cleanData)
+    form.resetFields()
   }
   const testUpdateReview = (lectureId: string, reviewId: string) => {
     const data = {
@@ -103,21 +105,23 @@ export const ReviewCom: React.FC<ReviewComProps> = ({ id }) => {
 
   return (
     <>
-      <Form form={form} layout="inline" onFinish={testCreateReview}>
-        <Form.Item name="message" className="w-80">
-          <Input.TextArea placeholder="comment" />
-        </Form.Item>
-        <Form.Item name="rating" rules={[{ required: true }]}>
-          <Rate allowHalf allowClear={false} />
-        </Form.Item>
-        <Form.Item shouldUpdate>
-          {() => (
-            <Button type="primary" htmlType="submit" disabled={!form.getFieldValue('rating')}>
-              review
-            </Button>
-          )}
-        </Form.Item>
-      </Form>
+      <AuthZone>
+        <Form form={form} layout="inline" onFinish={testCreateReview}>
+          <Form.Item name="message" className="w-80">
+            <Input.TextArea placeholder="comment" />
+          </Form.Item>
+          <Form.Item name="rating" rules={[{ required: true }]}>
+            <Rate allowHalf allowClear={false} />
+          </Form.Item>
+          <Form.Item shouldUpdate>
+            {() => (
+              <Button type="primary" htmlType="submit" disabled={!form.getFieldValue('rating')}>
+                review
+              </Button>
+            )}
+          </Form.Item>
+        </Form>
+      </AuthZone>
       <List
         className="w-full"
         size="large"

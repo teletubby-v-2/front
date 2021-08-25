@@ -12,11 +12,13 @@ function getReviewCollection(
 }
 
 async function createReview(review: CreateReviewDTO): Promise<void> {
+  firebaseApp.auth().currentUser?.reload()
+  const batch = firestore.batch()
   const reviewCollection = getReviewCollection(review.lectureId)
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
   const lectureRef = lectureCollection.doc(review.lectureId)
   const lectureData = await lectureRef.get()
-  lectureRef.update({
+  batch.update(lectureRef, {
     reviewCount: lectureData.data()?.reviewCount + 1,
     sumRating: lectureData.data()?.sumRating + review.rating,
   })
@@ -26,17 +28,20 @@ async function createReview(review: CreateReviewDTO): Promise<void> {
     updateAt: timeStamp,
     userId: firebaseApp.auth().currentUser?.uid as string,
   }
-  return await reviewCollection.doc().set(data)
+  batch.set(reviewCollection.doc(), data)
+  return batch.commit()
 }
 
 async function updateReview(review: UpdateReviewDTO): Promise<void> {
+  firebaseApp.auth().currentUser?.reload()
+  const batch = firestore.batch()
   const reviewCollection = getReviewCollection(review?.lectureId as string)
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
   const lectureRef = lectureCollection.doc(review.lectureId)
   const originReview = await getReviewCollection(review.lectureId).doc(review.reviewId).get()
   const lectureData = await lectureRef.get()
   if (review.rating && lectureData.exists)
-    lectureRef.update({
+    batch.update(lectureRef, {
       sumRating: lectureData.data()?.sumRating + review.rating - originReview.data()?.rating,
     })
   const id = review.reviewId
@@ -45,18 +50,22 @@ async function updateReview(review: UpdateReviewDTO): Promise<void> {
     ...review,
     updateAt: timeStamp,
   }
-  return await reviewCollection.doc(id).update(data)
+  batch.update(reviewCollection.doc(id), data)
+  return batch.commit()
 }
 
 async function deleteReview(review: CreateReviewDTO) {
+  firebaseApp.auth().currentUser?.reload()
+  const batch = firestore.batch()
   const lectureRef = lectureCollection.doc(review.lectureId)
   const lectureData = await lectureRef.get()
-  lectureRef.update({
+  batch.update(lectureRef, {
     reviewCount: lectureData.data()?.reviewCount - 1,
     sumRating: lectureData.data()?.sumRating - review.rating,
   })
   const reviewCollection = getReviewCollection(review.lectureId)
-  return await reviewCollection.doc(review.reviewId).delete()
+  batch.delete(reviewCollection.doc(review.reviewId))
+  return batch.commit()
 }
 
 export { createReview, updateReview, deleteReview }

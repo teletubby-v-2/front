@@ -33,6 +33,13 @@ async function updateLecture(lecture: UpdateLectureDTO): Promise<void> {
 }
 
 async function deleteLecture(lectureId: string) {
+  // const batch = firestore.batch()
+  // const lectureRef = lectureCollection.doc(lectureId)
+  // batch.delete(lectureRef)
+  // batch.delete(lectureRef.collection(Collection.Comments).doc())
+  // batch.delete(lectureRef.collection(Collection.QAs).doc())
+  // batch.delete(lectureRef.collection(Collection.Reviews).doc())
+  // return batch.commit()
   return await lectureCollection.doc(lectureId).delete()
 }
 

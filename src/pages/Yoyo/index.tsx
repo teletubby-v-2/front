@@ -11,6 +11,7 @@ import { DownOutlined } from '@ant-design/icons'
 import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
 import { CreateLectureForm } from '../../components/CreateLectureForm'
+import { AuthZone } from '../../components'
 interface LectureUser extends CreateLectureDTO {
   username?: string
 }
@@ -104,20 +105,6 @@ const Yoyo: React.FC = () => {
     return () => unsubscribe()
   }, [])
 
-  const getUser = (userId: string) => {
-    fetchUser(userId).then(user => {
-      setLectureMayo(lectureMap => {
-        const index = lectureMap.findIndex(lecture => lecture.userId === userId)
-        const thisUpdate = lectureMap[index]
-        return [
-          ...lectureMap.slice(0, index),
-          { ...thisUpdate, username: user.username } as LectureUser,
-          ...lectureMap.slice(index + 1),
-        ]
-      })
-    })
-  }
-
   const menu = (
     <Menu>
       <Menu.Item>
@@ -143,7 +130,7 @@ const Yoyo: React.FC = () => {
       <div className="flex flex-col items-center">
         <h1 className="font-bold text-2xl">path สำหรับ test lecture</h1>
       </div>
-      <div className="flex justify-center space-x-2">
+      <AuthZone className="flex justify-center space-x-2">
         <Button size="large" type="primary" onClick={testCreateLecture}>
           create Fast!!!!
         </Button>
@@ -152,7 +139,7 @@ const Yoyo: React.FC = () => {
             create custom
           </Button>
         </CreateLectureForm>
-      </div>
+      </AuthZone>
       <div></div>
       <div className="grid grid-cols-5 gap-5 container mx-auto">
         {lectureMayo.map(lecture => (

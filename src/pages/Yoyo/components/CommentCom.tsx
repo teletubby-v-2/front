@@ -1,5 +1,6 @@
 import { Avatar, Button, Form, Input, List, Skeleton } from 'antd'
 import React, { useEffect, useState } from 'react'
+import { AuthZone } from '../../../components'
 import { firestore } from '../../../config/firebase'
 import { Collection } from '../../../constants'
 import { Comments } from '../../../constants/interface/lecture.interface'
@@ -25,6 +26,7 @@ export const CommentCom: React.FC<CommentComProps> = ({ id }) => {
     }
     setCount(count + 1)
     createComment(data)
+    form.resetFields()
   }
   const testUpdateComment = (lectureId: string, id: string) => {
     const data = {
@@ -91,25 +93,27 @@ export const CommentCom: React.FC<CommentComProps> = ({ id }) => {
 
   return (
     <div>
-      <Form form={form} layout="inline" onFinish={testCreateComment}>
-        <Form.Item name="message" rules={[{ required: true }]} className="w-96">
-          <Input.TextArea placeholder="comment" />
-        </Form.Item>
-        <Form.Item shouldUpdate>
-          {() => (
-            <Button
-              type="primary"
-              htmlType="submit"
-              disabled={
-                !form.isFieldsTouched(true) ||
-                !!form.getFieldsError().filter(({ errors }) => errors.length).length
-              }
-            >
-              comment
-            </Button>
-          )}
-        </Form.Item>
-      </Form>
+      <AuthZone>
+        <Form form={form} layout="inline" onFinish={testCreateComment}>
+          <Form.Item name="message" rules={[{ required: true }]} className="w-96">
+            <Input.TextArea placeholder="comment" />
+          </Form.Item>
+          <Form.Item shouldUpdate>
+            {() => (
+              <Button
+                type="primary"
+                htmlType="submit"
+                disabled={
+                  !form.isFieldsTouched(true) ||
+                  !!form.getFieldsError().filter(({ errors }) => errors.length).length
+                }
+              >
+                comment
+              </Button>
+            )}
+          </Form.Item>
+        </Form>
+      </AuthZone>
       <List
         size="large"
         itemLayout="horizontal"

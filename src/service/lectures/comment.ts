@@ -11,6 +11,8 @@ function getCommentCollection(
 }
 
 async function createComment(comment: CreateCommentDTO, canReply = false): Promise<void> {
+  firebaseApp.auth().currentUser?.reload()
+  const batch = firestore.batch()
   const commentCollection = getCommentCollection(comment.lectureId)
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
   const data: CreateCommentDTO = {
@@ -21,7 +23,8 @@ async function createComment(comment: CreateCommentDTO, canReply = false): Promi
     canReply: canReply,
     reply: [],
   }
-  return await commentCollection.doc().set(data)
+  batch.set(commentCollection.doc(), data)
+  return batch.commit()
 }
 
 async function updateComment(comment: UpdateCommentDTO): Promise<void> {

@@ -1,13 +1,15 @@
+import { Collection } from './../../constants/index'
 import firebase from 'firebase'
 import { firebaseApp, firestore } from '../../config/firebase'
 import { CreateQAndADTO, UpdateQAndADTO } from '../../constants/dto/lecture.dto'
 
-const lectureCollection = firestore.collection('Lectures')
+const lectureCollection = firestore.collection(Collection.Lectures)
+// const batch = firestore.batch()
 
 function getQAndACollection(
   lectureId: string,
 ): firebase.firestore.CollectionReference<firebase.firestore.DocumentData> {
-  return lectureCollection.doc(lectureId).collection('QAndA')
+  return lectureCollection.doc(lectureId).collection(Collection.QAs)
 }
 
 async function createQAndA(qanda: CreateQAndADTO): Promise<void> {
@@ -27,7 +29,6 @@ async function updateQAndA(qanda: UpdateQAndADTO): Promise<void> {
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
   const data = {
     ...qanda,
-    createAt: timeStamp,
     updateAt: timeStamp,
   }
   return await qAndACollection.doc(data.qaId).update(data)
