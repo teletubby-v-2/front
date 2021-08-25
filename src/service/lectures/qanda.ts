@@ -1,7 +1,7 @@
 import { Collection } from './../../constants/index'
 import firebase from 'firebase'
 import { firebaseApp, firestore } from '../../config/firebase'
-import { AnswerDTO, CreateQAndADTO, UpdateQAndADTO } from '../../constants/dto/lecture.dto'
+import { AnswersDTO, CreateQAndADTO, UpdateQAndADTO } from '../../constants/dto/lecture.dto'
 
 const lectureCollection = firestore.collection(Collection.Lectures)
 // const batch = firestore.batch()
