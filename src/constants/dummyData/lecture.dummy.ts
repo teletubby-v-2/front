@@ -26,7 +26,6 @@ export const dummyLectures: Lecture[] = [
             lectureId: '01204341',
             userId: '62xxxxxxxx',
             message: 'lorem',
-            reply: [],
           },
         ],
       },
