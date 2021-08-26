@@ -112,7 +112,6 @@ const Post: React.FC = () => {
           activeKey={history.location.hash}
           className="w-3/6 ml-3"
         >
-          {console.log(history.location.hash)}
           <Tabs.TabPane tab="Comment" key="#comment">
             <CommentCom id={id} />
           </Tabs.TabPane>
@@ -122,6 +121,7 @@ const Post: React.FC = () => {
           <Tabs.TabPane tab={`Q&A`} key="#qa">
             <QACom id={id} />
           </Tabs.TabPane>
+          {}
         </Tabs>
       </div>
     </div>

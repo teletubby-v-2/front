@@ -67,6 +67,7 @@ const Yoyo: React.FC = () => {
       .orderBy('createAt')
       .limit(5)
       .onSnapshot(querySnapshot => {
+        console.log(querySnapshot.size)
         querySnapshot.docChanges().forEach(change => {
           const data = change.doc.data()
           fetchUser(data.userId).then(user => {
