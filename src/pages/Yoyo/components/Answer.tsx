@@ -1,4 +1,4 @@
-import { Avatar, Button, Form, Input, List, Skeleton } from 'antd'
+import { Avatar, Button, Form, Input, List, message, Skeleton } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { AuthZone } from '../../../components'
 import { firestore } from '../../../config/firebase'
@@ -18,6 +18,7 @@ export const AnswerCom: React.FC<AnswerComProps> = ({ id, qaId, className }) => 
   const [answer, setAnswer] = useState<AnswersDTO[]>([])
   const [count, setCount] = useState(0)
   const [form] = Form.useForm()
+
   // const [loading, setLoading] = useState(false)
 
   const testcreateAnswer = (value?: any) => {
@@ -28,6 +29,8 @@ export const AnswerCom: React.FC<AnswerComProps> = ({ id, qaId, className }) => 
     }
     setCount(count + 1)
     createAnswer(data as AnswersDTO)
+      .then(() => message.success('ตอบแย้วๆ'))
+      .catch(() => message.error('คุณไม่มีสิทธิที่จะพูด'))
     form.resetFields()
   }
   const testUpdateComment = (lectureId: string, id: string) => {
@@ -89,13 +92,17 @@ export const AnswerCom: React.FC<AnswerComProps> = ({ id, qaId, className }) => 
               } else {
                 return commentMap
               }
-              // console.log(commentMap[index])
             })
           }
           if (change.type === 'removed') {
             console.log('Removed answer: ', data)
+            console.log(answer)
             setAnswer(commentMap =>
-              commentMap.filter(comment => comment.answerId !== change.doc.id),
+              commentMap.filter(comment => {
+                console.log(comment.answerId, change.doc.id)
+
+                return comment.answerId !== change.doc.id
+              }),
             )
           }
         })

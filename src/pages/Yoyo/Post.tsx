@@ -113,13 +113,13 @@ const Post: React.FC = () => {
           className="w-3/6 ml-3"
         >
           {console.log(history.location.hash)}
-          <Tabs.TabPane tab="comment" key="#comment">
+          <Tabs.TabPane tab="Comment" key="#comment">
             <CommentCom id={id} />
           </Tabs.TabPane>
-          <Tabs.TabPane tab="review" key="#review">
+          <Tabs.TabPane tab="Review" key="#review">
             <ReviewCom id={id} />
           </Tabs.TabPane>
-          <Tabs.TabPane tab="qa" key="#qa">
+          <Tabs.TabPane tab={`Q&A`} key="#qa">
             <QACom id={id} />
           </Tabs.TabPane>
         </Tabs>
