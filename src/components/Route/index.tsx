@@ -6,9 +6,6 @@ import { Route, RouteProps } from 'react-router-dom'
 
 const { Content, Footer } = Layout
 
-const MyContent = styled(Content)`
-  background-color: #fafafa;
-`
 const MyLayout = styled(Content)`
   background-color: #fafafa;
 `

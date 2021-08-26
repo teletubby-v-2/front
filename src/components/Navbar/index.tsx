@@ -36,14 +36,15 @@ export const Navbar: React.FC = () => {
   }
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(function (user) {
+    const unsubscribe = firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
         setAllFirebase(user as firebase.UserInfo)
       } else {
         clearAll()
       }
     })
-  }, [clearAll, setAllFirebase])
+    return () => unsubscribe()
+  }, [])
 
   const handleMenuClick = (info: MenuInfo) => {
     switch (info.key) {
@@ -51,7 +52,7 @@ export const Navbar: React.FC = () => {
         return history.push('/Profile')
       case 'logout':
         logout().then(() => clearAll())
-        return history.push('/home')
+      // return history.push('/home')
     }
   }
 
@@ -87,13 +88,13 @@ export const Navbar: React.FC = () => {
             size="large"
             className="max-w-xl mx-3"
           />
-          <div className="flex">
+          <div className="flex items-center">
             <Button className="text-xl text-black" type="link">
               <BellOutlined className="align-top" />
             </Button>
             <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
               {userInfo.imageUrl ? (
-                <Avatar src={userInfo.imageUrl} className="border cursor-pointer" />
+                <Avatar src={userInfo.imageUrl} size="large" className="border cursor-pointer" />
               ) : (
                 <Avatar icon={<UserOutlined />} size="large" className="border cursor-pointer" />
               )}
