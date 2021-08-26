@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { Button, Divider, Form, Upload, Input, message } from 'antd'
-import { RightOutlined, UserOutlined, UploadOutlined } from '@ant-design/icons'
+import { RightOutlined, UserOutlined, UploadOutlined, InfoCircleOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../../../store/user.store'
 import { firebaseApp } from '../../../../config/firebase'
 import { dontSubmitWhenEnter } from '../../../../utils/eventManage'
 import { UploadChangeParam, UploadFile, UploadLocale } from 'antd/lib/upload/interface'
-import { uploadImage } from '../../../../service/storage'
+import { UploadPic } from '../hook'
 
 export interface UpdateValue {
   aboutme: string
@@ -19,53 +19,26 @@ export interface EditComponentProps {
   onClose: () => void
 }
 
-/* TODO: upload Profile picture function*/
-
 export const EditComponent: React.FC<EditComponentProps> = props => {
   const [isUploading, setIsUploading] = useState(false)
   const { userInfo } = userInfoStore()
   const { TextArea } = Input
   const { onClose } = props
   const [imageUrl, setimageUrl] = useState(userInfo.imageUrl)
-
-  const uploadNewImage = async (file: File) => {
-    try {
-      setIsUploading(true)
-      const uploadStatus = await uploadImage(file)
-      if (uploadStatus.url) {
-        setimageUrl(uploadStatus.url)
-      }
-    } catch (error: any) {
-      console.log(error)
-    }
-  }
-
-  const handleRequest = (option: any) => {
-    uploadNewImage(option.file).finally(() => setIsUploading(false))
-  }
+  const { handleRequest, beforeUpload } = UploadPic({ setimageUrl, setIsUploading })
 
   const onFinish = (value: UpdateValue) => {
     onClose()
     console.log(value)
-    console.log(value.imageUrl)
+    console.log(imageUrl)
     /* TODO: update profile */
-  }
-
-  function beforeUpload(file: any) {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
-    if (!isJpgOrPng) {
-      message.error('You can only upload JPG/PNG file!')
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2
-    if (!isLt2M) {
-      message.error('Image must smaller than 2MB!')
-    }
-    return isJpgOrPng && isLt2M
   }
 
   return (
     <div className="p-3">
-      <h1 className="text-center text-2xl font-black">Edit Profile</h1>
+      <Divider>
+        <h1 className="text-center text-2xl font-black">Edit Profile</h1>
+      </Divider>
       {imageUrl ? (
         <img src={imageUrl} alt="Profile picture" className="my-8 mx-auto" width="200" />
       ) : (
@@ -75,7 +48,15 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
       )}
       <Form onFinish={onFinish} initialValues={userInfo}>
         <div className="text-center">
-          <Form.Item name="imageUrl">
+          <Form.Item
+            name="imageUrl"
+            help={
+              <>
+                <InfoCircleOutlined className="tag-icon" />
+                {'  '}แนะนำให้เป็นรูปขนาดเล็กกว่า 2MB
+              </>
+            }
+          >
             <Upload
               accept="image/*"
               maxCount={1}

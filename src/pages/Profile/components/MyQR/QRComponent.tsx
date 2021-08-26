@@ -10,13 +10,20 @@ export interface ProfileComponentProps {
 export const QRComponent: React.FC<ProfileComponentProps> = props => {
   const { onEdit } = props
   const { userInfo } = userInfoStore()
+  const imageUrl = ''
 
   return (
     <div className="p-3">
       <Divider>
         <p className="text-xl">Donate Preview</p>
       </Divider>
-      <img src="" alt="QR" />
+      {imageUrl ? (
+        <img src={imageUrl} alt="QR" />
+      ) : (
+        <div className="mx auto my-8 shadow text-center h-52 text-2xl place-content-center">
+          Upload your QR Code
+        </div>
+      )}
       <p>testing para aaaaaa adawgawgas gasdaqw</p>
       <div className="text-center">
         <Button className="w-1/2 mx-auto" onClick={onEdit}>

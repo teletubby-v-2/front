@@ -13,7 +13,9 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = props => {
 
   return (
     <div className="p-3">
-      <h1 className="text-center text-2xl font-black ">{userInfo.userName}</h1>
+      <Divider>
+        <h1 className="text-center text-2xl font-black ">{userInfo.userName}</h1>
+      </Divider>
       {userInfo.imageUrl ? (
         <img src={userInfo.imageUrl} alt="Profile picture" className="my-8 mx-auto" width="200" />
       ) : (
