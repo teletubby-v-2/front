@@ -65,9 +65,9 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
           </Form>
           <a
             onClick={() => (modal ? callback && callback() : history.push('/login'))}
-            className="text-blue-500 "
+            className="text-blue-500"
           >
-            Back to Sign in
+            <p className="mt-5 text-right">Back to Sign in</p>
           </a>
         </>
       )}

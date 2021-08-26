@@ -9,12 +9,13 @@ import { ForgotPasswordForm } from '../ForgotPasswordForm'
 export interface AuthZoneProps {
   className?: string
   noAccount?: boolean
+  update?: boolean
 }
 
-export const AuthZone: React.FC<AuthZoneProps> = ({ className, children, noAccount }) => {
+export const AuthZone: React.FC<AuthZoneProps> = ({ className, children, noAccount, update }) => {
   const { show, openModal, closeModal } = useModal()
-
-  const [isHaveAccount, setIsHaveAccount] = useState(true)
+  const [isHaveAccount, setIsHaveAccount] = useState(false)
+  const [Forgot, setForgot] = useState(false)
 
   const toggleHaveAccount = () => {
     setIsHaveAccount(!isHaveAccount)
@@ -27,13 +28,19 @@ export const AuthZone: React.FC<AuthZoneProps> = ({ className, children, noAccou
   }
 
   useEffect(() => {
-    setIsHaveAccount(noAccount ? false : true)
-  }, [noAccount])
+    setIsHaveAccount(noAccount ? true : false)
+  }, [noAccount, update])
+
+  useEffect(() => {
+    if (!show) {
+      setForgot(false)
+    }
+  }, [show])
 
   return (
     <>
       <Modal
-        visible={show && isHaveAccount}
+        visible={show && !isHaveAccount && !Forgot}
         footer={false}
         width="420px"
         centered
@@ -41,10 +48,15 @@ export const AuthZone: React.FC<AuthZoneProps> = ({ className, children, noAccou
         destroyOnClose={true}
         closable
       >
-        <LoginForm modal callback={toggleHaveAccount} closeModal={closeModal} />
+        <LoginForm
+          modal
+          callback={toggleHaveAccount}
+          closeModal={closeModal}
+          callbackForgot={() => setForgot(true)}
+        />
       </Modal>
       <Modal
-        visible={show && !isHaveAccount}
+        visible={show && isHaveAccount}
         centered
         width="420px"
         footer={false}
@@ -55,7 +67,7 @@ export const AuthZone: React.FC<AuthZoneProps> = ({ className, children, noAccou
         <RegisterForm modal callback={toggleHaveAccount} closeModal={closeModal} />
       </Modal>
       <Modal
-        visible={false}
+        visible={show && !isHaveAccount && Forgot}
         centered
         width="420px"
         footer={false}
@@ -63,9 +75,8 @@ export const AuthZone: React.FC<AuthZoneProps> = ({ className, children, noAccou
         closable
         destroyOnClose={true}
       >
-        <ForgotPasswordForm modal callback={toggleHaveAccount} closeModal={closeModal} />
+        <ForgotPasswordForm modal callback={() => setForgot(false)} closeModal={closeModal} />
       </Modal>
-
       <div onClick={isAuth} className={className}>
         {children}
       </div>
