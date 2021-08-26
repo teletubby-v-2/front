@@ -10,11 +10,11 @@ export const Profile: React.FC = () => {
 
   return (
     <>
-      <div className="flex justify-center my-10 space-x-5">
+      <div className="flex justify-center my-10 space-x-8">
         <div className="w-1/4">
           <MyProfile />
         </div>
-        <div className="w-3/4 space-y-5">
+        <div className="w-3/4 space-y-8">
           <LectureContainer
             title="My Lecture"
             data={dummyLectures}
