@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
-import { EditComponent } from './EditComponent'
-import { ProfileComponent } from './ProfileComponent'
+import { EditComponent } from '../../../../components/ProfileComponent/EditComponent'
+import { ProfileComponent } from '../../../../components/ProfileComponent/ProfileComponent'
+import { userInfoStore } from '../../../../store/user.store'
 
 export const MyProfile: React.FC = () => {
   const [isEdit, setEdit] = useState(false)
+  const { userInfo } = userInfoStore()
 
   return (
     <div className="bg-white shadow-md">
       {isEdit ? (
         <EditComponent onClose={() => setEdit(false)} />
       ) : (
-        <ProfileComponent onEdit={() => setEdit(true)} />
+        <ProfileComponent isMy={true} onEdit={() => setEdit(true)} Info={userInfo} />
       )}
     </div>
   )

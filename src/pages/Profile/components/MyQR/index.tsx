@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { EditQRComponent } from './EditQRComponent'
-import { QRComponent } from './QRComponent'
+import { EditQRComponent } from '../../../../components/QRComponent/EditQRComponent'
+import { QRComponent } from '../../../../components/QRComponent/QRComponent'
 
 export const MyQR: React.FC = () => {
   const [isEdit, setEdit] = useState(false)
@@ -10,7 +10,7 @@ export const MyQR: React.FC = () => {
       {isEdit ? (
         <EditQRComponent onClose={() => setEdit(false)} />
       ) : (
-        <QRComponent onEdit={() => setEdit(true)} />
+        <QRComponent isMy={true} onEdit={() => setEdit(true)} />
       )}
     </div>
   )

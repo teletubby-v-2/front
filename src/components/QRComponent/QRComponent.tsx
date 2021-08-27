@@ -1,15 +1,15 @@
 import React from 'react'
 import { Button, Divider } from 'antd'
 import { DashOutlined } from '@ant-design/icons'
-import { userInfoStore } from '../../../../store/user.store'
+import { userInfoStore } from '../../store/user.store'
 
 export interface ProfileComponentProps {
-  onEdit: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
+  onEdit?: () => void
+  isMy: boolean
+  //TODO : Info: Myuser
 }
 
-export const QRComponent: React.FC<ProfileComponentProps> = props => {
-  const { onEdit } = props
-  const { userInfo } = userInfoStore()
+export const QRComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy }) => {
   const imageUrl = ''
 
   return (
@@ -25,11 +25,13 @@ export const QRComponent: React.FC<ProfileComponentProps> = props => {
         </div>
       )}
       <p>testing para aaaaaa adawgawgas gasdaqw</p>
-      <div className="text-center">
-        <Button className="w-1/2 mx-auto" onClick={onEdit}>
-          Edit
-        </Button>
-      </div>
+      {isMy ? (
+        <div className="text-center">
+          <Button className="w-1/2 mx-auto" onClick={onEdit}>
+            Edit
+          </Button>
+        </div>
+      ) : null}
     </div>
   )
 }

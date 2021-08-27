@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 import { Button, Divider, Form, Upload, Input, message } from 'antd'
 import { InfoCircleOutlined } from '@ant-design/icons'
-import { userInfoStore } from '../../../../store/user.store'
-import { firebaseApp } from '../../../../config/firebase'
-import { dontSubmitWhenEnter } from '../../../../utils/eventManage'
-import { uploadImage } from '../../../../service/storage'
-import { UploadFile } from 'antd/lib/upload/interface'
-import { UploadPic } from '../hook'
+import { userInfoStore } from '../../store/user.store'
+import { firebaseApp } from '../../config/firebase'
+import { dontSubmitWhenEnter } from '../../utils/eventManage'
+import { useUploadpic } from '../../hooks/useUploadpic'
 
 export interface UpdateValue {
   aboutme: string
@@ -23,7 +21,7 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
   const { TextArea } = Input
   const { onClose } = props
   const [imageUrl, setimageUrl] = useState(String)
-  const { handleRequest, beforeUpload } = UploadPic({ setimageUrl, setIsUploading })
+  const { handleRequest, beforeUpload } = useUploadpic({ setimageUrl, setIsUploading })
 
   const onFinish = (value: UpdateValue) => {
     onClose()

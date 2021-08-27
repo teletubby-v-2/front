@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { Button, Divider, Form, Upload, Input, message } from 'antd'
-import { RightOutlined, UserOutlined, UploadOutlined, InfoCircleOutlined } from '@ant-design/icons'
-import { userInfoStore } from '../../../../store/user.store'
-import { firebaseApp } from '../../../../config/firebase'
-import { dontSubmitWhenEnter } from '../../../../utils/eventManage'
+import { UploadOutlined, InfoCircleOutlined } from '@ant-design/icons'
+import { userInfoStore } from '../../store/user.store'
+import { firebaseApp } from '../../config/firebase'
+import { dontSubmitWhenEnter } from '../../utils/eventManage'
 import { UploadChangeParam, UploadFile, UploadLocale } from 'antd/lib/upload/interface'
-import { UploadPic } from '../hook'
+import { useUploadpic } from '../../hooks/useUploadpic'
 
 export interface UpdateValue {
   aboutme: string
@@ -25,7 +25,7 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
   const { TextArea } = Input
   const { onClose } = props
   const [imageUrl, setimageUrl] = useState(userInfo.imageUrl)
-  const { handleRequest, beforeUpload } = UploadPic({ setimageUrl, setIsUploading })
+  const { handleRequest, beforeUpload } = useUploadpic({ setimageUrl, setIsUploading })
 
   const onFinish = (value: UpdateValue) => {
     onClose()
@@ -65,7 +65,7 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
               beforeUpload={beforeUpload}
               showUploadList={false}
             >
-              {/* TODO: upload Profile picture */}{' '}
+              {' '}
               <Button icon={<UploadOutlined />}>Click to Upload</Button>
             </Upload>
           </Form.Item>
@@ -107,12 +107,14 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
           />
         </Form.Item>
         <Form.Item name="youtube">
-          <Input
-            addonBefore="https://"
-            defaultValue=""
-            placeholder="Youtube"
-            onKeyDown={dontSubmitWhenEnter}
-          />
+          <div className="content-center">
+            <Input
+              addonBefore="https://"
+              defaultValue=""
+              placeholder="Youtube"
+              onKeyDown={dontSubmitWhenEnter}
+            />
+          </div>
         </Form.Item>
         <Form.Item className="m-3 text-center">
           <Button type="primary" htmlType="submit" size="large" className="mx-4">

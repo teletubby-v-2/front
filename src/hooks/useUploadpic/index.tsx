@@ -1,17 +1,12 @@
 import { message } from 'antd'
-import Form from 'antd/lib/form'
-import { UploadChangeParam, UploadFile, UploadLocale } from 'antd/lib/upload/interface'
-import { useState } from 'react'
-import { uploadImage } from '../../../../service/storage'
+import { uploadImage } from '../../service/storage'
 
 export interface UploadPicProps {
   setimageUrl: (imageUrl: string) => void
   setIsUploading: (isUploading: boolean) => void
 }
 
-export const UploadPic = (props: UploadPicProps) => {
-  const [form] = Form.useForm()
-
+export const useUploadpic = (props: UploadPicProps) => {
   const { setimageUrl, setIsUploading } = props
 
   const uploadNewImage = async (file: File) => {
