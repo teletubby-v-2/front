@@ -1,7 +1,7 @@
 import { queryOperator } from './queryOperator.dto'
 
 export interface SubjectDTO {
-  subjectId: string
+  subjectId?: string
   subjectNameTH: string
   subjectNameEN: string
   semester1: boolean

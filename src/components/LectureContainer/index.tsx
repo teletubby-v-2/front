@@ -29,7 +29,7 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
   return (
     <MyCard
       {...restCradProps}
-      title={<p className="title-lecture-container">{title}</p>}
+      title={<span className="title-lecture-container">{title}</span>}
       className={className}
     >
       <Skeleton loading={loading} paragraph active>

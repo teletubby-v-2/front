@@ -7,6 +7,7 @@ import { Lecture } from '../../../constants/interface/lecture.interface'
 import { createLecture, updateLecture } from '../../../service/lectures'
 import { deleteImages, uploadImage } from '../../../service/storage'
 import { initPhoto, removeUndefined } from '../../../utils/object'
+import kuSubject from '../../../constants/subjects.json'
 
 export const useLectureForm = (
   addOwnLecture: (lecture: Lecture) => void,
@@ -21,7 +22,7 @@ export const useLectureForm = (
   const [fileList, setFileList] = useState<UploadFile[]>(initPhoto(initData?.imageUrl) || [])
   const [previewVisible, setPreviewVisible] = useState(false)
   const [previewImage, setPreviewImage] = useState<string>()
-  const [isUpdate, setIsUpdate] = useState(initData?.lectureId ? true : false)
+  const [isUpdate] = useState(initData?.lectureId ? true : false)
 
   useEffect(() => {
     setIsOnAddTag(false)
