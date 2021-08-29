@@ -8,7 +8,7 @@ const Div = styled.div`
   margin: auto;
   border: 1px solid black;
 `
-export const LectureDetail: React.FC = props => {
+export const LectureDetail: React.FC = () => {
   return (
     <Div>
       <LectureDetailComment />

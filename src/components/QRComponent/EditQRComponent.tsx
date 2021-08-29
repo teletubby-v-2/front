@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
-import { Button, Divider, Form, Upload, Input, message } from 'antd'
+import { Button, Divider, Form, Upload, Input } from 'antd'
 import { InfoCircleOutlined } from '@ant-design/icons'
-import { userInfoStore } from '../../store/user.store'
-import { firebaseApp } from '../../config/firebase'
 import { dontSubmitWhenEnter } from '../../utils/eventManage'
 import { useUploadpic } from '../../hooks/useUploadpic'
 
@@ -16,7 +14,6 @@ export interface EditComponentProps {
 
 export const EditQRComponent: React.FC<EditComponentProps> = props => {
   const [isUploading, setIsUploading] = useState(false)
-  const { userInfo } = userInfoStore()
   const { TextArea } = Input
   const { onClose } = props
   const [imageUrl, setimageUrl] = useState(String)

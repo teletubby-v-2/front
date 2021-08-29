@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { message } from 'antd'
 import Form from 'antd/lib/form'
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface'
@@ -7,7 +8,6 @@ import { Lecture } from '../../../constants/interface/lecture.interface'
 import { createLecture, updateLecture } from '../../../service/lectures'
 import { deleteImages, uploadImage } from '../../../service/storage'
 import { initPhoto, removeUndefined } from '../../../utils/object'
-import kuSubject from '../../../constants/subjects.json'
 
 export const useLectureForm = (
   addOwnLecture: (lecture: Lecture) => void,
@@ -105,7 +105,7 @@ export const useLectureForm = (
     setIsOnAddTag(true)
   }
 
-  const handleFilelist = (file: UploadChangeParam<UploadFile<any>>) => {
+  const handleFilelist = (file: UploadChangeParam<UploadFile>) => {
     if (file.file.status === 'removed') {
       setFileList(file.fileList)
       form.setFieldsValue({ imageUrl: file.fileList.map(file => file.url) })

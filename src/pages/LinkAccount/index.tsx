@@ -10,6 +10,7 @@ export const LinkAccount: React.FC = () => {
 
   const { authError } = errorStore()
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onFinish = (value: any) => {
     linkWithEmailAndPassword(
       value.email,
