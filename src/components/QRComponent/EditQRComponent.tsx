@@ -8,7 +8,6 @@ import { useUploadpic } from '../../hooks/useUploadpic'
 
 export interface UpdateValue {
   aboutme: string
-  QRUrl: string
 }
 
 export interface EditComponentProps {
@@ -37,7 +36,7 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
       </Divider>
       <Form onFinish={onFinish}>
         <Form.Item
-          name="QRUrl"
+          name="qrCodeUrl"
           label="Upload QRcode: "
           help={
             <>

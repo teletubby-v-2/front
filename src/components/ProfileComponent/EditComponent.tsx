@@ -4,7 +4,6 @@ import { UploadOutlined, InfoCircleOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
 import { firebaseApp } from '../../config/firebase'
 import { dontSubmitWhenEnter } from '../../utils/eventManage'
-import { UploadChangeParam, UploadFile, UploadLocale } from 'antd/lib/upload/interface'
 import { useUploadpic } from '../../hooks/useUploadpic'
 
 export interface UpdateValue {
