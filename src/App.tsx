@@ -23,7 +23,7 @@ const App: React.FC = () => {
         <Switch>
           <Route exact path="/">
             {/* ชั่วคราวสำหรับ test */}
-            <Redirect to="/yoyo" />
+            <Redirect to="/login" />
           </Route>
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
