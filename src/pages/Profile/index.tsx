@@ -3,13 +3,19 @@ import { LectureContainer } from '../../components'
 import { dummyLectures } from '../../constants/dummyData/lecture.dummy'
 import { MyProfile } from './components/MyProfile'
 import { CreateLectureForm } from '../../components/CreateLectureForm'
+import { MyQR } from './components/MyQR'
 
 export const Profile: React.FC = () => {
   return (
     <>
       <div className="flex justify-center my-10 space-x-8">
         <div className="w-1/4">
-          <MyProfile />
+          <div className="mb-10">
+            <MyProfile />
+          </div>
+          <div>
+            <MyQR />
+          </div>
         </div>
         <div className="w-3/4 space-y-8">
           <LectureContainer

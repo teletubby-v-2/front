@@ -5,63 +5,71 @@ import { queryOperator } from './queryOperator.dto'
 //-------------------------- Lecture -------------------------
 
 export interface CreateLectureDTO {
+  username?: string
   lectureId?: string
-  userId: string
+  userId?: string
   subjectId: string
   lectureTitle: string
   description?: string
-  isMid: boolean
-  isFinal: boolean
+  isMid?: boolean
+  isFinal?: boolean
   imageUrl: string[]
-  tags: string[]
-  createAt: firebase.firestore.Timestamp
-  updateAt: firebase.firestore.Timestamp
+  tags?: string[]
+  sumRating?: number
+  reviewCount?: number
+  createAt?: firebase.firestore.Timestamp
+  updateAt?: firebase.firestore.Timestamp
 }
 
-export interface updateLectureDTO extends Partial<CreateLectureDTO> {}
+export interface UpdateLectureDTO extends Partial<CreateLectureDTO> {}
 
 export interface LectureDTO extends Lecture {}
 
 //-------------------------- review -------------------------
 
-export interface ReviewDTO extends Review {}
-export interface UpdateReviewDTO {
-  reviewId?: string
-  lectureId?: string
-  userId?: string
-  rating?: number
-  message?: string
-  createAt?: firebase.firestore.Timestamp
-  updateAt?: firebase.firestore.Timestamp
+export interface CreateReviewDTO extends Review {}
+export interface UpdateReviewDTO extends Partial<CreateReviewDTO> {
+  lectureId: string
 }
 
 //-------------------------- Q&A -------------------------
 
-export interface QAndADTO extends QAndA {}
+export interface CreateQAndADTO extends QAndA {}
 
-export interface UpdateQAndADTO {
-  qaId?: string
-  lectureId?: string
+export interface UpdateQAndADTO extends Partial<CreateQAndADTO> {
+  lectureId: string
+}
+
+export interface AnswersDTO {
+  answerId?: string
+  qaId: string
+  lectureId: string
   userId?: string
-  question?: string
-  answer: string[]
+  username?: string
+  photoURL?: string
+  message: string
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp
 }
 
 //-------------------------- Comment -------------------------
 
-export interface CommentsDTO extends Comments {}
+export interface CreateCommentDTO extends Comments {}
 
-export interface UpdateCommentDTO {
-  id?: string
-  lectureId?: string
+export interface UpdateCommentDTO extends Partial<CreateCommentDTO> {
+  lectureId: string
+}
+
+export interface ReplyDTO {
+  replyId?: string
+  commentId: string
+  lectureId: string
   userId?: string
-  message?: string
+  username?: string
+  photoURL?: string
+  message: string
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp
-  canReply: boolean
-  reply: Comments[]
 }
 
 //-------------------------- Filter -------------------------

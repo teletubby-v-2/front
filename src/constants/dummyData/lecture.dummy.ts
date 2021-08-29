@@ -1,13 +1,12 @@
-import { logRoles } from '@testing-library/react'
 import { Lecture } from '../interface/lecture.interface'
 
 export const dummyLectures: Lecture[] = [
   {
-    lectureId: '01204341',
     userId: '12345678',
-    imagesUrl: ['https://api.chulabook.com/images/pid-20494.jpg'],
+    imageUrl: ['https://api.chulabook.com/images/pid-20494.jpg'],
     subjectId: 'พาสาไทย',
     sumRating: 0,
+    reviewCount: 0,
     viewCount: 100,
     lectureTitle: 'This is thai lecture',
     description:
@@ -27,8 +26,6 @@ export const dummyLectures: Lecture[] = [
             lectureId: '01204341',
             userId: '62xxxxxxxx',
             message: 'lorem',
-            canReply: false,
-            reply: [],
           },
         ],
       },

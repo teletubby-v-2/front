@@ -1,5 +1,5 @@
 import { UploadFile } from 'antd/lib/upload/interface'
-interface Json {
+export interface Json {
   [key: string]: unknown
 }
 

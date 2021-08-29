@@ -1,11 +1,12 @@
 import firebase from 'firebase/app'
 
 export interface Lecture {
-  lectureId: string
+  lectureId?: string
   userId: string
-  imagesUrl: string[]
+  imageUrl: string[]
   subjectId: string
   viewCount: number
+  reviewCount: number
   sumRating: number
   lectureTitle: string
   description?: string
@@ -24,18 +25,20 @@ export interface Lecture {
 export interface Comments {
   id?: string
   lectureId: string
-  userId: string
+  userId?: string
+  username?: string
+  photoURL?: string
   message: string
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp
-  canReply: boolean
-  reply: Comments[]
 }
 
 export interface Review {
-  reviewId: string
+  reviewId?: string
   lectureId: string
-  userId: string
+  userId?: string
+  username?: string
+  photoURL?: string
   rating: number
   message: string
   createAt?: firebase.firestore.Timestamp
@@ -44,7 +47,9 @@ export interface Review {
 export interface QAndA {
   qaId?: string
   lectureId: string
-  userId: string
+  username?: string
+  photoURL?: string
+  userId?: string
   question: string
   answer: Comments[]
   createAt?: firebase.firestore.Timestamp
