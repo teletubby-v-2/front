@@ -35,7 +35,7 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
             Edit
           </Button>
         ) : (
-          <Button className="w-1/2">Follow</Button>
+          <Button className="w-1/2 bg-blue-500">Follow</Button>
         )}
 
         <Button>
@@ -43,9 +43,10 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
         </Button>
       </div>
 
-      <div className="text-center items-center">
-        <p> {Info.follower.length} Follower</p>
-        <p> {Info.following.length} Following</p>
+      <div className="text-center items-center my-5">
+        <p>
+          {Info.follower.length} Follower {Info.following.length} Following
+        </p>
       </div>
 
       <Divider>
