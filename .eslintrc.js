@@ -27,7 +27,7 @@ module.exports = {
     'react/react-in-jsx-scope': 0,
     '@typescript-eslint/no-empty-interface': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,
-    'react-hooks/exhaustive-deps': 'warn',
+    'react-hooks/exhaustive-deps': 0,
     'react-hooks/rules-of-hooks': 'error',
     '@typescript-eslint/ban-types': [
       'error',
