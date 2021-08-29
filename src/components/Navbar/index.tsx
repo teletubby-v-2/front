@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { Input, Avatar, Menu, Dropdown, Button } from 'antd'
 import { useHistory } from 'react-router'
-import 'tailwindcss/tailwind.css'
 import KUshare from '../../assets/icons/KUshare.svg'
 import { UserOutlined, BellOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
@@ -51,8 +50,10 @@ export const Navbar: React.FC = () => {
       case 'profile':
         return history.push('/Profile')
       case 'logout':
-        logout().then(() => clearAll())
+        return logout().then(() => clearAll())
       // return history.push('/home')
+      case 'login':
+        return console.log(112)
     }
   }
 
@@ -61,15 +62,14 @@ export const Navbar: React.FC = () => {
   const menu = (
     <Menu onClick={handleMenuClick} className="mt-2">
       <Menu.Item key="login" hidden={isLogin()}>
-        <AuthZone>Login</AuthZone>
+        <AuthZone>Sign In</AuthZone>
       </Menu.Item>
       <Menu.Item key="register" hidden={isLogin()}>
-        <AuthZone noAccount={true}>Signup</AuthZone>
+        <AuthZone noAccount={true}>Sign Up</AuthZone>
       </Menu.Item>
       <Menu.Item key="profile" hidden={!isLogin()}>
         Profile
       </Menu.Item>
-
       <Menu.Item key="logout" hidden={!isLogin()}>
         {' '}
         Logout

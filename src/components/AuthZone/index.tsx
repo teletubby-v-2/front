@@ -4,6 +4,7 @@ import { RegisterForm } from '../RegisterForm'
 import { LoginForm } from '../LoginForm'
 import { useModal } from '../../hooks/useModal'
 import { firebaseApp } from '../../config/firebase'
+import { userInfoStore } from '../../store/user.store'
 
 export interface AuthZoneProps {
   className?: string
@@ -13,31 +14,36 @@ export interface AuthZoneProps {
 export const AuthZone: React.FC<AuthZoneProps> = ({ className, children, noAccount }) => {
   const { show, openModal, closeModal } = useModal()
 
-  const [isHaveAccount, setIsHaveAccount] = useState(false)
+  const { userInfo } = userInfoStore()
+
+  const [isHaveAccount, setIsHaveAccount] = useState(noAccount)
 
   const toggleHaveAccount = () => {
     setIsHaveAccount(!isHaveAccount)
   }
 
+  const onHanddleCloseModal = () => {
+    closeModal()
+    setIsHaveAccount(noAccount)
+  }
+
   const isAuth = () => {
+    console.log('hello')
+
     if (!firebaseApp.auth().currentUser) {
       openModal()
     }
   }
-
-  useEffect(() => {
-    setIsHaveAccount(noAccount ? true : false)
-  }, [noAccount])
 
   return (
     <>
       <Modal
         visible={show && !isHaveAccount}
         footer={false}
-        width="420px"
+        width="450px"
         centered
-        onCancel={closeModal}
-        destroyOnClose={true}
+        onCancel={onHanddleCloseModal}
+        destroyOnClose
         closable
       >
         <LoginForm modal callback={toggleHaveAccount} closeModal={closeModal} />
@@ -45,15 +51,22 @@ export const AuthZone: React.FC<AuthZoneProps> = ({ className, children, noAccou
       <Modal
         visible={show && isHaveAccount}
         centered
-        width="420px"
+        width="450px"
         footer={false}
-        onCancel={closeModal}
+        onCancel={onHanddleCloseModal}
         closable
-        destroyOnClose={true}
+        destroyOnClose
       >
         <RegisterForm modal callback={toggleHaveAccount} closeModal={closeModal} />
       </Modal>
-      <div onClick={isAuth} className={className}>
+      <div className="relative">
+        {(!userInfo.userId || userInfo.userId.length === 0) && (
+          <div
+            className="absolute top-0 bottom-0 left-0 right-0"
+            style={{ zIndex: 2000 }}
+            onClick={isAuth}
+          />
+        )}
         {children}
       </div>
     </>
