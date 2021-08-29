@@ -3,20 +3,23 @@ import firebase from 'firebase/app'
 import { MyUser, SocialLink } from '../interface/myUser.interface'
 import { queryOperator } from './queryOperator.dto'
 
-export interface CreateUserEmailDTO {
-  userId: string
+export interface CreateUserDTO {
+  userId?: string
   email: string
   userName: string
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp
+  imageUrl?: string
+  aboutMe?: string
 }
 
-export interface UpdateProfileDTO {
-  userId: string
+export interface UpdateUserDTO {
   imageUrl?: string
   userName?: string
   socialLink: SocialLink[]
   donateImage?: string
+  aboutMe?: string
+  bookmark?: string[]
   donateDescription?: string
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp
