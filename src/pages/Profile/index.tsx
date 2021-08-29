@@ -17,18 +17,17 @@ export const Profile: React.FC = () => {
             data={dummyLectures}
             limit={8}
             extra={
-              <>
+              <div className="space-x-3">
                 <CreateLectureForm className="inline-block" />
-                <span className="m-2" />
-                <a href="/myLecture">View All</a>
-              </>
+                <a href="/myLecture">ดูทั้งหมด</a>
+              </div>
             }
           />
           <LectureContainer
             title="Recent Lecture"
             data={dummyLectures}
             limit={8}
-            extra={<a href="/recentLecture">View All</a>}
+            extra={<a href="/recentLecture">ดูทั้งหมด</a>}
           />
         </div>
       </div>

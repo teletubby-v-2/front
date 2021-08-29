@@ -8,7 +8,6 @@ import { logout } from '../../service/auth'
 import styled from 'styled-components'
 import { MenuInfo } from 'rc-menu/lib/interface'
 import { firebaseApp } from '../../config/firebase'
-import firebase from 'firebase'
 import { AuthZone } from '..'
 
 const { Search } = Input
