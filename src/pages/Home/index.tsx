@@ -1,62 +1,50 @@
-import { Button, Result, Avatar } from 'antd'
-import React, { useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import firebase from 'firebase'
-import { firebaseApp } from '../../config/firebase'
-import { logout } from '../../service/auth'
-import noUser from '../../assets/images/no_user.png'
+import React from 'react'
+import { LectureContainer } from '../../components'
+import { dummyLectures } from '../../constants/dummyData/lecture.dummy'
+import { userInfoStore } from '../../store/user.store'
 
 export const Home: React.FC = () => {
-  const history = useHistory()
-  const [css, setCss] = useState('')
-  const [user, setUser] = useState<firebase.User>()
-
-  useEffect(() => {
-    firebaseApp.auth().onAuthStateChanged(user => {
-      if (user) {
-        setUser(user)
-        user.getIdToken().then(token => {
-          localStorage.setItem('idToken', token)
-        })
-        if (user.emailVerified) {
-          setCss('border-green-500')
-        } else {
-          setCss('border-red-500')
-        }
-      } else {
-        console.log('invalid user')
-      }
-    })
-  }, [])
+  const { userInfo } = userInfoStore()
 
   return (
-    <>
-      <Result
-        icon={
-          user?.photoURL ? (
-            <Avatar
-              size={128}
-              shape="circle"
-              src={user?.photoURL}
-              className={`m-auto border-2 ${css}`}
-            />
-          ) : (
-            <Avatar size={128} shape="circle" src={noUser} className={`m-auto border-2 ${css}`} />
-          )
-        }
-        title={user ? user?.displayName : 'loading...'}
+    <div className="mb-10 mx-2 space-y-7">
+      {userInfo.userId.length !== 0 && (
+        <>
+          <LectureContainer
+            title="My Subject"
+            data={dummyLectures}
+            limit={8}
+            extra={
+              <>
+                <span className="m-2" />
+                <a href="/myLecture">View All</a>
+              </>
+            }
+          />
+          <LectureContainer
+            title="BookMark Lectures"
+            data={dummyLectures}
+            limit={8}
+            extra={
+              <>
+                <span className="m-2" />
+                <a href="/myLecture">View All</a>
+              </>
+            }
+          />
+        </>
+      )}
+      <LectureContainer
+        title="Recent Lectures"
+        data={dummyLectures}
+        limit={8}
         extra={
-          <Button
-            type="primary"
-            onClick={() => {
-              logout()
-              history.push('./login')
-            }}
-          >
-            Logout
-          </Button>
+          <>
+            <span className="m-2" />
+            <a href="/myLecture">View All</a>
+          </>
         }
       />
-    </>
+    </div>
   )
 }

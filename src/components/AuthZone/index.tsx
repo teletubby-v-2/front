@@ -1,5 +1,5 @@
 import { Modal } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { RegisterForm } from '../RegisterForm'
 import { LoginForm } from '../LoginForm'
 import { useModal } from '../../hooks/useModal'
@@ -59,7 +59,7 @@ export const AuthZone: React.FC<AuthZoneProps> = ({ className, children, noAccou
       >
         <RegisterForm modal callback={toggleHaveAccount} closeModal={closeModal} />
       </Modal>
-      <div className="relative">
+      <div className={`relative ${className}`}>
         {(!userInfo.userId || userInfo.userId.length === 0) && (
           <div
             className="absolute top-0 bottom-0 left-0 right-0"

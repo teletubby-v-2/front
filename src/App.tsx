@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import {
   Login,
@@ -12,8 +12,22 @@ import {
   VerifyEmail,
 } from './pages'
 import { LayoutRoute } from './components'
+import firebase from 'firebase'
+import { userInfoStore } from './store/user.store'
 
 const App: React.FC = () => {
+  const { clearAll, setAllFirebase } = userInfoStore()
+
+  useEffect(() => {
+    const unsubscribe = firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        setAllFirebase(user as firebase.UserInfo)
+      } else {
+        clearAll()
+      }
+    })
+    return () => unsubscribe()
+  }, [])
   return (
     <>
       <BrowserRouter>

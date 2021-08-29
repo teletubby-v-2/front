@@ -24,7 +24,7 @@ const Nav = styled.nav`
 
 export const Navbar: React.FC = () => {
   const history = useHistory()
-  const { userInfo, clearAll, setAllFirebase } = userInfoStore()
+  const { userInfo } = userInfoStore()
 
   const onSearch = (value: string) => {
     value ? history.push(`${value}`) : null
@@ -34,23 +34,12 @@ export const Navbar: React.FC = () => {
     history.push('/Home')
   }
 
-  useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        setAllFirebase(user as firebase.UserInfo)
-      } else {
-        clearAll()
-      }
-    })
-    return () => unsubscribe()
-  }, [])
-
   const handleMenuClick = (info: MenuInfo) => {
     switch (info.key) {
       case 'profile':
         return history.push('/Profile')
       case 'logout':
-        return logout().then(() => clearAll())
+        return logout()
       // return history.push('/home')
       case 'login':
         return console.log(112)
