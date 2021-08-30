@@ -7,6 +7,7 @@ import { dontSubmitWhenEnter } from '../../utils/eventManage'
 import { useUploadpic } from '../../hooks/useUploadpic'
 import { UpdateUserDTO } from '../../constants/dto/myUser.dto'
 import { updateUser } from '../../service/user'
+import { deleteImages } from '../../service/storage'
 
 export interface UpdateValue {
   donateDescription: string
@@ -40,12 +41,14 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
       }
       try {
         updateUser(data)
+        if (imageUrl != userInfo.imageUrl && userInfo.imageUrl) {
+          deleteImages(userInfo.imageUrl)
+        }
       } catch (err) {
         console.log(err)
       }
     }
   }
-  userInfo.donateDescription
   return (
     <div className="p-3">
       <Divider>
