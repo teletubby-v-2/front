@@ -18,4 +18,5 @@ export interface UserInfo {
   setAll: (info: MyUser) => void
   setAllFirebase: (info: firebase.UserInfo) => void
   clearAll: () => void
+  setAboutme: (aboutme: string) => void
 }

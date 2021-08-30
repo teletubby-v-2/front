@@ -1,17 +1,25 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Divider, Form, Upload, Input, message } from 'antd'
-import { UploadOutlined, InfoCircleOutlined, LoadingOutlined } from '@ant-design/icons'
+import {
+  UploadOutlined,
+  InfoCircleOutlined,
+  LoadingOutlined,
+  ConsoleSqlOutlined,
+} from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
 import { firebaseApp } from '../../config/firebase'
 import { dontSubmitWhenEnter } from '../../utils/eventManage'
 import { useUploadpic } from '../../hooks/useUploadpic'
+import { updateUser } from '../../service/user'
+import { UpdateUserDTO } from '../../constants/dto/myUser.dto'
+import { SocialLink } from '../../constants/interface/myUser.interface'
+import { deleteImages } from '../../service/storage'
 
 export interface UpdateValue {
   aboutme: string
   instagram: string
   twitter: string
   youtube: string
-  imageUrl: string
 }
 
 export interface EditComponentProps {
@@ -20,17 +28,54 @@ export interface EditComponentProps {
 
 export const EditComponent: React.FC<EditComponentProps> = props => {
   const [isUploading, setIsUploading] = useState(false)
-  const { userInfo } = userInfoStore()
+  const { userInfo, setImageURL, setSocialLink, setAboutme } = userInfoStore()
   const { TextArea } = Input
   const { onClose } = props
   const [imageUrl, setimageUrl] = useState(userInfo.imageUrl)
-  const { handleRequest, beforeUpload } = useUploadpic({ setimageUrl, setIsUploading })
+  const { handleRequest, beforeUpload } = useUploadpic({
+    setimageUrl,
+    setIsUploading,
+    imageUrl,
+    originalimageUrl: userInfo.imageUrl,
+  })
 
   const onFinish = (value: UpdateValue) => {
-    onClose()
     console.log(value)
     console.log(imageUrl)
-    /* TODO: update profile */
+    console.log(userInfo)
+
+    const socialLink: SocialLink[] = [
+      { socialMediaName: 'instagram', socialMedisUrl: value.instagram ? value.instagram : '' },
+      { socialMediaName: 'youtube', socialMedisUrl: value.youtube ? value.youtube : '' },
+      { socialMediaName: 'twitter', socialMedisUrl: value.twitter ? value.twitter : '' },
+    ]
+    if (
+      imageUrl != userInfo.imageUrl ||
+      value.aboutme != userInfo.aboutme ||
+      socialLink != userInfo.socialLink
+    ) {
+      const data: UpdateUserDTO = {
+        socialLink: socialLink,
+        imageUrl: imageUrl,
+        aboutMe: value.aboutme,
+      }
+      const user = firebaseApp.auth().currentUser
+      try {
+        user?.updateProfile({
+          photoURL: imageUrl,
+        })
+        updateUser(data)
+        if (imageUrl != userInfo.imageUrl && userInfo.imageUrl) {
+          deleteImages(userInfo.imageUrl)
+        }
+        imageUrl ? setImageURL(imageUrl) : null
+        setSocialLink(socialLink)
+        setAboutme(value.aboutme)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    onClose()
   }
 
   return (
@@ -55,7 +100,7 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
       <Form onFinish={onFinish} initialValues={userInfo}>
         <div className="text-center">
           <Form.Item
-            name="imageUrl"
+            name="imagefile"
             help={
               <>
                 <InfoCircleOutlined className="tag-icon" />

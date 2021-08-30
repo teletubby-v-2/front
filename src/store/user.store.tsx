@@ -16,6 +16,7 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
     following: [], //user id
     donateImage: '',
     donateDescription: '',
+    aboutme: '',
   },
   setUserName: (userName: string) => {
     set({ userInfo: { ...get().userInfo, userName } })
@@ -101,7 +102,11 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
         following: [], //user id
         donateImage: '',
         donateDescription: '',
+        aboutme: '',
       },
     })
+  },
+  setAboutme: (aboutme: string) => {
+    set({ userInfo: { ...get().userInfo, aboutme } })
   },
 }))

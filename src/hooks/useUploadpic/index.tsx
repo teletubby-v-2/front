@@ -1,13 +1,16 @@
 import { message } from 'antd'
-import { uploadImage } from '../../service/storage'
+import { uploadImage, deleteImages } from '../../service/storage'
 
 export interface UploadPicProps {
   setimageUrl: (imageUrl: string) => void
   setIsUploading: (isUploading: boolean) => void
+  imageUrl: string | undefined
+  originalimageUrl: string | undefined
 }
 
 export const useUploadpic = (props: UploadPicProps) => {
-  const { setimageUrl, setIsUploading } = props
+  const { setimageUrl, setIsUploading, imageUrl, originalimageUrl } = props
+  const oldimageUrl = imageUrl
 
   const uploadNewImage = async (file: File) => {
     try {
@@ -15,6 +18,9 @@ export const useUploadpic = (props: UploadPicProps) => {
       const uploadStatus = await uploadImage(file)
       if (uploadStatus.url) {
         setimageUrl(uploadStatus.url)
+        if (oldimageUrl != originalimageUrl) {
+          oldimageUrl ? deleteImages(oldimageUrl) : null
+        }
       }
     } catch (error: any) {
       console.log(error)

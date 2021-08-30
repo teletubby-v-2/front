@@ -16,7 +16,7 @@ export interface CreateUserDTO {
 export interface UpdateUserDTO {
   imageUrl?: string
   userName?: string
-  socialLink: SocialLink[]
+  socialLink?: SocialLink[]
   donateImage?: string
   aboutMe?: string
   bookmark?: string[]

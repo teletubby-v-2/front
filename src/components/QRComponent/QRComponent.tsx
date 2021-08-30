@@ -2,29 +2,28 @@ import React from 'react'
 import { Button, Divider } from 'antd'
 import { DashOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
+import { MyUser } from '../../constants/interface/myUser.interface'
 
 export interface ProfileComponentProps {
   onEdit?: () => void
   isMy: boolean
-  //TODO : Info: Myuser
+  Info: MyUser
 }
 
-export const QRComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy }) => {
-  const imageUrl = ''
-
+export const QRComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy, Info }) => {
   return (
     <div className="p-3">
       <Divider>
         <p className="text-xl">Donate Preview</p>
       </Divider>
-      {imageUrl ? (
-        <img src={imageUrl} alt="QR" />
+      {Info.donateImage ? (
+        <img src={Info.donateImage} alt="QR" />
       ) : (
         <div className="mx auto my-8 shadow text-center h-52 text-2xl place-content-center">
           Upload your QR Code
         </div>
       )}
-      <p>testing para aaaaaa adawgawgas gasdaqw</p>
+      <p>{Info.donateDescription}</p>
       {isMy ? (
         <div className="text-center">
           <Button className="w-1/2 mx-auto" onClick={onEdit}>

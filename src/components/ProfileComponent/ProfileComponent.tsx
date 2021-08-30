@@ -22,9 +22,9 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       </Divider>
 
       {Info.imageUrl ? (
-        <img src={Info.imageUrl} alt="Profile picture" className="my-8 mx-auto" width="200" />
+        <img src={Info.imageUrl} alt="Profile picture" className="my-8 mx-auto " width="200" />
       ) : (
-        <div className="mx auto my-8 shadow text-center h-52 text-2xl place-content-center">
+        <div className="mx-auto my-8 shadow text-center h-52 text-2xl place-content-center">
           No Picture
         </div>
       )}
@@ -79,7 +79,7 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
         </li>
         <li>
           <p>About me: </p>
-          <p className="text-left break-words"></p>
+          <p className="text-left break-words">{Info.aboutme}</p>
         </li>
         <p></p>
       </ul>

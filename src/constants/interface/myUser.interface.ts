@@ -19,4 +19,5 @@ export interface MyUser {
   donateDescription?: string
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp
+  aboutme?: string
 }
