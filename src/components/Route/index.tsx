@@ -21,7 +21,7 @@ export const LayoutRoute: React.FC<RouteProps> = props => {
       {...rest}
       render={props => (
         <MyLayout className="min-h-screen flex flex-col">
-          <Navbar />
+          <Navbar isHome={true} />
           <div className="mt-16"></div>
           {location.pathname === '/home' && <img src={homeIcon} alt="ku logo" />}
 
@@ -29,6 +29,26 @@ export const LayoutRoute: React.FC<RouteProps> = props => {
           <AntFooter className="justify-self-end bg-green-400 opacity-75">
             <Footer />
           </AntFooter>
+        </MyLayout>
+      )}
+    />
+  )
+}
+
+export const FirstRoute: React.FC<RouteProps> = props => {
+  const { component: Component, ...rest } = props
+  const location = useLocation()
+
+  return (
+    <Route
+      {...rest}
+      render={props => (
+        <MyLayout className="min-h-screen flex flex-col">
+          <Navbar isHome={false} />
+          <div className="mt-16"></div>
+          {location.pathname === '/home' && <img src={homeIcon} alt="ku logo" />}
+
+          <Content className=" container mx-auto">{Component && <Component {...props} />}</Content>
         </MyLayout>
       )}
     />

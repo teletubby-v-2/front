@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Input, Avatar, Menu, Dropdown, Button } from 'antd'
 import { useHistory } from 'react-router'
 import KUshare from '../../assets/icons/KUshare.svg'
@@ -20,8 +20,11 @@ const Nav = styled.nav`
   width: 100%;
   z-index: 50;
 `
+export interface NavbarProps {
+  isHome: boolean
+}
 
-export const Navbar: React.FC = () => {
+export const Navbar: React.FC<NavbarProps> = ({ isHome }) => {
   const history = useHistory()
   const { userInfo } = userInfoStore()
 
@@ -33,13 +36,17 @@ export const Navbar: React.FC = () => {
     history.push('/Home')
   }
 
+  const onLogout = () => {
+    logout()
+    history.push('/home')
+  }
+
   const handleMenuClick = (info: MenuInfo) => {
     switch (info.key) {
       case 'profile':
         return history.push('/Profile')
       case 'logout':
-        return logout()
-      // return history.push('/home')
+        return onLogout()
       case 'login':
         return console.log(112)
     }
@@ -68,27 +75,33 @@ export const Navbar: React.FC = () => {
   return (
     <div>
       <Nav className="text-xl">
-        <div className="container mx-auto flex justify justify-between items-center p-3">
-          <img width={129} src={KUshare} onClick={onClickLogo} className="cursor-pointer" />
-          <Search
-            placeholder="ค้นหารายวิชา"
-            onSearch={onSearch}
-            size="large"
-            className="max-w-xl mx-3"
-          />
-          <div className="flex items-center">
-            <Button className="text-xl text-black" type="link">
-              <BellOutlined className="align-top" />
-            </Button>
-            <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
-              {userInfo.imageUrl ? (
-                <Avatar src={userInfo.imageUrl} size="large" className="border cursor-pointer" />
-              ) : (
-                <Avatar icon={<UserOutlined />} size="large" className="border cursor-pointer" />
-              )}
-            </Dropdown>
+        {isHome ? (
+          <div className="container mx-auto flex justify justify-between items-center p-3">
+            <img width={129} src={KUshare} onClick={onClickLogo} className="cursor-pointer" />
+            <Search
+              placeholder="ค้นหารายวิชา"
+              onSearch={onSearch}
+              size="large"
+              className="max-w-xl mx-3"
+            />
+            <div className="flex items-center">
+              <Button className="text-xl text-black" type="link">
+                <BellOutlined className="align-top" />
+              </Button>
+              <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
+                {userInfo.imageUrl ? (
+                  <Avatar src={userInfo.imageUrl} size="large" className="border cursor-pointer" />
+                ) : (
+                  <Avatar icon={<UserOutlined />} size="large" className="border cursor-pointer" />
+                )}
+              </Dropdown>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="container mx-auto flex justify justify-between items-center p-3">
+            <img width={129} src={KUshare} className="cursor-pointer mx-auto" />
+          </div>
+        )}
       </Nav>
     </div>
   )
