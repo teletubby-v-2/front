@@ -59,7 +59,6 @@ export const Navbar: React.FC = () => {
         Profile
       </Menu.Item>
       <Menu.Item key="logout" hidden={!isLogin()}>
-        {' '}
         Logout
       </Menu.Item>
     </Menu>
