@@ -25,8 +25,7 @@ const Post: React.FC = () => {
     setLoading(true)
     const yoyo = async () => {
       const mayo = await firestore.collection('Lectures').doc(id).get()
-      setLecture(mayo.data() as CreateLectureDTO)
-      // console.log(mayo)
+      setLecture({ ...mayo.data(), lectureId: mayo.id } as CreateLectureDTO)
     }
     yoyo().then(() => setLoading(false))
   }, [id])

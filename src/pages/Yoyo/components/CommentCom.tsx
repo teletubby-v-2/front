@@ -161,7 +161,6 @@ export const CommentCom: React.FC<CommentComProps> = ({ id }) => {
               </Skeleton>
             </List.Item>
 
-            {console.log(item.show, index)}
             {item.show && (
               <div className="flex justify-end">
                 <Reply id={id} commentId={item.id as string} className="w-11/12" />

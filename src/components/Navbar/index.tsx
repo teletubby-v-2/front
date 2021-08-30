@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Input, Avatar, Menu, Dropdown, Button } from 'antd'
 import { useHistory } from 'react-router'
-import 'tailwindcss/tailwind.css'
 import KUshare from '../../assets/icons/KUshare.svg'
 import { UserOutlined, BellOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
@@ -9,7 +8,6 @@ import { logout } from '../../service/auth'
 import styled from 'styled-components'
 import { MenuInfo } from 'rc-menu/lib/interface'
 import { firebaseApp } from '../../config/firebase'
-import firebase from 'firebase'
 import { AuthZone } from '..'
 
 const { Search } = Input
@@ -25,7 +23,7 @@ const Nav = styled.nav`
 
 export const Navbar: React.FC = () => {
   const history = useHistory()
-  const { userInfo, clearAll, setAllFirebase } = userInfoStore()
+  const { userInfo } = userInfoStore()
 
   const onSearch = (value: string) => {
     value ? history.push(`${value}`) : null
@@ -35,24 +33,15 @@ export const Navbar: React.FC = () => {
     history.push('/Home')
   }
 
-  useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        setAllFirebase(user as firebase.UserInfo)
-      } else {
-        clearAll()
-      }
-    })
-    return () => unsubscribe()
-  }, [])
-
   const handleMenuClick = (info: MenuInfo) => {
     switch (info.key) {
       case 'profile':
         return history.push('/Profile')
       case 'logout':
-        logout().then(() => clearAll())
+        return logout()
       // return history.push('/home')
+      case 'login':
+        return console.log(112)
     }
   }
 
@@ -61,15 +50,14 @@ export const Navbar: React.FC = () => {
   const menu = (
     <Menu onClick={handleMenuClick} className="mt-2">
       <Menu.Item key="login" hidden={isLogin()}>
-        <AuthZone>Login</AuthZone>
+        <AuthZone>Sign In</AuthZone>
       </Menu.Item>
       <Menu.Item key="register" hidden={isLogin()}>
-        <AuthZone noAccount={true}>Signup</AuthZone>
+        <AuthZone noAccount={true}>Sign Up</AuthZone>
       </Menu.Item>
       <Menu.Item key="profile" hidden={!isLogin()}>
         Profile
       </Menu.Item>
-
       <Menu.Item key="logout" hidden={!isLogin()}>
         Logout
       </Menu.Item>
