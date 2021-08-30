@@ -20,11 +20,18 @@ import { UserOutlined, KeyOutlined } from '@ant-design/icons'
 export interface LoginFormProps {
   className?: string
   callback?: () => void
+  callbackForgot?: () => void
   modal?: boolean
   closeModal?: () => void
 }
 
-export const LoginForm: React.FC<LoginFormProps> = ({ className, callback, modal, closeModal }) => {
+export const LoginForm: React.FC<LoginFormProps> = ({
+  className,
+  callback,
+  modal,
+  closeModal,
+  callbackForgot,
+}) => {
   const { authError, setAuthError } = errorStore()
 
   const history = useHistory()
@@ -159,8 +166,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ className, callback, modal
               register
             </a>
             <a
-              href="/forgotpassword"
-              onClick={closeModal}
+              onClick={() =>
+                modal ? callbackForgot && callbackForgot() : history.push('/forgotpassword')
+              }
               className="flex justify-end mb-2 text-blue-500 "
             >
               forgot password?

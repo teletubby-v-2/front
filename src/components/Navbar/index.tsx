@@ -66,7 +66,6 @@ export const Navbar: React.FC<NavbarProps> = ({ isHome }) => {
         Profile
       </Menu.Item>
       <Menu.Item key="logout" hidden={!isLogin()}>
-        {' '}
         Logout
       </Menu.Item>
     </Menu>
