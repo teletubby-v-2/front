@@ -40,8 +40,6 @@ export const Navbar: React.FC = () => {
       case 'logout':
         return logout()
       // return history.push('/home')
-      case 'login':
-        return console.log(112)
     }
   }
 

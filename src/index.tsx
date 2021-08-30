@@ -11,11 +11,11 @@ import 'moment/locale/th'
 moment.locale('th')
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ConfigProvider locale={thTH}>
-      <App />
-    </ConfigProvider>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <ConfigProvider locale={thTH}>
+    <App />
+  </ConfigProvider>,
+  // </React.StrictMode>,
   document.getElementById('root'),
 )
 
