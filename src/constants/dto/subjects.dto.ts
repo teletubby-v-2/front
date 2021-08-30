@@ -11,12 +11,11 @@ export interface SubjectDTO {
 }
 
 export interface FilterSubjectDTO {
-  queryOperator: queryOperator
-  subjectId?: string | [queryOperator, string]
-  subjectNameTH?: string | [queryOperator, string]
-  subjectNameEN?: string | [queryOperator, string]
+  subjectId?: string | [queryOperator, string | string[]]
+  subjectNameTH?: string | [queryOperator, string | string[]]
+  subjectNameEN?: string | [queryOperator, string | string[]]
   semester1?: boolean | [queryOperator, boolean]
   semester2?: boolean | [queryOperator, boolean]
-  type?: string | [queryOperator, string]
-  subtype?: string | [queryOperator, string]
+  type?: string | [queryOperator, string | string[]]
+  subtype?: string | [queryOperator, string | string[]]
 }
