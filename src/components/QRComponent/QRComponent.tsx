@@ -1,7 +1,5 @@
 import React from 'react'
 import { Button, Divider } from 'antd'
-import { DashOutlined } from '@ant-design/icons'
-import { userInfoStore } from '../../store/user.store'
 
 export interface ProfileComponentProps {
   onEdit?: () => void

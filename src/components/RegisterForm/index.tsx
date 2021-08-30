@@ -22,6 +22,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState<string>()
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onFinish = (value: any) => {
     if (value.password !== value.comfirmPassword) {
       setMessage('Password and comfirm password is not collabed')

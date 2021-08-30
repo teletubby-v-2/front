@@ -5,9 +5,9 @@ import { Lecture } from '../../constants/interface/lecture.interface'
 import { LectureCard } from '../LectureCard'
 
 export interface LectureContainerProps extends CardProps {
-  limit?: number
-  viewAll?: boolean
+  limit?: number | false
   data?: Lecture[]
+  minRow?: 1 | 2
 }
 
 const MyCard = styled(Card)`
@@ -15,10 +15,10 @@ const MyCard = styled(Card)`
 `
 
 export const LectureContainer: React.FC<LectureContainerProps> = props => {
-  const { limit, data, viewAll, className, ...restCradProps } = props
+  const { limit, data, className, minRow = 2, title, ...restCradProps } = props
 
   const [loading, setLoading] = useState(true)
-  const [size, setSize] = useState((limit || 8) > (data?.length || 0) ? limit || 8 : data?.length)
+  const [size] = useState(limit !== false ? limit || 8 : data?.length)
 
   useEffect(() => {
     if (data) {
@@ -26,18 +26,14 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
     }
   }, [data])
 
-  useEffect(() => {
-    if (viewAll) {
-      setSize(data?.length)
-    } else {
-      setSize((limit || 8) < (data?.length || 0) ? limit || 8 : data?.length)
-    }
-  }, [viewAll])
-
   return (
-    <MyCard {...restCradProps}>
+    <MyCard
+      {...restCradProps}
+      title={<span className="title-lecture-container">{title}</span>}
+      className={className}
+    >
       <Skeleton loading={loading} paragraph active>
-        <div className="flex flex-wrap ">
+        <div className={`flex flex-wrap row-${minRow}-card`}>
           {data?.slice(0, size).map(lecture => (
             <LectureCard data={lecture} key={lecture.lectureId} className="w-36 mx-2 my-3 h-44" />
           ))}

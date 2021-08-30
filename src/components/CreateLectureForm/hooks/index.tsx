@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { message } from 'antd'
 import Form from 'antd/lib/form'
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface'
@@ -21,7 +22,7 @@ export const useLectureForm = (
   const [fileList, setFileList] = useState<UploadFile[]>(initPhoto(initData?.imageUrl) || [])
   const [previewVisible, setPreviewVisible] = useState(false)
   const [previewImage, setPreviewImage] = useState<string>()
-  const [isUpdate, setIsUpdate] = useState(initData?.lectureId ? true : false)
+  const [isUpdate] = useState(initData?.lectureId ? true : false)
 
   useEffect(() => {
     setIsOnAddTag(false)
@@ -104,7 +105,7 @@ export const useLectureForm = (
     setIsOnAddTag(true)
   }
 
-  const handleFilelist = (file: UploadChangeParam<UploadFile<any>>) => {
+  const handleFilelist = (file: UploadChangeParam<UploadFile>) => {
     if (file.file.status === 'removed') {
       setFileList(file.fileList)
       form.setFieldsValue({ imageUrl: file.fileList.map(file => file.url) })

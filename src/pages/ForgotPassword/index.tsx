@@ -1,19 +1,20 @@
 import { Alert, Button, Form, Input } from 'antd'
 import firebase from 'firebase'
 import React, { useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export const ForgotPassword: React.FC = () => {
-  const history = useHistory()
   const [isReset, setIsReset] = useState(false)
   const [message, setMessage] = useState<string>()
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const resetPassword = async (value: any) => {
     try {
       const email = value.email
       await firebase.auth().sendPasswordResetEmail(email)
       setIsReset(true)
       // history.push('/login')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       const errorMessage = error.message
       setMessage(errorMessage)

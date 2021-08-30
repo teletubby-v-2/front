@@ -6,7 +6,7 @@ export const Footer: React.FC = () => {
     <div className="m-auto text-center text-white ">
       <p className="text-xl mb-4 font-bold">- KU Share -</p>
       <div className="flex justify-center space-x-14">
-        <div className="text-left">
+        <div>
           <p className="font-bold mb-2">Social</p>
           <a className="text-white  mb-1" href="https://popcat.click/">
             <TwitterOutlined className="align-text-top" />
@@ -23,7 +23,7 @@ export const Footer: React.FC = () => {
             {'  '}Facebook
           </a>
         </div>
-        <div className="text-left">
+        <div>
           <p className="font-bold mb-2">Resources</p>
           <a className="text-white mb-1">About Us</a>
           <br />
@@ -37,6 +37,12 @@ export const Footer: React.FC = () => {
           >
             Privacy
           </a>
+        </div>
+        <div>
+          <p className="font-bold mb-2">Help</p>
+          <a className="text-white mb-1">Contact Us</a>
+          <br />
+          <a className="text-white mb-1">FAQ</a>
         </div>
       </div>
     </div>
