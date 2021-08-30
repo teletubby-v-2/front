@@ -75,12 +75,15 @@ export interface ReplyDTO {
 //-------------------------- Filter -------------------------
 
 export interface FilterLectureDTO {
-  lectureID?: string | [queryOperator, string]
-  userId?: string | [queryOperator, string]
-  subjectId?: string | [queryOperator, string]
-  lectureTitile?: string | [queryOperator, string]
-  keyword?: string[] | [queryOperator, string[]]
+  lectureId?: string | [queryOperator, string | string[]]
+  userId?: string | [queryOperator, string | string[]]
+  subjectId?: string | [queryOperator, string | string[]]
+  lectureTitile?: string | [queryOperator, string | string[]]
   isMid?: boolean | [queryOperator, boolean]
   isFinal?: boolean | [queryOperator, boolean]
-  tags?: string | [queryOperator, string]
+  tags?: string | [queryOperator, string | string[]]
+  viewCount?: number | [queryOperator, number]
+  sumRating?: number | [queryOperator, number]
+  reviewCount?: number | [queryOperator, number]
+  description?: string | [queryOperator, string | string[]]
 }

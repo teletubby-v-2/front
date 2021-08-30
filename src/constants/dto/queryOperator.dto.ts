@@ -27,7 +27,7 @@ export type queryOperatorObject<Type> = {
   [key in QUERY_OPERATOR]: Type
 }
 
-type PartialRecord<K extends queryOperator, T> = { [P in K]?: T }
+// type PartialRecord<K extends queryOperator, T> = { [P in K]?: T }
 
 // let lectureX: PartialRecord<'<',string> = {
 //     eq : "1010101"
