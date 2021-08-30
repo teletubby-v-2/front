@@ -49,6 +49,9 @@ export const FirstRoute: React.FC<RouteProps> = props => {
           {location.pathname === '/home' && <img src={homeIcon} alt="ku logo" />}
 
           <Content className=" container mx-auto">{Component && <Component {...props} />}</Content>
+          <AntFooter className="justify-self-end bg-green-400 opacity-75">
+            <Footer />
+          </AntFooter>
         </MyLayout>
       )}
     />
