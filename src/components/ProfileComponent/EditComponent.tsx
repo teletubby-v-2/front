@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Divider, Form, Upload, Input, message } from 'antd'
-import { UploadOutlined, InfoCircleOutlined } from '@ant-design/icons'
+import { UploadOutlined, InfoCircleOutlined, LoadingOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
 import { firebaseApp } from '../../config/firebase'
 import { dontSubmitWhenEnter } from '../../utils/eventManage'
@@ -38,13 +38,20 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
       <Divider>
         <h1 className="text-center text-2xl font-black">Edit Profile</h1>
       </Divider>
-      {imageUrl ? (
-        <img src={imageUrl} alt="Profile picture" className="my-8 mx-auto" width="200" />
+      {!isUploading ? (
+        imageUrl ? (
+          <img src={imageUrl} alt="Profile picture" className="my-8 mx-auto" width="200" />
+        ) : (
+          <div className="mx auto my-8 shadow text-center h-52 text-2xl place-content-center">
+            No Picture
+          </div>
+        )
       ) : (
-        <div className="mx auto my-8 shadow text-center h-52 text-2xl place-content-center">
-          No Picture
+        <div className="text-center my-10">
+          <LoadingOutlined />
         </div>
       )}
+
       <Form onFinish={onFinish} initialValues={userInfo}>
         <div className="text-center">
           <Form.Item

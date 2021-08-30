@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Divider, Form, Upload, Input, message } from 'antd'
-import { InfoCircleOutlined } from '@ant-design/icons'
+import { InfoCircleOutlined, LoadingOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
 import { firebaseApp } from '../../config/firebase'
 import { dontSubmitWhenEnter } from '../../utils/eventManage'
@@ -54,7 +54,17 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
             beforeUpload={beforeUpload}
             showUploadList={false}
           >
-            {imageUrl ? <img src={imageUrl} alt="QR" /> : <p>Upload</p>}
+            {!isUploading ? (
+              imageUrl ? (
+                <img src={imageUrl} alt="QR" />
+              ) : (
+                <p>Upload</p>
+              )
+            ) : (
+              <div className="text-center my-10">
+                <LoadingOutlined />
+              </div>
+            )}
           </Upload>
         </Form.Item>
         <Form.Item name="aboutdonate">
