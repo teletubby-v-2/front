@@ -3,12 +3,10 @@ import React from 'react'
 import styled from 'styled-components'
 import { Navbar } from '../Navbar'
 import { Route, RouteProps } from 'react-router-dom'
+import { Footer } from '..'
 
-const { Content, Footer } = Layout
+const { Content, Footer: AntFooter } = Layout
 
-const MyContent = styled(Content)`
-  background-color: #fafafa;
-`
 const MyLayout = styled(Content)`
   background-color: #fafafa;
 `
@@ -25,7 +23,9 @@ export const LayoutRoute: React.FC<RouteProps> = props => {
           <Content className="mt-16 container mx-auto">
             {Component && <Component {...props} />}
           </Content>
-          <Footer className="justify-self-end">{/* //TODO: footer commponent here */}</Footer>
+          <AntFooter className="justify-self-end bg-green-400 opacity-75">
+            <Footer />
+          </AntFooter>
         </MyLayout>
       )}
     />

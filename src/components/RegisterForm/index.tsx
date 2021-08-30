@@ -33,10 +33,15 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
       .createUserWithEmailAndPassword(value.email, value.password)
       .then(userCredentail => {
         userCredentail.user?.updateProfile({ displayName: value.userName })
+        return userCredentail
       })
-      .then(() => {
-        history.push('/home')
+      .then(user => {
         closeModal && closeModal()
+        if (user.user?.emailVerified) {
+          !closeModal && history.push('/home')
+        } else {
+          history.push('/verifyEmail')
+        }
       })
       .catch(error => {
         setMessage(error.message)

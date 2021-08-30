@@ -42,9 +42,13 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   const onFinish = (value: any) => {
     setIsLoading(true)
     signInWithEmailAndPassword(value.email, value.password)
-      .then(() => {
+      .then(user => {
         closeModal && closeModal()
-        history.push('/home')
+        if (user.user?.emailVerified) {
+          !closeModal && history.push('/home')
+        } else {
+          history.push('/verifyEmail')
+        }
       })
       .catch((error: AuthError) => {
         setMessage(error.message)
@@ -83,9 +87,13 @@ export const LoginForm: React.FC<LoginFormProps> = ({
             linkAccountWithProvider(
               authError.email as string,
               authError.credential as firebase.auth.AuthCredential,
-            ).then(() => {
-              history.push('/home')
+            ).then(user => {
               closeModal && closeModal()
+              if (user?.user?.emailVerified) {
+                !closeModal && history.push('/home')
+              } else {
+                history.push('/verifyEmail')
+              }
             })
           }
         },
@@ -100,23 +108,30 @@ export const LoginForm: React.FC<LoginFormProps> = ({
       case 'google':
         return signInWithGoogle()
           .then(() => {
-            history.push('/home')
+            !closeModal && history.push('/home')
             closeModal && closeModal()
           })
           .catch((error: AuthError) => manageSameLogInAccount(error))
       case 'facebook':
         return signInWithFacebook()
-          .then(() => {
+          .then(user => {
             closeModal && closeModal()
-
-            history.push('/home')
+            if (user.user?.emailVerified) {
+              !closeModal && history.push('/home')
+            } else {
+              history.push('/verifyEmail')
+            }
           })
           .catch((error: AuthError) => manageSameLogInAccount(error))
       case 'twitter':
         return signInWithTwitter()
-          .then(() => {
-            history.push('/home')
+          .then(user => {
             closeModal && closeModal()
+            if (user.user?.emailVerified) {
+              !closeModal && history.push('/home')
+            } else {
+              history.push('/verifyEmail')
+            }
           })
           .catch((error: AuthError) => manageSameLogInAccount(error))
     }
@@ -142,12 +157,12 @@ export const LoginForm: React.FC<LoginFormProps> = ({
           <Form.Item name="password" rules={[{ required: true }]}>
             <Input.Password prefix={<KeyOutlined />} placeholder="password" size="large" />
           </Form.Item>
-          <div className="flex justify-between px-1">
+          <div className="flex justify-between px-1 -mt-1">
             <a
               className="text-blue-500"
               onClick={() => (modal ? callback && callback() : history.push('/register'))}
             >
-              no account
+              register
             </a>
             <a
               onClick={() =>
