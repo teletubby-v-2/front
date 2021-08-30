@@ -26,8 +26,6 @@ const Nav = styled.nav`
 export const Navbar: React.FC = () => {
   const history = useHistory()
   const { userInfo, clearAll, setAllFirebase } = userInfoStore()
-  const [noAccount, setnoAccount] = useState(false)
-  const [signal, setsignal] = useState(false)
 
   const onSearch = (value: string) => {
     value ? history.push(`${value}`) : null
@@ -60,26 +58,14 @@ export const Navbar: React.FC = () => {
 
   const isLogin = () => (firebaseApp.auth().currentUser ? true : false)
 
-  const onlogin = () => {
-    setnoAccount(false)
-    setsignal(!signal)
-  }
-
-  const onregister = () => {
-    setnoAccount(true)
-    setsignal(!signal)
-  }
-
   const menu = (
     <Menu onClick={handleMenuClick} className="mt-2">
-      <AuthZone noAccount={noAccount} update={signal}>
-        <Menu.Item key="login" hidden={isLogin()} onClick={onlogin}>
-          Login
-        </Menu.Item>
-        <Menu.Item key="register" hidden={isLogin()} onClick={onregister}>
-          Signup
-        </Menu.Item>
-      </AuthZone>
+      <Menu.Item key="login" hidden={isLogin()}>
+        <AuthZone>Login</AuthZone>
+      </Menu.Item>
+      <Menu.Item key="register" hidden={isLogin()}>
+        <AuthZone noAccount={true}>Signup</AuthZone>
+      </Menu.Item>
       <Menu.Item key="profile" hidden={!isLogin()}>
         Profile
       </Menu.Item>

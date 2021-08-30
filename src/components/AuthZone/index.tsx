@@ -9,10 +9,9 @@ import { ForgotPasswordForm } from '../ForgotPasswordForm'
 export interface AuthZoneProps {
   className?: string
   noAccount?: boolean
-  update?: boolean
 }
 
-export const AuthZone: React.FC<AuthZoneProps> = ({ className, children, noAccount, update }) => {
+export const AuthZone: React.FC<AuthZoneProps> = ({ className, children, noAccount }) => {
   const { show, openModal, closeModal } = useModal()
   const [isHaveAccount, setIsHaveAccount] = useState(false)
   const [Forgot, setForgot] = useState(false)
@@ -29,7 +28,7 @@ export const AuthZone: React.FC<AuthZoneProps> = ({ className, children, noAccou
 
   useEffect(() => {
     setIsHaveAccount(noAccount ? true : false)
-  }, [noAccount, update])
+  }, [noAccount])
 
   useEffect(() => {
     if (!show) {
