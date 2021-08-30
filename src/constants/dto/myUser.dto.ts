@@ -28,13 +28,15 @@ export interface UpdateUserDTO {
 export interface MyUserDTO extends MyUser {} //รวมProfile
 
 export interface FilterUserDTO {
-  queryOperator: queryOperator
-  userId?: string | [queryOperator, string]
-  email?: string | [queryOperator, string]
-  userName?: string | [queryOperator, string]
-  socialLink?: SocialLink[] | [queryOperator, SocialLink[]]
-  followLecture?: string[] | [queryOperator, string[]]
-  followers?: string[] | [queryOperator, string[]]
-  following?: string[] | [queryOperator, string[]]
+  userId?: string | [queryOperator, string | string[]]
+  email?: string | [queryOperator, string | string[]]
+  userName?: string | [queryOperator, string | string[]]
+  followLecture?: string[] | [queryOperator, string | string[]]
+  followers?: string[] | [queryOperator, string | string[]]
+  following?: string[] | [queryOperator, string | string[]]
   lectureCount?: number | [queryOperator, number]
+  userSubject: string[] | [queryOperator, string | string[]]
+  bookmark: string[] | [queryOperator, string | string[]]
+  aboutme: string | [queryOperator, string | string[]]
+  // socialLink?: SocialLink[] | [queryOperator, SocialLink[]]
 }
