@@ -11,7 +11,10 @@ import {
   LectureDetail,
   VerifyEmail,
 } from './pages'
+import Yoyo from './pages/Yoyo'
 import { LayoutRoute } from './components'
+import eiei from './pages/Yoyo/user'
+import Post from './pages/Yoyo/Post'
 
 const App: React.FC = () => {
   return (
@@ -19,6 +22,7 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Switch>
           <Route exact path="/">
+            {/* ชั่วคราวสำหรับ test */}
             <Redirect to="/login" />
           </Route>
           <Route exact path="/login" component={Login} />
@@ -29,6 +33,10 @@ const App: React.FC = () => {
           <Route exact path="/forgotpassword" component={ForgotPassword} />
           <Route exact path="/verifyEmail" component={VerifyEmail} />
           <LayoutRoute exact path="/profile" component={Profile} />
+          {/* for test */}
+          <LayoutRoute exact path="/yoyo" component={Yoyo} />
+          <LayoutRoute exact path="/post/:id" component={Post} />
+          <LayoutRoute exact path="/pong" component={eiei} />
           <Route exact path="*" component={NotFound} />
         </Switch>
       </BrowserRouter>

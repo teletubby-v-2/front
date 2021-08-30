@@ -2,15 +2,15 @@ import { message } from 'antd'
 import Form from 'antd/lib/form'
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface'
 import { useEffect, useState } from 'react'
-import { CreateLectureDTO, updateLectureDTO } from '../../../constants/dto/lecture.dto'
+import { CreateLectureDTO, UpdateLectureDTO } from '../../../constants/dto/lecture.dto'
 import { Lecture } from '../../../constants/interface/lecture.interface'
-import { createLecture } from '../../../service/lectures'
+import { createLecture, updateLecture } from '../../../service/lectures'
 import { deleteImages, uploadImage } from '../../../service/storage'
 import { initPhoto, removeUndefined } from '../../../utils/object'
 
 export const useLectureForm = (
   addOwnLecture: (lecture: Lecture) => void,
-  initData?: updateLectureDTO,
+  initData?: UpdateLectureDTO,
 ) => {
   const [form] = Form.useForm()
   const [isOnCreate, setIsOnCreate] = useState(false)
@@ -18,9 +18,10 @@ export const useLectureForm = (
   const [isOnAddTag, setIsOnAddTag] = useState(false)
   const [checkTagSize, setCheckTagSize] = useState(true)
   const [isUploading, setIsUploading] = useState(false)
-  const [fileList, setFileList] = useState<UploadFile<any>[]>([])
+  const [fileList, setFileList] = useState<UploadFile[]>(initPhoto(initData?.imageUrl) || [])
   const [previewVisible, setPreviewVisible] = useState(false)
   const [previewImage, setPreviewImage] = useState<string>()
+  const [isUpdate, setIsUpdate] = useState(initData?.lectureId ? true : false)
 
   useEffect(() => {
     setIsOnAddTag(false)
@@ -126,10 +127,21 @@ export const useLectureForm = (
     })
     //Todo: Add เข้า DB
     addOwnLecture(value as Lecture)
-    console.log(value)
-    createLecture(value as CreateLectureDTO)
-      .then(() => message.success('อัพได้แล้วไอสัส'))
-      .catch((err: any) => console.error(err))
+
+    if (!isUpdate) {
+      message.success('กำลังสร้าง')
+      createLecture(value as CreateLectureDTO)
+        .then(() => message.success('สร้างโพสได้แล้วจ้าา'))
+        .catch((err: any) => console.error(err))
+    } else {
+      message.success('กำลังอัพพพพพพพพ')
+      console.log(value)
+
+      updateLecture({ ...value, lectureId: initData?.lectureId } as CreateLectureDTO)
+        .then(() => message.success('อัพเดตโพสได้แล้วไอสัสสสสสสส'))
+        .catch((err: any) => console.error(err))
+    }
+
     setIsOnCreate(false)
   }
 

@@ -23,7 +23,7 @@ export const LayoutRoute: React.FC<RouteProps> = props => {
           <Content className="mt-16 container mx-auto">
             {Component && <Component {...props} />}
           </Content>
-          <AntFooter className="justify-self-end bg-green-500 ">
+          <AntFooter className="justify-self-end bg-green-400 opacity-75">
             <Footer />
           </AntFooter>
         </MyLayout>
