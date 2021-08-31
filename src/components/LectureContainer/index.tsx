@@ -35,7 +35,7 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
       <Skeleton loading={loading} paragraph active>
         <div className={`flex flex-wrap row-${minRow}-card`}>
           {data?.slice(0, size).map(lecture => (
-            <LectureCard data={lecture} key={lecture.lectureId} className="w-36 mx-2 my-3 h-44" />
+            <LectureCard data={lecture} key={lecture.lectureId} />
           ))}
         </div>
       </Skeleton>

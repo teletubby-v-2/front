@@ -4,7 +4,7 @@ export const dummyLectures: Lecture[] = [
   {
     userId: '12345678',
     imageUrl: ['https://api.chulabook.com/images/pid-20494.jpg'],
-    subjectId: 'พาสาไทย',
+    subjectId: '01001231',
     sumRating: 0,
     reviewCount: 0,
     viewCount: 100,
