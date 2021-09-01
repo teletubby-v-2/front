@@ -12,18 +12,30 @@ import {
   VerifyEmail,
 } from './pages'
 import Yoyo from './pages/Yoyo'
-import { LayoutRoute } from './components'
+import { LayoutRoute, UserInfoForm } from './components'
 import firebase from 'firebase'
 import { userInfoStore } from './store/user.store'
 import eiei from './pages/Yoyo/user'
 import Post from './pages/Yoyo/Post'
+import { UserInfo } from './pages/UserInfo'
+import { firestore } from './config/firebase'
+import { Collection } from './constants'
+import { MyUser } from './constants/interface/myUser.interface'
 
 const App: React.FC = () => {
-  const { clearAll, setAllFirebase } = userInfoStore()
+  const { clearAll, setAllFirebase, setAll } = userInfoStore()
 
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
+        firestore
+          .collection(Collection.Users)
+          .doc(user.uid)
+          .get()
+          .then(user => {
+            setAll({ ...user.data(), userId: user.id } as MyUser)
+          })
+
         setAllFirebase(user as firebase.UserInfo)
       } else {
         clearAll()
@@ -51,6 +63,7 @@ const App: React.FC = () => {
           <LayoutRoute exact path="/yoyo" component={Yoyo} />
           <LayoutRoute exact path="/post/:id" component={Post} />
           <LayoutRoute exact path="/pong" component={eiei} />
+          <LayoutRoute exact path="/createUser" component={UserInfo} />
           <Route exact path="*" component={NotFound} />
         </Switch>
       </BrowserRouter>

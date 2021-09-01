@@ -63,31 +63,39 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
   setFollower: (follower: string[]) => {
     set({ userInfo: { ...get().userInfo, follower } })
   },
-  addFollower: (userid: string) => {
-    set({ userInfo: { ...get().userInfo, follower: [...get().userInfo.follower, userid] } })
+  addFollower: (userId: string) => {
+    set({ userInfo: { ...get().userInfo, follower: [...get().userInfo.follower, userId] } })
   },
-  removeFollower: (userid: string) => {
+  removeFollower: (userId: string) => {
     set({
       userInfo: {
         ...get().userInfo,
-        follower: get().userInfo.follower.filter((i: string) => i != userid),
+        follower: get().userInfo.follower.filter((i: string) => i != userId),
       },
     })
   },
   setFollowing: (following: string[]) => {
     set({ userInfo: { ...get().userInfo, following } })
   },
-  addFollowing: (userid: string) => {
-    set({ userInfo: { ...get().userInfo, following: [...get().userInfo.following, userid] } })
+  addFollowing: (userId: string) => {
+    set({ userInfo: { ...get().userInfo, following: [...get().userInfo.following, userId] } })
   },
-  addBookmark: (bookmark: string) => {
-    set({ userInfo: { ...get().userInfo, bookmark: [...get().userInfo.bookmark, bookmark] } })
+  addBookmark: (lectureId: string) => {
+    set({ userInfo: { ...get().userInfo, bookmark: [...get().userInfo.bookmark, lectureId] } })
   },
-  removeFollowing: (userid: string) => {
+  removeBookmark: (lectureId: string) => {
     set({
       userInfo: {
         ...get().userInfo,
-        following: get().userInfo.following.filter((i: string) => i != userid),
+        bookmark: [...get().userInfo.bookmark.filter((i: string) => i != lectureId)],
+      },
+    })
+  },
+  removeFollowing: (userId: string) => {
+    set({
+      userInfo: {
+        ...get().userInfo,
+        following: get().userInfo.following.filter((i: string) => i != userId),
       },
     })
   },
