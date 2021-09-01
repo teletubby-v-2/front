@@ -16,6 +16,7 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
     following: [], //user id
     donateImage: '',
     donateDescription: '',
+    bookmark: [],
   },
   setUserName: (userName: string) => {
     set({ userInfo: { ...get().userInfo, userName } })
@@ -79,6 +80,9 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
   addFollowing: (userid: string) => {
     set({ userInfo: { ...get().userInfo, following: [...get().userInfo.following, userid] } })
   },
+  addBookmark: (bookmark: string) => {
+    set({ userInfo: { ...get().userInfo, bookmark: [...get().userInfo.bookmark, bookmark] } })
+  },
   removeFollowing: (userid: string) => {
     set({
       userInfo: {
@@ -101,6 +105,7 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
         following: [], //user id
         donateImage: '',
         donateDescription: '',
+        bookmark: [],
       },
     })
   },

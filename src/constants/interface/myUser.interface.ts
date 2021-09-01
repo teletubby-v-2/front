@@ -17,6 +17,7 @@ export interface MyUser {
   following: string[] //user id
   donateImage?: string
   donateDescription?: string
+  bookmark: string[]
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp
 }

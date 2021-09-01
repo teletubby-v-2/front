@@ -19,7 +19,7 @@ export interface UpdateUserDTO {
   socialLink: SocialLink[]
   donateImage?: string
   aboutMe?: string
-  bookmark?: string[]
+  bookmark: string[]
   donateDescription?: string
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp

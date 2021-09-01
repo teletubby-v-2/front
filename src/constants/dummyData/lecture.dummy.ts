@@ -13,7 +13,7 @@ export const dummyLectures: Lecture[] = [
       'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi laudantium iste, ut exercitationem obcaecati amet, accusamus dolores repudiandae quidem alias sed. Cum sunt corrupti dolore debitis sapiente voluptates veniam consequuntur.',
     isMid: true,
     isFinal: false,
-    tags: ['ไทยๆ'],
+    tags: ['ไทยๆ', 'kyyyy', 'nahee'],
     qa: [
       {
         qaId: '1',
