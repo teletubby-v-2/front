@@ -24,6 +24,8 @@ export interface CreateLectureFormProps extends ModalProps {
   label?: string
   className?: string
   initData?: UpdateLectureDTO
+  onclick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
+  callback?: () => void
 }
 
 export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
@@ -32,6 +34,8 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
     className,
     initData = {} as UpdateLectureDTO,
     children,
+    onclick,
+    callback,
     ...rest
   } = props
 
@@ -59,10 +63,17 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
     OnAddTag,
     handlePreview,
     previewCancel,
-  } = useLectureForm(addOwnLecture, initData)
+  } = useLectureForm(addOwnLecture, initData, callback)
   return (
     <div className={className}>
-      <a onClick={openModal}>{children || label}</a>
+      <a
+        onClick={e => {
+          onclick && onclick(e)
+          openModal()
+        }}
+      >
+        {children || label}
+      </a>
       <Modal visible={previewVisible} footer={null} onCancel={previewCancel}>
         <img alt="example" className="w-full" src={previewImage} />
       </Modal>
@@ -72,7 +83,10 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
         visible={isOnCreate}
         centered
         // forceRender
-        onCancel={closeModal}
+        onCancel={() => {
+          closeModal()
+          callback && callback()
+        }}
         destroyOnClose
         closable
         footer={false}

@@ -32,11 +32,13 @@ const App: React.FC = () => {
           .collection(Collection.Users)
           .doc(user.uid)
           .get()
-          .then(user => {
-            setAll({ ...user.data(), userId: user.id } as MyUser)
+          .then(doc => {
+            if (doc.exists) {
+              setAll({ ...doc.data(), userId: doc.id } as MyUser)
+            } else {
+              setAllFirebase(user as firebase.UserInfo)
+            }
           })
-
-        setAllFirebase(user as firebase.UserInfo)
       } else {
         clearAll()
       }

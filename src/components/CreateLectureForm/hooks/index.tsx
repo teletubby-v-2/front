@@ -12,6 +12,7 @@ import { initPhoto, removeUndefined } from '../../../utils/object'
 export const useLectureForm = (
   addOwnLecture: (lecture: Lecture) => void,
   initData?: UpdateLectureDTO,
+  callback?: () => void,
 ) => {
   const [form] = Form.useForm()
   const [isOnCreate, setIsOnCreate] = useState(false)
@@ -142,7 +143,7 @@ export const useLectureForm = (
         .then(() => message.success('อัพเดตโพสได้แล้วไอสัสสสสสสส'))
         .catch((err: any) => console.error(err))
     }
-
+    callback && callback()
     setIsOnCreate(false)
   }
 

@@ -37,8 +37,8 @@ export const Home: React.FC = () => {
 
   useEffect(() => {
     if (bookmarkLecture.length === 0) {
-      console.log(userInfo.bookmark)
-      userInfo.bookmark.length !== 0 &&
+      userInfo.bookmark &&
+        userInfo.bookmark.length !== 0 &&
         firestore
           .collection(Collection.Lectures)
           .where(firebase.firestore.FieldPath.documentId(), 'in', userInfo.bookmark)

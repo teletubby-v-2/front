@@ -31,12 +31,11 @@ export const UserInfoForm: React.FC = props => {
   const history = useHistory()
 
   useEffect(() => {
+    setimageUrl(userInfo.imageUrl)
     form.setFieldsValue({ userName: userInfo.userName, email: userInfo.email })
   }, [userInfo])
 
   const onFinish = (value: UpdateValue) => {
-    console.log(value)
-    console.log(imageUrl)
     const { youtube, facebook, instagram, imageUrl: url, ...rest } = value
     const socialLink: SocialLink[] = []
     if (instagram) {
@@ -69,7 +68,7 @@ export const UserInfoForm: React.FC = props => {
     <div className="px-5 border bg-white shadow-1 rounded-md pt-5" style={{ width: 700 }}>
       <h1 className="text-center text-3xl font-black pb-3">โปรไฟล์ของฉัน</h1>
       <div className="w-full flex justify-center mb-5">
-        <Avatar size={200} icon={<UserOutlined />} src={imageUrl} className="" />
+        <Avatar size={200} icon={<UserOutlined />} src={imageUrl} />
       </div>
       <Form onFinish={onFinish} form={form}>
         <div className="text-center">
