@@ -11,10 +11,18 @@ async function createUser(user: CreateUserDTO): Promise<void> {
     ...user,
     createAt: timeStamp,
     updateAt: timeStamp,
+    bookmark: [],
+    userSubject: [],
+    followers: [],
+    following: [],
+    lectureCount: 0,
   }
   if (firebaseApp.auth().currentUser) {
-    console.log('Print', data)
-    return await userCollection.doc(userId).set(data)
+    await userCollection.doc(userId).set(data)
+    await firebaseApp.auth().currentUser?.updateProfile({
+      photoURL: data.imageUrl,
+      displayName: data.userName,
+    })
   } else {
     throw new Error('ออดเฟล')
   }
@@ -27,7 +35,12 @@ async function updateUser(user: UpdateUserDTO): Promise<void> {
     ...user,
     updateAt: timeStamp,
   }
-  return await userCollection.doc(userId).update(data)
+  await userCollection.doc(userId).update(data)
+  if (firebaseApp.auth().currentUser && data.imageUrl) {
+    await firebaseApp.auth().currentUser?.updateProfile({
+      photoURL: data.imageUrl,
+    })
+  }
 }
 
 async function deleteUser(userId: string) {
