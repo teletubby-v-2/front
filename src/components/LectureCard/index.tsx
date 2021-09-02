@@ -1,6 +1,5 @@
 import { Badge, Button, Dropdown, Menu, Popconfirm, CardProps, message, Typography } from 'antd'
 import { BookOutlined, MoreOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
-import { MenuInfo } from 'rc-menu/lib/interface'
 import React, { useState } from 'react'
 import { SubjectDTO } from '../../constants/dto/subjects.dto'
 import { Lecture } from '../../constants/interface/lecture.interface'
@@ -43,22 +42,13 @@ export const LectureCard: React.FC<LectureCardProps> = props => {
     }
   }
 
-  const handleMenuItem = (info: MenuInfo) => {
-    switch (info.key) {
-      case 'edit':
-        return setIsDropDownVisible(true)
-    }
-  }
-
   const menu = (
     <Menu onMouseLeave={() => setIsDropDownVisible(false)}>
       <Menu.Item key="edit" className="m-0 p-0">
-        <CreateLectureForm
-          initData={data}
-          className="w-full h-full px-2 py-1.5"
-          callback={() => setIsDropDownVisible(false)}
-        >
-          <EditOutlined className="align-middle" /> แก้ไข
+        <CreateLectureForm initData={data} callback={() => setIsDropDownVisible(false)}>
+          <div className="text-black w-full h-full px-2 py-1">
+            <EditOutlined className="align-middle" /> แก้ไข
+          </div>
         </CreateLectureForm>
       </Menu.Item>
       <Menu.Item danger className="m-0 p-0">
