@@ -1,46 +1,39 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { LectureContainer } from '../../components'
 import { dummyLectures } from '../../constants/dummyData/lecture.dummy'
 import { MyProfile } from './components/MyProfile'
 import { CreateLectureForm } from '../../components/CreateLectureForm'
+import { MyQR } from './components/MyQR'
 
 export const Profile: React.FC = () => {
-  const [isViewAllOwn, setIsViewAllOwn] = useState(false)
-  const [isViewAllRecent, setIsViewAllRecent] = useState(false)
-
   return (
     <>
-      <div className="flex justify-center my-10 space-x-5">
+      <div className="flex justify-center my-10 space-x-8">
         <div className="w-1/4">
-          <MyProfile />
+          <div className="mb-10">
+            <MyProfile />
+          </div>
+          <div>
+            <MyQR />
+          </div>
         </div>
-        <div className="w-3/4 space-y-5">
+        <div className="w-3/4 space-y-8">
           <LectureContainer
             title="My Lecture"
             data={dummyLectures}
             limit={8}
-            viewAll={isViewAllOwn}
             extra={
-              <>
+              <div className="space-x-3">
                 <CreateLectureForm className="inline-block" />
-                <span className="m-2" />
-                <a onClick={() => setIsViewAllOwn(!isViewAllOwn)}>
-                  {isViewAllOwn ? 'View Less' : 'View All'}
-                </a>
-              </>
+                <a href="/myLecture">ดูทั้งหมด</a>
+              </div>
             }
           />
-          <div></div>
           <LectureContainer
             title="Recent Lecture"
             data={dummyLectures}
             limit={8}
-            viewAll={isViewAllRecent}
-            extra={
-              <a onClick={() => setIsViewAllRecent(!isViewAllRecent)}>
-                {isViewAllRecent ? 'View Less' : 'View All'}
-              </a>
-            }
+            extra={<a href="/recentLecture">ดูทั้งหมด</a>}
           />
         </div>
       </div>

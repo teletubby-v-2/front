@@ -14,21 +14,26 @@ import {
 } from 'antd'
 import { LoadingOutlined, PlusOutlined, InfoCircleOutlined } from '@ant-design/icons'
 import { dontSubmitWhenEnter } from '../../utils/eventManage'
-import { dummySubjects } from '../../constants/dummyData/subject.dummy'
 import { useLectureForm } from './hooks'
 import { lectureStore } from '../../store/lecture.store'
-import { updateLectureDTO } from '../../constants/dto/lecture.dto'
+import { UpdateLectureDTO } from '../../constants/dto/lecture.dto'
 import { formItemLayout, myLocale } from './constants'
 import kuSubject from '../../constants/subjects.json'
 
 export interface CreateLectureFormProps extends ModalProps {
   label?: string
   className?: string
-  initData?: updateLectureDTO
+  initData?: UpdateLectureDTO
 }
 
 export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
-  const { label = 'Add New', className, initData = {} as updateLectureDTO, ...rest } = props
+  const {
+    label = 'Add New',
+    className,
+    initData = {} as UpdateLectureDTO,
+    children,
+    ...rest
+  } = props
 
   const { addOwnLecture } = lectureStore()
 
@@ -57,7 +62,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
   } = useLectureForm(addOwnLecture, initData)
   return (
     <div className={className}>
-      <a onClick={openModal}>{label}</a>
+      <a onClick={openModal}>{children || label}</a>
       <Modal visible={previewVisible} footer={null} onCancel={previewCancel}>
         <img alt="example" className="w-full" src={previewImage} />
       </Modal>
@@ -66,7 +71,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
         maskClosable={false}
         visible={isOnCreate}
         centered
-        forceRender
+        // forceRender
         onCancel={closeModal}
         destroyOnClose
         closable
@@ -76,7 +81,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
         {...rest}
       >
         <Typography.Title level={3} className="text-center mt-3">
-          {initData ? 'แก้ไขโพสต์สรุป' : 'สร้างโพสต์สรุป'}
+          {initData.lectureId ? 'แก้ไขโพสต์สรุป' : 'สร้างโพสต์สรุป'}
         </Typography.Title>
         <Form form={form} name="createLecture" onFinish={onFinish} initialValues={initData}>
           <Form.Item
@@ -176,8 +181,8 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
               </div>
             </Upload>
           </Form.Item>
-          <Form.Item wrapperCol={{ offset: 18 }} className="mb-0">
-            <Space className="pl-5">
+          <Form.Item wrapperCol={{ sm: 8, md: 6 }} className="mb-0 flex justify-end w-full">
+            <Space>
               <Form.Item noStyle>
                 <Button onClick={closeModal}>ยกเลิก</Button>
               </Form.Item>
