@@ -12,11 +12,12 @@ import {
   VerifyEmail,
 } from './pages'
 import Yoyo from './pages/Yoyo'
-import { LayoutRoute, FirstRoute } from './components'
+import { LayoutRoute, FirstRoute, UserInfoForm } from './components'
 import firebase from 'firebase'
 import { userInfoStore } from './store/user.store'
 import eiei from './pages/Yoyo/user'
 import Post from './pages/Yoyo/Post'
+import { UserInfo } from './pages/UserInfo'
 
 const App: React.FC = () => {
   const { clearAll, setAllFirebase } = userInfoStore()
@@ -51,6 +52,7 @@ const App: React.FC = () => {
           <LayoutRoute exact path="/yoyo" component={Yoyo} />
           <LayoutRoute exact path="/post/:id" component={Post} />
           <LayoutRoute exact path="/pong" component={eiei} />
+          <LayoutRoute exact path="/createUser" component={UserInfo} />
           <FirstRoute exact path="*" component={NotFound} />
         </Switch>
       </BrowserRouter>
