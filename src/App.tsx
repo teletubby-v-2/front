@@ -10,9 +10,10 @@ import {
   Profile,
   LectureDetail,
   VerifyEmail,
+  Subject,
 } from './pages'
 import Yoyo from './pages/Yoyo'
-import { LayoutRoute, UserInfoForm } from './components'
+import { LayoutRoute } from './components'
 import firebase from 'firebase'
 import { userInfoStore } from './store/user.store'
 import eiei from './pages/Yoyo/user'
@@ -53,6 +54,7 @@ const App: React.FC = () => {
           <LayoutRoute exact path="/post/:id" component={Post} />
           <LayoutRoute exact path="/pong" component={eiei} />
           <LayoutRoute exact path="/createUser" component={UserInfo} />
+          <LayoutRoute exact path="/subject" component={Subject} />
           <Route exact path="*" component={NotFound} />
         </Switch>
       </BrowserRouter>
