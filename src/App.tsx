@@ -13,7 +13,7 @@ import {
   Success,
 } from './pages'
 import Yoyo from './pages/Yoyo'
-import { AuthRoute, LayoutRoute, UserInfoForm } from './components'
+import { LayoutRoute, FirstRoute, AuthRoute } from './components'
 import firebase from 'firebase'
 import { userInfoStore } from './store/user.store'
 import eiei from './pages/Yoyo/user'
@@ -55,7 +55,7 @@ const App: React.FC = () => {
           <LayoutRoute exact path="/pong" component={eiei} />
           <LayoutRoute exact path="/createUser" component={UserInfo} />
           <AuthRoute exact path="/success" component={Success} />
-          <Route exact path="*" component={NotFound} />
+          <AuthRoute exact path="*" component={NotFound} />
         </Switch>
       </BrowserRouter>
     </>
