@@ -10,9 +10,10 @@ import {
   Profile,
   LectureDetail,
   VerifyEmail,
+  Success,
 } from './pages'
 import Yoyo from './pages/Yoyo'
-import { LayoutRoute, UserInfoForm } from './components'
+import { AuthRoute, LayoutRoute, UserInfoForm } from './components'
 import firebase from 'firebase'
 import { userInfoStore } from './store/user.store'
 import eiei from './pages/Yoyo/user'
@@ -40,19 +41,20 @@ const App: React.FC = () => {
             {/* ชั่วคราวสำหรับ test */}
             <Redirect to="/login" />
           </Route>
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
+          <AuthRoute exact path="/login" component={Login} />
+          <AuthRoute exact path="/register" component={Register} />
           <LayoutRoute exact path="/home" component={Home} />
           <LayoutRoute exact path="/lecturedetail" component={LectureDetail} />
-          <Route exact path="/linkAccount" component={LinkAccount} />
-          <Route exact path="/forgotpassword" component={ForgotPassword} />
-          <Route exact path="/verifyEmail" component={VerifyEmail} />
+          <AuthRoute exact path="/linkAccount" component={LinkAccount} />
+          <AuthRoute exact path="/forgotpassword" component={ForgotPassword} />
+          <AuthRoute exact path="/verifyEmail" component={VerifyEmail} />
           <LayoutRoute exact path="/profile" component={Profile} />
           {/* for test */}
           <LayoutRoute exact path="/yoyo" component={Yoyo} />
           <LayoutRoute exact path="/post/:id" component={Post} />
           <LayoutRoute exact path="/pong" component={eiei} />
           <LayoutRoute exact path="/createUser" component={UserInfo} />
+          <AuthRoute exact path="/success" component={Success} />
           <Route exact path="*" component={NotFound} />
         </Switch>
       </BrowserRouter>
