@@ -60,7 +60,7 @@ export const UserInfoForm: React.FC = props => {
       ...removeUndefined(rest as unknown as Json),
       imageUrl,
       socialLink,
-    }).then(() => history.push('addSubject'))
+    }).then(() => history.push('subject'))
     /* TODO: update profile */
   }
 
