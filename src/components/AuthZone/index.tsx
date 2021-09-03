@@ -4,6 +4,8 @@ import { RegisterForm } from '../RegisterForm'
 import { LoginForm } from '../LoginForm'
 import { useModal } from '../../hooks/useModal'
 import { firebaseApp } from '../../config/firebase'
+import { ForgotPasswordForm } from '../ForgotPasswordForm'
+import { userInfoStore } from '../../store/user.store'
 
 export interface AuthZoneProps {
   className?: string
@@ -12,48 +14,83 @@ export interface AuthZoneProps {
 
 export const AuthZone: React.FC<AuthZoneProps> = ({ className, children, noAccount }) => {
   const { show, openModal, closeModal } = useModal()
+  const [Forgot, setForgot] = useState(false)
 
-  const [isHaveAccount, setIsHaveAccount] = useState(false)
+  const { userInfo } = userInfoStore()
+
+  const [isHaveAccount, setIsHaveAccount] = useState(noAccount)
 
   const toggleHaveAccount = () => {
     setIsHaveAccount(!isHaveAccount)
   }
 
+  const onHanddleCloseModal = () => {
+    closeModal()
+    setIsHaveAccount(noAccount)
+  }
+
   const isAuth = () => {
+    console.log('hello')
+
     if (!firebaseApp.auth().currentUser) {
       openModal()
     }
   }
 
   useEffect(() => {
-    setIsHaveAccount(noAccount ? true : false)
-  }, [noAccount])
+    if (!show) {
+      setForgot(false)
+    }
+  }, [show])
 
   return (
     <>
       <Modal
-        visible={show && !isHaveAccount}
+        visible={show && !isHaveAccount && !Forgot}
         footer={false}
-        width="420px"
+        width="450px"
         centered
-        onCancel={closeModal}
-        destroyOnClose={true}
+        onCancel={onHanddleCloseModal}
+        destroyOnClose
         closable
       >
-        <LoginForm modal callback={toggleHaveAccount} closeModal={closeModal} />
+        <LoginForm
+          modal
+          callback={toggleHaveAccount}
+          closeModal={closeModal}
+          callbackForgot={() => setForgot(true)}
+        />
       </Modal>
       <Modal
         visible={show && isHaveAccount}
         centered
+        width="450px"
+        footer={false}
+        onCancel={onHanddleCloseModal}
+        closable
+        destroyOnClose
+      >
+        <RegisterForm modal callback={toggleHaveAccount} closeModal={closeModal} />
+      </Modal>
+      <Modal
+        visible={show && !isHaveAccount && Forgot}
+        centered
         width="420px"
         footer={false}
         onCancel={closeModal}
         closable
         destroyOnClose={true}
       >
-        <RegisterForm modal callback={toggleHaveAccount} closeModal={closeModal} />
+        <ForgotPasswordForm modal callback={() => setForgot(false)} closeModal={closeModal} />
       </Modal>
-      <div onClick={isAuth} className={className}>
+      <div className={`relative ${className}`}>
+        {(!userInfo.userId || userInfo.userId.length === 0) && (
+          <div
+            className="absolute top-0 bottom-0 left-0 right-0"
+            style={{ zIndex: 2000 }}
+            onClick={isAuth}
+          />
+        )}
         {children}
       </div>
     </>

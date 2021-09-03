@@ -4,6 +4,7 @@ import { Button, Card } from 'antd'
 import { firebaseApp } from '../../config/firebase'
 import { useHistory } from 'react-router'
 import { logout } from '../../service/auth'
+import email from '../../assets/icons/email.svg'
 
 export const VerifyEmail: React.FC = () => {
   const [isClick, setIsClick] = useState(false)
@@ -37,28 +38,33 @@ export const VerifyEmail: React.FC = () => {
   }, [])
 
   const handleLoginAsGuest = () => {
-    logout().then(() => history.push('/home'))
+    logout().then(() => history.replace('/login'))
   }
 
   return (
     <div className="flex flex-col items-center text-center">
       <img src={kushare} alt="" width="200px" className="p-10" />
-      <Card className="verify-card">
-        <div className="space-y-5">
-          <p className="text-2xl font-bold">Verify your email address</p>
+      <Card className="verify-card main-shadow" style={{ width: 800 }} bordered>
+        <div className="space-y-10">
+          <p className="text-sm text-gray-500 mb-20">ขอบคุณสำหรับการสมัครสมาชิก</p>
+          <img src={email} alt="" width="150px" className="mx-auto" />
+          <p className="text-2xl font-bold">ยืนยันอีเมลของคุณ</p>
           <p className="text-sm text-gray-500">
-            Please confirm that you want to want to use thsi as Selify account
-            <br /> email address. Once it’s done you will be able to start{' '}
+            โปรดยืนยันว่าคุณต้องการใช้บัญชีอีเมลนี้ โดยคลิกลิงค์ที่เราส่งให้คุณ
+            <br /> เพื่อเสร็จสิ้นขั้นตอนการสมัคร{' '}
           </p>
-          <Button type={isClick ? 'default' : 'primary'} block onClick={handleVerifyEmail}>
-            {isClick ? 'Resend Verification Email' : 'Verify My Email'}
+          <Button
+            type={isClick ? 'default' : 'primary'}
+            block
+            className="w-2/5"
+            size="large"
+            onClick={handleVerifyEmail}
+          >
+            {isClick ? 'ส่งยื่นยันอีเมลอีกครั้ง' : 'ยื่นยันอีเมล'}
           </Button>
         </div>
-        <a
-          onClick={handleLoginAsGuest}
-          className="text-right text-blue-500 mt-1 text-sm -mb-3 block"
-        >
-          login as guest user
+        <a onClick={handleLoginAsGuest} className="text-blue-500 mt-5 text-sm block">
+          กลับไปหน้าแรก
         </a>
       </Card>
     </div>

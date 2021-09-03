@@ -1,8 +1,9 @@
+import { Collection } from './../../constants/index'
 import firebase from 'firebase'
 import { firebaseApp, firestore } from '../../config/firebase'
 import { CreateLectureDTO, UpdateLectureDTO } from '../../constants/dto/lecture.dto'
 
-const lectureCollection = firestore.collection('Lectures')
+const lectureCollection = firestore.collection(Collection.Lectures)
 
 async function createLecture(lecture: CreateLectureDTO): Promise<void> {
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
@@ -28,8 +29,11 @@ async function updateLecture(lecture: UpdateLectureDTO): Promise<void> {
     ...lecture,
     updateAt: timeStamp,
   }
+  const lectureId = data.lectureId
+
   delete data.lectureId
-  return await lectureCollection.doc(lecture.lectureId).update(data)
+
+  return await lectureCollection.doc(lectureId).update(data)
 }
 
 async function deleteLecture(lectureId: string) {

@@ -19,9 +19,9 @@ export interface EditComponentProps {
 
 export const EditQRComponent: React.FC<EditComponentProps> = props => {
   const [isUploading, setIsUploading] = useState(false)
-  const { userInfo } = userInfoStore()
   const { TextArea } = Input
   const { onClose } = props
+  const { userInfo } = userInfoStore()
   const [imageUrl, setimageUrl] = useState(userInfo.donateImage)
   const { handleRequest, beforeUpload } = useUploadpic({
     setimageUrl,

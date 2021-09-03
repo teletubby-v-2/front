@@ -7,7 +7,6 @@ import {
   ConsoleSqlOutlined,
 } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
-import { firebaseApp } from '../../config/firebase'
 import { dontSubmitWhenEnter } from '../../utils/eventManage'
 import { useUploadpic } from '../../hooks/useUploadpic'
 import { updateUser } from '../../service/user'
@@ -15,6 +14,7 @@ import { UpdateUserDTO } from '../../constants/dto/myUser.dto'
 import { SocialLink } from '../../constants/interface/myUser.interface'
 import { deleteImages } from '../../service/storage'
 import { removeUndefined } from '../../utils/object'
+import { firebaseApp } from '../../config/firebase'
 
 export interface UpdateValue {
   aboutme: string

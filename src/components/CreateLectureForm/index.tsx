@@ -14,7 +14,6 @@ import {
 } from 'antd'
 import { LoadingOutlined, PlusOutlined, InfoCircleOutlined } from '@ant-design/icons'
 import { dontSubmitWhenEnter } from '../../utils/eventManage'
-import { dummySubjects } from '../../constants/dummyData/subject.dummy'
 import { useLectureForm } from './hooks'
 import { lectureStore } from '../../store/lecture.store'
 import { UpdateLectureDTO } from '../../constants/dto/lecture.dto'
@@ -182,8 +181,8 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
               </div>
             </Upload>
           </Form.Item>
-          <Form.Item wrapperCol={{ offset: 18 }} className="mb-0">
-            <Space className="pl-5">
+          <Form.Item wrapperCol={{ sm: 8, md: 6 }} className="mb-0 flex justify-end w-full">
+            <Space>
               <Form.Item noStyle>
                 <Button onClick={closeModal}>ยกเลิก</Button>
               </Form.Item>

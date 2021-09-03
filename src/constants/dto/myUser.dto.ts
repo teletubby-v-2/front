@@ -4,26 +4,24 @@ import { MyUser, SocialLink } from '../interface/myUser.interface'
 import { queryOperator } from './queryOperator.dto'
 
 export interface CreateUserDTO {
-  userId?: string
-  email: string
-  userName: string
-  createAt?: firebase.firestore.Timestamp
-  updateAt?: firebase.firestore.Timestamp
-  imageUrl?: string
-  aboutMe?: string
-}
-
-export interface UpdateUserDTO {
   imageUrl?: string
   userName?: string
   socialLink?: SocialLink[]
-  donateImage?: string
+  userId?: string
+  email?: string
   aboutMe?: string
-  bookmark?: string[]
+  userSubject?: string[]
+  donateImage?: string
   donateDescription?: string
+  lectureCount?: number
+  followers?: string[]
+  following?: string[]
+  bookmark?: string[]
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp
 }
+
+export interface UpdateUserDTO extends Partial<CreateUserDTO> {}
 
 export interface MyUserDTO extends MyUser {} //รวมProfile
 
