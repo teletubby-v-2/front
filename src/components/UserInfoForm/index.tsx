@@ -35,8 +35,6 @@ export const UserInfoForm: React.FC = props => {
   }, [userInfo])
 
   const onFinish = (value: UpdateValue) => {
-    console.log(value)
-    console.log(imageUrl)
     const { youtube, facebook, instagram, imageUrl: url, ...rest } = value
     const socialLink: SocialLink[] = []
     if (instagram) {
@@ -61,7 +59,7 @@ export const UserInfoForm: React.FC = props => {
       ...removeUndefined(rest as unknown as Json),
       imageUrl,
       socialLink,
-    }).then(() => history.push('addSubject'))
+    }).then(() => history.push('subject'))
     /* TODO: update profile */
   }
 

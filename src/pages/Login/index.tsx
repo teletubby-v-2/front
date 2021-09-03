@@ -12,6 +12,14 @@ export const Login: React.FC = () => {
     getUserFromIndexDB().then((value: any) => setIsAuth(value.firebaseLocalStorage))
   }, [])
 
+  if (isAuth && isAuth.length !== 0) {
+    if (isAuth[0].value.emailVerified) {
+      return <Redirect to="/home" />
+    } else {
+      return <Redirect to="/verifyEmail" />
+    }
+  }
+
   return (
     <div className="flex justify-center mx-auto items-center mt-20" style={{ maxWidth: 1000 }}>
       <div>

@@ -12,7 +12,7 @@ export const UserStep: React.FC<UserStepProps> = props => {
     <div>
       <Steps direction="vertical" current={props.current}>
         <Step title="ลงชื่อเข้าใช้" />
-        <Step title="ยื่นยันอีเมล" />
+        <Step title="ยืนยันอีเมล" />
         <Step title="กรอกข้อมูลของฉัน" />
         <Step title="เลือกวิชาของฉัน" />
         <Step title="เสร็จสิ้น" />

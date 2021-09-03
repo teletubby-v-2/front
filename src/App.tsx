@@ -11,6 +11,7 @@ import {
   LectureDetail,
   VerifyEmail,
   Success,
+  Subject,
 } from './pages'
 import Yoyo from './pages/Yoyo'
 import { LayoutRoute, FirstRoute, AuthRoute } from './components'
@@ -55,6 +56,7 @@ const App: React.FC = () => {
           <LayoutRoute exact path="/pong" component={eiei} />
           <LayoutRoute exact path="/createUser" component={UserInfo} />
           <AuthRoute exact path="/success" component={Success} />
+          <AuthRoute exact path="/subject" component={Subject} />
           <AuthRoute exact path="*" component={NotFound} />
         </Switch>
       </BrowserRouter>
