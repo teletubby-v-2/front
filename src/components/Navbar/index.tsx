@@ -68,7 +68,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isHome }) => {
 
   return (
     <div>
-      <Nav className="text-xl">
+      <Nav className="text-xl h-16">
         {isHome ? (
           <div className="container mx-auto flex justify justify-between items-center p-3">
             <img width={129} src={KUshare} onClick={onClickLogo} className="cursor-pointer" />
