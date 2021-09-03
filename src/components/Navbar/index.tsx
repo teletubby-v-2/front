@@ -10,17 +10,10 @@ import { MenuInfo } from 'rc-menu/lib/interface'
 import { firebaseApp } from '../../config/firebase'
 import { AuthZone } from '..'
 import { Tooltip } from 'antd'
+import { CreateLectureForm } from '../CreateLectureForm'
 
 const { Search } = Input
 
-const Nav = styled.nav`
-  background-color: #fff;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 50;
-`
 export interface NavbarProps {
   isHome: boolean
 }
@@ -66,7 +59,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isHome }) => {
 
   return (
     <div>
-      <Nav className="text-xl h-16">
+      <nav className="text-xl h-16 navbar">
         {isHome ? (
           <div className="container mx-auto flex justify justify-between items-center p-3">
             <img width={129} src={KUshare} onClick={onClickLogo} className="cursor-pointer" />
@@ -77,14 +70,16 @@ export const Navbar: React.FC<NavbarProps> = ({ isHome }) => {
               className="max-w-xl mx-3"
             />
             {isLogin() ? (
-              <div className="flex items-center space-x-3">
-                <Tooltip title="เพิ่ม lecture">
-                  <Button className="text-xl text-black" type="link">
-                    <FileAddOutlined className="align-top" />
-                  </Button>
+              <div className="flex items-center space-x-2">
+                <Tooltip title="เพิ่ม lecture" placement="bottom">
+                  <CreateLectureForm>
+                    <Button className="text-xl text-black" type="link" shape="circle">
+                      <FileAddOutlined className="align-top" />
+                    </Button>
+                  </CreateLectureForm>
                 </Tooltip>
-                <Tooltip title="การแจ้งเตือน">
-                  <Button className="text-xl text-black" type="link">
+                <Tooltip title="การแจ้งเตือน" placement="bottom">
+                  <Button className="text-xl text-black" type="link" shape="circle">
                     <BellOutlined className="align-top" />
                   </Button>
                 </Tooltip>
@@ -121,7 +116,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isHome }) => {
             <img width={129} src={KUshare} className="cursor-pointer mx-auto" />
           </div>
         )}
-      </Nav>
+      </nav>
     </div>
   )
 }

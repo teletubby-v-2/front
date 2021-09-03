@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Button,
   Checkbox,
@@ -19,13 +19,14 @@ import { lectureStore } from '../../store/lecture.store'
 import { UpdateLectureDTO } from '../../constants/dto/lecture.dto'
 import { formItemLayout, myLocale } from './constants'
 import kuSubject from '../../constants/subjects.json'
+import { Lecture } from '../../constants/interface/lecture.interface'
 
 export interface CreateLectureFormProps extends ModalProps {
   label?: string
   className?: string
   initData?: UpdateLectureDTO
   onclick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
-  callback?: () => void
+  callback?: (lecture?: Lecture) => void
 }
 
 export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
@@ -74,7 +75,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
       >
         {children || label}
       </a>
-      <Modal visible={previewVisible} footer={null} onCancel={previewCancel}>
+      <Modal visible={previewVisible} footer={null} onCancel={previewCancel} centered zIndex={9999}>
         <img alt="example" className="w-full" src={previewImage} />
       </Modal>
       <Modal
@@ -82,7 +83,6 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
         maskClosable={false}
         visible={isOnCreate}
         centered
-        // forceRender
         onCancel={() => {
           closeModal()
           callback && callback()
@@ -195,17 +195,23 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
               </div>
             </Upload>
           </Form.Item>
-          <Form.Item wrapperCol={{ sm: 8, md: 6 }} className="mb-0 flex justify-end w-full">
-            <Space>
-              <Form.Item noStyle>
-                <Button onClick={closeModal}>ยกเลิก</Button>
-              </Form.Item>
-              <Form.Item noStyle>
-                <Button type="primary" htmlType="submit">
-                  ตกลง
-                </Button>
-              </Form.Item>
-            </Space>
+          <Form.Item className="w-full text-right">
+            <Form.Item noStyle>
+              <Button
+                onClick={() => {
+                  closeModal()
+                  callback && callback()
+                }}
+              >
+                ยกเลิก
+              </Button>
+            </Form.Item>
+            <span className="ml-3" />
+            <Form.Item noStyle>
+              <Button type="primary" htmlType="submit">
+                ตกลง
+              </Button>
+            </Form.Item>
           </Form.Item>
         </Form>
       </Modal>
