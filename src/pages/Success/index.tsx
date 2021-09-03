@@ -9,7 +9,9 @@ export const Success: React.FC = () => {
     <div className="flex justify-center space-x-20 my-20">
       <UserStep current={4} />
       <div className="p-5 bg-white space-y-5 shadow-1 w-80">
-        <img src={successDog} alt="" className="mx-auto" />
+        <div className="h-60">
+          <img src={successDog} alt="" className="mx-auto" />
+        </div>
         <Button block onClick={() => history.push('/home')}>
           เริ่มต้นใช้งาน
         </Button>

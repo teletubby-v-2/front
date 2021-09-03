@@ -25,7 +25,9 @@ export const LayoutRoute: React.FC<RouteProps> = props => {
           <div className="mt-16"></div>
           {location.pathname === '/home' && <img src={homeIcon} alt="ku logo" />}
 
-          <Content className=" container mx-auto">{Component && <Component {...props} />}</Content>
+          <Content className=" container mx-auto h-full">
+            {Component && <Component {...props} />}
+          </Content>
           <AntFooter className="justify-self-end bg-green-400 opacity-75">
             <Footer />
           </AntFooter>

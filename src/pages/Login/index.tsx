@@ -21,9 +21,9 @@ export const Login: React.FC = () => {
   }
 
   return (
-    <div className="flex justify-center mx-auto items-center mt-20" style={{ maxWidth: 1000 }}>
-      <div>
-        <img src={loginIcon} alt="" className="flex-1 mr-20 h-92" />{' '}
+    <div className="flex justify-center mx-auto items-end my-10 h-full" style={{ maxWidth: 1000 }}>
+      <div className="flex-1 hidden md:block">
+        <img src={loginIcon} alt="" className="flex-1 mr-20 h-96" />{' '}
       </div>
       <Card className="flex-1 App m-0">
         {isAuth &&

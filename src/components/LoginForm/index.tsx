@@ -141,7 +141,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   return (
     <>
       <div className={className}>
-        <h1 className="text-3xl font-bold	mb-5 text-center">Sign In</h1>
+        <h1 className="text-3xl font-bold	mb-5 text-center">login</h1>
         {message && (
           <Alert
             message="Error"
@@ -182,7 +182,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         </Form>
         <Divider orientation="center">or</Divider>
         <div className="text-center">
-          <p className="mb-2">sign in with your social media account</p>
+          <p className="mb-2">login with your social media account</p>
           <Space size="large" className="pb-2">
             <a onClick={() => signInProvider('facebook')}>
               <Avatar
