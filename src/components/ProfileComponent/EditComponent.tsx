@@ -177,29 +177,14 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
           <p className="text-gray-400">Social Link</p>
         </Divider>
         <Form.Item name="instagram">
-          <Input
-            addonBefore="https://"
-            defaultValue="mysite.com"
-            placeholder="Instagram"
-            onKeyDown={dontSubmitWhenEnter}
-          />
+          <Input addonBefore="https://" placeholder="Instagram" onKeyDown={dontSubmitWhenEnter} />
         </Form.Item>
         <Form.Item name="facebook">
-          <Input
-            addonBefore="https://"
-            defaultValue="mysite.com"
-            placeholder="Facebook"
-            onKeyDown={dontSubmitWhenEnter}
-          />
+          <Input addonBefore="https://" placeholder="Facebook" onKeyDown={dontSubmitWhenEnter} />
         </Form.Item>
         <Form.Item name="youtube">
           <div className="content-center">
-            <Input
-              addonBefore="https://"
-              defaultValue=""
-              placeholder="Youtube"
-              onKeyDown={dontSubmitWhenEnter}
-            />
+            <Input addonBefore="https://" placeholder="Youtube" onKeyDown={dontSubmitWhenEnter} />
           </div>
         </Form.Item>
         <Form.Item className="m-3 text-center">
