@@ -71,9 +71,18 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
     console.log(userInfo)
 
     const socialLink: SocialLink[] = [
-      { socialMediaName: 'instagram', socialMedisUrl: value.instagram ? value.instagram : '' },
-      { socialMediaName: 'youtube', socialMedisUrl: value.youtube ? value.youtube : '' },
-      { socialMediaName: 'twitter', socialMedisUrl: value.twitter ? value.twitter : '' },
+      {
+        socialMediaName: 'instagram',
+        socialMedisUrl: value.instagram ? 'https://' + value.instagram : '',
+      },
+      {
+        socialMediaName: 'youtube',
+        socialMedisUrl: value.youtube ? 'https://' + value.youtube : '',
+      },
+      {
+        socialMediaName: 'twitter',
+        socialMedisUrl: value.twitter ? 'https://' + value.twitter : '',
+      },
     ]
     if (
       imageUrl != userInfo.imageUrl ||

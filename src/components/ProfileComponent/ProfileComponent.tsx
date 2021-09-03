@@ -74,20 +74,20 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       <ul className="list-none">
         <li>
           <p>
-            <InstagramOutlined className="text-2xl mr-3" /> Instagram: {Instagram}
-            <a href=""></a>
+            <InstagramOutlined className="text-2xl mr-3" /> Instagram:
+            <a href={Instagram}>{Instagram}</a>
           </p>
         </li>
         <li>
           <p>
-            <FacebookOutlined className="text-2xl mr-3" /> Facebook: {Facebook}
-            <a href=""></a>
+            <FacebookOutlined className="text-2xl mr-3" /> Facebook:
+            <a href={Facebook}>{Facebook}</a>
           </p>
         </li>
         <li>
           <p>
-            <YoutubeOutlined className="text-2xl mr-3" /> Youtube: {Youtube}
-            <a href=""></a>
+            <YoutubeOutlined className="text-2xl mr-3" /> Youtube:
+            <a href={Youtube}>{Youtube}</a>
           </p>
         </li>
       </ul>
