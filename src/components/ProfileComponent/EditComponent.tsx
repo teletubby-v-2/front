@@ -40,6 +40,31 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
     originalimageUrl: userInfo.imageUrl,
   })
 
+  const [Facebook, setFacebook] = useState('')
+  const [Instagram, setInstagram] = useState('')
+  const [Youtube, setYoutube] = useState('')
+
+  useEffect(() => {
+    userInfo.socialLink.forEach(i => {
+      if (i.socialMediaName == 'youtube') {
+        setYoutube(i.socialMedisUrl)
+      }
+      if (i.socialMediaName == 'instagram') {
+        setInstagram(i.socialMedisUrl)
+      }
+      if (i.socialMediaName == 'facebook') {
+        setFacebook(i.socialMedisUrl)
+      }
+    })
+  }, [userInfo])
+
+  const Info = {
+    aboutme: userInfo.aboutme,
+    instagram: Instagram,
+    facebook: Facebook,
+    youtube: Youtube,
+  }
+
   const onFinish = (value: UpdateValue) => {
     console.log(value)
     console.log(imageUrl)
@@ -98,7 +123,7 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
         </div>
       )}
 
-      <Form onFinish={onFinish} initialValues={userInfo}>
+      <Form onFinish={onFinish} initialValues={Info}>
         <div className="text-center">
           <Form.Item
             name="imagefile"

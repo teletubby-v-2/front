@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Divider } from 'antd'
 import {
   DashOutlined,
@@ -7,6 +7,7 @@ import {
   InstagramOutlined,
 } from '@ant-design/icons'
 import { MyUser } from '../../constants/interface/myUser.interface'
+import { strict } from 'assert'
 
 export interface ProfileComponentProps {
   onEdit?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
@@ -15,6 +16,24 @@ export interface ProfileComponentProps {
 }
 
 export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy, Info }) => {
+  const [Facebook, setFacebook] = useState('')
+  const [Instagram, setInstagram] = useState('')
+  const [Youtube, setYoutube] = useState('')
+
+  useEffect(() => {
+    Info.socialLink.forEach(i => {
+      if (i.socialMediaName == 'youtube') {
+        setYoutube(i.socialMedisUrl)
+      }
+      if (i.socialMediaName == 'instagram') {
+        setInstagram(i.socialMedisUrl)
+      }
+      if (i.socialMediaName == 'facebook') {
+        setFacebook(i.socialMedisUrl)
+      }
+    })
+  }, [Info])
+
   return (
     <div className="p-3">
       <Divider>
@@ -55,17 +74,20 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       <ul className="list-none">
         <li>
           <p>
-            <InstagramOutlined className="text-2xl mr-3" /> Instagram: <a href=""></a>
+            <InstagramOutlined className="text-2xl mr-3" /> Instagram: {Instagram}
+            <a href=""></a>
           </p>
         </li>
         <li>
           <p>
-            <FacebookOutlined className="text-2xl mr-3" /> Facebook: <a href=""></a>
+            <FacebookOutlined className="text-2xl mr-3" /> Facebook: {Facebook}
+            <a href=""></a>
           </p>
         </li>
         <li>
           <p>
-            <YoutubeOutlined className="text-2xl mr-3" /> Youtube: <a href=""></a>
+            <YoutubeOutlined className="text-2xl mr-3" /> Youtube: {Youtube}
+            <a href=""></a>
           </p>
         </li>
       </ul>
