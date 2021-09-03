@@ -1,8 +1,10 @@
+import { Collection } from './../../constants/index'
+import { UserSubjectDTO } from './../../constants/dto/myUser.dto'
 import firebase from 'firebase'
 import { firebaseApp, firestore } from '../../config/firebase'
 import { CreateUserDTO, UpdateUserDTO } from '../../constants/dto/myUser.dto'
 
-const userCollection = firestore.collection('Users')
+const userCollection = firestore.collection(Collection.Users)
 
 async function createUser(user: CreateUserDTO): Promise<void> {
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
@@ -47,4 +49,13 @@ async function deleteUser(userId: string) {
   return await userCollection.doc(userId).delete()
 }
 
-export { createUser, updateUser, deleteUser }
+async function updateUserSubject(userSubject: UserSubjectDTO[]) {
+  const userId = firebase.auth().currentUser?.uid
+  if (userId) {
+    userCollection
+      .doc(userId)
+      .update({ userSubject, updateAt: firebase.firestore.Timestamp.fromDate(new Date()) })
+  }
+}
+
+export { createUser, updateUser, deleteUser, updateUserSubject }

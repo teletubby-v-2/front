@@ -27,11 +27,11 @@ export const VerifyEmail: React.FC = () => {
           .currentUser?.reload()
           .then(() => {
             if (firebaseApp.auth().currentUser?.emailVerified) {
-              history.push('/home')
+              history.replace('/createUser')
             }
           })
       } else {
-        history.push('/login')
+        history.replace('/login')
       }
     }, 1000)
     return () => clearInterval(unsub)

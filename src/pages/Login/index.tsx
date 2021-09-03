@@ -12,11 +12,16 @@ export const Login: React.FC = () => {
     getUserFromIndexDB().then((value: any) => setIsAuth(value.firebaseLocalStorage))
   }, [])
 
+  if (isAuth && isAuth.length !== 0) {
+    if (isAuth[0].value.emailVerified) {
+      return <Redirect to="/home" />
+    } else {
+      return <Redirect to="/verifyEmail" />
+    }
+  }
+
   return (
     <Card className="App">
-      {isAuth &&
-        isAuth.length !== 0 &&
-        (isAuth[0].value.emailVerified ? <Redirect to="/home" /> : <Redirect to="/verifyEmail" />)}
       <LoginForm />
       <a href="/home" className="text-right text-blue-500 text-sm -mb-3 block">
         login as guest user

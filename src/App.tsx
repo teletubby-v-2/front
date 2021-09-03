@@ -10,6 +10,7 @@ import {
   Profile,
   LectureDetail,
   VerifyEmail,
+  Subject,
 } from './pages'
 import Yoyo from './pages/Yoyo'
 import { LayoutRoute, FirstRoute, UserInfoForm } from './components'
