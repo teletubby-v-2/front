@@ -14,6 +14,7 @@ import { updateUser } from '../../service/user'
 import { UpdateUserDTO } from '../../constants/dto/myUser.dto'
 import { SocialLink } from '../../constants/interface/myUser.interface'
 import { deleteImages } from '../../service/storage'
+import { removeUndefined } from '../../utils/object'
 
 export interface UpdateValue {
   aboutme: string
@@ -85,7 +86,7 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
       </Divider>
       {!isUploading ? (
         imageUrl ? (
-          <img src={imageUrl} alt="Profile picture" className="my-8 mx-auto" width="200" />
+          <img src={imageUrl} alt="Profile picture" className="my-8 mx-auto flex" width="200" />
         ) : (
           <div className="mx auto my-8 shadow text-center h-52 text-2xl place-content-center">
             No Picture

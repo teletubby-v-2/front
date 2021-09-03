@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Divider } from 'antd'
 import {
   DashOutlined,
@@ -22,7 +22,7 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       </Divider>
 
       {Info.imageUrl ? (
-        <img src={Info.imageUrl} alt="Profile picture" className="my-8 mx-auto " width="200" />
+        <img src={Info.imageUrl} alt="Profile picture" className="my-8 mx-auto flex" width="200" />
       ) : (
         <div className="mx-auto my-8 shadow text-center h-52 text-2xl place-content-center">
           No Picture
