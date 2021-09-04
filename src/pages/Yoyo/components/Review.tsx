@@ -106,20 +106,22 @@ export const ReviewCom: React.FC<ReviewComProps> = ({ id }) => {
   return (
     <>
       <AuthZone>
-        <Form form={form} layout="inline" onFinish={testCreateReview}>
-          <Form.Item name="message" className="w-80">
-            <Input.TextArea placeholder="comment" />
-          </Form.Item>
-          <Form.Item name="rating" rules={[{ required: true }]}>
-            <Rate allowHalf />
-          </Form.Item>
-          <Form.Item shouldUpdate>
-            {() => (
-              <Button type="primary" htmlType="submit" disabled={!form.getFieldValue('rating')}>
-                review
-              </Button>
-            )}
-          </Form.Item>
+        <Form form={form} onFinish={testCreateReview}>
+          <div className="flex">
+            <Form.Item name="message" className="flex-grow">
+              <Input.TextArea placeholder="comment" />
+            </Form.Item>
+            <Form.Item name="rating" rules={[{ required: true }]}>
+              <Rate allowHalf />
+            </Form.Item>
+            <Form.Item shouldUpdate>
+              {() => (
+                <Button type="primary" htmlType="submit" disabled={!form.getFieldValue('rating')}>
+                  review
+                </Button>
+              )}
+            </Form.Item>
+          </div>
         </Form>
       </AuthZone>
       <List
@@ -130,14 +132,16 @@ export const ReviewCom: React.FC<ReviewComProps> = ({ id }) => {
         dataSource={review}
         renderItem={item => (
           <List.Item
-            actions={[
-              <a key="edit" onClick={() => handleSelectFor('update', item)}>
-                edit
-              </a>,
-              <a key="delete" onClick={() => handleSelectFor('delete', item)}>
-                delete
-              </a>,
-            ]}
+            actions={
+              [
+                // <a key="edit" onClick={() => handleSelectFor('update', item)}>
+                //   edit
+                // </a>,
+                // <a key="delete" onClick={() => handleSelectFor('delete', item)}>
+                //   delete
+                // </a>,
+              ]
+            }
           >
             <Skeleton avatar title={false} loading={loading} active>
               <List.Item.Meta

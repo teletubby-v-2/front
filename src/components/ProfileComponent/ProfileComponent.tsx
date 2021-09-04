@@ -20,7 +20,6 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       <Divider>
         <h1 className="text-center text-2xl font-black ">{Info.userName}</h1>
       </Divider>
-
       {Info.imageUrl ? (
         <img src={Info.imageUrl} alt="Profile picture" className="my-8 mx-auto" width="200" />
       ) : (
@@ -28,7 +27,6 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
           No Picture
         </div>
       )}
-
       <div className="text-center space-x-4">
         {isMy ? (
           <Button className="w-1/2" onClick={onEdit}>
@@ -45,10 +43,9 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
 
       <div className="text-center items-center my-5">
         <p>
-          {Info.follower.length} Follower {Info.following.length} Following
+          {Info?.follower?.length} Follower {Info?.following?.length} Following
         </p>
       </div>
-
       <Divider>
         <p className="text-gray-400">Social Link</p>
       </Divider>
@@ -69,7 +66,6 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
           </p>
         </li>
       </ul>
-
       <Divider>
         <p className="text-gray-400">General</p>
       </Divider>

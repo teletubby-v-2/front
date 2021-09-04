@@ -2,12 +2,12 @@ import { queryOperator } from './queryOperator.dto'
 
 export interface SubjectDTO {
   subjectId?: string
+  subjectNameEn: string | null
   subjectNameTh: string
-  subjectNameEn: string
   semester1: boolean
   semester2: boolean
-  type?: string
-  subtype?: string
+  type?: string | null
+  subtype?: string | null
 }
 
 export interface FilterSubjectDTO {
