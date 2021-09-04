@@ -28,7 +28,7 @@ interface LectureWithDropdown extends Lecture {
 
 export const LectureContainer: React.FC<LectureContainerProps> = props => {
   const { limit, data, className, minRow = 2, col = 5, title, ...restCradProps } = props
-
+  const [grid] = useState(`lg:grid-col-${col}`)
   const [isOnEdit, setIsOnEdit] = useState(false)
   const [loading, setLoading] = useState(true)
   const [lastOpenIndex, setLastOpenIndex] = useState(0)
@@ -155,9 +155,7 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
       className={`${className} shadow-1`}
     >
       <Skeleton loading={loading} paragraph active>
-        <div
-          className={`grid grid-cols-3 gap-y-10 md:grid-cols-4 lg:grid-cols-${col} row-${minRow}-card `}
-        >
+        <div className={`grid grid-cols-3 gap-y-10 md:grid-cols-4 ${grid} row-${minRow}-card `}>
           {lectures?.slice(0, size).map((lecture, index) => (
             <div className="relative w-40 h-52 mx-auto" key={index}>
               <div className="absolute z-10 right-0 top-0">
