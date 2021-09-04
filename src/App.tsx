@@ -14,7 +14,7 @@ import {
   Subject,
 } from './pages'
 import Yoyo from './pages/Yoyo'
-import { LayoutRoute, FirstRoute, AuthRoute } from './components'
+import { LayoutRoute, AuthRoute } from './components'
 import firebase from 'firebase'
 import { userInfoStore } from './store/user.store'
 import eiei from './pages/Yoyo/user'

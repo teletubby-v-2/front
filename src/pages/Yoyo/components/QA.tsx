@@ -1,4 +1,4 @@
-import { Avatar, Button, Divider, Form, Input, List, Skeleton } from 'antd'
+import { Avatar, Button, Form, Input, List, Skeleton } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { AuthZone } from '../../../components'
 import { firestore } from '../../../config/firebase'
@@ -95,21 +95,23 @@ export const QACom: React.FC<QAComProps> = ({ id }) => {
   return (
     <div>
       <AuthZone>
-        <Form form={form} layout="inline" onFinish={testCreateQAndA}>
-          <Form.Item name="question" className="w-96">
-            <Input.TextArea placeholder="question" />
-          </Form.Item>
-          <Form.Item shouldUpdate>
-            {() => (
-              <Button
-                type="primary"
-                htmlType="submit"
-                disabled={!form.isFieldsTouched(true) || !form.getFieldValue('question')?.length}
-              >
-                ask
-              </Button>
-            )}
-          </Form.Item>
+        <Form form={form} onFinish={testCreateQAndA}>
+          <div className="flex">
+            <Form.Item name="question" className="flex-grow">
+              <Input.TextArea placeholder="question" />
+            </Form.Item>
+            <Form.Item shouldUpdate>
+              {() => (
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  disabled={!form.isFieldsTouched(true) || !form.getFieldValue('question')?.length}
+                >
+                  ask
+                </Button>
+              )}
+            </Form.Item>
+          </div>
         </Form>
       </AuthZone>
       <List
@@ -120,20 +122,22 @@ export const QACom: React.FC<QAComProps> = ({ id }) => {
         renderItem={item => (
           <>
             <List.Item
-              actions={[
-                <a
-                  key="edit"
-                  onClick={() => handleSelectFor('update', item.lectureId || '', item.qaId || '')}
-                >
-                  edit
-                </a>,
-                <a
-                  key="delete"
-                  onClick={() => handleSelectFor('delete', item.lectureId || '', item.qaId || '')}
-                >
-                  delete
-                </a>,
-              ]}
+              actions={
+                [
+                  // <a
+                  //   key="edit"
+                  //   onClick={() => handleSelectFor('update', item.lectureId || '', item.qaId || '')}
+                  // >
+                  //   edit
+                  // </a>,
+                  // <a
+                  //   key="delete"
+                  //   onClick={() => handleSelectFor('delete', item.lectureId || '', item.qaId || '')}
+                  // >
+                  //   delete
+                  // </a>,
+                ]
+              }
             >
               <Skeleton avatar title={false} loading={false} active>
                 <List.Item.Meta

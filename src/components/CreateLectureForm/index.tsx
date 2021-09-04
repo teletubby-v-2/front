@@ -30,7 +30,7 @@ export interface CreateLectureFormProps extends ModalProps {
 
 export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
   const {
-    label = 'Add New',
+    label = 'เพิ่มสรุป',
     className,
     initData = {} as UpdateLectureDTO,
     children,

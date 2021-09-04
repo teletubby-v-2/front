@@ -39,7 +39,6 @@ export const Profile: React.FC = () => {
         .get()
         .then(doc => {
           doc.forEach(lecture => {
-            console.log(lecture.data())
             setBookmarkLecture(bookmarklLecture => [
               ...bookmarklLecture,
               { lectureId: lecture.id, ...lecture.data() } as LectureDTO,
@@ -47,31 +46,11 @@ export const Profile: React.FC = () => {
           })
         })
     }
-  }, [userInfo.userId])
-
-  useEffect(() => {
-    if (bookmarkLecture.length === 0) {
-      userInfo.bookmark &&
-        userInfo.bookmark.length !== 0 &&
-        firestore
-          .collection(Collection.Lectures)
-          .where(firebase.firestore.FieldPath.documentId(), 'in', userInfo.bookmark)
-          .get()
-          .then(doc => {
-            doc.forEach(lecture => {
-              console.log(lecture.data())
-              setBookmarkLecture(bookmarklLecture => [
-                ...bookmarklLecture,
-                { lectureId: lecture.id, ...lecture.data() } as LectureDTO,
-              ])
-            })
-          })
-    }
   }, [userInfo.bookmark])
 
   return (
     <>
-      <div className="fixed overflow-y-scroll my-10 w-1/4 h-screen">
+      <div className="fixed overflow-y-auto my-10 w-1/4 h-screen">
         <div className="mb-10 ">
           <MyProfile />
         </div>

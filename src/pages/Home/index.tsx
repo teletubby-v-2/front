@@ -32,7 +32,6 @@ export const Home: React.FC = () => {
         .filter(subject => subject.isActive === true)
         .map(subject => subject.subjectId)
         .flatMap(x => x)
-      console.log(subjectId)
       if (subjectId && subjectId.length !== 0) {
         firestore
           .collection(Collection.Lectures)
@@ -56,14 +55,14 @@ export const Home: React.FC = () => {
         <LectureContainer
           title="วิชาของฉัน"
           data={mySubject}
-          limit={8}
+          limit={10}
           extra={<a href="/myLecture">ดูทั้งหมด</a>}
         />
       )}
       <LectureContainer
         title="สรุปล่าสุด"
         data={allLecture}
-        limit={8}
+        limit={10}
         extra={
           <div className="space-x-3">
             <Dropdown

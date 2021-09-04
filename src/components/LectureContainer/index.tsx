@@ -87,7 +87,6 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
       })
     }
     if (value) {
-      console.log('last', lastOpenIndex)
       setLastOpenIndex(index)
     }
   }
@@ -152,7 +151,6 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
       title={<span className="title-lecture-container">{title}</span>}
       className={`${className} shadow-1`}
     >
-      {console.log(lastOpenIndex)}
       <Skeleton loading={loading} paragraph active>
         <div
           className={`grid grid-cols-3 gap-y-10 md:grid-cols-4 lg:grid-cols-${col} row-${minRow}-card `}

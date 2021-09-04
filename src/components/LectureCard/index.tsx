@@ -16,7 +16,7 @@ export const LectureCard: React.FC<LectureCardProps> = props => {
 
   return (
     <div
-      className={`cursor-pointer  ${className}`}
+      className={`cursor-pointer  ${className} ant-card-grid-hoverable`}
       onClick={() => history.push(`post/${data?.lectureId}`)}
     >
       <Badge.Ribbon text={`${data?.viewCount} views`} placement="start" className="mt-1">

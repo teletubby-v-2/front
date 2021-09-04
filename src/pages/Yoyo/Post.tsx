@@ -17,9 +17,6 @@ const Post: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   const history = useHistory()
   const [loading, setLoading] = useState(false)
-  // useEffect(() => {
-  //   setLoading(false)
-  // }, [commentMayo])
 
   useEffect(() => {
     setLoading(true)
@@ -75,12 +72,12 @@ const Post: React.FC = () => {
       </div>
 
       <div className="flex justify-center">
-        <Skeleton loading={loading} paragraph={{ rows: 10 }} active className="w-96">
+        <Skeleton loading={loading} paragraph={{ rows: 10 }} active className="flex-1">
           <Card
-            title={
-              <CreateLectureForm className="text-right block" label="edit" initData={lecture} />
-            }
-            className="w-2/7"
+            // title={
+            //   <CreateLectureForm className="text-right block" label="edit" initData={lecture} />
+            // }
+            className="flex-1"
             key={lecture?.lectureId}
             cover={
               <img
@@ -109,7 +106,7 @@ const Post: React.FC = () => {
             history.replace(`${history.location.pathname}${key}`)
           }}
           activeKey={history.location.hash}
-          className="w-3/6 ml-3"
+          className="ml-3 flex flex-1"
         >
           <Tabs.TabPane tab="Comment" key="#comment">
             <CommentCom id={id} />

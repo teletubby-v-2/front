@@ -141,7 +141,6 @@ export const useLectureForm = (
       updateLecture(updateValue as CreateLectureDTO)
         .then(() => {
           message.success('อัพเดตโพสสำเร็จ')
-          console.log({ ...initData, ...updateValue })
 
           callback && callback({ ...initData, ...updateValue } as Lecture)
         })

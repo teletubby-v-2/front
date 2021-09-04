@@ -98,21 +98,23 @@ export const CommentCom: React.FC<CommentComProps> = ({ id }) => {
   return (
     <div>
       <AuthZone>
-        <Form form={form} layout="inline" onFinish={testCreateComment}>
-          <Form.Item name="message" className="w-96">
-            <Input.TextArea placeholder="comment" />
-          </Form.Item>
-          <Form.Item shouldUpdate>
-            {() => (
-              <Button
-                type="primary"
-                htmlType="submit"
-                disabled={!form.isFieldsTouched(true) || !form.getFieldValue('message')?.length}
-              >
-                comment
-              </Button>
-            )}
-          </Form.Item>
+        <Form form={form} layout="horizontal" onFinish={testCreateComment}>
+          <div className="flex">
+            <Form.Item name="message" className="flex-grow">
+              <Input.TextArea placeholder="comment" />
+            </Form.Item>
+            <Form.Item shouldUpdate>
+              {() => (
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  disabled={!form.isFieldsTouched(true) || !form.getFieldValue('message')?.length}
+                >
+                  comment
+                </Button>
+              )}
+            </Form.Item>
+          </div>
         </Form>
       </AuthZone>
       <List
@@ -138,18 +140,18 @@ export const CommentCom: React.FC<CommentComProps> = ({ id }) => {
                 >
                   reply
                 </Button>,
-                <a
-                  key="edit"
-                  onClick={() => handleSelectFor('update', item.lectureId || '', item.id || '')}
-                >
-                  edit
-                </a>,
-                <a
-                  key="delete"
-                  onClick={() => handleSelectFor('delete', item.lectureId || '', item.id || '')}
-                >
-                  delete
-                </a>,
+                // <a
+                //   key="edit"
+                //   onClick={() => handleSelectFor('update', item.lectureId || '', item.id || '')}
+                // >
+                //   edit
+                // </a>,
+                // <a
+                //   key="delete"
+                //   onClick={() => handleSelectFor('delete', item.lectureId || '', item.id || '')}
+                // >
+                //   delete
+                // </a>,
               ]}
             >
               <Skeleton avatar title={false} loading={false} active>

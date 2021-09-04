@@ -41,7 +41,6 @@ async function updateQAndA(qAndA: UpdateQAndADTO): Promise<void> {
     updateAt: timeStamp,
   }
   delete data['qaId']
-  console.log(data)
   return await qAndACollection.doc(qaId).update(data)
 }
 
@@ -59,8 +58,6 @@ async function createAnswer(ansQAndA: AnswersDTO): Promise<void> {
     updateAt: timeStamp,
     userId: firebaseApp.auth().currentUser?.uid as string,
   }
-  console.log(data)
-
   return await answerCollection.doc().set(data)
 }
 
@@ -73,8 +70,6 @@ async function updateAnswer(ansQAndA: AnswersDTO): Promise<void> {
     updateAt: timeStamp,
     userId: firebaseApp.auth().currentUser?.uid as string,
   }
-  console.log(data)
-
   delete data['answerId']
   return await answerCollection.doc(answerId).update(data)
 }
