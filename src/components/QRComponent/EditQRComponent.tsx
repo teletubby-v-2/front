@@ -49,6 +49,16 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
       }
     }
   }
+
+  const beforeClose = () => {
+    if (imageUrl != userInfo.donateImage && imageUrl) {
+      deleteImages(imageUrl)
+      console.log('delete')
+      console.log(imageUrl)
+    }
+    onClose()
+  }
+
   return (
     <div className="p-3">
       <Divider>
@@ -99,7 +109,7 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
           <Button type="primary" htmlType="submit" size="large" className="mx-4">
             Save
           </Button>
-          <Button type="primary" size="large" onClick={onClose} className="mx-4">
+          <Button type="primary" size="large" onClick={beforeClose} className="mx-4">
             Cancel
           </Button>
         </Form.Item>
