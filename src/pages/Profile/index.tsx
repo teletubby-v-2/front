@@ -71,33 +71,38 @@ export const Profile: React.FC = () => {
 
   return (
     <>
-      <div className="flex justify-center my-10 space-x-8">
-        <div className="w-1/4">
-          <div className="mb-10">
-            <MyProfile />
-          </div>
-          <div>
-            <MyQR />
-          </div>
+      <div className="fixed overflow-y-scroll my-10 w-1/4 h-screen">
+        <div className="mb-10 ">
+          <MyProfile />
         </div>
-        <div className="w-3/4 space-y-8">
-          <LectureContainer
-            title="สรุปของฉัน"
-            data={ownLecture}
-            limit={8}
-            extra={
-              <div className="space-x-3">
-                <CreateLectureForm className="inline-block" />
-                <a href="/myLecture">ดูทั้งหมด</a>
-              </div>
-            }
-          />
-          <LectureContainer
-            title="บุ๊คมาร์ค"
-            data={bookmarkLecture}
-            limit={8}
-            extra={<a href="/recentLecture">ดูทั้งหมด</a>}
-          />
+        <div>
+          <MyQR />
+        </div>
+      </div>
+      <div className="flex justify-center my-10">
+        <div className="w-1/4 mr-8"></div>
+        <div className="w-3/4">
+          <div className="pl-8  space-y-8">
+            <LectureContainer
+              col={4}
+              title="สรุปของฉัน"
+              data={ownLecture}
+              limit={8}
+              extra={
+                <div className="space-x-3">
+                  <CreateLectureForm className="inline-block" />
+                  <a href="/myLecture">ดูทั้งหมด</a>
+                </div>
+              }
+            />
+            <LectureContainer
+              col={4}
+              title="บุ๊คมาร์ค"
+              data={bookmarkLecture}
+              limit={8}
+              extra={<a href="/recentLecture">ดูทั้งหมด</a>}
+            />
+          </div>
         </div>
       </div>
     </>

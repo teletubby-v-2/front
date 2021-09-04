@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { LectureContainer } from '../../components'
-import { dummyLectures } from '../../constants/dummyData/lecture.dummy'
 import { userInfoStore } from '../../store/user.store'
 import { Dropdown, Menu } from 'antd'
 import { DownOutlined } from '@ant-design/icons/lib/icons'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { firestore } from '../../config/firebase'
 import { Collection } from '../../constants'
-import firebase from 'firebase'
 export const Home: React.FC = () => {
   const { userInfo } = userInfoStore()
-
   const [allLecture, setAllLecture] = useState<LectureDTO[]>([] as LectureDTO[])
   const [mySubject, setMySubject] = useState<LectureDTO[]>([] as LectureDTO[])
+
   useEffect(() => {
     firestore
       .collection(Collection.Lectures)
@@ -35,8 +33,7 @@ export const Home: React.FC = () => {
         .map(subject => subject.subjectId)
         .flatMap(x => x)
       console.log(subjectId)
-      subjectId &&
-        subjectId.length !== 0 &&
+      if (subjectId && subjectId.length !== 0) {
         firestore
           .collection(Collection.Lectures)
           .where('subjectId', 'in', subjectId)
@@ -49,6 +46,7 @@ export const Home: React.FC = () => {
               ])
             })
           })
+      }
     }
   }, [userInfo.userSubject])
 

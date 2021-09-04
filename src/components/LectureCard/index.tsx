@@ -23,7 +23,6 @@ export const LectureCard: React.FC<LectureCardProps> = props => {
         <div
           className={`border-2 w-40 h-52 relative bg-contain flex flex-col justify-end hover:shadow-lg bg-center`}
         >
-          {console.log(`url(${data?.imageUrl?.[0]})`)}
           <img
             src={data?.imageUrl?.[0]}
             alt="no photo"
