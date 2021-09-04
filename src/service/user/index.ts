@@ -1,8 +1,9 @@
+import { Collection } from './../../constants/index'
 import firebase from 'firebase'
 import { firebaseApp, firestore } from '../../config/firebase'
-import { CreateUserDTO, UpdateUserDTO } from '../../constants/dto/myUser.dto'
+import { CreateUserDTO, UpdateUserDTO, UserSubjectDTO } from '../../constants/dto/myUser.dto'
 
-const userCollection = firestore.collection('Users')
+const userCollection = firestore.collection(Collection.Users)
 
 async function createUser(user: CreateUserDTO): Promise<void> {
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
@@ -47,4 +48,41 @@ async function deleteUser(userId: string) {
   return await userCollection.doc(userId).delete()
 }
 
-export { createUser, updateUser, deleteUser }
+async function addUserBookmark(lectureId: string, oldBookmark: string[]) {
+  const userId = firebaseApp.auth().currentUser?.uid
+  const data = {
+    bookmark: [lectureId, ...oldBookmark],
+  }
+  if (userId) {
+    await userCollection.doc(userId).update(data)
+  } else {
+    throw new Error('young mai login')
+  }
+}
+
+async function deleteUserBookmark(lectureId: string, oldBookmark: string[]) {
+  const userId = firebaseApp.auth().currentUser?.uid
+  const data = {
+    bookmark: oldBookmark.filter(id => id != lectureId),
+  }
+  if (userId) {
+    await userCollection.doc(userId).update(data)
+  }
+}
+async function updateUserSubject(userSubject: UserSubjectDTO[]) {
+  const userId = firebase.auth().currentUser?.uid
+  if (userId) {
+    userCollection
+      .doc(userId)
+      .update({ userSubject, updateAt: firebase.firestore.Timestamp.fromDate(new Date()) })
+  }
+}
+
+export {
+  createUser,
+  updateUser,
+  deleteUser,
+  addUserBookmark,
+  deleteUserBookmark,
+  updateUserSubject,
+}

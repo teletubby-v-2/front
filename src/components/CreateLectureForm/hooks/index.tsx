@@ -12,6 +12,7 @@ import { initPhoto, removeUndefined } from '../../../utils/object'
 export const useLectureForm = (
   addOwnLecture: (lecture: Lecture) => void,
   initData?: UpdateLectureDTO,
+  callback?: (lecture?: Lecture) => void,
 ) => {
   const [form] = Form.useForm()
   const [isOnCreate, setIsOnCreate] = useState(false)
@@ -130,19 +131,24 @@ export const useLectureForm = (
     addOwnLecture(value as Lecture)
 
     if (!isUpdate) {
-      message.success('กำลังสร้าง')
+      message.info('กำลังสร้าง...')
       createLecture(value as CreateLectureDTO)
         .then(() => message.success('สร้างโพสได้แล้วจ้าา'))
         .catch((err: any) => console.error(err))
     } else {
-      message.success('กำลังอัพพพพพพพพ')
-      console.log(value)
+      message.info('กำลังอัพ...')
+      const updateValue = { ...value, lectureId: initData?.lectureId }
+      updateLecture(updateValue as CreateLectureDTO)
+        .then(() => {
+          message.success('อัพเดตโพสสำเร็จ')
 
-      updateLecture({ ...value, lectureId: initData?.lectureId } as CreateLectureDTO)
-        .then(() => message.success('อัพเดตโพสได้แล้วไอสัสสสสสสส'))
-        .catch((err: any) => console.error(err))
+          callback && callback({ ...initData, ...updateValue } as Lecture)
+        })
+        .catch((err: any) => {
+          console.error(err)
+          callback && callback()
+        })
     }
-
     setIsOnCreate(false)
   }
 

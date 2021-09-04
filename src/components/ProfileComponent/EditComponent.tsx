@@ -17,7 +17,7 @@ import { removeUndefined } from '../../utils/object'
 import { firebaseApp } from '../../config/firebase'
 
 export interface UpdateValue {
-  aboutme: string
+  aboutMe: string
   instagram: string
   twitter: string
   youtube: string
@@ -40,30 +40,32 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
     originalimageUrl: userInfo.imageUrl,
   })
 
-  const [Facebook, setFacebook] = useState('')
-  const [Instagram, setInstagram] = useState('')
-  const [Youtube, setYoutube] = useState('')
+  const [Info, setInfo] = useState({
+    aboutMe: userInfo.aboutMe,
+    youtube: '1',
+    instagram: '2',
+    facebook: '3',
+  })
 
   useEffect(() => {
     userInfo.socialLink.forEach(i => {
       if (i.socialMediaName == 'youtube') {
-        setYoutube(i.socialMedisUrl)
+        const setYoutube = Info
+        setYoutube.youtube = i.socialMedisUrl
+        setInfo(setYoutube)
       }
       if (i.socialMediaName == 'instagram') {
-        setInstagram(i.socialMedisUrl)
+        const setInstagram = Info
+        setInstagram.youtube = i.socialMedisUrl
+        setInfo(setInstagram)
       }
       if (i.socialMediaName == 'facebook') {
-        setFacebook(i.socialMedisUrl)
+        const setFacebook = Info
+        setFacebook.youtube = i.socialMedisUrl
+        setInfo(setFacebook)
       }
     })
-  }, [userInfo])
-
-  const Info = {
-    aboutme: userInfo.aboutme,
-    instagram: Instagram,
-    facebook: Facebook,
-    youtube: Youtube,
-  }
+  }, [])
 
   const onFinish = (value: UpdateValue) => {
     console.log(value)
@@ -73,26 +75,26 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
     const socialLink: SocialLink[] = [
       {
         socialMediaName: 'instagram',
-        socialMedisUrl: value.instagram ? 'https://' + value.instagram : '',
+        socialMedisUrl: value.instagram ? value.instagram : '',
       },
       {
         socialMediaName: 'youtube',
-        socialMedisUrl: value.youtube ? 'https://' + value.youtube : '',
+        socialMedisUrl: value.youtube ? value.youtube : '',
       },
       {
         socialMediaName: 'twitter',
-        socialMedisUrl: value.twitter ? 'https://' + value.twitter : '',
+        socialMedisUrl: value.twitter ? value.twitter : '',
       },
     ]
     if (
       imageUrl != userInfo.imageUrl ||
-      value.aboutme != userInfo.aboutme ||
+      value.aboutMe != userInfo.aboutMe ||
       socialLink != userInfo.socialLink
     ) {
       const data: UpdateUserDTO = {
         socialLink: socialLink,
         imageUrl: imageUrl,
-        aboutMe: value.aboutme,
+        aboutMe: value.aboutMe,
       }
       const user = firebaseApp.auth().currentUser
       try {
@@ -102,13 +104,24 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
         updateUser(data)
         if (imageUrl != userInfo.imageUrl && userInfo.imageUrl) {
           deleteImages(userInfo.imageUrl)
+          console.log('delete')
+          console.log(userInfo.imageUrl)
         }
         imageUrl ? setImageURL(imageUrl) : null
         setSocialLink(socialLink)
-        setAboutme(value.aboutme)
+        setAboutme(value.aboutMe)
       } catch (err) {
         console.log(err)
       }
+    }
+    onClose()
+  }
+
+  const beforeClose = () => {
+    if (imageUrl != userInfo.imageUrl && imageUrl) {
+      deleteImages(imageUrl)
+      console.log('delete')
+      console.log(imageUrl)
     }
     onClose()
   }
@@ -152,7 +165,7 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
               showUploadList={false}
             >
               {' '}
-              <Button icon={<UploadOutlined />}>Click to Upload</Button>
+              <Button icon={<UploadOutlined />}>เปลี่ยนรูปโปรไฟล์</Button>
             </Upload>
           </Form.Item>
         </div>
@@ -165,11 +178,11 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
         <Form.Item>
           <Input placeholder={userInfo.email} disabled={true} />
         </Form.Item>
-        <Form.Item name="aboutme">
+        <Form.Item name="aboutMe">
           <TextArea
             showCount
             maxLength={300}
-            placeholder="about me"
+            placeholder="เกี่ยวกับฉัน"
             onKeyDown={dontSubmitWhenEnter}
           />
         </Form.Item>
@@ -177,21 +190,21 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
           <p className="text-gray-400">Social Link</p>
         </Divider>
         <Form.Item name="instagram">
-          <Input addonBefore="https://" placeholder="Instagram" onKeyDown={dontSubmitWhenEnter} />
+          <Input placeholder="Instagram" onKeyDown={dontSubmitWhenEnter} />
         </Form.Item>
         <Form.Item name="facebook">
-          <Input addonBefore="https://" placeholder="Facebook" onKeyDown={dontSubmitWhenEnter} />
+          <Input placeholder="Facebook" onKeyDown={dontSubmitWhenEnter} />
         </Form.Item>
         <Form.Item name="youtube">
           <div className="content-center">
-            <Input addonBefore="https://" placeholder="Youtube" onKeyDown={dontSubmitWhenEnter} />
+            <Input placeholder="Youtube" onKeyDown={dontSubmitWhenEnter} />
           </div>
         </Form.Item>
         <Form.Item className="m-3 text-center">
           <Button type="primary" htmlType="submit" size="large" className="mx-4">
             Save
           </Button>
-          <Button type="primary" size="large" onClick={onClose} className="mx-4">
+          <Button type="primary" size="large" onClick={beforeClose} className="mx-4">
             Cancel
           </Button>
         </Form.Item>

@@ -65,7 +65,6 @@ const Yoyo: React.FC = () => {
     const unsubscribe = firestore
       .collection('Lectures')
       .orderBy('createAt')
-      .limit(5)
       .onSnapshot(querySnapshot => {
         console.log(querySnapshot.size)
         querySnapshot.docChanges().forEach(change => {

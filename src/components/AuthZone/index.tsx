@@ -30,8 +30,6 @@ export const AuthZone: React.FC<AuthZoneProps> = ({ className, children, noAccou
   }
 
   const isAuth = () => {
-    console.log('hello')
-
     if (!firebaseApp.auth().currentUser) {
       openModal()
     }

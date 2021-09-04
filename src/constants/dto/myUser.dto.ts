@@ -10,7 +10,7 @@ export interface CreateUserDTO {
   userId?: string
   email?: string
   aboutMe?: string
-  userSubject?: string[]
+  userSubject?: UserSubjectDTO[]
   donateImage?: string
   donateDescription?: string
   lectureCount?: number
@@ -37,4 +37,11 @@ export interface FilterUserDTO {
   bookmark: string[] | [queryOperator, string | string[]]
   aboutme: string | [queryOperator, string | string[]]
   // socialLink?: SocialLink[] | [queryOperator, SocialLink[]]
+}
+
+export interface UserSubjectDTO {
+  usersSubjectsId?: string
+  title: string
+  isActive: boolean
+  subjectId: string[]
 }

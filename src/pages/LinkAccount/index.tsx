@@ -35,7 +35,7 @@ export const LinkAccount: React.FC = () => {
           </Button>
         </Form.Item>
         <Link to="/login" className="flex justify-end mb-2 text-blue-500 text-xs mr-1">
-          Back to Sign in
+          Back to login
         </Link>
       </Form>
     </div>

@@ -1,4 +1,3 @@
-import firebase from 'firebase/app'
 import { Notification } from '../interface/notification.interface'
 import { queryOperator } from './queryOperator.dto'
 

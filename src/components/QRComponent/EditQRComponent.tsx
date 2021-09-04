@@ -34,7 +34,7 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
     onClose()
     console.log(value)
     console.log(imageUrl)
-    if (imageUrl != userInfo.imageUrl || value.donateDescription != userInfo.aboutme) {
+    if (imageUrl != userInfo.imageUrl || value.donateDescription != userInfo.donateDescription) {
       const data: UpdateUserDTO = {
         donateImage: imageUrl,
         donateDescription: value.donateDescription,
@@ -52,7 +52,7 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
   return (
     <div className="p-3">
       <Divider>
-        <p className="text-xl">Donate Preview</p>
+        <p className="text-xl">ช่องทางสนับสนุน</p>
       </Divider>
       <Form onFinish={onFinish} initialValues={userInfo}>
         <Form.Item
@@ -78,7 +78,7 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
               imageUrl ? (
                 <img src={imageUrl} alt="QR" />
               ) : (
-                <p>Upload</p>
+                <p>อัพโหลด</p>
               )
             ) : (
               <div className="text-center my-10">
@@ -91,7 +91,7 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
           <TextArea
             showCount
             maxLength={300}
-            placeholder="donate Description"
+            placeholder="เกี่ยวกับการสนับสนุน"
             onKeyDown={dontSubmitWhenEnter}
           />
         </Form.Item>
