@@ -32,7 +32,7 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
   const [isOnEdit, setIsOnEdit] = useState(false)
   const [loading, setLoading] = useState(true)
   const [lastOpenIndex, setLastOpenIndex] = useState(0)
-  const [size] = useState(limit !== false ? limit || 10 : data?.length)
+  const [size, setSize] = useState(limit !== false ? limit || 10 : data?.length)
   const { userInfo, addBookmark, removeBookmark } = userInfoStore()
   const [lectures, setLectures] = useState<LectureWithDropdown[]>()
 
@@ -40,7 +40,9 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
     if (data) {
       setLoading(false)
     }
-
+    if (!limit) {
+      setSize(data?.length)
+    }
     setLectures(data?.map(lecture => ({ ...lecture, dropDownVisible: false })))
   }, [data])
 

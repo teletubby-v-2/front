@@ -5,11 +5,12 @@ import { userInfoStore } from '../../store/user.store'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { firestore } from '../../config/firebase'
 import { Collection } from '../../constants'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import firebase from 'firebase/app'
 
 export const ViewAll: React.FC = () => {
   const { userInfo } = userInfoStore()
+  const history = useHistory()
   const { id } = useParams<{ id: string }>()
   const [viewAllLecture, setViewAllLecture] = useState<LectureDTO[]>([] as LectureDTO[])
 
@@ -34,28 +35,12 @@ export const ViewAll: React.FC = () => {
   }
 
   useEffect(() => {
-    // setViewAllLecture([])
+    setViewAllLecture([])
     if (id) {
       switch (id) {
         case 'ownLecture':
           if (userInfo.userId) {
-            firestore
-              .collection(Collection.Lectures)
-              .where('userId', '==', userInfo.userId)
-              .get()
-              .then(doc => {
-                doc.forEach(lecture => {
-                  setViewAllLecture(allSubject => {
-                    console.log(lecture.data())
-
-                    return [
-                      ...allSubject,
-                      { lectureId: lecture.id, ...lecture.data() } as LectureDTO,
-                    ]
-                  })
-                })
-              })
-            // return getAllParamLecture('userId', '==', userInfo.userId)
+            return getAllParamLecture('userId', '==', userInfo.userId)
           }
           break
         case 'mySubject':
@@ -96,7 +81,12 @@ export const ViewAll: React.FC = () => {
 
   return (
     <div className="mx-2 space-y-7 md:mx-5 lg:mx-20 xl:mx-30 my-10">
-      <LectureContainer title={id} data={viewAllLecture} limit={false} />
+      <LectureContainer
+        title={id}
+        data={viewAllLecture}
+        limit={false}
+        extra={<a onClick={() => history.goBack()}>back</a>}
+      />
     </div>
   )
 }
