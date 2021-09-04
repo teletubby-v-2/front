@@ -63,7 +63,7 @@ export const Profile: React.FC = () => {
         <div className="w-3/4">
           <div className="pl-8  space-y-8">
             <LectureContainer
-              col={4}
+              profile
               title="สรุปของฉัน"
               data={ownLecture}
               limit={8}
@@ -75,7 +75,7 @@ export const Profile: React.FC = () => {
               }
             />
             <LectureContainer
-              col={4}
+              profile
               title="บุ๊คมาร์ค"
               data={bookmarkLecture}
               limit={8}

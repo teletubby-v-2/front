@@ -63,7 +63,6 @@ export const Home: React.FC = () => {
         title="สรุปล่าสุด"
         data={allLecture}
         limit={10}
-        col={5}
         extra={
           <div className="space-x-3">
             <Dropdown
