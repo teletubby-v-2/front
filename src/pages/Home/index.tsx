@@ -54,7 +54,6 @@ export const Home: React.FC = () => {
       {userInfo.userId && userInfo.userId.length !== 0 && (
         <LectureContainer
           title="วิชาของฉัน"
-          col={5}
           data={mySubject}
           limit={10}
           extra={<a href="/viewAll/mySubject">ดูทั้งหมด</a>}

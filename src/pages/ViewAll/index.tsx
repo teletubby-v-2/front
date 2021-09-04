@@ -77,7 +77,7 @@ export const ViewAll: React.FC = () => {
           return getAllParamLecture('subjectId', '==', id)
       }
     }
-  }, [userInfo])
+  }, [userInfo, id])
 
   return (
     <div className="mx-2 space-y-7 md:mx-5 lg:mx-20 xl:mx-30 my-10">
