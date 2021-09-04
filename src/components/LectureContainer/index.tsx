@@ -40,6 +40,7 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
     if (data) {
       setLoading(false)
     }
+
     setLectures(data?.map(lecture => ({ ...lecture, dropDownVisible: false })))
   }, [data])
 

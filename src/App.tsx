@@ -23,6 +23,7 @@ import { UserInfo } from './pages/UserInfo'
 import { firestore } from './config/firebase'
 import { Collection } from './constants'
 import { MyUser } from './constants/interface/myUser.interface'
+import { ViewAll } from './pages/ViewAll'
 
 const App: React.FC = () => {
   const { clearAll, setAllFirebase, setAll } = userInfoStore()
@@ -63,6 +64,8 @@ const App: React.FC = () => {
           <AuthRoute exact path="/forgotpassword" component={ForgotPassword} />
           <AuthRoute exact path="/verifyEmail" component={VerifyEmail} />
           <LayoutRoute exact path="/profile" component={Profile} />
+          <LayoutRoute path="/viewAll/:id" component={ViewAll} />
+
           {/* for test */}
           <LayoutRoute exact path="/yoyo" component={Yoyo} />
           <LayoutRoute exact path="/post/:id" component={Post} />

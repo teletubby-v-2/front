@@ -70,7 +70,7 @@ export const Profile: React.FC = () => {
               extra={
                 <div className="space-x-3">
                   <CreateLectureForm className="inline-block" />
-                  <a href="/myLecture">ดูทั้งหมด</a>
+                  <a href="/viewAll/ownLecture">ดูทั้งหมด</a>
                 </div>
               }
             />
@@ -79,7 +79,7 @@ export const Profile: React.FC = () => {
               title="บุ๊คมาร์ค"
               data={bookmarkLecture}
               limit={8}
-              extra={<a href="/recentLecture">ดูทั้งหมด</a>}
+              extra={<a href="/viewAll/bookmark">ดูทั้งหมด</a>}
             />
           </div>
         </div>

@@ -56,7 +56,7 @@ export const Home: React.FC = () => {
           title="วิชาของฉัน"
           data={mySubject}
           limit={10}
-          extra={<a href="/myLecture">ดูทั้งหมด</a>}
+          extra={<a href="/viewAll/mySubject">ดูทั้งหมด</a>}
         />
       )}
       <LectureContainer
