@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Divider } from 'antd'
 import {
   DashOutlined,
@@ -7,6 +7,7 @@ import {
   InstagramOutlined,
 } from '@ant-design/icons'
 import { MyUser } from '../../constants/interface/myUser.interface'
+import no_user from '../../assets/images/no_user.png'
 
 export interface ProfileComponentProps {
   onEdit?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
@@ -15,25 +16,41 @@ export interface ProfileComponentProps {
 }
 
 export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy, Info }) => {
+  const [Facebook, setFacebook] = useState('')
+  const [Instagram, setInstagram] = useState('')
+  const [Youtube, setYoutube] = useState('')
+
+  useEffect(() => {
+    Info.socialLink.forEach(i => {
+      if (i.socialMediaName == 'youtube') {
+        setYoutube(i.socialMedisUrl)
+      }
+      if (i.socialMediaName == 'instagram') {
+        setInstagram(i.socialMedisUrl)
+      }
+      if (i.socialMediaName == 'facebook') {
+        setFacebook(i.socialMedisUrl)
+      }
+    })
+  }, [Info])
+
   return (
     <div className="p-3">
       <Divider>
         <h1 className="text-center text-2xl font-black ">{Info.userName}</h1>
       </Divider>
       {Info.imageUrl ? (
-        <img src={Info.imageUrl} alt="Profile picture" className="my-8 mx-auto" width="200" />
+        <img src={Info.imageUrl} alt="Profile picture" className="my-8 mx-auto flex" width="200" />
       ) : (
-        <div className="mx auto my-8 shadow text-center h-52 text-2xl place-content-center">
-          No Picture
-        </div>
+        <img src={no_user} alt="no_user" className="my-8 mx-auto flex" width="200" />
       )}
       <div className="text-center space-x-4">
         {isMy ? (
           <Button className="w-1/2" onClick={onEdit}>
-            Edit
+            แก้ไข
           </Button>
         ) : (
-          <Button className="w-1/2 bg-blue-500">Follow</Button>
+          <Button className="w-1/2 bg-blue-500">ติดตาม</Button>
         )}
 
         <Button>
@@ -43,7 +60,8 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
 
       <div className="text-center items-center my-5">
         <p>
-          {Info?.follower?.length} Follower {Info?.following?.length} Following
+          {Info?.followers?.length} ผู้ติดตาม{' '}
+          <a className="ml-3 text-blue-600">{Info?.following?.length} กำลังติดตาม</a>
         </p>
       </div>
       <Divider>
@@ -52,33 +70,32 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       <ul className="list-none">
         <li>
           <p>
-            <InstagramOutlined className="text-2xl mr-3" /> Instagram: <a href=""></a>
+            <InstagramOutlined className="text-2xl mr-3" /> Instagram:
+            <a href={Instagram} className="ml-2">
+              {Instagram}
+            </a>
           </p>
         </li>
         <li>
           <p>
-            <FacebookOutlined className="text-2xl mr-3" /> Facebook: <a href=""></a>
+            <FacebookOutlined className="text-2xl mr-3" /> Facebook:
+            <a href={Facebook} className="ml-2">
+              {Facebook}
+            </a>
           </p>
         </li>
         <li>
           <p>
-            <YoutubeOutlined className="text-2xl mr-3" /> Youtube: <a href=""></a>
+            <YoutubeOutlined className="text-2xl mr-3" /> Youtube:
+            <a href={Youtube} className="ml-2">
+              {Youtube}
+            </a>
           </p>
         </li>
       </ul>
-      <Divider>
-        <p className="text-gray-400">General</p>
-      </Divider>
-      <ul className="list-none">
-        <li>
-          <p>Email : {Info.email} </p>
-        </li>
-        <li>
-          <p>About me: </p>
-          <p className="text-left break-words"></p>
-        </li>
-        <p></p>
-      </ul>
+      <Divider />
+      <p>เกี่ยวกับฉัน : </p>
+      <p className="text-left break-words">{Info.aboutMe}</p>
     </div>
   )
 }

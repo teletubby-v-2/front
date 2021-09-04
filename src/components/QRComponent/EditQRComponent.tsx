@@ -1,11 +1,16 @@
 import React, { useState } from 'react'
-import { Button, Divider, Form, Upload, Input } from 'antd'
-import { InfoCircleOutlined } from '@ant-design/icons'
+import { Button, Divider, Form, Upload, Input, message } from 'antd'
+import { InfoCircleOutlined, LoadingOutlined } from '@ant-design/icons'
+import { userInfoStore } from '../../store/user.store'
+import { firebaseApp } from '../../config/firebase'
 import { dontSubmitWhenEnter } from '../../utils/eventManage'
 import { useUploadpic } from '../../hooks/useUploadpic'
+import { UpdateUserDTO } from '../../constants/dto/myUser.dto'
+import { updateUser } from '../../service/user'
+import { deleteImages } from '../../service/storage'
 
 export interface UpdateValue {
-  aboutme: string
+  donateDescription: string
 }
 
 export interface EditComponentProps {
@@ -16,22 +21,50 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
   const [isUploading, setIsUploading] = useState(false)
   const { TextArea } = Input
   const { onClose } = props
-  const [imageUrl, setimageUrl] = useState(String)
-  const { handleRequest, beforeUpload } = useUploadpic({ setimageUrl, setIsUploading })
+  const { userInfo } = userInfoStore()
+  const [imageUrl, setimageUrl] = useState(userInfo.donateImage)
+  const { handleRequest, beforeUpload } = useUploadpic({
+    setimageUrl,
+    setIsUploading,
+    imageUrl,
+    originalimageUrl: '',
+  })
 
   const onFinish = (value: UpdateValue) => {
     onClose()
     console.log(value)
     console.log(imageUrl)
-    /* TODO: update QR */
+    if (imageUrl != userInfo.imageUrl || value.donateDescription != userInfo.donateDescription) {
+      const data: UpdateUserDTO = {
+        donateImage: imageUrl,
+        donateDescription: value.donateDescription,
+      }
+      try {
+        updateUser(data)
+        if (imageUrl != userInfo.imageUrl && userInfo.imageUrl) {
+          deleteImages(userInfo.imageUrl)
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  }
+
+  const beforeClose = () => {
+    if (imageUrl != userInfo.donateImage && imageUrl) {
+      deleteImages(imageUrl)
+      console.log('delete')
+      console.log(imageUrl)
+    }
+    onClose()
   }
 
   return (
     <div className="p-3">
       <Divider>
-        <p className="text-xl">Donate Preview</p>
+        <p className="text-xl">ช่องทางสนับสนุน</p>
       </Divider>
-      <Form onFinish={onFinish}>
+      <Form onFinish={onFinish} initialValues={userInfo}>
         <Form.Item
           name="qrCodeUrl"
           label="Upload QRcode: "
@@ -51,14 +84,24 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
             beforeUpload={beforeUpload}
             showUploadList={false}
           >
-            {imageUrl ? <img src={imageUrl} alt="QR" /> : <p>Upload</p>}
+            {!isUploading ? (
+              imageUrl ? (
+                <img src={imageUrl} alt="QR" />
+              ) : (
+                <p>อัพโหลด</p>
+              )
+            ) : (
+              <div className="text-center my-10">
+                <LoadingOutlined />
+              </div>
+            )}
           </Upload>
         </Form.Item>
-        <Form.Item name="aboutdonate">
+        <Form.Item name="donateDescription">
           <TextArea
             showCount
             maxLength={300}
-            placeholder="about donate"
+            placeholder="เกี่ยวกับการสนับสนุน"
             onKeyDown={dontSubmitWhenEnter}
           />
         </Form.Item>
@@ -66,7 +109,7 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
           <Button type="primary" htmlType="submit" size="large" className="mx-4">
             Save
           </Button>
-          <Button type="primary" size="large" onClick={onClose} className="mx-4">
+          <Button type="primary" size="large" onClick={beforeClose} className="mx-4">
             Cancel
           </Button>
         </Form.Item>

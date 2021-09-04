@@ -12,10 +12,11 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
     socialLink: [],
     userSubject: [],
     followLecture: [],
-    follower: [], //user id
+    followers: [], //user id
     following: [], //user id
     donateImage: '',
     donateDescription: '',
+    aboutme: '',
     bookmark: [],
   },
   setUserName: (userName: string) => {
@@ -60,17 +61,17 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
       },
     })
   },
-  setFollower: (follower: string[]) => {
-    set({ userInfo: { ...get().userInfo, follower } })
+  setFollower: (followers: string[]) => {
+    set({ userInfo: { ...get().userInfo, followers } })
   },
   addFollower: (userId: string) => {
-    set({ userInfo: { ...get().userInfo, follower: [...get().userInfo.follower, userId] } })
+    set({ userInfo: { ...get().userInfo, followers: [...get().userInfo.followers, userId] } })
   },
   removeFollower: (userId: string) => {
     set({
       userInfo: {
         ...get().userInfo,
-        follower: get().userInfo.follower.filter((i: string) => i != userId),
+        followers: get().userInfo.followers.filter((i: string) => i != userId),
       },
     })
   },
@@ -109,12 +110,16 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
         socialLink: [],
         userSubject: [],
         followLecture: [],
-        follower: [], //user id
+        followers: [], //user id
         following: [], //user id
         donateImage: '',
         donateDescription: '',
+        aboutMe: '',
         bookmark: [],
       },
     })
+  },
+  setAboutme: (aboutMe: string) => {
+    set({ userInfo: { ...get().userInfo, aboutMe } })
   },
 }))

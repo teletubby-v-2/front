@@ -26,7 +26,12 @@ export const UserInfoForm: React.FC = props => {
   const { userInfo } = userInfoStore()
   const { TextArea } = Input
   const [imageUrl, setimageUrl] = useState(userInfo.imageUrl)
-  const { handleRequest, beforeUpload } = useUploadpic({ setimageUrl, setIsUploading })
+  const { handleRequest, beforeUpload } = useUploadpic({
+    setimageUrl,
+    setIsUploading,
+    imageUrl,
+    originalimageUrl: '',
+  })
   const [form] = Form.useForm()
   const history = useHistory()
 

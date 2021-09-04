@@ -6,10 +6,10 @@ import { queryOperator } from './queryOperator.dto'
 export interface CreateUserDTO {
   imageUrl?: string
   userName?: string
+  socialLink?: SocialLink[]
   userId?: string
   email?: string
   aboutMe?: string
-  socialLink?: SocialLink[]
   userSubject?: UserSubjectDTO[]
   donateImage?: string
   donateDescription?: string
