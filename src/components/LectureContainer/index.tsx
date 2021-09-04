@@ -135,7 +135,7 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
     >
       <Skeleton loading={loading} paragraph active>
         <div
-          className={`grid grid-cols-3 gap-y-10 md:grid-cols-4 lg:grid-cols-5 row-${minRow}-card`}
+          className={`grid grid-cols-3 gap-y-10 md:grid-cols-4 lg:grid-cols-5 row-${minRow}-card `}
         >
           {lectures?.slice(0, size).map((lecture, index) => (
             <div className="relative w-40 h-52 mx-auto" key={index}>

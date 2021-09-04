@@ -1,4 +1,5 @@
 import firebase from 'firebase/app'
+import { UserSubjectDTO } from '../dto/myUser.dto'
 
 export interface SocialLink {
   socialMediaName: string
@@ -11,7 +12,7 @@ export interface MyUser {
   userName: string
   imageUrl?: string
   socialLink: SocialLink[]
-  userSubject: string[]
+  userSubject: UserSubjectDTO[]
   followLecture: string[]
   follower: string[] //user id
   following: string[] //user id

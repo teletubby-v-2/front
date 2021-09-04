@@ -12,8 +12,7 @@ export const Home: React.FC = () => {
   const { userInfo } = userInfoStore()
 
   const [allLecture, setAllLecture] = useState<LectureDTO[]>([] as LectureDTO[])
-  const [bookmarkLecture, setBookmarkLecture] = useState<LectureDTO[]>([] as LectureDTO[])
-
+  const [mySubject, setMySubject] = useState<LectureDTO[]>([] as LectureDTO[])
   useEffect(() => {
     firestore
       .collection(Collection.Lectures)
@@ -25,57 +24,46 @@ export const Home: React.FC = () => {
             ...allLecture,
             { lectureId: lecture.id, ...lecture.data() } as LectureDTO,
           ])
-          // if (userInfo.bookmark.findIndex(id => id === lecture.id)) {
-          //   setBookmarkLecture(bookmarkLecture => [
-          //     ...bookmarkLecture,
-          //     { lectureId: lecture.id, ...lecture.data() } as LectureDTO,
-          //   ])
-          // }
         })
       })
   }, [])
 
   useEffect(() => {
-    if (bookmarkLecture.length === 0) {
-      userInfo.bookmark &&
-        userInfo.bookmark.length !== 0 &&
+    if (mySubject.length === 0) {
+      const subjectId = userInfo.userSubject
+        .filter(subject => subject.isActive === true)
+        .map(subject => subject.subjectId)
+        .flatMap(x => x)
+      console.log(subjectId)
+      subjectId &&
+        subjectId.length !== 0 &&
         firestore
           .collection(Collection.Lectures)
-          .where(firebase.firestore.FieldPath.documentId(), 'in', userInfo.bookmark)
+          .where('subjectId', 'in', subjectId)
           .get()
           .then(doc => {
             doc.forEach(lecture => {
-              console.log(lecture.data())
-              setBookmarkLecture(bookmarklLecture => [
-                ...bookmarklLecture,
+              setMySubject(mySubject => [
+                ...mySubject,
                 { lectureId: lecture.id, ...lecture.data() } as LectureDTO,
               ])
             })
           })
     }
-  }, [userInfo])
+  }, [userInfo.userSubject])
 
   return (
     <div className="mb-10 mx-2 space-y-7 md:mx-5 lg:mx-20 xl:mx-30 ">
       {userInfo.userId && userInfo.userId.length !== 0 && (
-        <>
-          <LectureContainer
-            className=""
-            title="My Subject"
-            data={dummyLectures}
-            limit={8}
-            extra={<a href="/myLecture">ดูทั้งหมด</a>}
-          />
-          <LectureContainer
-            title="Bookmark Lectures"
-            data={bookmarkLecture}
-            limit={8}
-            extra={<a href="/myLecture">ดูทั้งหมด</a>}
-          />
-        </>
+        <LectureContainer
+          title="วิชาของฉัน"
+          data={mySubject}
+          limit={8}
+          extra={<a href="/myLecture">ดูทั้งหมด</a>}
+        />
       )}
       <LectureContainer
-        title="Recent Lectures"
+        title="สรุปล่าสุด"
         data={allLecture}
         limit={8}
         extra={

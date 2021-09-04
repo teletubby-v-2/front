@@ -21,13 +21,20 @@ export const LectureCard: React.FC<LectureCardProps> = props => {
     >
       <Badge.Ribbon text={`${data?.viewCount} views`} placement="start" className="mt-1">
         <div
-          className={`border-2 w-40 h-52 bg-cover flex flex-col justify-end hover:shadow-lg bg-center`}
-          style={{ backgroundImage: `url(${data?.imageUrl[0]})` }}
+          className={`border-2 w-40 h-52 relative bg-contain flex flex-col justify-end hover:shadow-lg bg-center`}
         >
+          {console.log(`url(${data?.imageUrl?.[0]})`)}
+          <img
+            src={data?.imageUrl?.[0]}
+            alt="no photo"
+            className=" w-40 h-52 absolute object-contain object-center"
+          />
           <div className="flex flex-col items-end justify-end w-full h-full">
             {data?.tags.map((tag, index) => (
               <div key={index}>
-                <span className="bg-white mb-1 mr-1 px-1 rounded-sm opacity-75 text-xs">{tag}</span>
+                <span className="bg-white mb-1 mr-1 px-1 rounded-sm opacity-75 text-xs z-20">
+                  {tag}
+                </span>
               </div>
             ))}
           </div>
