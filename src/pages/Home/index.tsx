@@ -54,6 +54,7 @@ export const Home: React.FC = () => {
       {userInfo.userId && userInfo.userId.length !== 0 && (
         <LectureContainer
           title="วิชาของฉัน"
+          col={5}
           data={mySubject}
           limit={10}
           extra={<a href="/viewAll/mySubject">ดูทั้งหมด</a>}
@@ -63,6 +64,7 @@ export const Home: React.FC = () => {
         title="สรุปล่าสุด"
         data={allLecture}
         limit={10}
+        col={5}
         extra={
           <div className="space-x-3">
             <Dropdown
