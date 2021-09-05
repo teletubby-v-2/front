@@ -1,9 +1,7 @@
 const img: string[] = [
-  'https://firebasestorage.googleapis.com/v0/b/teletubby-v2.appspot.com/o/images%2F063765081178.193000000eakgrean.png?alt=media&token=5d5c9748-dc82-4c3a-815e-afd84115c1e1',
-  'https://cdn.discordapp.com/attachments/867750800193224725/867750850927001630/unknown.png',
-  'https://firebasestorage.googleapis.com/v0/b/teletubby-v2.appspot.com/o/images%2F063765078032.164000000jamescomfirm.png?alt=media&token=d73ee4bd-6df1-418f-8dc5-2042603636ed',
-  'https://firebasestorage.googleapis.com/v0/b/teletubby-v2.appspot.com/o/images%2F063765080973.657000000duke.png?alt=media&token=2f3dc116-c9c7-4d6f-927f-2845ea7a138d',
-  'https://cloudfront-us-east-2.images.arcpublishing.com/reuters/2L7WNGYIFZLJBB7VKNTLUWOKLE.jpg',
+  'https://i.pinimg.com/originals/07/2b/31/072b310f0ce40152eb88ff1bc48d0fb5.jpg',
+  'https://i.pinimg.com/474x/7a/f5/5d/7af55dc7a00222764d3e69c61d230c50.jpg',
+  'https://cdn.statically.io/img/i.kym-cdn.com/photos/images/original/001/857/867/2b0.jpg',
 ]
 
 const lectureTitle: string[] = [
