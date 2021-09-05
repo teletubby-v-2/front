@@ -7,13 +7,16 @@ import { ConfigProvider } from 'antd'
 import thTH from 'antd/lib/locale/th_TH'
 import moment from 'moment'
 import 'moment/locale/th'
+import { BrowserRouter } from 'react-router-dom'
 
 moment.locale('th')
 
 ReactDOM.render(
   // <React.StrictMode>
   <ConfigProvider locale={thTH}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </ConfigProvider>,
   // </React.StrictMode>,
   document.getElementById('root'),

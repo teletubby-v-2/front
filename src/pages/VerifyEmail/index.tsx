@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import kushare from '../../assets/icons/KUshare.svg'
 import { Button, Card } from 'antd'
 import { firebaseApp } from '../../config/firebase'
 import { useHistory } from 'react-router'
 import { logout } from '../../service/auth'
 import email from '../../assets/icons/email.svg'
+import { UserStep } from '../../components'
 
 export const VerifyEmail: React.FC = () => {
   const [isClick, setIsClick] = useState(false)
@@ -42,9 +42,9 @@ export const VerifyEmail: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col items-center text-center">
-      <img src={kushare} alt="" width="200px" className="p-10" />
-      <Card className="verify-card main-shadow" style={{ width: 800 }} bordered>
+    <div className="flex justify-center text-center my-10">
+      <UserStep current={1} />
+      <Card className="verify-card main-shadow" style={{ width: 700 }} bordered>
         <div className="space-y-10">
           <p className="text-sm text-gray-500 mb-20">ขอบคุณสำหรับการสมัครสมาชิก</p>
           <img src={email} alt="" width="150px" className="mx-auto" />

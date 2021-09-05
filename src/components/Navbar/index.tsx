@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Input, Avatar, Menu, Dropdown, Button } from 'antd'
 import { useHistory } from 'react-router'
 import KUshare from '../../assets/icons/KUshare.svg'
 import { UserOutlined, BellOutlined, FileAddOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
 import { logout } from '../../service/auth'
-import styled from 'styled-components'
 import { MenuInfo } from 'rc-menu/lib/interface'
 import { firebaseApp } from '../../config/firebase'
 import { AuthZone } from '..'
@@ -32,7 +31,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isHome }) => {
 
   const onLogout = () => {
     logout()
-    history.push('/home')
+    history.push('/login')
   }
 
   const handleMenuClick = (info: MenuInfo) => {

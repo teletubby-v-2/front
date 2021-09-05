@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
+import { Redirect, Route, Switch, useHistory } from 'react-router-dom'
 import {
   Login,
   Register,
@@ -27,6 +27,7 @@ import { ViewAll } from './pages/ViewAll'
 
 const App: React.FC = () => {
   const { clearAll, setAllFirebase, setAll } = userInfoStore()
+  const history = useHistory()
 
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged(function (user) {
@@ -39,6 +40,7 @@ const App: React.FC = () => {
             if (doc.exists) {
               setAll({ ...doc.data(), userId: doc.id } as MyUser)
             } else {
+              history.push('/verifyEmail')
               setAllFirebase(user as firebase.UserInfo)
             }
           })
@@ -50,32 +52,32 @@ const App: React.FC = () => {
   }, [])
   return (
     <>
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/">
-            {/* ชั่วคราวสำหรับ test */}
-            <Redirect to="/login" />
-          </Route>
-          <AuthRoute exact path="/login" component={Login} />
-          <AuthRoute exact path="/register" component={Register} />
-          <LayoutRoute exact path="/home" component={Home} />
-          <LayoutRoute exact path="/lecturedetail" component={LectureDetail} />
-          <AuthRoute exact path="/linkAccount" component={LinkAccount} />
-          <AuthRoute exact path="/forgotpassword" component={ForgotPassword} />
-          <AuthRoute exact path="/verifyEmail" component={VerifyEmail} />
-          <LayoutRoute exact path="/profile" component={Profile} />
-          <LayoutRoute path="/viewAll/:id" component={ViewAll} />
+      <Switch>
+        <Route exact path="/">
+          {/* ชั่วคราวสำหรับ test */}
+          <Redirect to="/login" />
+        </Route>
 
-          {/* for test */}
-          <LayoutRoute exact path="/yoyo" component={Yoyo} />
-          <LayoutRoute exact path="/post/:id" component={Post} />
-          <LayoutRoute exact path="/pong" component={eiei} />
-          <LayoutRoute exact path="/createUser" component={UserInfo} />
-          <AuthRoute exact path="/success" component={Success} />
-          <AuthRoute exact path="/subject" component={Subject} />
-          <AuthRoute exact path="*" component={NotFound} />
-        </Switch>
-      </BrowserRouter>
+        <AuthRoute exact path="/login" component={Login} />
+        <AuthRoute exact path="/forgotpassword" component={ForgotPassword} />
+        <AuthRoute exact path="/verifyEmail" component={VerifyEmail} />
+        <AuthRoute exact path="/register" component={Register} />
+        <AuthRoute exact path="/success" component={Success} />
+        <AuthRoute exact path="/subject" component={Subject} />
+        <AuthRoute exact path="/createUser" component={UserInfo} />
+
+        <LayoutRoute exact path="/home" component={Home} />
+        <LayoutRoute exact path="/lecturedetail" component={LectureDetail} />
+        <AuthRoute exact path="/linkAccount" component={LinkAccount} />
+        <LayoutRoute exact path="/profile" component={Profile} />
+        <LayoutRoute path="/viewAll/:id" component={ViewAll} />
+
+        {/* for test */}
+        <LayoutRoute exact path="/yoyo" component={Yoyo} />
+        <LayoutRoute exact path="/post/:id" component={Post} />
+        <LayoutRoute exact path="/pong" component={eiei} />
+        <AuthRoute exact path="*" component={NotFound} />
+      </Switch>
     </>
   )
 }
