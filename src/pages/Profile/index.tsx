@@ -49,20 +49,17 @@ export const Profile: React.FC = () => {
   }, [userInfo.bookmark])
 
   return (
-    <div className="flex justify-center my-10 space-x-8">
-      <div className=" w-1/4 h-screen">
-        {/*className="fixed overflow-y-auto my-10 w-1/4 h-screen"*/}
-        <div className="mb-10 ">
+    <div className="flex justify-center my-10 space-x-6">
+      <div style={{ width: 350 }}>
+        <div className="mb-6 shadow-1">
           <MyProfile />
         </div>
-        <div>
+        <div className="shadow-1">
           <MyQR />
         </div>
       </div>
-      {/* <div className="flex justify-center my-10"> */}
-      {/* <div className="w-1/4 mr-8"></div> */}
-      <div className="w-3/4">
-        <div className="pl-8  space-y-8">
+      <div className="flex-grow">
+        <div className=" space-y-8">
           <LectureContainer
             profile
             title="สรุปของฉัน"

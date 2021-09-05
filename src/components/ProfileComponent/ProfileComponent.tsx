@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Divider } from 'antd'
+import { Avatar, Button, Divider } from 'antd'
 import {
   DashOutlined,
   FacebookOutlined,
@@ -16,9 +16,9 @@ export interface ProfileComponentProps {
 }
 
 export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy, Info }) => {
-  const [Facebook, setFacebook] = useState('')
-  const [Instagram, setInstagram] = useState('')
-  const [Youtube, setYoutube] = useState('')
+  const [facebook, setFacebook] = useState('')
+  const [instagram, setInstagram] = useState('')
+  const [youtube, setYoutube] = useState('')
 
   useEffect(() => {
     Info.socialLink.forEach(i => {
@@ -35,67 +35,82 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
   }, [Info])
 
   return (
-    <div className="p-3">
-      <Divider>
+    <div className="p-6">
+      <div className="text-center my-3">
         <h1 className="text-center text-2xl font-black ">{Info.userName}</h1>
-      </Divider>
+      </div>
       {Info.imageUrl ? (
-        <img src={Info.imageUrl} alt="Profile picture" className="my-8 mx-auto flex" width="200" />
+        <Avatar
+          src={Info.imageUrl}
+          size={200}
+          alt="Profile picture"
+          className="mx-auto object-cover"
+        />
       ) : (
-        <img src={no_user} alt="no_user" className="my-8 mx-auto flex" width="200" />
+        <Avatar src={no_user} alt="no_user" size={200} className="mx-auto flex object-cover" />
       )}
-      <div className="text-center space-x-4">
+      <div className="text-center items-center mt-3 mb-2">
+        <p>
+          {Info?.followers?.length} ผู้ติดตาม{' '}
+          <a className="ml-3 text-blue-600">{Info?.following?.length} กำลังติดตาม</a>
+        </p>
+      </div>
+      <div className="text-center space-x-4 flex">
         {isMy ? (
-          <Button className="w-1/2" onClick={onEdit}>
+          <Button className="flex-grow" onClick={onEdit}>
             แก้ไข
           </Button>
         ) : (
-          <Button className="w-1/2 bg-blue-500">ติดตาม</Button>
+          <Button className="flex-grow">ติดตาม</Button>
         )}
 
         <Button>
           <DashOutlined />
         </Button>
       </div>
-
-      <div className="text-center items-center my-5">
-        <p>
-          {Info?.followers?.length} ผู้ติดตาม{' '}
-          <a className="ml-3 text-blue-600">{Info?.following?.length} กำลังติดตาม</a>
-        </p>
+      <div className="mx-2">
+        <Divider className="mx-2">
+          <p className="text-gray-400">Social Link</p>
+        </Divider>
       </div>
-      <Divider>
-        <p className="text-gray-400">Social Link</p>
-      </Divider>
-      <ul className="list-none">
-        <li>
-          <p>
-            <InstagramOutlined className="text-2xl mr-3" /> Instagram:
-            <a href={Instagram} className="ml-2">
-              {Instagram}
-            </a>
-          </p>
-        </li>
-        <li>
-          <p>
-            <FacebookOutlined className="text-2xl mr-3" /> Facebook:
-            <a href={Facebook} className="ml-2">
-              {Facebook}
-            </a>
-          </p>
-        </li>
-        <li>
-          <p>
-            <YoutubeOutlined className="text-2xl mr-3" /> Youtube:
-            <a href={Youtube} className="ml-2">
-              {Youtube}
-            </a>
-          </p>
-        </li>
+      <ul className="list-none space-y-2">
+        {instagram.length !== 0 && (
+          <li>
+            <p>
+              <InstagramOutlined className="text-2xl mr-3" /> Instagram:
+              <a href={instagram} className="ml-2">
+                {instagram}
+              </a>
+            </p>
+          </li>
+        )}
+        {facebook.length !== 0 && (
+          <li>
+            <p>
+              <FacebookOutlined className="text-2xl mr-3" /> Facebook:
+              <a href={facebook} className="ml-2">
+                {facebook}
+              </a>
+            </p>
+          </li>
+        )}
+        {youtube.length !== 0 && (
+          <li>
+            <p>
+              <YoutubeOutlined className="text-2xl mr-3" /> Youtube:
+              <a href={youtube} className="ml-2">
+                {youtube}
+              </a>
+            </p>
+          </li>
+        )}
+        {Info?.aboutMe?.length !== 0 && (
+          <li>
+            <p className="text-gray-500 mb-1">เกี่ยวกับฉัน : </p>
+            <p className="text-left break-words">{Info.aboutMe}</p>
+          </li>
+        )}
       </ul>
-      <Divider />
-      <p>เกี่ยวกับฉัน : </p>
-      <p className="text-left break-words">{Info.aboutMe}</p>
     </div>
   )
 }

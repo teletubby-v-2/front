@@ -18,16 +18,15 @@ export const QRComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy, Inf
         <p className="text-xl"> ช่องทางสนับสนุน </p>
       </Divider>
       {Info.donateImage ? (
-        <img src={Info.donateImage} alt="QR" width="200" />
+        <img src={Info.donateImage} alt="QR" className="mx-auto my-3 w-52 h-52 object-contain" />
       ) : (
-        <img src={no_image} alt="noimage" width="200" className="mx-auto flex my-3" />
+        <img src={no_image} alt="noimage" className="mx-auto w-52 h-52  my-3" />
       )}
       {Info.donateDescription ? (
         <p className="text-center">{Info.donateDescription}</p>
       ) : (
         <p className="text-center">เจ้าของสรุปยังไม่ได้ใส่ช่องทางในการสนับสนุน </p>
       )}
-
       {isMy ? (
         <div className="text-center">
           <Button className="w-1/2 mx-auto mt-5" onClick={onEdit}>

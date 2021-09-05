@@ -21,4 +21,5 @@ export interface UserInfo {
   setAllFirebase: (info: firebase.UserInfo) => void
   clearAll: () => void
   setAboutme: (aboutme: string) => void
+  setDonate: (donateImage: string, description: string) => void
 }

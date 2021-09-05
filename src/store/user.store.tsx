@@ -19,6 +19,9 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
     aboutme: '',
     bookmark: [],
   },
+  setDonate: (donateImage: string, donateDescription: string) => {
+    set({ userInfo: { ...get().userInfo, donateImage, donateDescription } })
+  },
   setUserName: (userName: string) => {
     set({ userInfo: { ...get().userInfo, userName } })
   },

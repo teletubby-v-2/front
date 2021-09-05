@@ -46,19 +46,19 @@ export const UserInfoForm: React.FC = props => {
     if (instagram) {
       socialLink.push({
         socialMediaName: 'instagram',
-        socialMedisUrl: instagram,
+        socialMedisUrl: 'https://' + instagram.replace('https://', ''),
       })
     }
     if (facebook) {
       socialLink.push({
-        socialMediaName: 'Facebook',
-        socialMedisUrl: facebook,
+        socialMediaName: 'facebook',
+        socialMedisUrl: 'https://' + facebook.replace('https://', ''),
       })
     }
     if (youtube) {
       socialLink.push({
         socialMediaName: 'youtube',
-        socialMedisUrl: youtube,
+        socialMedisUrl: 'https://' + youtube.replace('https://', ''),
       })
     }
     createUser({
@@ -91,6 +91,7 @@ export const UserInfoForm: React.FC = props => {
             </Upload>
           </Form.Item>
         </div>
+        {console.log(userInfo)}
         <Divider />
         <div className="flex space-x-2">
           <Form.Item className="flex-1" name="userName">

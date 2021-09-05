@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Divider, Form, Upload, Input, message } from 'antd'
-import {
-  UploadOutlined,
-  InfoCircleOutlined,
-  LoadingOutlined,
-  ConsoleSqlOutlined,
-} from '@ant-design/icons'
+import { Button, Divider, Form, Upload, Input, Avatar } from 'antd'
+import { UploadOutlined, LoadingOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
 import { dontSubmitWhenEnter } from '../../utils/eventManage'
 import { useUploadpic } from '../../hooks/useUploadpic'
@@ -13,13 +8,13 @@ import { updateUser } from '../../service/user'
 import { UpdateUserDTO } from '../../constants/dto/myUser.dto'
 import { SocialLink } from '../../constants/interface/myUser.interface'
 import { deleteImages } from '../../service/storage'
-import { removeUndefined } from '../../utils/object'
 import { firebaseApp } from '../../config/firebase'
-
+import { useForm } from 'antd/lib/form/Form'
+import no_user from '../../assets/images/no_user.png'
 export interface UpdateValue {
   aboutMe: string
   instagram: string
-  twitter: string
+  facebook: string
   youtube: string
 }
 
@@ -33,57 +28,44 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
   const { TextArea } = Input
   const { onClose } = props
   const [imageUrl, setimageUrl] = useState(userInfo.imageUrl)
+  const [form] = useForm<UpdateValue>()
   const { handleRequest, beforeUpload } = useUploadpic({
     setimageUrl,
     setIsUploading,
     imageUrl,
     originalimageUrl: userInfo.imageUrl,
   })
+  const [loading, setLoading] = useState(false)
 
-  const [Info, setInfo] = useState({
-    aboutMe: userInfo.aboutMe,
-    youtube: '1',
-    instagram: '2',
-    facebook: '3',
-  })
+  const mapSocialLink = (social: string) => {
+    const index = userInfo.socialLink.findIndex(socials => socials?.socialMediaName === social)
+    if (index !== -1) {
+      return userInfo.socialLink[index].socialMedisUrl.replace('https://', '')
+    }
+    return undefined
+  }
 
   useEffect(() => {
-    userInfo.socialLink.forEach(i => {
-      if (i.socialMediaName == 'youtube') {
-        const setYoutube = Info
-        setYoutube.youtube = i.socialMedisUrl
-        setInfo(setYoutube)
-      }
-      if (i.socialMediaName == 'instagram') {
-        const setInstagram = Info
-        setInstagram.youtube = i.socialMedisUrl
-        setInfo(setInstagram)
-      }
-      if (i.socialMediaName == 'facebook') {
-        const setFacebook = Info
-        setFacebook.youtube = i.socialMedisUrl
-        setInfo(setFacebook)
-      }
-    })
-  }, [])
+    form.setFieldsValue({ youtube: mapSocialLink('youtube') })
+    form.setFieldsValue({ facebook: mapSocialLink('facebook') })
+    form.setFieldsValue({ instagram: mapSocialLink('instagram') })
+    form.setFieldsValue({ aboutMe: userInfo.aboutMe })
+  }, [userInfo])
 
   const onFinish = (value: UpdateValue) => {
-    console.log(value)
-    console.log(imageUrl)
-    console.log(userInfo)
-
+    setLoading(true)
     const socialLink: SocialLink[] = [
       {
         socialMediaName: 'instagram',
-        socialMedisUrl: value.instagram ? value.instagram : '',
+        socialMedisUrl: value.instagram ? 'https://' + value.instagram.replace('https://', '') : '',
       },
       {
         socialMediaName: 'youtube',
-        socialMedisUrl: value.youtube ? value.youtube : '',
+        socialMedisUrl: value.youtube ? 'https://' + value.youtube.replace('https://', '') : '',
       },
       {
         socialMediaName: 'twitter',
-        socialMedisUrl: value.twitter ? value.twitter : '',
+        socialMedisUrl: value.facebook ? 'https://' + value.facebook.replace('https://', '') : '',
       },
     ]
     if (
@@ -97,65 +79,69 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
         aboutMe: value.aboutMe,
       }
       const user = firebaseApp.auth().currentUser
-      try {
-        user?.updateProfile({
+      user
+        ?.updateProfile({
           photoURL: imageUrl,
         })
-        updateUser(data)
-        if (imageUrl != userInfo.imageUrl && userInfo.imageUrl) {
-          deleteImages(userInfo.imageUrl)
-          console.log('delete')
-          console.log(userInfo.imageUrl)
-        }
-        imageUrl ? setImageURL(imageUrl) : null
-        setSocialLink(socialLink)
-        setAboutme(value.aboutMe)
-      } catch (err) {
-        console.log(err)
-      }
+        .then(() => updateUser(data))
+        .then(() => {
+          if (imageUrl != userInfo.imageUrl && userInfo.imageUrl) {
+            deleteImages(userInfo.imageUrl)
+          }
+          imageUrl ? setImageURL(imageUrl) : null
+          setSocialLink(socialLink)
+          setAboutme(value.aboutMe)
+        })
+        .catch(err => console.log(err))
+        .finally(() => {
+          onClose()
+          setLoading(false)
+        })
     }
-    onClose()
   }
 
   const beforeClose = () => {
     if (imageUrl != userInfo.imageUrl && imageUrl) {
       deleteImages(imageUrl)
-      console.log('delete')
-      console.log(imageUrl)
     }
     onClose()
   }
 
   return (
-    <div className="p-3">
-      <Divider>
-        <h1 className="text-center text-2xl font-black">Edit Profile</h1>
-      </Divider>
-      {!isUploading ? (
-        imageUrl ? (
-          <img src={imageUrl} alt="Profile picture" className="my-8 mx-auto flex" width="200" />
+    <div className="p-6">
+      <div className="text-center my-3">
+        <h1 className="text-center text-2xl font-black ">Edit Profile</h1>
+      </div>
+      <div className="flex justify-center">
+        {!isUploading ? (
+          imageUrl ? (
+            <Avatar
+              src={imageUrl}
+              size={200}
+              alt="Profile picture"
+              className="mx-auto object-cover my-2 bg-center"
+            />
+          ) : (
+            <Avatar
+              src={no_user}
+              alt="no user"
+              size={200}
+              className="mx-auto object-cover my-2 bg-center"
+            />
+          )
         ) : (
-          <div className="mx auto my-8 shadow text-center h-52 text-2xl place-content-center">
-            No Picture
-          </div>
-        )
-      ) : (
-        <div className="text-center my-10">
-          <LoadingOutlined />
-        </div>
-      )}
+          <Avatar
+            icon={<LoadingOutlined className="align-middle" />}
+            alt="loading"
+            size={200}
+            className="mx-auto object-cover my-2 bg-center"
+          />
+        )}
+      </div>
 
-      <Form onFinish={onFinish} initialValues={Info}>
+      <Form onFinish={onFinish} form={form}>
         <div className="text-center">
-          <Form.Item
-            name="imagefile"
-            help={
-              <>
-                <InfoCircleOutlined className="tag-icon" />
-                {'  '}แนะนำให้เป็นรูปขนาดเล็กกว่า 2MB
-              </>
-            }
-          >
+          <Form.Item name="imagefile">
             <Upload
               accept="image/*"
               maxCount={1}
@@ -169,7 +155,7 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
             </Upload>
           </Form.Item>
         </div>
-        <Divider>
+        <Divider className="mx-2">
           <p className="text-gray-400">General</p>
         </Divider>
         <Form.Item>
@@ -190,23 +176,32 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
           <p className="text-gray-400">Social Link</p>
         </Divider>
         <Form.Item name="instagram">
-          <Input placeholder="Instagram" onKeyDown={dontSubmitWhenEnter} />
+          <Input addonBefore="https://" placeholder="Instagram" onKeyDown={dontSubmitWhenEnter} />
         </Form.Item>
         <Form.Item name="facebook">
-          <Input placeholder="Facebook" onKeyDown={dontSubmitWhenEnter} />
+          <Input addonBefore="https://" placeholder="Facebook" onKeyDown={dontSubmitWhenEnter} />
         </Form.Item>
         <Form.Item name="youtube">
           <div className="content-center">
-            <Input placeholder="Youtube" onKeyDown={dontSubmitWhenEnter} />
+            <Input addonBefore="https://" placeholder="Youtube" onKeyDown={dontSubmitWhenEnter} />
           </div>
         </Form.Item>
-        <Form.Item className="m-3 text-center">
-          <Button type="primary" htmlType="submit" size="large" className="mx-4">
-            Save
-          </Button>
-          <Button type="primary" size="large" onClick={beforeClose} className="mx-4">
-            Cancel
-          </Button>
+        <Form.Item className="text-center">
+          <div className="flex space-x-2">
+            <Button
+              type="primary"
+              htmlType="submit"
+              size="large"
+              className="flex-1"
+              loading={loading}
+              block
+            >
+              Save
+            </Button>
+            <Button size="large" onClick={beforeClose} className="flex-1">
+              Cancel
+            </Button>
+          </div>
         </Form.Item>
       </Form>
     </div>

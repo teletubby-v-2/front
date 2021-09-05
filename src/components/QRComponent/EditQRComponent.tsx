@@ -21,7 +21,7 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
   const [isUploading, setIsUploading] = useState(false)
   const { TextArea } = Input
   const { onClose } = props
-  const { userInfo } = userInfoStore()
+  const { userInfo, setDonate } = userInfoStore()
   const [imageUrl, setimageUrl] = useState(userInfo.donateImage)
   const { handleRequest, beforeUpload } = useUploadpic({
     setimageUrl,
@@ -32,28 +32,25 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
 
   const onFinish = (value: UpdateValue) => {
     onClose()
-    console.log(value)
-    console.log(imageUrl)
     if (imageUrl != userInfo.imageUrl || value.donateDescription != userInfo.donateDescription) {
       const data: UpdateUserDTO = {
         donateImage: imageUrl,
         donateDescription: value.donateDescription,
       }
-      try {
-        updateUser(data)
-        if (imageUrl != userInfo.imageUrl && userInfo.imageUrl) {
-          deleteImages(userInfo.imageUrl)
-        }
-      } catch (err) {
-        console.log(err)
-      }
+      updateUser(data)
+        .then(() => {
+          imageUrl && setDonate(imageUrl, value.donateDescription)
+          if (imageUrl != userInfo.imageUrl && userInfo.imageUrl) {
+            deleteImages(userInfo.imageUrl)
+          }
+        })
+        .catch(err => console.log(err))
     }
   }
 
   const beforeClose = () => {
     if (imageUrl != userInfo.donateImage && imageUrl) {
       deleteImages(imageUrl)
-      console.log('delete')
       console.log(imageUrl)
     }
     onClose()
