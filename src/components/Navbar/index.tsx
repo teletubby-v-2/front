@@ -13,11 +13,7 @@ import { CreateLectureForm } from '../CreateLectureForm'
 
 const { Search } = Input
 
-export interface NavbarProps {
-  isHome: boolean
-}
-
-export const Navbar: React.FC<NavbarProps> = ({ isHome }) => {
+export const Navbar: React.FC = () => {
   const history = useHistory()
   const { userInfo } = userInfoStore()
 
@@ -59,62 +55,49 @@ export const Navbar: React.FC<NavbarProps> = ({ isHome }) => {
   return (
     <div>
       <nav className="text-xl h-16 navbar">
-        {isHome ? (
-          <div className="container mx-auto flex justify justify-between items-center p-3">
-            <img width={129} src={KUshare} onClick={onClickLogo} className="cursor-pointer" />
-            <Search
-              placeholder="ค้นหารายวิชา"
-              onSearch={onSearch}
-              size="large"
-              className="max-w-xl mx-3"
-            />
-            {isLogin() ? (
-              <div className="flex items-center space-x-2">
+        <div className="container mx-auto flex justify justify-between items-center p-3">
+          <img width={129} src={KUshare} onClick={onClickLogo} className="cursor-pointer" />
+          <Search
+            placeholder="ค้นหารายวิชา"
+            onSearch={onSearch}
+            size="large"
+            className="max-w-xl mx-3"
+          />
+          {isLogin() ? (
+            <div className="flex items-center space-x-2">
+              <CreateLectureForm>
                 <Tooltip title="เพิ่ม lecture" placement="bottom">
-                  <CreateLectureForm>
-                    <Button className="text-xl text-black" type="link" shape="circle">
-                      <FileAddOutlined className="align-top" />
-                    </Button>
-                  </CreateLectureForm>
-                </Tooltip>
-                <Tooltip title="การแจ้งเตือน" placement="bottom">
                   <Button className="text-xl text-black" type="link" shape="circle">
-                    <BellOutlined className="align-top" />
+                    <FileAddOutlined className="align-top" />
                   </Button>
                 </Tooltip>
-                <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
-                  {userInfo.imageUrl ? (
-                    <Avatar
-                      src={userInfo.imageUrl}
-                      size="large"
-                      className="border cursor-pointer"
-                    />
-                  ) : (
-                    <Avatar
-                      icon={<UserOutlined />}
-                      size="large"
-                      className="border cursor-pointer"
-                    />
-                  )}
-                </Dropdown>
-              </div>
-            ) : (
-              <div className="flex items-center space-x-5">
-                <Button shape="round" className="text-l text-black" type="default">
-                  <AuthZone>ลงชี่อเข้าใช้</AuthZone>
-                </Button>
+              </CreateLectureForm>
 
-                <Button shape="round" className="text-l text-black" type="primary">
-                  <AuthZone noAccount={true}>สมัครสมาชิก</AuthZone>
+              <Tooltip title="การแจ้งเตือน" placement="bottom">
+                <Button className="text-xl text-black" type="link" shape="circle">
+                  <BellOutlined className="align-top" />
                 </Button>
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className="container mx-auto flex justify justify-between items-center p-3">
-            <img width={129} src={KUshare} className="cursor-pointer mx-auto" />
-          </div>
-        )}
+              </Tooltip>
+              <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
+                {userInfo.imageUrl ? (
+                  <Avatar src={userInfo.imageUrl} size="large" className="border cursor-pointer" />
+                ) : (
+                  <Avatar icon={<UserOutlined />} size="large" className="border cursor-pointer" />
+                )}
+              </Dropdown>
+            </div>
+          ) : (
+            <div className="flex items-center space-x-5">
+              <Button shape="round" className="text-l text-black" type="default">
+                <AuthZone>ลงชี่อเข้าใช้</AuthZone>
+              </Button>
+
+              <Button shape="round" className="text-l text-black" type="primary">
+                <AuthZone noAccount={true}>สมัครสมาชิก</AuthZone>
+              </Button>
+            </div>
+          )}
+        </div>
       </nav>
     </div>
   )

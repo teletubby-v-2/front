@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { EditComponent } from '../../../../components/ProfileComponent/EditComponent'
 import { ProfileComponent } from '../../../../components/ProfileComponent/ProfileComponent'
+import { firestore } from '../../../../config/firebase'
 import { userInfoStore } from '../../../../store/user.store'
 
 export const MyProfile: React.FC = () => {
