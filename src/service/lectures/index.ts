@@ -1,3 +1,4 @@
+import { LectureDTO } from './../../constants/dto/lecture.dto'
 import { Collection } from './../../constants/index'
 import firebase from 'firebase'
 import { firebaseApp, firestore } from '../../config/firebase'
@@ -5,19 +6,29 @@ import { CreateLectureDTO, UpdateLectureDTO } from '../../constants/dto/lecture.
 
 const lectureCollection = firestore.collection(Collection.Lectures)
 
-async function createLecture(lecture: CreateLectureDTO): Promise<void> {
+async function createLecture(lecture: CreateLectureDTO): Promise<LectureDTO> {
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
-  const data = {
-    ...lecture,
-    userId: firebaseApp.auth().currentUser?.uid,
-    createAt: timeStamp,
-    updateAt: timeStamp,
-    viewCount: 0,
-    sumRating: 0,
-    reviewCount: 0,
-  }
-  if (firebaseApp.auth().currentUser) {
-    return await lectureCollection.doc().set(data)
+  const userId = firebaseApp.auth().currentUser?.uid
+  if (userId) {
+    const data = {
+      isMid: false,
+      isFinal: false,
+      tags: [],
+      userId,
+      viewCount: 0,
+      sumRating: 0,
+      reviewCount: 0,
+      ...lecture,
+      createAt: timeStamp,
+      updateAt: timeStamp,
+    }
+    console.log(data)
+
+    const newLecture = await lectureCollection.add(data)
+    return {
+      ...data,
+      lectureId: newLecture.id,
+    }
   } else {
     throw new Error('ออดเฟล')
   }

@@ -77,7 +77,7 @@ export const QAndAContainer: React.FC<QAndAContainerProps> = ({ lectureId, autho
   return (
     <div>
       {qAndAs.map((qAndA, index) => (
-        <QuestionBox qAndA={qAndA} key={index} authorId={authorId} />
+        <QuestionBox qAndA={qAndA} key={index} authorId={authorId} lectureId={lectureId} />
       ))}
       {authorId !== userInfo.userId && (
         <AuthZone>
