@@ -1,7 +1,8 @@
+import { LectureDTO } from './../../constants/dto/lecture.dto'
 import { Lecture } from './../../constants/interface/lecture.interface'
 
 export type TLecture = {
-  ownLecture: Lecture[]
+  ownLecture: LectureDTO[]
   relativeLecture: Lecture[]
   recentLecture: Lecture[]
   setOwnLecture: (lectures: Lecture[]) => void

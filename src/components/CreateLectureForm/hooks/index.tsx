@@ -2,11 +2,13 @@
 import { message } from 'antd'
 import Form from 'antd/lib/form'
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface'
+import firebase from 'firebase'
 import { useEffect, useState } from 'react'
 import { CreateLectureDTO, UpdateLectureDTO } from '../../../constants/dto/lecture.dto'
 import { Lecture } from '../../../constants/interface/lecture.interface'
 import { createLecture, updateLecture } from '../../../service/lectures'
 import { deleteImages, uploadImage } from '../../../service/storage'
+import { lectureStore } from '../../../store/lecture.store'
 import { initPhoto, removeUndefined } from '../../../utils/object'
 
 export const useLectureForm = (
@@ -127,9 +129,17 @@ export const useLectureForm = (
       subjectId: form.getFieldValue('subjectId').split(' ')[0],
       imageUrl: fileList.map(file => file.url),
     })
+    const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
     //Todo: Add เข้า DB
-    addOwnLecture(value as Lecture)
-
+    addOwnLecture({
+      ...value,
+      userId: firebase.auth().currentUser?.uid,
+      createAt: timeStamp,
+      updateAt: timeStamp,
+      viewCount: 0,
+      sumRating: 0,
+      reviewCount: 0,
+    } as Lecture)
     if (!isUpdate) {
       message.info('กำลังสร้าง...')
       createLecture(value as CreateLectureDTO)

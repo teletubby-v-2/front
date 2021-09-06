@@ -10,7 +10,7 @@ export const lectureStore = create<TLecture>((set, get) => ({
     set({ ownLecture: lectures })
   },
   addOwnLecture: (lecture: Lecture) => {
-    set({ ownLecture: [...get().ownLecture, lecture] })
+    set({ ownLecture: [lecture, ...get().ownLecture] })
   },
   removeOwnLecture: (lectureid: string) => {
     set({ ownLecture: get().ownLecture.filter(i => i.lectureId != lectureid) })

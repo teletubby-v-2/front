@@ -27,7 +27,7 @@ export const Home: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    if (mySubject.length === 0) {
+    if (mySubject.length === 0 && userInfo.userSubject) {
       const subjectId = userInfo.userSubject
         .filter(subject => subject.isActive === true)
         .map(subject => subject.subjectId)

@@ -8,11 +8,13 @@ import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { firestore } from '../../config/firebase'
 import { Collection } from '../../constants'
 import firebase from 'firebase/app'
+import { lectureStore } from '../../store/lecture.store'
 
 export const Profile: React.FC = () => {
   const { userInfo } = userInfoStore()
+  const { ownLecture, setOwnLecture } = lectureStore()
   const [bookmarkLecture, setBookmarkLecture] = useState<LectureDTO[]>([] as LectureDTO[])
-  const [ownLecture, setOwnLecture] = useState<LectureDTO[]>([] as LectureDTO[])
+  // const [ownLecture, setOwnLecture] = useState<LectureDTO[]>([] as LectureDTO[])
 
   useEffect(() => {
     if (ownLecture.length === 0 && userInfo.userId) {
@@ -22,7 +24,7 @@ export const Profile: React.FC = () => {
         .get()
         .then(doc => {
           doc.forEach(lecture => {
-            setOwnLecture(ownLecture => [
+            setOwnLecture([
               ...ownLecture,
               { lectureId: lecture.id, ...lecture.data() } as LectureDTO,
             ])
