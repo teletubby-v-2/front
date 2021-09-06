@@ -13,6 +13,7 @@ import {
   Success,
   Subject,
 } from './pages'
+import { LoadingOutlined } from '@ant-design/icons'
 import Yoyo from './pages/Yoyo'
 import { LayoutRoute, AuthRoute } from './components'
 import firebase from 'firebase'
@@ -76,7 +77,7 @@ const App: React.FC = () => {
     <>
       {spin && (
         <Overlay>
-          <Spin tip="Loading..." />
+          <Spin tip="Loading..." indicator={<LoadingOutlined style={{ fontSize: 50 }} spin />} />
         </Overlay>
       )}
       <Switch>

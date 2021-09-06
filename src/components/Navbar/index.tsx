@@ -18,7 +18,7 @@ export const Navbar: React.FC = () => {
   const { userInfo } = userInfoStore()
 
   const onSearch = (value: string) => {
-    value ? history.push(`${value}`) : null
+    value ? history.push(`/${value}`) : null
   }
 
   const onClickLogo = () => {
