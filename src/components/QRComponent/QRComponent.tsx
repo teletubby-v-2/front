@@ -1,7 +1,5 @@
 import React from 'react'
 import { Button, Divider } from 'antd'
-import { DashOutlined } from '@ant-design/icons'
-import { userInfoStore } from '../../store/user.store'
 import { MyUser } from '../../constants/interface/myUser.interface'
 import no_image from '../../assets/images/no_image.jpg'
 

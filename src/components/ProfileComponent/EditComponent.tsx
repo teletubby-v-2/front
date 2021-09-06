@@ -64,7 +64,7 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
         socialMedisUrl: value.youtube ? 'https://' + value.youtube.replace('https://', '') : '',
       },
       {
-        socialMediaName: 'twitter',
+        socialMediaName: 'facebook',
         socialMedisUrl: value.facebook ? 'https://' + value.facebook.replace('https://', '') : '',
       },
     ]

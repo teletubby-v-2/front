@@ -8,6 +8,7 @@ import {
 } from '@ant-design/icons'
 import { MyUser } from '../../constants/interface/myUser.interface'
 import no_user from '../../assets/images/no_user.png'
+import { userInfoStore } from '../../store/user.store'
 
 export interface ProfileComponentProps {
   onEdit?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
@@ -20,19 +21,21 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
   const [instagram, setInstagram] = useState('')
   const [youtube, setYoutube] = useState('')
 
+  const { userInfo } = userInfoStore()
+
   useEffect(() => {
-    Info.socialLink.forEach(i => {
-      if (i.socialMediaName == 'youtube') {
-        setYoutube(i.socialMedisUrl)
+    userInfo.socialLink.forEach(social => {
+      if (social.socialMediaName == 'youtube') {
+        setYoutube(social.socialMedisUrl)
       }
-      if (i.socialMediaName == 'instagram') {
-        setInstagram(i.socialMedisUrl)
+      if (social.socialMediaName == 'instagram') {
+        setInstagram(social.socialMedisUrl)
       }
-      if (i.socialMediaName == 'facebook') {
-        setFacebook(i.socialMedisUrl)
+      if (social.socialMediaName == 'facebook') {
+        setFacebook(social.socialMedisUrl)
       }
     })
-  }, [Info])
+  }, [userInfo.socialLink])
 
   return (
     <div className="p-6">
@@ -79,6 +82,7 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
             </p>
           </li>
         )}
+        {console.log(userInfo.socialLink)}
         {facebook.length !== 0 && (
           <li>
             <p>
