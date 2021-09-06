@@ -116,7 +116,6 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
             </p>
           </li>
         )}
-        {console.log(userInfo.socialLink)}
         {facebook.length !== 0 && (
           <li>
             <p>

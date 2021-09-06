@@ -24,14 +24,12 @@ const Overlay = styled.div`
 `
 
 export const OtherProfile: React.FC = () => {
-  const [spin, setSpin] = useState(false)
   const [Info, setInfo] = useState({} as MyUser)
   const [Lecture, setLecture] = useState([] as LectureDTO[])
   const history = useHistory()
   const { id } = useParams<{ id: string }>()
 
   useEffect(() => {
-    setSpin(true)
     firestore
       .collection(Collection.Users)
       .doc(id)
@@ -39,12 +37,10 @@ export const OtherProfile: React.FC = () => {
       .then(doc => {
         if (doc.exists) {
           setInfo({ ...doc.data(), userId: doc.id } as MyUser)
+        } else {
+          history.push('/Not_found')
         }
-        // else {
-        //   history.push('/')
-        // }
       })
-      .finally(() => setSpin(false))
   }, [id])
 
   useEffect(() => {
@@ -67,12 +63,6 @@ export const OtherProfile: React.FC = () => {
 
   return (
     <>
-      {spin && (
-        <Overlay>
-          <Spin tip="Loading..." />
-        </Overlay>
-      )}
-
       <div className="flex justify-center my-10 space-x-6">
         <div style={{ width: 350 }}>
           <div className="mb-6 shadow-1">

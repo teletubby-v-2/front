@@ -188,6 +188,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
               customRequest={handleRequest}
               onPreview={handlePreview}
             >
+              {/* {console.log(fileList)} */}
               <div>
                 {isUploading ? <LoadingOutlined /> : <PlusOutlined />}
                 <div className="m-2">อัพโหลด</div>

@@ -8,7 +8,6 @@ import { CreateLectureDTO, UpdateLectureDTO } from '../../../constants/dto/lectu
 import { Lecture } from '../../../constants/interface/lecture.interface'
 import { createLecture, updateLecture } from '../../../service/lectures'
 import { deleteImages, uploadImage } from '../../../service/storage'
-import { lectureStore } from '../../../store/lecture.store'
 import { initPhoto, removeUndefined } from '../../../utils/object'
 
 export const useLectureForm = (
@@ -79,7 +78,7 @@ export const useLectureForm = (
     try {
       const uploadStatus = await uploadImage(file)
       if (uploadStatus.url) {
-        setFileList([...fileList, uploadStatus])
+        setFileList(fileList => [...fileList, uploadStatus])
       }
     } catch (error: any) {
       console.log(error)

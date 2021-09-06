@@ -13,7 +13,7 @@ export const QRComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy, Inf
   return (
     <div className="p-3">
       <Divider>
-        <p className="text-xl"> ช่องทางสนับสนุน </p>
+        <div className="text-xl">ช่องทางสนับสนุน</div>
       </Divider>
       <div className="flex flex-col items-center w-full">
         {Info.donateImage ? (

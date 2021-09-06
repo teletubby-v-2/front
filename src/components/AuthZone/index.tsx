@@ -81,10 +81,10 @@ export const AuthZone: React.FC<AuthZoneProps> = ({ className, children, noAccou
       >
         <ForgotPasswordForm modal callback={() => setForgot(false)} closeModal={closeModal} />
       </Modal>
-      <div className={`relative ${className}`}>
+      <div className={`relative ${className} curser-pointer`}>
         {(!userInfo.userId || userInfo.userId.length === 0) && (
           <div
-            className="absolute top-0 bottom-0 left-0 right-0"
+            className="absolute top-0 bottom-0 left-0 right-0 cursor-pointer"
             style={{ zIndex: 2000 }}
             onClick={isAuth}
           />

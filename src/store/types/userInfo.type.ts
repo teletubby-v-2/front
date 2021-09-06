@@ -1,5 +1,6 @@
 import { MyUser, SocialLink } from './../../constants/interface/myUser.interface'
 import firebase from 'firebase/app'
+import { UserSubjectDTO } from '../../constants/dto/myUser.dto'
 
 export interface UserInfo {
   userInfo: MyUser
@@ -19,4 +20,5 @@ export interface UserInfo {
   clearAll: () => void
   setAboutme: (aboutme: string) => void
   setDonate: (donateImage: string, description: string) => void
+  setUserSubject: (userSubject: UserSubjectDTO[]) => void
 }

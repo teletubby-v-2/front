@@ -16,17 +16,18 @@ export const LectureCard: React.FC<LectureCardProps> = props => {
 
   return (
     <div
-      className={`cursor-pointer  ${className} ant-card-grid-hoverable`}
-      onClick={() => history.push(`post/${data?.lectureId}`)}
+      className={`cursor-pointer  ${className} ant-card-grid-hoverable border-2 border-gray-500`}
+      onClick={() => history.push(`/post/${data?.lectureId}`)}
     >
       <Badge.Ribbon text={`${data?.viewCount} views`} placement="start" className="mt-1">
-        <div
-          className={`border-2 w-40 h-52 relative bg-contain flex flex-col justify-end hover:shadow-lg bg-center overflow-hidden`}
-        >
+        <div className={`border-2 w-40 h-52 relative bg-contain flex flex-col justify-end `}>
           <img
             src={data?.imageUrl?.[0]}
             alt="no photo"
-            className=" w-40 h-52 absolute object-cover"
+            className=" w-40 h-52 absolute object-contain "
+            style={{
+              border: '0.5px solid #e7e7e7',
+            }}
           />
           <div className="flex flex-col items-end justify-end w-full h-full">
             {data?.tags.map((tag, index) => (

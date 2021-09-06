@@ -19,13 +19,16 @@ async function createUser(user: CreateUserDTO): Promise<MyUser> {
     following: [],
     lectureCount: 0,
   }
-  if (firebaseApp.auth().currentUser) {
+  if (userId) {
     await userCollection.doc(userId).set(data)
     await firebaseApp.auth().currentUser?.updateProfile({
       photoURL: data.imageUrl,
       displayName: data.userName,
     })
-    return data as MyUser
+    return {
+      userId,
+      ...data,
+    } as MyUser
   } else {
     throw new Error('ออดเฟล')
   }

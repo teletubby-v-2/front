@@ -78,6 +78,7 @@ export const UserInfoForm: React.FC = props => {
       <div className="w-full flex justify-center mb-5">
         <Avatar size={200} icon={<UserOutlined />} src={imageUrl} />
       </div>
+      {console.log(userInfo)}
       <Form onFinish={onFinish} form={form}>
         <div className="text-center">
           <Form.Item name="imageUrl">

@@ -160,7 +160,7 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
           } row-${minRow}-card `}
         >
           {lectures?.slice(0, size).map((lecture, index) => (
-            <div className="relative w-40 h-52 mx-auto" key={index}>
+            <div className="relative w-40 h-52 mx-auto border-2 border-gray-500" key={index}>
               <div className="absolute z-10 right-0 top-0">
                 {userInfo.userId === lecture?.userId && (
                   <Dropdown
@@ -200,7 +200,7 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
                     </Button>
                   ))}
               </div>
-              <LectureCard data={lecture} className="mx-auto" />
+              <LectureCard data={lecture} className="mx-auto border-2 border-gray-500" />
             </div>
           ))}
         </div>
