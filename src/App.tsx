@@ -27,6 +27,7 @@ import { ViewAll } from './pages/ViewAll'
 import { Spin } from 'antd'
 import styled from 'styled-components'
 import { lectureStore } from './store/lecture.store'
+import { OtherProfile } from './pages/OtherProfile'
 
 const Overlay = styled.div`
   position: fixed;
@@ -98,6 +99,7 @@ const App: React.FC = () => {
         <AuthRoute exact path="/linkAccount" component={LinkAccount} />
         <LayoutRoute exact path="/profile" component={Profile} />
         <LayoutRoute path="/viewAll/:id" component={ViewAll} />
+        <LayoutRoute path="/profile/:id" component={OtherProfile} />
 
         {/* for test */}
         <LayoutRoute exact path="/yoyo" component={Yoyo} />

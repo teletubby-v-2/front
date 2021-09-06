@@ -9,6 +9,8 @@ import {
 import { MyUser } from '../../constants/interface/myUser.interface'
 import no_user from '../../assets/images/no_user.png'
 import { userInfoStore } from '../../store/user.store'
+import { UpdateUserDTO } from '../../constants/dto/myUser.dto'
+import { updateUser } from '../../service/user'
 
 export interface ProfileComponentProps {
   onEdit?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
@@ -21,7 +23,7 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
   const [instagram, setInstagram] = useState('')
   const [youtube, setYoutube] = useState('')
 
-  const { userInfo } = userInfoStore()
+  const { userInfo, setFollowing } = userInfoStore()
 
   useEffect(() => {
     userInfo.socialLink.forEach(social => {
@@ -36,6 +38,27 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       }
     })
   }, [userInfo.socialLink])
+
+  const onFollow = () => {
+    const newfollowing = userInfo.following
+    newfollowing.push(Info.userId)
+    updateUser({ following: newfollowing } as UpdateUserDTO)
+      .then(() => {
+        setFollowing(newfollowing)
+      })
+      .catch(err => console.log(err))
+  }
+
+  const onUnfollow = () => {
+    const newfollowing = userInfo.following.filter(function (value, index, arr) {
+      return value != Info.userId
+    })
+    updateUser({ following: newfollowing } as UpdateUserDTO)
+      .then(() => {
+        setFollowing(newfollowing)
+      })
+      .catch(err => console.log(err))
+  }
 
   return (
     <div className="p-6">
@@ -57,16 +80,27 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       </div>
       <div className="text-center space-x-4 flex">
         {isMy ? (
-          <Button className="flex-grow" onClick={onEdit}>
-            แก้ไข
-          </Button>
+          <>
+            <Button className="flex-grow" onClick={onEdit}>
+              แก้ไข
+            </Button>
+            <Button>
+              <DashOutlined />
+            </Button>
+          </>
         ) : (
-          <Button className="flex-grow">ติดตาม</Button>
+          <>
+            {userInfo.following.includes(Info.userId) ? (
+              <Button className="flex-grow" onClick={onUnfollow}>
+                เลิกติดตาม
+              </Button>
+            ) : (
+              <Button className="flex-grow" type="primary" onClick={onFollow}>
+                ติดตาม
+              </Button>
+            )}
+          </>
         )}
-
-        <Button>
-          <DashOutlined />
-        </Button>
       </div>
       <Divider>
         <p className="text-gray-400 mb-0">Social Link</p>
