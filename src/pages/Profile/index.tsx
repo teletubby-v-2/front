@@ -12,7 +12,7 @@ import { lectureStore } from '../../store/lecture.store'
 
 export const Profile: React.FC = () => {
   const { userInfo } = userInfoStore()
-  const { ownLecture, setOwnLecture } = lectureStore()
+  const { ownLecture, setOwnLecture, addOwnLecture } = lectureStore()
   const [bookmarkLecture, setBookmarkLecture] = useState<LectureDTO[]>([] as LectureDTO[])
   // const [ownLecture, setOwnLecture] = useState<LectureDTO[]>([] as LectureDTO[])
 
@@ -25,10 +25,7 @@ export const Profile: React.FC = () => {
         .get()
         .then(doc => {
           doc.forEach(lecture => {
-            setOwnLecture([
-              ...ownLecture,
-              { lectureId: lecture.id, ...lecture.data() } as LectureDTO,
-            ])
+            addOwnLecture({ lectureId: lecture.id, ...lecture.data() } as LectureDTO)
           })
         })
     }
