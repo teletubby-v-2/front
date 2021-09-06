@@ -7,8 +7,10 @@ import PlusOutlined from '@ant-design/icons/lib/icons/PlusOutlined'
 import { SubjectDTO } from '../../constants/dto/subjects.dto'
 import { useHistory } from 'react-router'
 import { updateUserSubject } from '../../service/user'
+import { userInfoStore } from '../../store/user.store'
 
 export const AddSubject: React.FC = () => {
+  const { setUserSubject } = userInfoStore()
   const [title, setTitle] = useState<string>()
   const [allTitle, setAllTitle] = useState<UserSubjectDTO[]>([
     {
@@ -89,6 +91,7 @@ export const AddSubject: React.FC = () => {
 
   const onFinish = () => {
     updateUserSubject(allTitle).then(() => {
+      setUserSubject(allTitle)
       history.push('/success')
     })
   }

@@ -1,5 +1,6 @@
 import firebase from 'firebase/app'
 import create from 'zustand'
+import { UserSubjectDTO } from '../constants/dto/myUser.dto'
 import { MyUser, SocialLink } from '../constants/interface/myUser.interface'
 import { UserInfo } from './types/userInfo.type'
 
@@ -18,6 +19,9 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
     donateDescription: '',
     aboutme: '',
     bookmark: [],
+  },
+  setUserSubject: (userSubject: UserSubjectDTO[]) => {
+    set({ userInfo: { ...get().userInfo, userSubject } })
   },
   setDonate: (donateImage: string, donateDescription: string) => {
     set({ userInfo: { ...get().userInfo, donateImage, donateDescription } })
