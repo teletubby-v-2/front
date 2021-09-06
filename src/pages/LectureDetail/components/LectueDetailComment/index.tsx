@@ -1,15 +1,11 @@
 import { Tabs } from 'antd'
 import React from 'react'
 import { Redirect, useHistory, useParams } from 'react-router-dom'
-import { CommentContainer } from '../../../../components'
-import { dummyLectures } from '../../../../constants/dummyData/lecture.dummy'
+import { CommentContainer, ReviewContainer } from '../../../../components'
 import { QACom } from '../../../Yoyo/components/QA'
-import { ReviewCom } from '../../../Yoyo/components/Review'
-const { TabPane } = Tabs
 
 // TODO: รอ component เข้ามาใส่ใน TabPane
 export const LectureDetailComment: React.FC = () => {
-  const dummyLecture = dummyLectures[0]
   const history = useHistory()
   const { id } = useParams<{ id: string }>()
   if (history.location.hash.length == 0) {
@@ -26,7 +22,7 @@ export const LectureDetailComment: React.FC = () => {
         className="w-full"
       >
         <Tabs.TabPane tab="รีวิว" key="#review">
-          <ReviewCom id={id} />
+          <ReviewContainer lectureId={id} />
         </Tabs.TabPane>
         <Tabs.TabPane tab="ความคิดเห็น" key="#comment">
           <CommentContainer lectureId={id} />

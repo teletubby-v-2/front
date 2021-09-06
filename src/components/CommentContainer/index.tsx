@@ -48,7 +48,6 @@ export const CommentContainer: React.FC<CommentProps> = ({ lectureId }) => {
         querySnapshot.docChanges().forEach(change => {
           const data = change.doc.data()
           if (change.type === 'added') {
-            console.log('New Lecture: ', data)
             fetchUser(data.userId).then(user =>
               setComments(commentMap => [
                 ...commentMap,
@@ -57,7 +56,6 @@ export const CommentContainer: React.FC<CommentProps> = ({ lectureId }) => {
             )
           }
           if (change.type === 'modified') {
-            console.log('Modified Lecture: ', data)
             setComments(commentMap => {
               const index = commentMap.findIndex(comment => comment.id === change.doc.id)
               const user = {
@@ -72,7 +70,6 @@ export const CommentContainer: React.FC<CommentProps> = ({ lectureId }) => {
             })
           }
           if (change.type === 'removed') {
-            console.log('Removed Lecture: ', data)
             setComments(commentMap => commentMap.filter(comment => comment.id !== change.doc.id))
           }
         })
@@ -85,7 +82,7 @@ export const CommentContainer: React.FC<CommentProps> = ({ lectureId }) => {
       <AuthZone>
         <Form form={form} layout="horizontal" onFinish={handleCreateComment}>
           <div className="flex space-x-2">
-            <Avatar src={userInfo.imageUrl} size="large" />
+            <Avatar src={userInfo.imageUrl} size="large" alt={userInfo.userId} />
             <Form.Item name="message" className="flex-grow">
               <Input placeholder="เขียนความคิดเห็น..." size="large" />
             </Form.Item>

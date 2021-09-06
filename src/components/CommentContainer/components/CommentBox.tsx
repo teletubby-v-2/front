@@ -28,7 +28,7 @@ export const CommentBox: React.FC<CommentBoxProps> = ({
   const [parentComment] = useState(comment as Comments)
   const [reply] = useState(comment as ReplyDTO)
 
-  const numOfChildren = React.useMemo(() => React.Children.toArray(children), [children])
+  // const numOfChildren = React.useMemo(() => React.Children.toArray(children), [children])
 
   const handleCreateReply = (value: CommentForm) => {
     setLoading(true)
@@ -115,7 +115,6 @@ export const CommentBox: React.FC<CommentBoxProps> = ({
           </AuthZone>
         )}
       </Comment>
-      {console.log(numOfChildren)}
     </div>
   )
 }

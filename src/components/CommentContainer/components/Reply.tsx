@@ -25,7 +25,6 @@ export const Reply: React.FC<ReplyProps> = ({ id, commentId }) => {
         querySnapshot.docChanges().forEach(change => {
           const data = change.doc.data()
           if (change.type === 'added') {
-            console.log('New comment reply: ', data, 'in', commentId)
             fetchUser(data.userId).then(user =>
               setReply(commentMap => [
                 ...commentMap,
@@ -34,7 +33,6 @@ export const Reply: React.FC<ReplyProps> = ({ id, commentId }) => {
             )
           }
           if (change.type === 'modified') {
-            console.log('Modified comment reply: ', data, 'in', commentId)
             setReply(commentMap => {
               const index = commentMap.findIndex(comment => comment.replyId === change.doc.id)
               if (commentMap[index]) {
@@ -50,11 +48,9 @@ export const Reply: React.FC<ReplyProps> = ({ id, commentId }) => {
               } else {
                 return commentMap
               }
-              // console.log(commentMap[index])
             })
           }
           if (change.type === 'removed') {
-            console.log('Removed comment reply: ', data, 'in', commentId)
             setReply(commentMap => commentMap.filter(comment => comment.replyId !== change.doc.id))
           }
         })
