@@ -13,11 +13,11 @@ export interface MyUser {
   imageUrl?: string
   socialLink: SocialLink[]
   userSubject: UserSubjectDTO[]
-  followLecture: string[]
   followers: string[] //user id
   following: string[] //user id
   donateImage?: string
   donateDescription?: string
+  lectureCount: number
   bookmark: string[]
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp

@@ -11,9 +11,9 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
     userName: '',
     socialLink: [],
     userSubject: [],
-    followLecture: [],
     followers: [], //user id
     following: [], //user id
+    lectureCount: 0,
     donateImage: '',
     donateDescription: '',
     aboutme: '',
@@ -44,25 +44,6 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
   },
   setAll: (info: MyUser) => {
     set({ userInfo: info })
-  },
-  setFollowLecture: (lectureId: string[]) => {
-    set({ userInfo: { ...get().userInfo, followLecture: lectureId } })
-  },
-  addFollowLecture: (lectureId: string) => {
-    set({
-      userInfo: {
-        ...get().userInfo,
-        followLecture: [lectureId, ...get().userInfo.followLecture],
-      },
-    })
-  },
-  removeFollowLecture: (lectureId: string) => {
-    set({
-      userInfo: {
-        ...get().userInfo,
-        followLecture: get().userInfo.followLecture.filter(lecture => lecture !== lectureId),
-      },
-    })
   },
   setFollower: (followers: string[]) => {
     set({ userInfo: { ...get().userInfo, followers } })
@@ -112,11 +93,11 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
         userName: '',
         socialLink: [],
         userSubject: [],
-        followLecture: [],
         followers: [], //user id
         following: [], //user id
         donateImage: '',
         donateDescription: '',
+        lectureCount: 0,
         aboutMe: '',
         bookmark: [],
       },

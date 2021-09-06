@@ -12,11 +12,8 @@ export interface UserInfo {
   setFollowing: (following: string[]) => void
   addFollowing: (userId: string) => void
   removeFollowing: (userId: string) => void
-  setFollowLecture: (lectureId: string[]) => void
-  addFollowLecture: (lectureId: string) => void
   addBookmark: (lectureId: string) => void
   removeBookmark: (lectureId: string) => void
-  removeFollowLecture: (lectureId: string) => void
   setAll: (info: MyUser) => void
   setAllFirebase: (info: firebase.UserInfo) => void
   clearAll: () => void

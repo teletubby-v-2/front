@@ -1,3 +1,4 @@
+import { MyUser } from './../../constants/interface/myUser.interface'
 import { Collection } from './../../constants/index'
 import firebase from 'firebase'
 import { firebaseApp, firestore } from '../../config/firebase'
@@ -5,7 +6,7 @@ import { CreateUserDTO, UpdateUserDTO, UserSubjectDTO } from '../../constants/dt
 
 const userCollection = firestore.collection(Collection.Users)
 
-async function createUser(user: CreateUserDTO): Promise<void> {
+async function createUser(user: CreateUserDTO): Promise<MyUser> {
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
   const userId = firebaseApp.auth().currentUser?.uid
   const data = {
@@ -24,6 +25,7 @@ async function createUser(user: CreateUserDTO): Promise<void> {
       photoURL: data.imageUrl,
       displayName: data.userName,
     })
+    return data as MyUser
   } else {
     throw new Error('ออดเฟล')
   }

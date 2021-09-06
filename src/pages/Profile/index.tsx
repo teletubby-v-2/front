@@ -17,7 +17,8 @@ export const Profile: React.FC = () => {
   // const [ownLecture, setOwnLecture] = useState<LectureDTO[]>([] as LectureDTO[])
 
   useEffect(() => {
-    if (ownLecture.length === 0 && userInfo.userId) {
+    setOwnLecture([])
+    if (userInfo.userId) {
       firestore
         .collection(Collection.Lectures)
         .where('userId', '==', userInfo.userId)

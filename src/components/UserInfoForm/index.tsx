@@ -23,7 +23,7 @@ export interface UpdateValue {
 
 export const UserInfoForm: React.FC = props => {
   const [isUploading, setIsUploading] = useState(false)
-  const { userInfo } = userInfoStore()
+  const { userInfo, setAll } = userInfoStore()
   const { TextArea } = Input
   const [imageUrl, setimageUrl] = useState(userInfo.imageUrl)
   const { handleRequest, beforeUpload } = useUploadpic({
@@ -65,7 +65,10 @@ export const UserInfoForm: React.FC = props => {
       ...removeUndefined(rest as unknown as Json),
       imageUrl,
       socialLink,
-    }).then(() => history.push('subject'))
+    }).then(user => {
+      setAll(user)
+      history.push('subject')
+    })
     /* TODO: update profile */
   }
 

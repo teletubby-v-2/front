@@ -26,6 +26,7 @@ import { MyUser } from './constants/interface/myUser.interface'
 import { ViewAll } from './pages/ViewAll'
 import { Spin } from 'antd'
 import styled from 'styled-components'
+import { lectureStore } from './store/lecture.store'
 
 const Overlay = styled.div`
   position: fixed;
@@ -42,6 +43,7 @@ const Overlay = styled.div`
 
 const App: React.FC = () => {
   const { clearAll, setAllFirebase, setAll } = userInfoStore()
+  const { setOwnLecture } = lectureStore()
   const history = useHistory()
 
   const [spin, setSpin] = useState(false)
@@ -65,6 +67,7 @@ const App: React.FC = () => {
           .finally(() => setSpin(false))
       } else {
         clearAll()
+        setOwnLecture([])
       }
     })
     return () => unsubscribe()
