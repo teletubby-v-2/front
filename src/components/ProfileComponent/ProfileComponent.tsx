@@ -39,16 +39,13 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       <div className="text-center my-3">
         <h1 className="text-center text-2xl font-black ">{Info.userName}</h1>
       </div>
-      {Info.imageUrl ? (
-        <Avatar
-          src={Info.imageUrl}
-          size={200}
-          alt="Profile picture"
-          className="mx-auto object-cover"
-        />
-      ) : (
-        <Avatar src={no_user} alt="no_user" size={200} className="mx-auto flex object-cover" />
-      )}
+      <div className="flex w-full justify-center">
+        {Info.imageUrl ? (
+          <Avatar src={Info.imageUrl} size={200} alt="Profile picture" className=" object-cover" />
+        ) : (
+          <Avatar src={no_user} alt="no_user" size={200} className="mx-auto flex object-cover" />
+        )}
+      </div>
       <div className="text-center items-center mt-3 mb-2">
         <p>
           {Info?.followers?.length} ผู้ติดตาม{' '}
@@ -68,12 +65,10 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
           <DashOutlined />
         </Button>
       </div>
-      <div className="mx-2">
-        <Divider className="mx-2">
-          <p className="text-gray-400">Social Link</p>
-        </Divider>
-      </div>
-      <ul className="list-none space-y-2">
+      <Divider>
+        <p className="text-gray-400 mb-0">Social Link</p>
+      </Divider>
+      <ul className="list-none space-y-2 pl-0">
         {instagram.length !== 0 && (
           <li>
             <p>

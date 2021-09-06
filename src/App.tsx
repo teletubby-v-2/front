@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Redirect, Route, Switch, useHistory } from 'react-router-dom'
 import {
   Login,
@@ -24,14 +24,32 @@ import { firestore } from './config/firebase'
 import { Collection } from './constants'
 import { MyUser } from './constants/interface/myUser.interface'
 import { ViewAll } from './pages/ViewAll'
+import { Spin } from 'antd'
+import styled from 'styled-components'
+
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 
 const App: React.FC = () => {
   const { clearAll, setAllFirebase, setAll } = userInfoStore()
   const history = useHistory()
 
+  const [spin, setSpin] = useState(false)
+
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
+        setSpin(true)
         firestore
           .collection(Collection.Users)
           .doc(user.uid)
@@ -44,6 +62,7 @@ const App: React.FC = () => {
               setAllFirebase(user as firebase.UserInfo)
             }
           })
+          .finally(() => setSpin(false))
       } else {
         clearAll()
       }
@@ -52,6 +71,11 @@ const App: React.FC = () => {
   }, [])
   return (
     <>
+      {spin && (
+        <Overlay>
+          <Spin tip="Loading..." />
+        </Overlay>
+      )}
       <Switch>
         <Route exact path="/">
           {/* ชั่วคราวสำหรับ test */}
