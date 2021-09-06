@@ -10,6 +10,7 @@ import { ReviewCom } from './components/Review'
 import { CommentCom } from './components/CommentCom'
 import { CreateLectureForm } from '../../components/CreateLectureForm'
 import { QACom } from './components/QA'
+import { LectureDetailComment } from '../LectureDetail/components/LectueDetailComment'
 // import CommentCom from './components/comment'
 
 const Post: React.FC = () => {
@@ -113,7 +114,7 @@ const Post: React.FC = () => {
               </p>
             </Card>
           </Skeleton>
-          <Tabs
+          {/* <Tabs
             onChange={key => {
               history.replace(`${history.location.pathname}${key}`)
             }}
@@ -130,7 +131,8 @@ const Post: React.FC = () => {
               <QACom id={id} />
             </Tabs.TabPane>
             {}
-          </Tabs>
+          </Tabs> */}
+          <LectureDetailComment />
         </div>
       </div>
       <div style={{ display: 'none' }}>
