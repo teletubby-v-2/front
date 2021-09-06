@@ -1,11 +1,13 @@
 import { Tabs } from 'antd'
 import React from 'react'
 import { Redirect, useHistory, useParams } from 'react-router-dom'
-import { CommentContainer, ReviewContainer } from '../../../../components'
-import { QACom } from '../../../Yoyo/components/QA'
+import { CommentContainer, QAndAContainer, ReviewContainer } from '../../../../components'
 
+export interface LectureDetailCommentProps {
+  authorId: string
+}
 // TODO: รอ component เข้ามาใส่ใน TabPane
-export const LectureDetailComment: React.FC = () => {
+export const LectureDetailComment: React.FC<LectureDetailCommentProps> = ({ authorId }) => {
   const history = useHistory()
   const { id } = useParams<{ id: string }>()
   if (history.location.hash.length == 0) {
@@ -28,7 +30,7 @@ export const LectureDetailComment: React.FC = () => {
           <CommentContainer lectureId={id} />
         </Tabs.TabPane>
         <Tabs.TabPane tab={`ถาม-ตอบ`} key="#qa">
-          <QACom id={id} />
+          <QAndAContainer lectureId={id} authorId={authorId} />
         </Tabs.TabPane>
         {}
       </Tabs>

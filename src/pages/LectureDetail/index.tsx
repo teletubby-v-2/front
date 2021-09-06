@@ -9,9 +9,5 @@ const Div = styled.div`
   border: 1px solid black;
 `
 export const LectureDetail: React.FC = () => {
-  return (
-    <Div>
-      <LectureDetailComment />
-    </Div>
-  )
+  return <Div>{/* <LectureDetailComment /> */}</Div>
 }

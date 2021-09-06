@@ -132,7 +132,7 @@ const Post: React.FC = () => {
             </Tabs.TabPane>
             {}
           </Tabs> */}
-          <LectureDetailComment />
+          <LectureDetailComment authorId={lecture.userId as string} />
         </div>
       </div>
       <div style={{ display: 'none' }}>

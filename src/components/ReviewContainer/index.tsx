@@ -86,7 +86,12 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
           <Avatar src={userInfo.imageUrl} alt={userInfo.userId} />
           <Form form={form} onFinish={handleCreateReview} className="flex-grow">
             <Form.Item name="message">
-              <Input.TextArea placeholder="comment" rows={4} maxLength={100} showCount />
+              <Input.TextArea
+                placeholder="บอกคนอื่นเกี่ยวกับสรุปนี้"
+                rows={4}
+                maxLength={100}
+                showCount
+              />
             </Form.Item>
             <Form.Item name="rating" rules={[{ required: true }]}>
               <Rate allowHalf />

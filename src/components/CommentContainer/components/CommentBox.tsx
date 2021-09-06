@@ -5,6 +5,7 @@ import { CaretDownFilled } from '@ant-design/icons'
 import { AuthZone } from '../..'
 import { createReply } from '../../../service/lectures/comment'
 import { ReplyDTO } from '../../../constants/dto/lecture.dto'
+import { userInfoStore } from '../../../store/user.store'
 
 export interface CommentBoxProps {
   comment: Comments | ReplyDTO
@@ -27,7 +28,7 @@ export const CommentBox: React.FC<CommentBoxProps> = ({
   const [loading, setLoading] = useState(false)
   const [parentComment] = useState(comment as Comments)
   const [reply] = useState(comment as ReplyDTO)
-
+  const { userInfo } = userInfoStore()
   // const numOfChildren = React.useMemo(() => React.Children.toArray(children), [children])
 
   const handleCreateReply = (value: CommentForm) => {
@@ -92,7 +93,8 @@ export const CommentBox: React.FC<CommentBoxProps> = ({
         {onWrite && isShowReply && (
           <AuthZone>
             <Form form={form} onFinish={handleCreateReply}>
-              <div className="flex space-x-3">
+              <div className="flex space-x-3 ml-2">
+                <Avatar src={userInfo.imageUrl} alt={userInfo.userId} />
                 <Form.Item name="message" className="flex-grow">
                   <Input placeholder="ตอบกลับ" autoFocus />
                 </Form.Item>
