@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { ProfileComponent } from '../../components/ProfileComponent/ProfileComponent'
 import { firestore } from '../../config/firebase'
@@ -24,52 +24,59 @@ const Overlay = styled.div`
 `
 
 export const OtherProfile: React.FC = () => {
-  const [Info, setInfo] = useState({} as MyUser)
-  const [Lecture, setLecture] = useState([] as LectureDTO[])
+  const [info, setinfo] = useState({} as MyUser)
+  const [otherlecture, setotherlecture] = useState([] as LectureDTO[])
   const history = useHistory()
-  const { id } = useParams<{ id: string }>()
+  const { userId } = useParams<{ userId: string }>()
 
   useEffect(() => {
     firestore
       .collection(Collection.Users)
-      .doc(id)
+      .doc(userId)
       .get()
       .then(doc => {
         if (doc.exists) {
-          setInfo({ ...doc.data(), userId: doc.id } as MyUser)
+          setinfo({ ...doc.data(), userId: doc.id } as MyUser)
         } else {
           history.push('/Not_found')
         }
       })
-  }, [id])
+  }, [userId])
 
   useEffect(() => {
-    setLecture([])
-    if (id) {
+    setotherlecture([])
+    if (userId) {
       firestore
         .collection(Collection.Lectures)
-        .where('userId', '==', id)
+        .where('userId', '==', userId)
         .get()
         .then(doc => {
           doc.forEach(lecture => {
-            setLecture([...Lecture, { lectureId: lecture.id, ...lecture.data() } as LectureDTO])
+            setotherlecture([
+              ...otherlecture,
+              { lectureId: lecture.id, ...lecture.data() } as LectureDTO,
+            ])
           })
         })
     }
-  }, [id])
+  }, [userId])
 
-  const title = 'สรุปของ ' + Info.userName
-  const viewAllurl = '/viewAll/' + Info.userName + 'lecture' + id
+  const title = useMemo(() => {
+    return 'สรุปของ ' + info.userName
+  }, [info])
+  const viewAllurl = useMemo(() => {
+    return '/viewAll/' + info.userName + 'lecture' + userId
+  }, [info, userId])
 
   return (
     <>
       <div className="flex justify-center my-10 space-x-6">
         <div style={{ width: 350 }}>
           <div className="mb-6 shadow-1">
-            <ProfileComponent isMy={false} Info={Info} />
+            <ProfileComponent isMy={false} Info={info} />
           </div>
           <div className="shadow-1">
-            <QRComponent isMy={false} Info={Info} />
+            <QRComponent isMy={false} Info={info} />
           </div>
         </div>
         <div className="flex-grow">
@@ -77,7 +84,7 @@ export const OtherProfile: React.FC = () => {
             <LectureContainer
               profile
               title={title}
-              data={Lecture}
+              data={otherlecture}
               limit={8}
               extra={
                 <div className="space-x-3">

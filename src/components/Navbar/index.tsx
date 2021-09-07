@@ -63,7 +63,7 @@ export const Navbar: React.FC = () => {
       <nav className="text-xl h-16 navbar">
         <div className="container mx-auto flex justify justify-between items-center p-3">
           <img width={129} src={KUshare} onClick={onClickLogo} className="cursor-pointer" />
-          <AutoComplete className="max-w-xxl w-4/6" options={options} filterOption>
+          <AutoComplete className="max-w-3xl w-3/6" options={options} filterOption>
             <Search onSearch={onSearch} size="large" placeholder="ค้นหารายวิชา" allowClear />
           </AutoComplete>
 

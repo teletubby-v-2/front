@@ -102,7 +102,7 @@ export const Reply: React.FC<ReplyProps> = ({ id, commentId, className }) => {
   }, [commentId, id])
 
   return (
-    <div className={className}>
+    <>
       {reply.length !== 0 && (
         <List
           size="large"
@@ -134,7 +134,7 @@ export const Reply: React.FC<ReplyProps> = ({ id, commentId, className }) => {
           )}
         />
       )}
-      <AuthZone>
+      {/* <AuthZone>
         <Form form={form} layout="inline" onFinish={testcreateReply}>
           <Form.Item name="message" className="w-3/4">
             <Input.TextArea placeholder="reply" />
@@ -151,7 +151,7 @@ export const Reply: React.FC<ReplyProps> = ({ id, commentId, className }) => {
             )}
           </Form.Item>
         </Form>
-      </AuthZone>
-    </div>
+      </AuthZone> */}
+    </>
   )
 }

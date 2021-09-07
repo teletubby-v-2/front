@@ -4,6 +4,7 @@ import {
   Checkbox,
   Form,
   Input,
+  message,
   Modal,
   ModalProps,
   Select,
@@ -83,6 +84,9 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
         visible={isOnCreate}
         centered
         onCancel={() => {
+          if (isUploading) {
+            return message.warning('รูปภาพกำลังอัพโหลด')
+          }
           closeModal()
           callback && callback()
         }}
@@ -199,6 +203,9 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
             <Form.Item noStyle>
               <Button
                 onClick={() => {
+                  if (isUploading) {
+                    return message.warning('รูปภาพกำลังอัพโหลด')
+                  }
                   closeModal()
                   callback && callback()
                 }}
