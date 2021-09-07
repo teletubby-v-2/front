@@ -48,7 +48,7 @@ const Post: React.FC = () => {
     <>
       <div className=" my-10 space-y-5">
         {history.location.hash.length == 0 && (
-          <Redirect to={`${history.location.pathname}#comment`} />
+          <Redirect to={`${history.location.pathname}#review`} />
         )}
         <div>
           <Breadcrumb>
