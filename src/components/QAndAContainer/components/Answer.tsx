@@ -23,7 +23,7 @@ export const AnswerBox: React.FC<AnswerBoxProps> = ({ answer }) => {
         }
         avatar={
           <a href={`/profile/${answer.userId}`}>
-            <Avatar src={answer.photoURL} alt={answer.userId} size="large" />
+            <Avatar src={answer.photoURL} alt={answer.userId} />
           </a>
         }
         content={answer.message}

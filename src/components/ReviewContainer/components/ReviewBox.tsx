@@ -24,7 +24,7 @@ export const ReviewBox: React.FC<ReviewBoxProps> = ({ review }) => {
         }
         avatar={
           <a href={`/profile/${review.userId}`}>
-            <Avatar src={review.photoURL} alt={review.userId} size="large" />
+            <Avatar src={review.photoURL} alt={review.userId} />
           </a>
         }
         content={review.message}

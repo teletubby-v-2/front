@@ -84,7 +84,7 @@ export const CommentBox: React.FC<CommentBoxProps> = ({
         }
         avatar={
           <a href={`/profile/${comment.userId}`}>
-            <Avatar src={comment.photoURL} alt={comment.userId} size="large" />
+            <Avatar src={comment.photoURL} alt={comment.userId} />
           </a>
         }
         content={comment.message}
