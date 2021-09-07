@@ -2,7 +2,6 @@
 import { message } from 'antd'
 import Form from 'antd/lib/form'
 import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface'
-import firebase from 'firebase'
 import { useEffect, useState } from 'react'
 import { CreateLectureDTO, UpdateLectureDTO } from '../../../constants/dto/lecture.dto'
 import { Lecture } from '../../../constants/interface/lecture.interface'

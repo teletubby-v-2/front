@@ -41,7 +41,7 @@ export const LectureCard: React.FC<LectureCardProps> = props => {
           <div className=" bg-black opacity-75 text-white p-1 text-xs flex flex-col justify-center">
             <div>{data?.lectureTitle}</div>
             <Typography.Text ellipsis className="text-white">
-              วิชา {subject[data?.subjectId as string].subjectNameTh}
+              วิชา {subject?.[data?.subjectId as string]?.subjectNameTh || ''}
             </Typography.Text>
           </div>
         </div>
