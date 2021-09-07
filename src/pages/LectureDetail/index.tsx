@@ -1,113 +1,133 @@
-import { Breadcrumb, Card, Dropdown, Menu, Rate, Skeleton, Image } from 'antd'
+import { Card, Rate, Skeleton, Image, Tooltip, Avatar, Col, message } from 'antd'
 import { Meta } from 'antd/lib/list/Item'
 import React, { useEffect, useState } from 'react'
 import { firestore } from '../../config/firebase'
-import { CreateLectureDTO } from '../../constants/dto/lecture.dto'
+import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { convertTimestampToTime } from '../../utils/time'
-import { DownOutlined } from '@ant-design/icons'
 import { Redirect, useHistory, useParams } from 'react-router'
 import { LectureDetailComment } from '../LectureDetail/components/LectueDetailComment'
-// import CommentCom from './components/comment'
+import { Collection } from '../../constants'
+import {
+  BookOutlined,
+  MoreOutlined,
+  EditOutlined,
+  BookFilled,
+  DeleteOutlined,
+  CloudUploadOutlined,
+} from '@ant-design/icons'
+import firebase from 'firebase'
+import { MyUserDTO } from '../../constants/dto/myUser.dto'
 
 const LectureDetail: React.FC = () => {
-  const [lecture, setLecture] = useState<CreateLectureDTO>({} as CreateLectureDTO)
+  const [lecture, setLecture] = useState<LectureDTO>({} as LectureDTO)
   const { lectureId } = useParams<{ lectureId: string }>()
   const history = useHistory()
   const [loading, setLoading] = useState(false)
   const [visible, setVisible] = useState(false)
+  const [user, setUser] = useState<MyUserDTO>()
 
   useEffect(() => {
     setLoading(true)
-    const yoyo = async () => {
-      const mayo = await firestore.collection('Lectures').doc(lectureId).get()
-      setLecture({ ...mayo.data(), lectureId: mayo.id } as CreateLectureDTO)
+    const getLecture = async () => {
+      const bundle = await firestore.collection(Collection.Lectures).doc(lectureId).get()
+      const data = {
+        ...bundle.data(),
+        lectureId: bundle.id,
+      } as LectureDTO
+      const bundleUser = await firestore.collection(Collection.Users).doc(data.userId).get()
+
+      setLecture(data)
+      setUser({ ...bundleUser.data(), userId: data.userId } as MyUserDTO)
     }
-    yoyo().then(() => setLoading(false))
+
+    getLecture().then(() => setLoading(false))
   }, [lectureId])
 
-  const menu = (
-    <Menu>
-      <Menu.Item>
-        <a target="" rel="noopener noreferrer" href="/yoyo">
-          Lectures
-        </a>
-      </Menu.Item>
-      <Menu.Item>
-        <a target="" rel="noopener noreferrer" href="/pong">
-          pongUser
-        </a>
-      </Menu.Item>
-    </Menu>
-  )
+  const copy = () => {
+    navigator.clipboard
+      .writeText(window.location.href)
+      .then(function () {
+        message.success('copy to clipboard')
+      })
+      .catch(function () {
+        message.error('errrrrrrrrrrrrrrrrr')
+      })
+  }
 
   return (
-    <>
-      <div className=" my-10 space-y-5">
-        {history.location.hash.length == 0 && (
-          <Redirect to={`${history.location.pathname}#comment`} />
-        )}
+    <div className="my-10 flex space-x-10">
+      <Skeleton loading={loading} paragraph={{ rows: 10 }} active>
         <div>
-          <Breadcrumb>
-            <Breadcrumb.Item>Tester</Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <a href="/yoyo">Lectures</a>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <a href={`/lectureDetail/${lectureId}`}>{lectureId}</a>
-            </Breadcrumb.Item>
-          </Breadcrumb>
-          <Dropdown overlay={menu}>
-            <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-              go to <DownOutlined />
+          <div>
+            <div className="flex w-full text-xl space-x-3 ">
+              <div className="flex-grow font-bold text-3xl">{lecture.lectureTitle}</div>
+              <Tooltip title="บุ๊คมาร์ค" className=" text-blue-500">
+                <BookOutlined />
+              </Tooltip>
+              <Tooltip title="แชร์">
+                <CloudUploadOutlined className="text-blue-500 " onClick={copy} />
+              </Tooltip>
+            </div>
+          </div>
+
+          <div className="flex w-full space-x-3 items-center my-4">
+            <a href={`/profile/${user?.userId}`}>
+              <Avatar src={user?.imageUrl} />
             </a>
-          </Dropdown>
-        </div>
+            <div>โพสต์โดย</div>
+            <a href={`/profile/${user?.userId}`}>{user?.userName}</a>
+            <div>·</div>
+            <div className="flex-grow">เข้าชม {lecture.viewCount} ครั้ง</div>
+            <Rate value={lecture.sumRating / lecture.reviewCount} disabled />
+            <div>{lecture.reviewCount} ratings</div>
+          </div>
 
-        <div className="flex flex-col items-center">
-          <h1 className="font-bold text-2xl">path สำหรับ test comment</h1>
-          <ul className="text-lg">
-            <li>create comment -{'>'} สร้าง comment</li>
-          </ul>
-        </div>
+          {/* //todo: แบงค์ชินทำต่อ */}
+          <div className="flex justify-center my-5">
+            <Image
+              style={{ height: 600 }}
+              preview={{ visible: false }}
+              src={lecture?.imageUrl?.[0]}
+              onClick={() => setVisible(true)}
+            />
+          </div>
 
-        <div className="flex justify-center">
-          <Skeleton loading={loading} paragraph={{ rows: 10 }} active className="flex-1">
-            <Card
-              className="flex-1"
-              key={lecture?.lectureId}
-              cover={
-                <Image
-                  preview={{ visible: false }}
-                  src={lecture?.imageUrl?.[0]}
-                  onClick={() => setVisible(true)}
-                />
-              }
-              actions={[]}
-            >
-              <Meta title={lecture?.lectureTitle} description={lecture?.description} />
-              <Rate
-                disabled
-                value={(lecture.sumRating || 0) / (lecture.reviewCount || 1)}
-                allowHalf
-              />
-              <p className="text-right mt-4 mb-2">
-                {lecture?.createAt?.toDate().toDateString()}
-                {'    '}
-                {convertTimestampToTime(lecture?.createAt?.toDate() as Date)}
-              </p>
+          <div>
+            <Card title="คำอธิบาย" className="shadow-1 rounded-sm">
+              {lecture.description}
             </Card>
-          </Skeleton>
-          <LectureDetailComment authorId={lecture.userId as string} lectureId={lectureId} />
+          </div>
+
+          <div className=" my-10 space-y-5 shadow-1 bg-white p-2 rounded-sm">
+            {history.location.hash.length == 0 && (
+              <Redirect to={`${history.location.pathname}#review`} />
+            )}
+            <div className="flex justify-center">
+              <LectureDetailComment authorId={lecture.userId as string} lectureId={lectureId} />
+            </div>
+          </div>
+
+          <div style={{ display: 'none' }}>
+            <Image.PreviewGroup preview={{ visible, onVisibleChange: vis => setVisible(vis) }}>
+              {lecture?.imageUrl?.map((image, index) => (
+                <Image width={200} key={index} src={image} />
+              ))}
+            </Image.PreviewGroup>
+          </div>
+        </div>
+      </Skeleton>
+
+      <div>
+        <div className=" w-80 bg-white shadow-1 rounded-sm flex text-center py-8 flex-col items-center space-y-4 px-3">
+          <div>
+            <div className="font-bold text-xl">สนับสนุน</div>
+            <div className="text-lg">{user?.userName}</div>
+          </div>
+          <Avatar src={user?.donateImage} shape="square" size={200} />
+          <div>{user?.donateDescription}</div>
         </div>
       </div>
-      <div style={{ display: 'none' }}>
-        <Image.PreviewGroup preview={{ visible, onVisibleChange: vis => setVisible(vis) }}>
-          {lecture?.imageUrl?.map((image, index) => (
-            <Image width={200} key={index} src={image} />
-          ))}
-        </Image.PreviewGroup>
-      </div>
-    </>
+    </div>
   )
 }
 
