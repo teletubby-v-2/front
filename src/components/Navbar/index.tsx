@@ -1,8 +1,8 @@
-import React from 'react'
-import { Input, Avatar, Menu, Dropdown, Button } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Input, Avatar, Menu, Dropdown, Button, Select } from 'antd'
 import { useHistory } from 'react-router'
 import KUshare from '../../assets/icons/KUshare.svg'
-import { UserOutlined, BellOutlined, FileAddOutlined } from '@ant-design/icons'
+import { UserOutlined, BellOutlined, FileAddOutlined, SearchOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
 import { logout } from '../../service/auth'
 import { MenuInfo } from 'rc-menu/lib/interface'
@@ -10,6 +10,8 @@ import { firebaseApp } from '../../config/firebase'
 import { AuthZone } from '..'
 import { Tooltip } from 'antd'
 import { CreateLectureForm } from '../CreateLectureForm'
+import kuSubject from '../../constants/subjects.json'
+import { AutoComplete } from 'antd'
 
 const { Search } = Input
 
@@ -18,7 +20,7 @@ export const Navbar: React.FC = () => {
   const { userInfo } = userInfoStore()
 
   const onSearch = (value: string) => {
-    value ? history.push(`/${value}`) : null
+    value ? history.push('/viewAll/' + value) : null
   }
 
   const onClickLogo = () => {
@@ -52,19 +54,21 @@ export const Navbar: React.FC = () => {
     </Menu>
   )
 
+  const options = Object.entries(kuSubject.subjects).map(([key, subject]) => {
+    return { value: `${key} ${subject.subjectNameTh} ${subject.subjectNameEn}` }
+  })
+
   return (
     <div>
       <nav className="text-xl h-16 navbar">
         <div className="container mx-auto flex justify justify-between items-center p-3">
           <img width={129} src={KUshare} onClick={onClickLogo} className="cursor-pointer" />
-          <Search
-            placeholder="ค้นหารายวิชา"
-            onSearch={onSearch}
-            size="large"
-            className="max-w-xl mx-3"
-          />
+          <AutoComplete className="max-w-3xl w-3/6" options={options} filterOption>
+            <Search onSearch={onSearch} size="large" placeholder="ค้นหารายวิชา" allowClear />
+          </AutoComplete>
+
           {isLogin() ? (
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-5">
               <CreateLectureForm>
                 <Tooltip title="เพิ่ม lecture" placement="bottom">
                   <Button className="text-xl text-black" type="link" shape="circle">
@@ -88,11 +92,11 @@ export const Navbar: React.FC = () => {
             </div>
           ) : (
             <div className="flex items-center space-x-5">
-              <Button shape="round" className="text-l text-black" type="default">
+              <Button className="text-l text-black" type="default">
                 <AuthZone>ลงชี่อเข้าใช้</AuthZone>
               </Button>
 
-              <Button shape="round" className="text-l text-black" type="primary">
+              <Button className="text-l text-black" type="primary">
                 <AuthZone noAccount={true}>สมัครสมาชิก</AuthZone>
               </Button>
             </div>

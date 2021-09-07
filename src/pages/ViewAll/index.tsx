@@ -13,6 +13,7 @@ export const ViewAll: React.FC = () => {
   const history = useHistory()
   const { id } = useParams<{ id: string }>()
   const [viewAllLecture, setViewAllLecture] = useState<LectureDTO[]>([] as LectureDTO[])
+  const [title, settitle] = useState('')
 
   const getAllParamLecture = (
     key: firebase.firestore.FieldPath | string | false,
@@ -39,6 +40,7 @@ export const ViewAll: React.FC = () => {
     if (id) {
       switch (id) {
         case 'ownLecture':
+          settitle(id)
           if (userInfo.userId) {
             return getAllParamLecture('userId', '==', userInfo.userId)
           }
@@ -49,17 +51,19 @@ export const ViewAll: React.FC = () => {
             .filter(subject => subject.isActive === true)
             .map(subject => subject.subjectId)
             .flatMap(x => x)
-
+          settitle(id)
           if (subjectId && subjectId.length !== 0) {
             return getAllParamLecture('subjectId', 'in', subjectId)
           }
           break
         case 'bookmark':
+          settitle(id)
           if (userInfo.bookmark && userInfo.bookmark.length !== 0) {
             return getAllParamLecture(false, 'in', userInfo.bookmark)
           }
           break
         case 'all':
+          settitle(id)
           firestore
             .collection(Collection.Lectures)
             .orderBy('createAt', 'desc')
@@ -74,7 +78,14 @@ export const ViewAll: React.FC = () => {
             })
           break
         default:
-          return getAllParamLecture('subjectId', '==', id)
+          if (id.search('lecture') != -1) {
+            settitle('สรุปของ ' + id.substring(id.search('lecture'), 0))
+            return getAllParamLecture('userId', '==', id.substring(id.search('lecture') + 7))
+          } else {
+            settitle('สรุปของวิชา ' + id)
+            console.log(id.slice(0, 9))
+            return getAllParamLecture('subjectId', '==', id.slice(0, 9))
+          }
       }
     }
   }, [userInfo, id])
@@ -82,7 +93,7 @@ export const ViewAll: React.FC = () => {
   return (
     <div className="mx-2 space-y-7 md:mx-5 lg:mx-20 xl:mx-30 my-10">
       <LectureContainer
-        title={id}
+        title={title}
         data={viewAllLecture}
         limit={false}
         extra={<a onClick={() => history.goBack()}>back</a>}
