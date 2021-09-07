@@ -1,27 +1,21 @@
 import { Card, Rate, Skeleton, Image, Tooltip, Avatar, Col, message } from 'antd'
-import { Meta } from 'antd/lib/list/Item'
 import React, { useEffect, useState } from 'react'
 import { firestore } from '../../config/firebase'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
-import { convertTimestampToTime } from '../../utils/time'
 import { Redirect, useHistory, useParams } from 'react-router'
 import { LectureDetailComment } from '../LectureDetail/components/LectueDetailComment'
 import { Collection } from '../../constants'
-import {
-  BookOutlined,
-  MoreOutlined,
-  EditOutlined,
-  BookFilled,
-  DeleteOutlined,
-  CloudUploadOutlined,
-} from '@ant-design/icons'
-import firebase from 'firebase'
+import { BookOutlined, ShareAltOutlined, BookFilled, CloudUploadOutlined } from '@ant-design/icons'
+import no_image from '../../assets/images/no_image.jpg'
 import { MyUserDTO } from '../../constants/dto/myUser.dto'
+import { userInfoStore } from '../../store/user.store'
+import { addUserBookmark, deleteUserBookmark } from '../../service/user'
 
 const LectureDetail: React.FC = () => {
+  const { userInfo, addBookmark, removeBookmark } = userInfoStore()
+  const history = useHistory()
   const [lecture, setLecture] = useState<LectureDTO>({} as LectureDTO)
   const { lectureId } = useParams<{ lectureId: string }>()
-  const history = useHistory()
   const [loading, setLoading] = useState(false)
   const [visible, setVisible] = useState(false)
   const [user, setUser] = useState<MyUserDTO>()
@@ -47,25 +41,47 @@ const LectureDetail: React.FC = () => {
     navigator.clipboard
       .writeText(window.location.href)
       .then(function () {
-        message.success('copy to clipboard')
+        message.success('คัดลอกลงคลิปบอร์ด')
       })
       .catch(function () {
         message.error('errrrrrrrrrrrrrrrrr')
       })
   }
 
+  const handleAddBookmark = () => {
+    addUserBookmark(lectureId, userInfo.bookmark)
+      .then(() => {
+        addBookmark(lectureId)
+        message.success('เพิ่มบุ๊คมาร์คสำเร็จ')
+      })
+      .catch(() => message.error('เพิ่มบุ๊คมาร์คไม่สำเร็จ'))
+  }
+  const handleDeleteBookmark = () => {
+    deleteUserBookmark(lectureId, userInfo.bookmark)
+      .then(() => {
+        removeBookmark(lectureId)
+        message.success('ลบบุ๊คมาร์คสำเร็จ')
+      })
+      .catch(() => message.error('ลบบุ๊คมาร์คไม่สำเร็จ'))
+  }
+
   return (
-    <div className="my-10 flex space-x-10">
-      <Skeleton loading={loading} paragraph={{ rows: 10 }} active>
-        <div>
+    <div className="my-10 flex space-x-10 w-full">
+      {history.location.hash.length == 0 && <Redirect to={`${history.location.pathname}#review`} />}
+      <Skeleton loading={loading} paragraph={{ rows: 10 }} active className="flex-grow">
+        <div className="flex-grow">
           <div>
-            <div className="flex w-full text-xl space-x-3 ">
+            <div className="flex text-xl space-x-3 ">
               <div className="flex-grow font-bold text-3xl">{lecture.lectureTitle}</div>
-              <Tooltip title="บุ๊คมาร์ค" className=" text-blue-500">
-                <BookOutlined />
+              <Tooltip title="บุ๊คมาร์ค" className=" text-green-400">
+                {userInfo.bookmark.findIndex(id => id === lectureId) !== -1 ? (
+                  <BookFilled onClick={handleDeleteBookmark} />
+                ) : (
+                  <BookOutlined onClick={handleAddBookmark} />
+                )}
               </Tooltip>
               <Tooltip title="แชร์">
-                <CloudUploadOutlined className="text-blue-500 " onClick={copy} />
+                <ShareAltOutlined className="text-green-400 " onClick={copy} />
               </Tooltip>
             </div>
           </div>
@@ -91,17 +107,13 @@ const LectureDetail: React.FC = () => {
               onClick={() => setVisible(true)}
             />
           </div>
-
-          <div>
+          {lecture.description && (
             <Card title="คำอธิบาย" className="shadow-1 rounded-sm">
               {lecture.description}
             </Card>
-          </div>
+          )}
 
           <div className=" my-10 space-y-5 shadow-1 bg-white p-2 rounded-sm">
-            {history.location.hash.length == 0 && (
-              <Redirect to={`${history.location.pathname}#review`} />
-            )}
             <div className="flex justify-center">
               <LectureDetailComment authorId={lecture.userId as string} lectureId={lectureId} />
             </div>
@@ -123,7 +135,11 @@ const LectureDetail: React.FC = () => {
             <div className="font-bold text-xl">สนับสนุน</div>
             <div className="text-lg">{user?.userName}</div>
           </div>
-          <Avatar src={user?.donateImage} shape="square" size={200} />
+          {user?.donateImage ? (
+            <Avatar src={user?.donateImage} shape="square" size={200} />
+          ) : (
+            <Avatar src={no_image} shape="square" className="w-52 h-52  my-3" />
+          )}
           <div>{user?.donateDescription}</div>
         </div>
       </div>
