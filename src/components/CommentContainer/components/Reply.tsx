@@ -1,3 +1,4 @@
+import { Skeleton } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { firestore } from '../../../config/firebase'
 import { Collection } from '../../../constants'
@@ -12,6 +13,7 @@ export interface ReplyProps {
 
 export const Reply: React.FC<ReplyProps> = ({ id, commentId }) => {
   const [reply, setReply] = useState<ReplyDTO[]>([])
+  const [size, setSize] = useState(0)
 
   useEffect(() => {
     const unsubscribe = firestore
@@ -22,6 +24,7 @@ export const Reply: React.FC<ReplyProps> = ({ id, commentId }) => {
       .collection(Collection.Replies)
       .orderBy('createAt')
       .onSnapshot(querySnapshot => {
+        setSize(querySnapshot.size)
         querySnapshot.docChanges().forEach(change => {
           const data = change.doc.data()
           if (change.type === 'added') {
@@ -60,7 +63,11 @@ export const Reply: React.FC<ReplyProps> = ({ id, commentId }) => {
 
   return (
     <>
-      {reply.length !== 0 && reply.map((item, index) => <CommentBox comment={item} key={index} />)}
+      {reply && reply.map((item, index) => <CommentBox comment={item} key={index} />)}
+      {reply &&
+        Array(size - reply.length)
+          .fill(Array(size - reply.length).keys())
+          .map((_, index) => <Skeleton active paragraph={{ rows: 1 }} avatar key={index} />)}
     </>
   )
 }

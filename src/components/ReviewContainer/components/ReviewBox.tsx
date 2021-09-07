@@ -1,6 +1,7 @@
 import React from 'react'
 import { Comment, Avatar, Rate } from 'antd'
 import { Review } from '../../../constants/interface/lecture.interface'
+import StarFilled from '@ant-design/icons/lib/icons/StarFilled'
 
 export interface ReviewBoxProps {
   review: Review

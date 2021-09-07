@@ -1,4 +1,4 @@
-import { Button, Form, Input } from 'antd'
+import { Button, Form, Input, Skeleton } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { AuthZone } from '..'
 import { firestore } from '../../config/firebase'
@@ -26,6 +26,7 @@ export const CommentContainer: React.FC<CommentProps> = ({ lectureId }) => {
   const [form] = Form.useForm<CommentForm>()
   const [loading, setLoading] = useState(false)
   const { userInfo } = userInfoStore()
+  const [size, setSize] = useState(0)
 
   const handleCreateComment = (value: CommentForm) => {
     const data = {
@@ -45,6 +46,7 @@ export const CommentContainer: React.FC<CommentProps> = ({ lectureId }) => {
       .collection(Collection.Comments)
       .orderBy('createAt')
       .onSnapshot(querySnapshot => {
+        setSize(querySnapshot.size)
         querySnapshot.docChanges().forEach(change => {
           const data = change.doc.data()
           if (change.type === 'added') {
@@ -107,6 +109,10 @@ export const CommentContainer: React.FC<CommentProps> = ({ lectureId }) => {
           {<Reply id={lectureId} commentId={comment.id as string} />}
         </CommentBox>
       ))}
+      {comments &&
+        Array(size - comments.length)
+          .fill(Array(size - comments.length).keys())
+          .map((_, index) => <Skeleton active paragraph={{ rows: 1 }} avatar key={index} />)}
     </div>
   )
 }

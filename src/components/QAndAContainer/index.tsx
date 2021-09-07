@@ -1,4 +1,4 @@
-import { Avatar, Button, Form, Input, List, Skeleton } from 'antd'
+import { Avatar, Button, Form, Input, Skeleton } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { AuthZone } from '../../components'
 import { firestore } from '../../config/firebase'
@@ -20,6 +20,7 @@ export const QAndAContainer: React.FC<QAndAContainerProps> = ({ lectureId, autho
   const [form] = Form.useForm()
   const { userInfo } = userInfoStore()
   const [loading, setLoading] = useState(false)
+  const [size, setSize] = useState(0)
 
   const handleCreateQAndA = (value: any) => {
     setLoading(true)
@@ -39,6 +40,7 @@ export const QAndAContainer: React.FC<QAndAContainerProps> = ({ lectureId, autho
       .collection(Collection.QAs)
       .orderBy('createAt')
       .onSnapshot(querySnapshot => {
+        setSize(querySnapshot.size)
         querySnapshot.docChanges().forEach(change => {
           const data = change.doc.data()
           if (change.type === 'added') {
@@ -79,6 +81,10 @@ export const QAndAContainer: React.FC<QAndAContainerProps> = ({ lectureId, autho
       {qAndAs.map((qAndA, index) => (
         <QuestionBox qAndA={qAndA} key={index} authorId={authorId} lectureId={lectureId} />
       ))}
+      {qAndAs &&
+        Array(size - qAndAs.length)
+          .fill(Array(size - qAndAs.length).keys())
+          .map((_, index) => <Skeleton active paragraph={{ rows: 1 }} avatar key={index} />)}
       {authorId !== userInfo.userId && (
         <AuthZone>
           <Form form={form} layout="horizontal" onFinish={handleCreateQAndA}>

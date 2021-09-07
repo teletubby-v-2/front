@@ -1,4 +1,4 @@
-import { Avatar, Button, Form, Input, List, Rate, Skeleton } from 'antd'
+import { Avatar, Button, Form, Input, Rate, Skeleton } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { AuthZone } from '../../components'
 import { firestore } from '../../config/firebase'
@@ -20,7 +20,9 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
   const [loading, setLoading] = useState(false)
   const [form] = Form.useForm()
   const { userInfo } = userInfoStore()
-  const handleCreateReview = (value?: any) => {
+  const [size, setSize] = useState(0)
+
+  const handleCreateReview = (value: any) => {
     setLoading(true)
     const data = {
       lectureId: lectureId,
@@ -41,6 +43,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
       .collection(Collection.Reviews)
       .orderBy('createAt')
       .onSnapshot(querySnapshot => {
+        setSize(querySnapshot.size)
         querySnapshot.docChanges().forEach(change => {
           const data = change.doc.data()
           if (change.type === 'added') {
@@ -81,6 +84,10 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
       {reviews.map((review, index) => (
         <ReviewBox review={review} key={index} />
       ))}
+      {reviews &&
+        Array(size - reviews.length)
+          .fill(Array(size - reviews.length).keys())
+          .map((_, index) => <Skeleton active paragraph={{ rows: 1 }} avatar key={index} />)}
       <AuthZone>
         <div className="flex space-x-3 ml-2">
           <Avatar src={userInfo.imageUrl} alt={userInfo.userId} />
