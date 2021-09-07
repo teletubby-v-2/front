@@ -76,7 +76,7 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
           <li>
             <p>
               <InstagramOutlined className="text-2xl mr-3" /> Instagram:
-              <a href={instagram} className="ml-2">
+              <a href={instagram} className="ml-2" target="_blank" rel="noreferrer">
                 {instagram}
               </a>
             </p>
@@ -85,7 +85,8 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
         {facebook.length !== 0 && (
           <li>
             <p>
-              <FacebookOutlined className="text-2xl mr-3" /> Facebook:
+              <FacebookOutlined className="text-2xl mr-3" target="_blank" rel="noreferrer" />{' '}
+              Facebook:
               <a href={facebook} className="ml-2">
                 {facebook}
               </a>
@@ -95,7 +96,8 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
         {youtube.length !== 0 && (
           <li>
             <p>
-              <YoutubeOutlined className="text-2xl mr-3" /> Youtube:
+              <YoutubeOutlined className="text-2xl mr-3" target="_blank" rel="noreferrer" />{' '}
+              Youtube:
               <a href={youtube} className="ml-2">
                 {youtube}
               </a>

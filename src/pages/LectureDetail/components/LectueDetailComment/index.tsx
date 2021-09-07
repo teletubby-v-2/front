@@ -5,11 +5,14 @@ import { CommentContainer, QAndAContainer, ReviewContainer } from '../../../../c
 
 export interface LectureDetailCommentProps {
   authorId: string
+  lectureId: string
 }
 // TODO: รอ component เข้ามาใส่ใน TabPane
-export const LectureDetailComment: React.FC<LectureDetailCommentProps> = ({ authorId }) => {
+export const LectureDetailComment: React.FC<LectureDetailCommentProps> = ({
+  authorId,
+  lectureId,
+}) => {
   const history = useHistory()
-  const { id } = useParams<{ id: string }>()
   if (history.location.hash.length == 0) {
     return <Redirect to={`${history.location.pathname}#comment`} />
   }
@@ -24,13 +27,13 @@ export const LectureDetailComment: React.FC<LectureDetailCommentProps> = ({ auth
         className="w-full"
       >
         <Tabs.TabPane tab="รีวิว" key="#review">
-          <ReviewContainer lectureId={id} />
+          <ReviewContainer lectureId={lectureId} />
         </Tabs.TabPane>
         <Tabs.TabPane tab="ความคิดเห็น" key="#comment">
-          <CommentContainer lectureId={id} />
+          <CommentContainer lectureId={lectureId} />
         </Tabs.TabPane>
         <Tabs.TabPane tab={`ถาม-ตอบ`} key="#qa">
-          <QAndAContainer lectureId={id} authorId={authorId} />
+          <QAndAContainer lectureId={lectureId} authorId={authorId} />
         </Tabs.TabPane>
         {}
       </Tabs>

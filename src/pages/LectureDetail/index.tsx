@@ -97,7 +97,7 @@ const LectureDetail: React.FC = () => {
               </p>
             </Card>
           </Skeleton>
-          <LectureDetailComment authorId={lecture.userId as string} />
+          <LectureDetailComment authorId={lecture.userId as string} lectureId={lectureId} />
         </div>
       </div>
       <div style={{ display: 'none' }}>

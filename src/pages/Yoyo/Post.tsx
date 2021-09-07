@@ -132,7 +132,7 @@ const Post: React.FC = () => {
             </Tabs.TabPane>
             {}
           </Tabs> */}
-          <LectureDetailComment authorId={lecture.userId as string} />
+          <LectureDetailComment authorId={lecture.userId as string} lectureId={id} />
         </div>
       </div>
       <div style={{ display: 'none' }}>
