@@ -2,6 +2,7 @@ import { Collection } from './../../constants/index'
 import firebase from 'firebase'
 import { firebaseApp, firestore } from '../../config/firebase'
 import { CreateReviewDTO, UpdateReviewDTO } from '../../constants/dto/lecture.dto'
+import { Review } from '../../constants/interface/lecture.interface'
 
 const lectureCollection = firestore.collection(Collection.Lectures)
 
@@ -11,7 +12,7 @@ function getReviewCollection(
   return lectureCollection.doc(lectureId).collection(Collection.Reviews)
 }
 
-async function createReview(review: CreateReviewDTO): Promise<void> {
+async function createReview(review: CreateReviewDTO): Promise<Review> {
   firebaseApp.auth().currentUser?.reload()
   const batch = firestore.batch()
   const reviewCollection = getReviewCollection(review.lectureId)
@@ -28,8 +29,11 @@ async function createReview(review: CreateReviewDTO): Promise<void> {
     updateAt: timeStamp,
     userId: firebaseApp.auth().currentUser?.uid as string,
   }
-  batch.set(reviewCollection.doc(), data)
-  return batch.commit()
+  const reviewId = reviewCollection.doc().id
+  batch.set(reviewCollection.doc(reviewId), data)
+  batch.commit()
+
+  return { ...data, reviewId } as Review
 }
 
 async function updateReview(review: UpdateReviewDTO): Promise<void> {

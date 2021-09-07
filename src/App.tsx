@@ -86,7 +86,6 @@ const App: React.FC = () => {
           {/* ชั่วคราวสำหรับ test */}
           <Redirect to="/login" />
         </Route>
-
         <AuthRoute exact path="/login" component={Login} />
         <AuthRoute exact path="/forgotpassword" component={ForgotPassword} />
         <AuthRoute exact path="/verifyEmail" component={VerifyEmail} />
@@ -94,7 +93,6 @@ const App: React.FC = () => {
         <AuthRoute exact path="/success" component={Success} />
         <AuthRoute exact path="/subject" component={Subject} />
         <AuthRoute exact path="/createUser" component={UserInfo} />
-
         <LayoutRoute exact path="/home" component={Home} />
         <LayoutRoute exact path="/lecturedetail/:lectureId" component={LectureDetail} />
         <AuthRoute exact path="/linkAccount" component={LinkAccount} />
