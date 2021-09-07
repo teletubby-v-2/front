@@ -123,26 +123,24 @@ export const useLectureForm = (
   }
 
   const onFinish = () => {
+    if (isUploading) {
+      return message.warning('รูปภาพกำลังอัพโหลด')
+    }
+    if (fileList.length === 0) {
+      return message.warning('กรุณาใส่รูปภาพสรุปของคุณ')
+    }
     const value: Partial<CreateLectureDTO> = removeUndefined({
       ...form.getFieldsValue(),
       subjectId: form.getFieldValue('subjectId').split(' ')[0],
       imageUrl: fileList.map(file => file.url),
     })
-    const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
-    //Todo: Add เข้า DB
-    addOwnLecture({
-      ...value,
-      userId: firebase.auth().currentUser?.uid,
-      createAt: timeStamp,
-      updateAt: timeStamp,
-      viewCount: 0,
-      sumRating: 0,
-      reviewCount: 0,
-    } as Lecture)
     if (!isUpdate) {
       message.info('กำลังสร้าง...')
       createLecture(value as CreateLectureDTO)
-        .then(() => message.success('สร้างโพสได้แล้วจ้าา'))
+        .then(lecture => {
+          message.success('สร้างโพสได้แล้วจ้าา')
+          addOwnLecture(lecture)
+        })
         .catch((err: any) => console.error(err))
     } else {
       message.info('กำลังอัพ...')

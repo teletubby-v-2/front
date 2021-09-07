@@ -1,22 +1,41 @@
 import { Tabs } from 'antd'
 import React from 'react'
-import { dummyLectures } from '../../../../constants/dummyData/lecture.dummy'
-const { TabPane } = Tabs
+import { Redirect, useHistory, useParams } from 'react-router-dom'
+import { CommentContainer, QAndAContainer, ReviewContainer } from '../../../../components'
+
+export interface LectureDetailCommentProps {
+  authorId: string
+  lectureId: string
+}
 // TODO: รอ component เข้ามาใส่ใน TabPane
-export const LectureDetailComment: React.FC = () => {
-  const dummyLecture = dummyLectures[0]
+export const LectureDetailComment: React.FC<LectureDetailCommentProps> = ({
+  authorId,
+  lectureId,
+}) => {
+  const history = useHistory()
+  if (history.location.hash.length == 0) {
+    return <Redirect to={`${history.location.pathname}#comment`} />
+  }
+
   return (
-    <div>
-      <Tabs>
-        <TabPane tab={`Review (${dummyLecture})`} key="1">
-          Content of tab 1
-        </TabPane>
-        <TabPane tab={`Comment (${dummyLecture})`} key="2">
-          Content of tab 2
-        </TabPane>
-        <TabPane tab={`Question & Answer (${dummyLecture})`} key="3">
-          Content of tab 3
-        </TabPane>
+    <div className="ml-3 flex flex-1">
+      <Tabs
+        onChange={key => {
+          history.replace(`${history.location.pathname}${key}`)
+        }}
+        activeKey={history.location.hash}
+        className="w-full"
+      >
+        <Tabs.TabPane tab="รีวิว" key="#review">
+          <ReviewContainer lectureId={lectureId} />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="ความคิดเห็น" key="#comment">
+          <CommentContainer lectureId={lectureId} />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab={`ถาม-ตอบ`} key="#qa">
+          <QAndAContainer lectureId={lectureId} authorId={authorId} />
+        </Tabs.TabPane>
+        {}
       </Tabs>
     </div>
   )
