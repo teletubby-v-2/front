@@ -1,6 +1,7 @@
 import React from 'react'
 import { Comment, Avatar, Rate } from 'antd'
 import { Review } from '../../../constants/interface/lecture.interface'
+import StarFilled from '@ant-design/icons/lib/icons/StarFilled'
 
 export interface ReviewBoxProps {
   review: Review
@@ -24,7 +25,7 @@ export const ReviewBox: React.FC<ReviewBoxProps> = ({ review }) => {
         }
         avatar={
           <a href={`/profile/${review.userId}`}>
-            <Avatar src={review.photoURL} alt={review.userId} size="large" />
+            <Avatar src={review.photoURL} alt={review.userId} />
           </a>
         }
         content={review.message}

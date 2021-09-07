@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Comment, Avatar, Form, Input, Button, Divider } from 'antd'
+import { Comment, Avatar, Form, Input, Button, Divider, Skeleton } from 'antd'
 import { QAndA } from '../../../constants/interface/lecture.interface'
 import { AuthZone } from '../..'
 import { AnswersDTO } from '../../../constants/dto/lecture.dto'
@@ -19,12 +19,7 @@ export interface CommentForm {
   message: string
 }
 
-export const QuestionBox: React.FC<QuestionBoxProps> = ({
-  children,
-  authorId,
-  qAndA,
-  lectureId,
-}) => {
+export const QuestionBox: React.FC<QuestionBoxProps> = ({ authorId, qAndA, lectureId }) => {
   const [form] = Form.useForm<CommentForm>()
   const [answers, setAnswers] = useState<AnswersDTO[]>([])
   const [loading, setLoading] = useState(false)
@@ -145,6 +140,10 @@ export const QuestionBox: React.FC<QuestionBoxProps> = ({
           {answers.map((answer, index) => (
             <AnswerBox answer={answer} key={index} />
           ))}
+          {answers &&
+            Array(size - answers.length)
+              .fill(Array(size - answers.length).keys())
+              .map((_, index) => <Skeleton active paragraph={{ rows: 1 }} avatar key={index} />)}
           {authorId === userInfo.userId && (
             <AuthZone>
               <Form form={form} onFinish={handleCreateReply}>
