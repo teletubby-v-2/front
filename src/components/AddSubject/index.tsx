@@ -8,6 +8,7 @@ import { SubjectDTO } from '../../constants/dto/subjects.dto'
 import { useHistory } from 'react-router'
 import { updateUserSubject } from '../../service/user'
 import { userInfoStore } from '../../store/user.store'
+import { SubjectTable } from '../SubjectTable'
 
 export const AddSubject: React.FC = () => {
   const { setUserSubject } = userInfoStore()
