@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Avatar, Button, Divider } from 'antd'
+import { Avatar, Button, Divider, Space } from 'antd'
 import {
   DashOutlined,
   FacebookOutlined,
@@ -26,18 +26,20 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
   const { userInfo, setFollowing } = userInfoStore()
 
   useEffect(() => {
-    userInfo.socialLink.forEach(social => {
-      if (social.socialMediaName == 'youtube') {
-        setYoutube(social.socialMedisUrl)
-      }
-      if (social.socialMediaName == 'instagram') {
-        setInstagram(social.socialMedisUrl)
-      }
-      if (social.socialMediaName == 'facebook') {
-        setFacebook(social.socialMedisUrl)
-      }
-    })
-  }, [userInfo.socialLink])
+    if (Info && Info.socialLink) {
+      Info.socialLink.forEach(social => {
+        if (social.socialMediaName == 'youtube') {
+          setYoutube(social.socialMedisUrl)
+        }
+        if (social.socialMediaName == 'instagram') {
+          setInstagram(social.socialMedisUrl)
+        }
+        if (social.socialMediaName == 'facebook') {
+          setFacebook(social.socialMedisUrl)
+        }
+      })
+    }
+  }, [Info.socialLink])
 
   const onFollow = () => {
     const newfollowing = userInfo.following
@@ -108,34 +110,32 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       <ul className="list-none space-y-2 pl-0">
         {instagram.length !== 0 && (
           <li>
-            <p>
-              <InstagramOutlined className="text-2xl mr-3" /> Instagram:
-              <a href={instagram} className="ml-2" target="_blank" rel="noreferrer">
-                {instagram}
+            <Space className="overflow-hidden w-full">
+              <InstagramOutlined className="text-2xl" /> Instagram:
+              <a href={instagram} className="overflow-hidden" target="_blank" rel="noreferrer">
+                {instagram.replace('https://', '')}
               </a>
-            </p>
+            </Space>
           </li>
         )}
         {facebook.length !== 0 && (
           <li>
-            <p>
-              <FacebookOutlined className="text-2xl mr-3" target="_blank" rel="noreferrer" />{' '}
-              Facebook:
-              <a href={facebook} className="ml-2">
-                {facebook}
+            <Space className="overflow-hidden w-full">
+              <FacebookOutlined className="text-2xl" target="_blank" rel="noreferrer" /> Facebook:
+              <a href={facebook} className=" overflow-hidden">
+                {facebook.replace('https://', '')}
               </a>
-            </p>
+            </Space>
           </li>
         )}
         {youtube.length !== 0 && (
           <li>
-            <p>
-              <YoutubeOutlined className="text-2xl mr-3" target="_blank" rel="noreferrer" />{' '}
-              Youtube:
-              <a href={youtube} className="ml-2">
-                {youtube}
+            <Space className="overflow-hidden w-full">
+              <YoutubeOutlined className="text-2xl" target="_blank" rel="noreferrer" /> Youtube:
+              <a href={youtube} className="overflow-hidden">
+                {youtube.replace('https://', '')}
               </a>
-            </p>
+            </Space>
           </li>
         )}
         {Info?.aboutMe?.length !== 0 && (
