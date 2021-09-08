@@ -12,7 +12,7 @@ export interface SubjectTableProps {
 const columns: ColumnType<UserSubjectDTO>[] = [
   { title: 'เลือกทั้งหมด', dataIndex: 'title', key: 'title' },
   {
-    title: 'active',
+    title: '',
     dataIndex: 'isActive',
     key: 'isActive',
     align: 'center',

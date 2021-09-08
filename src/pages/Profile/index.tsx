@@ -10,7 +10,7 @@ import { Collection } from '../../constants'
 import firebase from 'firebase/app'
 import { lectureStore } from '../../store/lecture.store'
 import { Button, Card } from 'antd'
-import { DiffTwoTone, PlusOutlined } from '@ant-design/icons'
+import { DiffTwoTone, PlusOutlined, SearchOutlined } from '@ant-design/icons'
 import { SubjectTable } from '../../components/SubjectTable'
 
 export const Profile: React.FC = () => {
@@ -90,6 +90,13 @@ export const Profile: React.FC = () => {
             }
             extra={
               <>
+                <Button
+                  type="primary"
+                  icon={<SearchOutlined className="align-middle" />}
+                  className="mr-3"
+                >
+                  ค้นหา
+                </Button>
                 <Button type="primary" icon={<PlusOutlined className="align-middle" />}>
                   เพิ่มตาราง
                 </Button>
