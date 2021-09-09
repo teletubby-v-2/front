@@ -11,6 +11,7 @@ import no_user from '../../assets/images/no_user.png'
 import { userInfoStore } from '../../store/user.store'
 import { UpdateUserDTO } from '../../constants/dto/myUser.dto'
 import { updateUser } from '../../service/user'
+import { AuthZone } from '..'
 
 export interface ProfileComponentProps {
   onEdit?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
@@ -91,17 +92,15 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
             </Button>
           </>
         ) : (
-          <>
+          <AuthZone className="flex-grow">
             {userInfo.following.includes(Info.userId) ? (
-              <Button className="flex-grow" onClick={onUnfollow}>
-                เลิกติดตาม
-              </Button>
+              <Button onClick={onUnfollow}>เลิกติดตาม</Button>
             ) : (
-              <Button className="flex-grow" type="primary" onClick={onFollow}>
+              <Button type="primary" onClick={onFollow}>
                 ติดตาม
               </Button>
             )}
-          </>
+          </AuthZone>
         )}
       </div>
       <Divider>
@@ -109,33 +108,30 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       </Divider>
       <ul className="list-none space-y-2 pl-0">
         {instagram.length !== 0 && (
-          <li>
-            <Space className="overflow-hidden w-full">
-              <InstagramOutlined className="text-2xl" /> Instagram:
-              <a href={instagram} className="overflow-hidden" target="_blank" rel="noreferrer">
-                {instagram.replace('https://', '')}
-              </a>
-            </Space>
+          <li className="text-center">
+            <a href={instagram} className="overflow-hidden" target="_blank" rel="noreferrer">
+              <Button className="overflow-hidden w-1/2">
+                <InstagramOutlined className="text-2xl" /> Instagram
+              </Button>
+            </a>
           </li>
         )}
         {facebook.length !== 0 && (
-          <li>
-            <Space className="overflow-hidden w-full">
-              <FacebookOutlined className="text-2xl" target="_blank" rel="noreferrer" /> Facebook:
-              <a href={facebook} className=" overflow-hidden">
-                {facebook.replace('https://', '')}
-              </a>
-            </Space>
+          <li className="text-center">
+            <a href={facebook} className=" overflow-hidden" target="_blank" rel="noreferrer">
+              <Button className="overflow-hidden w-1/2">
+                <FacebookOutlined className="text-2xl" target="_blank" rel="noreferrer" /> Facebook
+              </Button>
+            </a>
           </li>
         )}
         {youtube.length !== 0 && (
-          <li>
-            <Space className="overflow-hidden w-full">
-              <YoutubeOutlined className="text-2xl" target="_blank" rel="noreferrer" /> Youtube:
-              <a href={youtube} className="overflow-hidden">
-                {youtube.replace('https://', '')}
-              </a>
-            </Space>
+          <li className="text-center">
+            <a href={youtube} className="overflow-hidden" target="_blank" rel="noreferrer">
+              <Button className="overflow-hidden w-1/2">
+                <YoutubeOutlined className="text-2xl" target="_blank" rel="noreferrer" /> Youtube
+              </Button>
+            </a>
           </li>
         )}
         {Info?.aboutMe?.length !== 0 && (
@@ -147,4 +143,15 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       </ul>
     </div>
   )
+}
+
+{
+  /* <Space className="overflow-hidden w-full">
+  <FacebookOutlined className="text-2xl" target="_blank" rel="noreferrer" /> Facebook:
+  <a href={facebook} className=" overflow-hidden" target="_blank" rel="noreferrer">
+    {facebook.replace('https://', '')}
+  </a>
+</Space>
+old style social link
+ */
 }
