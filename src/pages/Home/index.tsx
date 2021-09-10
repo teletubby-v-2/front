@@ -6,6 +6,7 @@ import { DownOutlined } from '@ant-design/icons/lib/icons'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { firestore } from '../../config/firebase'
 import { Collection } from '../../constants'
+import { Link } from 'react-router-dom'
 export const Home: React.FC = () => {
   const { userInfo } = userInfoStore()
   const [allLecture, setAllLecture] = useState<LectureDTO[]>([] as LectureDTO[])
@@ -63,26 +64,7 @@ export const Home: React.FC = () => {
         title="สรุปล่าสุด"
         data={allLecture}
         limit={10}
-        extra={
-          <div className="space-x-3">
-            <Dropdown
-              overlay={<Menu>{/* //TODO add filter component here */}</Menu>}
-              trigger={['click']}
-            >
-              <a onClick={e => e.preventDefault()}>
-                filter <DownOutlined />
-              </a>
-            </Dropdown>
-            <Dropdown
-              overlay={<Menu>{/* //TODO add sort component here */}</Menu>}
-              trigger={['click']}
-            >
-              <a onClick={e => e.preventDefault()}>
-                sort <DownOutlined />
-              </a>
-            </Dropdown>
-          </div>
-        }
+        extra={<Link to="/viewAll/all">ดูทั้งหมด</Link>}
       />
     </div>
   )

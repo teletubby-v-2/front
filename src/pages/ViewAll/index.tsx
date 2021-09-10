@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { MenuInfo } from 'rc-menu/lib/interface'
 import React, { useEffect, useState } from 'react'
 import { LectureContainer } from '../../components'
 import { userInfoStore } from '../../store/user.store'
@@ -7,7 +8,10 @@ import { firestore } from '../../config/firebase'
 import { Collection } from '../../constants'
 import { useHistory, useParams } from 'react-router-dom'
 import firebase from 'firebase/app'
-
+import { Dropdown, Menu } from 'antd'
+import { DownOutlined } from '@ant-design/icons'
+import { FilterBox } from '../../components/FilterBox'
+import MenuItem from 'antd/lib/menu/MenuItem'
 export const ViewAll: React.FC = () => {
   const { userInfo } = userInfoStore()
   const history = useHistory()
@@ -89,14 +93,40 @@ export const ViewAll: React.FC = () => {
       }
     }
   }, [userInfo, id])
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleMenuClick = ({ key }: MenuInfo) => {
+    switch (key) {
+      case 'lastest':
+        return
+      case 'view':
+        return
+    }
+  }
   return (
     <div className="mx-2 space-y-7 md:mx-5 lg:mx-20 xl:mx-30 my-10">
       <LectureContainer
         title={title}
         data={viewAllLecture}
         limit={false}
-        extra={<a onClick={() => history.goBack()}>back</a>}
+        extra={
+          <div className="space-x-3 ">
+            <FilterBox isSubject />
+            <Dropdown
+              placement="bottomRight"
+              overlay={
+                <Menu onClick={handleMenuClick}>
+                  <MenuItem key="lastest">ล่าสุด</MenuItem>
+                  <MenuItem key="view">เข้าดูมากสุด</MenuItem>
+                </Menu>
+              }
+              trigger={['click']}
+            >
+              <a onClick={e => e.preventDefault()}>
+                เรียงตาม <DownOutlined />
+              </a>
+            </Dropdown>
+          </div>
+        }
       />
     </div>
   )
