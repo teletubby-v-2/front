@@ -52,12 +52,13 @@ export const OtherProfile: React.FC = () => {
         .get()
         .then(doc => {
           doc.forEach(lecture => {
-            setotherlecture([
-              ...otherlecture,
+            setotherlecture(alllecture => [
+              ...alllecture,
               { lectureId: lecture.id, ...lecture.data() } as LectureDTO,
             ])
           })
         })
+        .finally(() => console.log(otherlecture))
     }
   }, [userId])
 
