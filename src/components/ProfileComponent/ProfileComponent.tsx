@@ -110,7 +110,7 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
         {instagram.length !== 0 && (
           <li className="text-center">
             <a href={instagram} className="overflow-hidden" target="_blank" rel="noreferrer">
-              <Button className="overflow-hidden w-1/2">
+              <Button className="overflow-hidden w-1/2" type="text">
                 <InstagramOutlined className="text-2xl" /> Instagram
               </Button>
             </a>
@@ -119,7 +119,7 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
         {facebook.length !== 0 && (
           <li className="text-center">
             <a href={facebook} className=" overflow-hidden" target="_blank" rel="noreferrer">
-              <Button className="overflow-hidden w-1/2">
+              <Button className="overflow-hidden w-1/2" type="text">
                 <FacebookOutlined className="text-2xl" target="_blank" rel="noreferrer" /> Facebook
               </Button>
             </a>
@@ -128,7 +128,7 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
         {youtube.length !== 0 && (
           <li className="text-center">
             <a href={youtube} className="overflow-hidden" target="_blank" rel="noreferrer">
-              <Button className="overflow-hidden w-1/2">
+              <Button className="overflow-hidden w-1/2" type="text">
                 <YoutubeOutlined className="text-2xl" target="_blank" rel="noreferrer" /> Youtube
               </Button>
             </a>
