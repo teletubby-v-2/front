@@ -52,12 +52,13 @@ export const OtherProfile: React.FC = () => {
         .get()
         .then(doc => {
           doc.forEach(lecture => {
-            setotherlecture([
-              ...otherlecture,
+            setotherlecture(alllecture => [
+              ...alllecture,
               { lectureId: lecture.id, ...lecture.data() } as LectureDTO,
             ])
           })
         })
+        .finally(() => console.log(otherlecture))
     }
   }, [userId])
 
@@ -73,7 +74,7 @@ export const OtherProfile: React.FC = () => {
       <div className="flex justify-center my-10 space-x-6">
         <div style={{ width: 350 }}>
           <div className="mb-6 shadow-1">
-            <ProfileComponent isMy={false} Info={info} />
+            <ProfileComponent isMy={false} info={info} />
           </div>
           <div className="shadow-1">
             <QRComponent isMy={false} Info={info} />

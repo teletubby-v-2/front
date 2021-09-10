@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Redirect, Route, Switch, useHistory } from 'react-router-dom'
 import {
   Login,
@@ -27,7 +27,7 @@ import { ViewAll } from './pages/ViewAll'
 import { Spin } from 'antd'
 import styled from 'styled-components'
 import { lectureStore } from './store/lecture.store'
-import { OtherProfile } from './pages/OtherProfile'
+import { SelectProfile } from './pages/SelectProfile'
 import LectureDetail from './pages/LectureDetail'
 
 const Overlay = styled.div`
@@ -74,6 +74,7 @@ const App: React.FC = () => {
     })
     return () => unsubscribe()
   }, [])
+
   return (
     <>
       {spin && (
@@ -98,7 +99,7 @@ const App: React.FC = () => {
         <AuthRoute exact path="/linkAccount" component={LinkAccount} />
         <LayoutRoute exact path="/profile" component={Profile} />
         <LayoutRoute path="/viewAll/:id" component={ViewAll} />
-        <LayoutRoute path="/profile/:userId" component={OtherProfile} />
+        <LayoutRoute path="/profile/:userId" component={SelectProfile} />
 
         {/* for test */}
         <LayoutRoute exact path="/yoyo" component={Yoyo} />
