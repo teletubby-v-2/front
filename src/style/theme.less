@@ -5,6 +5,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .text-gradient {
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
 a {
   color: @blue-6;
 }
