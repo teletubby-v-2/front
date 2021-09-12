@@ -68,7 +68,7 @@ const LectureDetail: React.FC = () => {
   }
 
   return (
-    <div className="my-10 flex space-x-10 w-full">
+    <div className="mx-5 my-10 flex space-x-10 w-full">
       {history.location.hash.length == 0 && <Redirect to={`${history.location.pathname}#review`} />}
       <Skeleton loading={loading} paragraph={{ rows: 10 }} active className="flex-grow">
         <div className="flex-grow">
