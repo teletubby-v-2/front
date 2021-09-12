@@ -94,9 +94,11 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
         ) : (
           <AuthZone className="flex-grow">
             {userInfo.following.includes(Info.userId) ? (
-              <Button onClick={onUnfollow}>เลิกติดตาม</Button>
+              <Button onClick={onUnfollow} block>
+                เลิกติดตาม
+              </Button>
             ) : (
-              <Button type="primary" onClick={onFollow}>
+              <Button type="primary" block onClick={onFollow}>
                 ติดตาม
               </Button>
             )}

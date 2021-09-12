@@ -1,14 +1,16 @@
-import { Card, Rate, Skeleton, Image, Tooltip, Avatar, Col, message } from 'antd'
+import { Card, Rate, Skeleton, Image, Tooltip, Avatar, message, Button } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { firestore } from '../../config/firebase'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { Redirect, useHistory, useParams } from 'react-router'
 import { LectureDetailComment } from '../LectureDetail/components/LectueDetailComment'
 import { Collection } from '../../constants'
-import { BookOutlined, ShareAltOutlined, BookFilled, CloudUploadOutlined } from '@ant-design/icons'
+import { BookOutlined, ShareAltOutlined, BookFilled } from '@ant-design/icons'
 import no_image from '../../assets/images/no_image.jpg'
 import { MyUserDTO } from '../../constants/dto/myUser.dto'
 import { userInfoStore } from '../../store/user.store'
+import { LeftOutlined, RightOutlined } from '@ant-design/icons'
+
 import { addUserBookmark, deleteUserBookmark } from '../../service/user'
 
 const LectureDetail: React.FC = () => {
@@ -17,8 +19,8 @@ const LectureDetail: React.FC = () => {
   const [lecture, setLecture] = useState<LectureDTO>({} as LectureDTO)
   const { lectureId } = useParams<{ lectureId: string }>()
   const [loading, setLoading] = useState(false)
-  const [visible, setVisible] = useState(false)
   const [user, setUser] = useState<MyUserDTO>()
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
     setLoading(true)
@@ -99,14 +101,31 @@ const LectureDetail: React.FC = () => {
           </div>
 
           {/* //todo: แบงค์ชินทำต่อ */}
-          <div className="flex justify-center my-5">
+          <div className="flex justify-center my-5 relative">
             <Image
               style={{ height: 600 }}
-              preview={{ visible: false }}
-              src={lecture?.imageUrl?.[0]}
-              onClick={() => setVisible(true)}
+              className="object-center object-cover"
+              src={lecture?.imageUrl?.[count]}
+            />
+            <Button
+              shape="circle"
+              className="absolute top-1/2  right-3 -translate-y-1/2	"
+              onClick={() => setCount((count + 1) % lecture.imageUrl.length)}
+              disabled={!lecture.imageUrl?.length}
+              icon={<RightOutlined className="align-middle" />}
+            />
+
+            <Button
+              shape="circle"
+              className="absolute top-1/2 left-3 -translate-y-1/2	"
+              onClick={() =>
+                setCount((count - 1 + lecture.imageUrl.length) % lecture.imageUrl.length)
+              }
+              disabled={!lecture.imageUrl?.length}
+              icon={<LeftOutlined className="align-middle" />}
             />
           </div>
+
           {lecture.description && (
             <Card title="คำอธิบาย" className="shadow-1 rounded-sm">
               {lecture.description}
@@ -117,14 +136,6 @@ const LectureDetail: React.FC = () => {
             <div className="flex justify-center">
               <LectureDetailComment authorId={lecture.userId as string} lectureId={lectureId} />
             </div>
-          </div>
-
-          <div style={{ display: 'none' }}>
-            <Image.PreviewGroup preview={{ visible, onVisibleChange: vis => setVisible(vis) }}>
-              {lecture?.imageUrl?.map((image, index) => (
-                <Image width={200} key={index} src={image} />
-              ))}
-            </Image.PreviewGroup>
           </div>
         </div>
       </Skeleton>
