@@ -1,4 +1,4 @@
-import { Button, Card, Divider, Empty, Input, message, Select, Popconfirm } from 'antd'
+import { Button, Card, Divider, Empty, Input, message, Select, Popconfirm, Tag } from 'antd'
 import React, { useState } from 'react'
 import { DiffTwoTone, CheckOutlined } from '@ant-design/icons'
 import kuSubject from '../../constants/subjects.json'
@@ -8,6 +8,7 @@ import { SubjectDTO } from '../../constants/dto/subjects.dto'
 import { useHistory } from 'react-router'
 import { updateUserSubject } from '../../service/user'
 import { userInfoStore } from '../../store/user.store'
+import { SubjectTable } from '../SubjectTable'
 
 export const AddSubject: React.FC = () => {
   const { setUserSubject } = userInfoStore()
@@ -22,37 +23,36 @@ export const AddSubject: React.FC = () => {
   const history = useHistory()
   const [selectTable, setSelectTable] = useState<UserSubjectDTO>(allTitle[0])
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [currentSubject, setCurrentSubject] = useState<string>()
+  const [currentSubject, setCurrentSubject] = useState<string[]>([])
   const [allSubject] = useState<Record<string, SubjectDTO>>(
     kuSubject.subjects as unknown as Record<string, SubjectDTO>,
   )
 
-  const handleSelect = (value: string) => {
+  const handleSelect = (value: string[]) => {
     setCurrentSubject(value)
   }
   const addSubject = () => {
-    const id = currentSubject?.split(' ')[0]
+    const size = allTitle.length
+    currentSubject?.map(cSubject => {
+      const id = cSubject?.split(' ')[0]
 
-    if (
-      currentSubject &&
-      id &&
-      selectTable?.subjectId.findIndex(subject => subject === id) === -1
-    ) {
-      setSelectTable(selectTable => {
-        return {
-          ...selectTable,
-          subjectId: [id, ...selectTable.subjectId],
-        }
-      })
-      setCurrentSubject(undefined)
-      message.success('เพิ่มวิชาสำเร็จ')
-    } else {
-      setCurrentSubject(undefined)
-      message.warning('กรุณาอย่าเพิ่มวิชาซ้ำ')
-    }
+      if (cSubject && id && selectTable?.subjectId.findIndex(subject => subject === id) === -1) {
+        setSelectTable(selectTable => {
+          return {
+            ...selectTable,
+            subjectId: [id, ...selectTable.subjectId],
+          }
+        })
+      }
+    })
+    message.success('เพิ่มวิชาสำเร็จ')
   }
   const deleteSubject = (target: string) => {
     const id = target.split(' ')[0]
+    setCurrentSubject(currentSubject => {
+      return currentSubject.filter(subject => subject.split(' ')[0] !== id)
+    })
+
     setSelectTable(selectTable => {
       return {
         ...selectTable,
@@ -159,20 +159,29 @@ export const AddSubject: React.FC = () => {
         )}
         <div className="flex space-x-2 mb-4">
           <Select
-            allowClear
             showSearch
+            mode="multiple"
             className="flex-grow block"
+            maxTagCount="responsive"
             placeholder="โปรดเลือกวิชา"
             style={{ maxWidth: 585 }}
             onChange={handleSelect}
             value={currentSubject}
+            tagRender={({ value }) => {
+              const text: string = value as string
+              return <Tag>{text.split(' ')[0]}</Tag>
+            }}
           >
             {Object.entries(kuSubject.subjects).map(([key, subject]) => (
               <Select.Option
                 key={key}
                 value={`${key} ${subject.subjectNameTh} ${subject.subjectNameEn}`}
               >
-                {key} {subject.subjectNameTh} {subject.subjectNameEn}
+                <div className="my-1 text-sm">
+                  <div>{key}</div>
+                  <div>{subject.subjectNameTh}</div>
+                  <div>{subject.subjectNameEn}</div>
+                </div>
               </Select.Option>
             ))}
           </Select>

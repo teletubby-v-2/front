@@ -9,6 +9,9 @@ import { firebaseApp, firestore } from '../../config/firebase'
 import { Collection } from '../../constants'
 import firebase from 'firebase/app'
 import { lectureStore } from '../../store/lecture.store'
+import { Button, Card } from 'antd'
+import { DiffTwoTone, PlusOutlined, SearchOutlined } from '@ant-design/icons'
+import { SubjectTable } from '../../components/SubjectTable'
 import { useHistory } from 'react-router'
 
 export const Profile: React.FC = () => {
@@ -86,6 +89,30 @@ export const Profile: React.FC = () => {
                 limit={8}
                 extra={<a href="/viewAll/bookmark">ดูทั้งหมด</a>}
               />
+              <Card
+                title={
+                  <>
+                    <DiffTwoTone twoToneColor="black" className="align-text-top" /> วิชาของฉัน
+                  </>
+                }
+                extra={
+                  <>
+                    <Button
+                      type="primary"
+                      icon={<SearchOutlined className="align-middle" />}
+                      className="mr-3"
+                    >
+                      ค้นหา
+                    </Button>
+                    <Button type="primary" icon={<PlusOutlined className="align-middle" />}>
+                      เพิ่มตาราง
+                    </Button>
+                  </>
+                }
+                className="shadow-1"
+              >
+                <SubjectTable data={userInfo.userSubject} />
+              </Card>
             </div>
           </div>
         </div>

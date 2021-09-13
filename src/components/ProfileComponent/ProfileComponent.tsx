@@ -16,10 +16,10 @@ import { AuthZone } from '..'
 export interface ProfileComponentProps {
   onEdit?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
   isMy: boolean
-  Info: MyUser
+  info: MyUser
 }
 
-export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy, Info }) => {
+export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy, info: Info }) => {
   const [facebook, setFacebook] = useState('')
   const [instagram, setInstagram] = useState('')
   const [youtube, setYoutube] = useState('')
@@ -108,34 +108,41 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       <Divider>
         <p className="text-gray-400 mb-0">Social Link</p>
       </Divider>
-      <ul className="list-none space-y-2 pl-0">
-        {instagram.length !== 0 && (
-          <li className="text-center">
-            <a href={instagram} className="overflow-hidden" target="_blank" rel="noreferrer">
-              <Button className="overflow-hidden w-1/2" type="text">
-                <InstagramOutlined className="text-2xl" /> Instagram
-              </Button>
+      <ul className="list-none space-y-2 pl-0 space-y-4">
+        <div className="text-center text-3xl">
+          {instagram.length !== 0 && (
+            <a
+              href={instagram}
+              className="overflow-hidden text-gray-500 px-3 "
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span className="text-gradient  bg-gradient-to-r from-purple-400 to-pink-600">
+                <InstagramOutlined />
+              </span>
             </a>
-          </li>
-        )}
-        {facebook.length !== 0 && (
-          <li className="text-center">
-            <a href={facebook} className=" overflow-hidden" target="_blank" rel="noreferrer">
-              <Button className="overflow-hidden w-1/2" type="text">
-                <FacebookOutlined className="text-2xl" target="_blank" rel="noreferrer" /> Facebook
-              </Button>
+          )}
+          {facebook.length !== 0 && (
+            <a
+              href={facebook}
+              className=" overflow-hidden text-gray-500 px-3"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FacebookOutlined />
             </a>
-          </li>
-        )}
-        {youtube.length !== 0 && (
-          <li className="text-center">
-            <a href={youtube} className="overflow-hidden" target="_blank" rel="noreferrer">
-              <Button className="overflow-hidden w-1/2" type="text">
-                <YoutubeOutlined className="text-2xl" target="_blank" rel="noreferrer" /> Youtube
-              </Button>
+          )}
+          {youtube.length !== 0 && (
+            <a
+              href={youtube}
+              className="overflow-hidden text-gray-500 px-3"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <YoutubeOutlined />
             </a>
-          </li>
-        )}
+          )}
+        </div>
         {Info?.aboutMe?.length !== 0 && (
           <li>
             <p className="text-gray-500 mb-1">เกี่ยวกับฉัน : </p>

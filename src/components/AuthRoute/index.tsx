@@ -1,7 +1,6 @@
 import { Layout } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
-import { Navbar } from '../Navbar'
 import { Route, RouteProps, useLocation } from 'react-router-dom'
 import { Footer } from '..'
 import homeIcon from '../../assets/icons/home_icon.svg'

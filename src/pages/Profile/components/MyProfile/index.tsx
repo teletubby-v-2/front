@@ -13,7 +13,7 @@ export const MyProfile: React.FC = () => {
       {isEdit ? (
         <EditComponent onClose={() => setEdit(false)} />
       ) : (
-        <ProfileComponent isMy={true} onEdit={() => setEdit(true)} Info={userInfo} />
+        <ProfileComponent isMy={true} onEdit={() => setEdit(true)} info={userInfo} />
       )}
     </div>
   )
