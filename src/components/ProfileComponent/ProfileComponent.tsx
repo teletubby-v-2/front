@@ -12,6 +12,7 @@ import { userInfoStore } from '../../store/user.store'
 import { UpdateUserDTO } from '../../constants/dto/myUser.dto'
 import { updateUser } from '../../service/user'
 import { AuthZone } from '..'
+import { useHistory } from 'react-router'
 
 export interface ProfileComponentProps {
   onEdit?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
@@ -25,6 +26,7 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
   const [youtube, setYoutube] = useState('')
 
   const { userInfo, setFollowing } = userInfoStore()
+  const history = useHistory()
 
   useEffect(() => {
     if (Info && Info.socialLink) {
@@ -63,6 +65,10 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       .catch(err => console.log(err))
   }
 
+  const tofollow = () => {
+    history.push('/follow/' + Info.userId)
+  }
+
   return (
     <div className="p-6">
       <div className="text-center my-3">
@@ -78,7 +84,9 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       <div className="text-center items-center mt-3 mb-2">
         <p>
           {Info?.followers?.length} ผู้ติดตาม{' '}
-          <a className="ml-3 text-blue-600">{Info?.following?.length} กำลังติดตาม</a>
+          <a className="ml-3 text-blue-600" onClick={tofollow}>
+            {Info?.following?.length} กำลังติดตาม
+          </a>
         </p>
       </div>
       <div className="text-center space-x-4 flex">
