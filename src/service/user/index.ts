@@ -6,6 +6,16 @@ import { CreateUserDTO, UpdateUserDTO, UserSubjectDTO } from '../../constants/dt
 
 const userCollection = firestore.collection(Collection.Users)
 
+async function getUser() {
+  const userId = firebaseApp.auth().currentUser?.uid
+  if (userId) {
+    const doc = await userCollection.doc(userId).get()
+    return { ...doc.data(), userId: doc.id }
+  } else {
+    return firebase.auth().currentUser
+  }
+}
+
 async function createUser(user: CreateUserDTO): Promise<MyUser> {
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
   const userId = firebaseApp.auth().currentUser?.uid
@@ -18,6 +28,7 @@ async function createUser(user: CreateUserDTO): Promise<MyUser> {
     followers: [],
     following: [],
     lectureCount: 0,
+    notificationReadCount: [],
   }
   if (userId) {
     await userCollection.doc(userId).set(data)
@@ -90,4 +101,5 @@ export {
   addUserBookmark,
   deleteUserBookmark,
   updateUserSubject,
+  getUser,
 }
