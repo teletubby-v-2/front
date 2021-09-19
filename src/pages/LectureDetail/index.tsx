@@ -100,7 +100,6 @@ const LectureDetail: React.FC = () => {
             <div>{lecture.reviewCount} ratings</div>
           </div>
 
-          {/* //todo: แบงค์ชินทำต่อ */}
           <div className="flex justify-center my-5 relative">
             <Image
               style={{ height: 600 }}
