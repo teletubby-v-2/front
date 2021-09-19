@@ -1,8 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { Input, Avatar, Menu, Dropdown, Button, Select, Tooltip } from 'antd'
+import React, { ReactElement, useEffect, useState } from 'react'
+import { Input, Avatar, Menu, Dropdown, Button, Select, Tooltip, Drawer, Badge } from 'antd'
 import { useHistory } from 'react-router'
 import KUshare from '../../assets/icons/KUshare.svg'
-import { UserOutlined, BellOutlined, FileAddOutlined, SearchOutlined } from '@ant-design/icons'
+import {
+  UserOutlined,
+  BellOutlined,
+  FileAddOutlined,
+  SearchOutlined,
+  UsergroupAddOutlined,
+  BellFilled,
+  DiffOutlined,
+} from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
 import { logout } from '../../service/auth'
 import { MenuInfo } from 'rc-menu/lib/interface'
@@ -10,10 +18,58 @@ import { firebaseApp } from '../../config/firebase'
 import { AuthZone } from '..'
 import { CreateLectureForm } from '../CreateLectureForm'
 import kuSubject from '../../constants/subjects.json'
+import { getNoti } from '../../service/noti'
+import { Notification } from './../../constants/interface/notification.interface'
+
+const NotiMenuItem: React.FC<Notification> = ({ notiId, type, body, link }) => {
+  const history = useHistory()
+  let icon
+  if (type == 'follow') {
+    icon = <UsergroupAddOutlined />
+  } else {
+    icon = <DiffOutlined />
+  }
+
+  return (
+    <Menu.Item
+      className="bg-white"
+      key={notiId}
+      onClick={() => {
+        history.push(link)
+      }}
+    >
+      {icon}
+      {body}
+    </Menu.Item>
+  )
+}
 
 export const Navbar: React.FC = () => {
   const history = useHistory()
   const { userInfo } = userInfoStore()
+  const [notiMenu, setnotiMenu] = useState<ReactElement>(<Menu />)
+  const [Numnoti, setNumnoti] = useState(0)
+
+  useEffect(() => {
+    getNoti().then(data => {
+      const menu = (
+        <Menu className="mt-3 text-lg bg-gray-200">
+          <div className="text-center  text-xl py-3">
+            <BellFilled className="mr-2" />
+            การแจ้งเตือน
+          </div>
+          <Menu.Item className="bg-white" key="1">
+            test
+          </Menu.Item>
+          {data.map(notiInfo => {
+            NotiMenuItem(notiInfo)
+          })}
+        </Menu>
+      )
+      setnotiMenu(menu)
+      setNumnoti(data.length)
+    })
+  }, [])
 
   const onSearch = (value: string) => {
     value ? history.push('/viewAll/' + value) : null
@@ -90,9 +146,19 @@ export const Navbar: React.FC = () => {
               </CreateLectureForm>
 
               <Tooltip title="การแจ้งเตือน" placement="bottom">
-                <Button className="text-xl text-black" type="link" shape="circle">
-                  <BellOutlined className="align-top" />
-                </Button>
+                <Badge count={Numnoti}>
+                  <Dropdown
+                    className="text-xl text-black"
+                    overlay={notiMenu}
+                    trigger={['click']}
+                    placement="bottomCenter"
+                    overlayClassName="w-1/6 fixed"
+                  >
+                    <Button type="link" shape="circle">
+                      <BellOutlined className="align-top" />
+                    </Button>
+                  </Dropdown>
+                </Badge>
               </Tooltip>
               <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
                 {userInfo.imageUrl ? (
