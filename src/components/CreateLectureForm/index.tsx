@@ -125,7 +125,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
             getValueFromEvent={value => value.split()[0]}
             {...formItemLayout}
           >
-            <Select allowClear showSearch>
+            <Select allowClear showSearch dropdownClassName="fixed">
               {Object.entries(kuSubject.subjects).map(([key, subject]) => (
                 <Select.Option
                   key={key}
@@ -192,7 +192,6 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
               customRequest={handleRequest}
               onPreview={handlePreview}
             >
-              {/* {console.log(fileList)} */}
               <div>
                 {isUploading ? <LoadingOutlined /> : <PlusOutlined />}
                 <div className="m-2">อัพโหลด</div>

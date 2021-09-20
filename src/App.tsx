@@ -11,6 +11,7 @@ import {
   VerifyEmail,
   Success,
   Subject,
+  LectureDetail,
 } from './pages'
 import { LoadingOutlined } from '@ant-design/icons'
 import Yoyo from './pages/Yoyo'
@@ -28,7 +29,6 @@ import { Spin } from 'antd'
 import styled from 'styled-components'
 import { lectureStore } from './store/lecture.store'
 import { SelectProfile } from './pages/SelectProfile'
-import LectureDetail from './pages/LectureDetail'
 import { FollowList } from './pages/FollowList'
 
 const Overlay = styled.div`

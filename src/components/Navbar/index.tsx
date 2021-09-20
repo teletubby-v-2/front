@@ -1,19 +1,15 @@
 import React from 'react'
-import { Input, Avatar, Menu, Dropdown, Button } from 'antd'
+import { Avatar, Menu, Dropdown, Button, Select, Tooltip } from 'antd'
 import { useHistory } from 'react-router'
 import KUshare from '../../assets/icons/KUshare.svg'
-import { UserOutlined, BellOutlined, FileAddOutlined } from '@ant-design/icons'
+import { UserOutlined, SearchOutlined, BellOutlined, FileAddOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
 import { logout } from '../../service/auth'
 import { MenuInfo } from 'rc-menu/lib/interface'
 import { firebaseApp } from '../../config/firebase'
 import { AuthZone } from '..'
-import { Tooltip } from 'antd'
 import { CreateLectureForm } from '../CreateLectureForm'
 import kuSubject from '../../constants/subjects.json'
-import { AutoComplete } from 'antd'
-
-const { Search } = Input
 
 export const Navbar: React.FC = () => {
   const history = useHistory()
@@ -54,18 +50,34 @@ export const Navbar: React.FC = () => {
     </Menu>
   )
 
-  const options = Object.entries(kuSubject.subjects).map(([key, subject]) => {
-    return { value: `${key} ${subject.subjectNameTh} ${subject.subjectNameEn}` }
-  })
-
   return (
     <div>
       <nav className="text-xl h-16 navbar">
-        <div className="container mx-auto flex justify justify-between items-center p-3">
-          <img width={129} src={KUshare} onClick={onClickLogo} className="cursor-pointer" />
-          <AutoComplete className="max-w-3xl w-3/6" options={options} filterOption>
-            <Search onSearch={onSearch} size="large" placeholder="ค้นหารายวิชา" allowClear />
-          </AutoComplete>
+        <div className="container mx-auto flex justify-between items-center p-3 ">
+          <img width={129} src={KUshare} onClick={onClickLogo} className="cursor-pointer " />
+
+          <div className="text-center w-full space-x-2">
+            <SearchOutlined className="text-xl" />
+            <Select
+              allowClear
+              showSearch
+              className="max-w-3xl w-4/6 text-left"
+              onSelect={onSearch}
+              size="large"
+              dropdownClassName="fixed"
+              showArrow={false}
+              placeholder="ค้นหารายวิชา"
+            >
+              {Object.entries(kuSubject.subjects).map(([key, subject]) => (
+                <Select.Option
+                  key={key}
+                  value={`${key} ${subject.subjectNameTh}${subject.subjectNameEn}`}
+                >
+                  {key} {subject.subjectNameTh} {subject.subjectNameEn}
+                </Select.Option>
+              ))}
+            </Select>
+          </div>
 
           {isLogin() ? (
             <div className="flex items-center space-x-5">

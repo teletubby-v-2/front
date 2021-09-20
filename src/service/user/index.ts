@@ -2,7 +2,12 @@ import { MyUser } from './../../constants/interface/myUser.interface'
 import { Collection } from './../../constants/index'
 import firebase from 'firebase'
 import { firebaseApp, firestore } from '../../config/firebase'
-import { CreateUserDTO, UpdateUserDTO, UserSubjectDTO } from '../../constants/dto/myUser.dto'
+import {
+  CreateUserDTO,
+  MyUserDTO,
+  UpdateUserDTO,
+  UserSubjectDTO,
+} from '../../constants/dto/myUser.dto'
 
 const userCollection = firestore.collection(Collection.Users)
 
@@ -94,6 +99,16 @@ async function updateUserSubject(userSubject: UserSubjectDTO[]) {
   }
 }
 
+async function getUserDetial(userId: string) {
+  const bundleUser = await firestore.collection(Collection.Users).doc(userId).get()
+  if (bundleUser.exists) {
+    const data = { ...bundleUser.data(), userId: userId } as MyUserDTO
+    return data
+  } else {
+    throw new Error('no user')
+  }
+}
+
 export {
   createUser,
   updateUser,
@@ -102,4 +117,5 @@ export {
   deleteUserBookmark,
   updateUserSubject,
   getUser,
+  getUserDetial,
 }
