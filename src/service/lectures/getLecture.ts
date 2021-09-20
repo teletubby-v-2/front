@@ -1,3 +1,4 @@
+import { UserSubjectDTO } from './../../constants/dto/myUser.dto'
 import firebase from 'firebase'
 import { firestore } from '../../config/firebase'
 import { Collection } from '../../constants'
@@ -44,13 +45,22 @@ async function getBookmarkLectures(bookmark: string[]) {
   return data
 }
 
-async function getMySubject(subjectId: string[]) {
+async function getMySubject(userSubject: UserSubjectDTO[]) {
   const data: LectureDTO[] = []
-  const myLecturs = await lectureCollection.where('subjectId', 'in', subjectId).get()
-  myLecturs.forEach(lecture =>
-    data.push({ lectureId: lecture.id, ...lecture.data() } as LectureDTO),
-  )
-  return data
+  const subjectId = userSubject
+    .filter(subject => subject.isActive === true)
+    .map(subject => subject.subjectId)
+    .flatMap(x => x)
+
+  if (subjectId && subjectId.length !== 0) {
+    const myLecturs = await lectureCollection.where('subjectId', 'in', subjectId).get()
+    myLecturs.forEach(lecture =>
+      data.push({ lectureId: lecture.id, ...lecture.data() } as LectureDTO),
+    )
+    return data
+  } else {
+    throw new Error('err')
+  }
 }
 export {
   getLectures,

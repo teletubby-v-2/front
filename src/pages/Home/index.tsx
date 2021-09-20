@@ -15,15 +15,7 @@ export const Home: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    if (mySubject.length === 0 && userInfo.userSubject) {
-      const subjectId = userInfo.userSubject
-        .filter(subject => subject.isActive === true)
-        .map(subject => subject.subjectId)
-        .flatMap(x => x)
-      if (subjectId && subjectId.length !== 0) {
-        getMySubject(subjectId).then(data => setMySubject(data))
-      }
-    }
+    getMySubject(userInfo.userSubject).then(data => setMySubject(data))
   }, [userInfo.userSubject])
 
   return (

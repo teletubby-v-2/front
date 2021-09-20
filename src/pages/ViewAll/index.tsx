@@ -33,15 +33,8 @@ export const ViewAll: React.FC = () => {
           }
           break
         case 'mySubject':
-          // eslint-disable-next-line no-case-declarations
-          const subjectId = userInfo.userSubject
-            .filter(subject => subject.isActive === true)
-            .map(subject => subject.subjectId)
-            .flatMap(x => x)
           settitle(id)
-          if (subjectId && subjectId.length !== 0) {
-            getMySubject(subjectId).then(data => setViewAllLecture(data))
-          }
+          getMySubject(userInfo.userSubject).then(data => setViewAllLecture(data))
           break
         case 'bookmark':
           settitle(id)
