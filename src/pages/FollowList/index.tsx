@@ -9,7 +9,7 @@ import { fetchUser } from '../../utils/fetchUser'
 
 export const FollowList: React.FC = () => {
   const { userId } = useParams<{ userId: string }>()
-  const [info, setinfo] = useState({} as MyUser)
+  const [info, setInfo] = useState({} as MyUser)
   const minRow = 3
   //todo:GetuserData
   useEffect(() => {
@@ -19,7 +19,7 @@ export const FollowList: React.FC = () => {
       .get()
       .then(doc => {
         if (doc.exists) {
-          setinfo({ ...doc.data(), userId: doc.id } as MyUser)
+          setInfo({ ...doc.data(), userId: doc.id } as MyUser)
         }
       })
   }, [userId])
