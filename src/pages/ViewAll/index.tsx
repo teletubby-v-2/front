@@ -7,6 +7,12 @@ import { firestore } from '../../config/firebase'
 import { Collection } from '../../constants'
 import { useHistory, useParams } from 'react-router-dom'
 import firebase from 'firebase/app'
+import {
+  getBookmarkLectures,
+  getLectures,
+  getMySubject,
+  getOwnLectures,
+} from '../../service/lectures/getLecture'
 
 export const ViewAll: React.FC = () => {
   const { userInfo } = userInfoStore()
@@ -42,7 +48,7 @@ export const ViewAll: React.FC = () => {
         case 'ownLecture':
           settitle(id)
           if (userInfo.userId) {
-            return getAllParamLecture('userId', '==', userInfo.userId)
+            getOwnLectures(userInfo.userId).then(data => setViewAllLecture(data))
           }
           break
         case 'mySubject':
@@ -53,29 +59,18 @@ export const ViewAll: React.FC = () => {
             .flatMap(x => x)
           settitle(id)
           if (subjectId && subjectId.length !== 0) {
-            return getAllParamLecture('subjectId', 'in', subjectId)
+            getMySubject(subjectId).then(data => setViewAllLecture(data))
           }
           break
         case 'bookmark':
           settitle(id)
           if (userInfo.bookmark && userInfo.bookmark.length !== 0) {
-            return getAllParamLecture(false, 'in', userInfo.bookmark)
+            getBookmarkLectures(userInfo.bookmark).then(data => setViewAllLecture(data))
           }
           break
         case 'all':
           settitle(id)
-          firestore
-            .collection(Collection.Lectures)
-            .orderBy('createAt', 'desc')
-            .get()
-            .then(doc => {
-              doc.forEach(lecture => {
-                setViewAllLecture(allLecture => [
-                  ...allLecture,
-                  { lectureId: lecture.id, ...lecture.data() } as LectureDTO,
-                ])
-              })
-            })
+          getLectures().then(data => setViewAllLecture(data))
           break
         default:
           if (id.search('lecture') != -1) {

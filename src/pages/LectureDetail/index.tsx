@@ -1,19 +1,19 @@
 import { Card, Rate, Skeleton, Image, Tooltip, Avatar, message, Button } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { firestore } from '../../config/firebase'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { Redirect, useHistory, useParams } from 'react-router'
 import { LectureDetailComment } from '../LectureDetail/components/LectueDetailComment'
-import { Collection } from '../../constants'
+import {} from '../../constants'
 import { BookOutlined, ShareAltOutlined, BookFilled } from '@ant-design/icons'
 import no_image from '../../assets/images/no_image.jpg'
 import { MyUserDTO } from '../../constants/dto/myUser.dto'
 import { userInfoStore } from '../../store/user.store'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 
-import { addUserBookmark, deleteUserBookmark } from '../../service/user'
+import { addUserBookmark, deleteUserBookmark, getUser, getUserDetial } from '../../service/user'
+import { getLectureDetail } from '../../service/lectures/getLecture'
 
-const LectureDetail: React.FC = () => {
+export const LectureDetail: React.FC = () => {
   const { userInfo, addBookmark, removeBookmark } = userInfoStore()
   const history = useHistory()
   const [lecture, setLecture] = useState<LectureDTO>({} as LectureDTO)
@@ -24,20 +24,15 @@ const LectureDetail: React.FC = () => {
 
   useEffect(() => {
     setLoading(true)
-    const getLecture = async () => {
-      const bundle = await firestore.collection(Collection.Lectures).doc(lectureId).get()
-      const data = {
-        ...bundle.data(),
-        lectureId: bundle.id,
-      } as LectureDTO
-      const bundleUser = await firestore.collection(Collection.Users).doc(data.userId).get()
+    getLectureDetail(lectureId).then(data => setLecture(data))
+  }, [])
 
-      setLecture(data)
-      setUser({ ...bundleUser.data(), userId: data.userId } as MyUserDTO)
-    }
-
-    getLecture().then(() => setLoading(false))
-  }, [lectureId])
+  useEffect(() => {
+    getUserDetial(lecture.userId).then(data => {
+      setUser(data)
+      setLoading(false)
+    })
+  }, [lecture])
 
   const copy = () => {
     navigator.clipboard
@@ -69,6 +64,11 @@ const LectureDetail: React.FC = () => {
 
   return (
     <div className="mx-5 my-10 flex space-x-10 w-full">
+      <div>
+        <div>ข้อมูลเทส</div>
+        <div>{lecture.subjectId}</div>
+        <div>{lecture.userId}</div>
+      </div>
       {history.location.hash.length == 0 && <Redirect to={`${history.location.pathname}#review`} />}
       <Skeleton loading={loading} paragraph={{ rows: 10 }} active className="flex-grow">
         <div className="flex-grow">
@@ -157,5 +157,3 @@ const LectureDetail: React.FC = () => {
     </div>
   )
 }
-
-export default LectureDetail
