@@ -16,6 +16,7 @@ async function createLecture(lecture: CreateLectureDTO): Promise<LectureDTO> {
       isFinal: false,
       tags: [],
       userId,
+      ratingScore: 0,
       viewCount: 0,
       sumRating: 0,
       reviewCount: 0,
