@@ -12,6 +12,7 @@ import { userInfoStore } from '../../store/user.store'
 import { UpdateUserDTO } from '../../constants/dto/myUser.dto'
 import { updateUser } from '../../service/user'
 import { AuthZone } from '..'
+import { useHistory } from 'react-router'
 import { followUser, unFollowUser } from '../../service/user/follow'
 import { UserInfo } from '../../pages/UserInfo'
 
@@ -25,9 +26,11 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
   const [facebook, setFacebook] = useState('')
   const [instagram, setInstagram] = useState('')
   const [youtube, setYoutube] = useState('')
-  const { userInfo, addFollower, removeFollower, setFollower } = userInfoStore()
+  const { userInfo, addFollower, removeFollower, setFollower, removeFollowing, addFollowing } =
+    userInfoStore()
   const [followCount, setFollowCount] = useState(0)
   const [isFollow, setIsFollow] = useState(false)
+  const history = useHistory()
 
   useEffect(() => {
     if (Info && Info.socialLink) {
@@ -53,8 +56,7 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
   const onFollow = () => {
     followUser(Info.userId)
       .then(() => {
-        // addFollower(Info.userId)
-        setFollower([...userInfo.followers, Info.userId])
+        addFollowing(Info.userId)
         setIsFollow(true)
         setFollowCount(followCount + 1)
       })
@@ -64,11 +66,15 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
   const onUnfollow = () => {
     unFollowUser(Info.userId)
       .then(() => {
-        removeFollower(Info.userId)
         setIsFollow(false)
+        removeFollowing(Info.userId)
         setFollowCount(followCount - 1)
       })
       .catch(err => console.log(err))
+  }
+
+  const tofollow = () => {
+    history.push('/follow/' + Info.userId)
   }
 
   return (
@@ -86,7 +92,9 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       <div className="text-center items-center mt-3 mb-2">
         <p>
           {followCount} ผู้ติดตาม{' '}
-          <a className="ml-3 text-blue-600">{Info?.following?.length} กำลังติดตาม</a>
+          <a className="ml-3 text-blue-600" onClick={tofollow}>
+            {Info?.following?.length} กำลังติดตาม
+          </a>
         </p>
       </div>
       <div className="text-center space-x-4 flex">
