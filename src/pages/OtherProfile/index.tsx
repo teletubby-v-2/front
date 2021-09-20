@@ -29,13 +29,13 @@ export const OtherProfile: React.FC = () => {
   const { userId } = useParams<{ userId: string }>()
 
   useEffect(() => {
-    getUserDetial(userId).then(doc => {
-      if (doc.email) {
+    getUserDetial(userId)
+      .then(doc => {
         setinfo({ ...doc, userId: doc.userId } as MyUser)
-      } else {
-        history.push('/Not_found')
-      }
-    })
+      })
+      .catch(() => {
+        history.replace('/Not_found')
+      })
   }, [userId])
 
   useEffect(() => {

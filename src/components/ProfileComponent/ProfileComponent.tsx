@@ -81,7 +81,6 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
     <div className="p-6">
       <div className="text-center my-3">
         <h1 className="text-center text-2xl font-black ">{Info.userName}</h1>
-        <h1 className="text-center text-xs font-black ">{Info.userId}</h1>
       </div>
       <div className="flex w-full justify-center">
         {Info.imageUrl ? (

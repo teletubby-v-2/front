@@ -10,6 +10,7 @@ import firebase from 'firebase/app'
 import {
   getBookmarkLectures,
   getLectures,
+  getLecturesById,
   getMySubject,
   getOwnLectures,
 } from '../../service/lectures/getLecture'
@@ -20,26 +21,6 @@ export const ViewAll: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   const [viewAllLecture, setViewAllLecture] = useState<LectureDTO[]>([] as LectureDTO[])
   const [title, settitle] = useState('')
-
-  const getAllParamLecture = (
-    key: firebase.firestore.FieldPath | string | false,
-    query: firebase.firestore.WhereFilterOp,
-    value: any,
-  ) => {
-    firestore
-      .collection(Collection.Lectures)
-      .where(key ? key : firebase.firestore.FieldPath.documentId(), query, value)
-      // .orderBy('createAt', 'desc')
-      .get()
-      .then(doc => {
-        doc.forEach(lecture => {
-          setViewAllLecture(allSubject => [
-            ...allSubject,
-            { lectureId: lecture.id, ...lecture.data() } as LectureDTO,
-          ])
-        })
-      })
-  }
 
   useEffect(() => {
     setViewAllLecture([])
@@ -75,10 +56,12 @@ export const ViewAll: React.FC = () => {
         default:
           if (id.search('lecture') != -1) {
             settitle('สรุปของ ' + id.substring(id.search('lecture'), 0))
-            return getAllParamLecture('userId', '==', id.substring(id.search('lecture') + 7))
+            getOwnLectures(id.substring(id.search('lecture') + 7)).then(data =>
+              setViewAllLecture(data),
+            )
           } else {
             settitle('สรุปของวิชา ' + id)
-            return getAllParamLecture('subjectId', '==', id.slice(0, 8))
+            getLecturesById(id.slice(0, 8)).then(data => setViewAllLecture(data))
           }
       }
     }

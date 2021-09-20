@@ -1,16 +1,20 @@
 import firebase from 'firebase'
-import { doc } from 'prettier'
 import { firestore } from '../../config/firebase'
 import { Collection } from '../../constants'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
-import { MyUserDTO } from '../../constants/dto/myUser.dto'
 
 const lectureCollection = firestore.collection(Collection.Lectures)
-const usersCollection = firestore.collection(Collection.Users)
 
 async function getLectures() {
   const data: LectureDTO[] = []
   const lectures = await lectureCollection.orderBy('createAt', 'desc').get()
+  lectures.forEach(lecture => data.push({ lectureId: lecture.id, ...lecture.data() } as LectureDTO))
+  return data
+}
+
+async function getLecturesById(lectureId: string) {
+  const data: LectureDTO[] = []
+  const lectures = await lectureCollection.where('subjectId', '==', lectureId).get()
   lectures.forEach(lecture => data.push({ lectureId: lecture.id, ...lecture.data() } as LectureDTO))
   return data
 }
@@ -48,4 +52,11 @@ async function getMySubject(subjectId: string[]) {
   )
   return data
 }
-export { getLectures, getMySubject, getLectureDetail, getOwnLectures, getBookmarkLectures }
+export {
+  getLectures,
+  getMySubject,
+  getLectureDetail,
+  getOwnLectures,
+  getBookmarkLectures,
+  getLecturesById,
+}

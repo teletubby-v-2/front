@@ -9,9 +9,10 @@ import no_image from '../../assets/images/no_image.jpg'
 import { MyUserDTO } from '../../constants/dto/myUser.dto'
 import { userInfoStore } from '../../store/user.store'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
-
+import kuSubject from '../../constants/subjects.json'
 import { addUserBookmark, deleteUserBookmark, getUser, getUserDetial } from '../../service/user'
 import { getLectureDetail } from '../../service/lectures/getLecture'
+import { SubjectDTO } from '../../constants/dto/subjects.dto'
 
 export const LectureDetail: React.FC = () => {
   const { userInfo, addBookmark, removeBookmark } = userInfoStore()
@@ -21,6 +22,7 @@ export const LectureDetail: React.FC = () => {
   const [loading, setLoading] = useState(false)
   const [user, setUser] = useState<MyUserDTO>()
   const [count, setCount] = useState(0)
+  const [subject] = useState<Record<string, SubjectDTO>>(kuSubject.subjects)
 
   useEffect(() => {
     setLoading(true)
@@ -28,10 +30,14 @@ export const LectureDetail: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    getUserDetial(lecture.userId).then(data => {
-      setUser(data)
-      setLoading(false)
-    })
+    if (lecture.userId) {
+      getUserDetial(lecture.userId)
+        .then(data => {
+          setUser(data)
+          setLoading(false)
+        })
+        .catch(() => history.replace('/Not_found'))
+    }
   }, [lecture])
 
   const copy = () => {
@@ -64,11 +70,6 @@ export const LectureDetail: React.FC = () => {
 
   return (
     <div className="mx-5 my-10 flex space-x-10 w-full">
-      <div>
-        <div>ข้อมูลเทส</div>
-        <div>{lecture.subjectId}</div>
-        <div>{lecture.userId}</div>
-      </div>
       {history.location.hash.length == 0 && <Redirect to={`${history.location.pathname}#review`} />}
       <Skeleton loading={loading} paragraph={{ rows: 10 }} active className="flex-grow">
         <div className="flex-grow">
@@ -88,6 +89,10 @@ export const LectureDetail: React.FC = () => {
             </div>
           </div>
 
+          <div className=" space-x-3 mt-2">
+            <span>{lecture.subjectId}</span>
+            <span>{subject?.[lecture?.subjectId as string]?.subjectNameTh || ''}</span>
+          </div>
           <div className="flex w-full space-x-3 items-center my-4">
             <a href={`/profile/${user?.userId}`}>
               <Avatar src={user?.imageUrl} />

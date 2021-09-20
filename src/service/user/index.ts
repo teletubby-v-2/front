@@ -99,10 +99,14 @@ async function updateUserSubject(userSubject: UserSubjectDTO[]) {
   }
 }
 
-async function getUserDetial(userId: any) {
+async function getUserDetial(userId: string) {
   const bundleUser = await firestore.collection(Collection.Users).doc(userId).get()
-  const data = { ...bundleUser.data(), userId: userId } as MyUserDTO
-  return data
+  if (bundleUser.exists) {
+    const data = { ...bundleUser.data(), userId: userId } as MyUserDTO
+    return data
+  } else {
+    throw new Error('no user')
+  }
 }
 
 export {
