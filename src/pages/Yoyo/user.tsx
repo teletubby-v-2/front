@@ -1,12 +1,13 @@
 import { Breadcrumb, Button, Card, Dropdown, Menu } from 'antd'
 import Meta from 'antd/lib/card/Meta'
 import React, { useEffect, useState } from 'react'
-import { firestore } from '../../config/firebase'
+import { firebaseApp, firestore } from '../../config/firebase'
 import { CreateUserDTO, UpdateUserDTO } from '../../constants/dto/myUser.dto'
 import { createUser, updateUser, deleteUser } from '../../service/user'
 import { convertTimestampToTime } from '../../utils/time'
 import { description, img, username } from './dummy/index.dummy'
 import { DownOutlined } from '@ant-design/icons'
+import { getUserFollow, followUser, unFollowUser } from '../../service/user/follow'
 
 const User: React.FC = () => {
   const [count, setCount] = useState(0)
@@ -20,6 +21,29 @@ const User: React.FC = () => {
     }
     setCount(count + 1)
     createUser(data)
+  }
+
+  const testGetUser = () => {
+    const id = '1llHpm6ORtdkL6XL7iahRfr9rLx2'
+    getUserFollow(id)
+      .then(listFollower => {
+        console.log(listFollower)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  const testFollow = () => {
+    const id = '777'
+    followUser(id)
+    console.log(firebaseApp.auth().currentUser?.uid)
+  }
+
+  const testunFollow = () => {
+    const id = '777'
+    unFollowUser(id)
+    console.log(firebaseApp.auth().currentUser?.uid)
   }
 
   const testUpdateUser = () => {
@@ -120,6 +144,12 @@ const User: React.FC = () => {
       <div className="flex justify-center space-x-2">
         <Button size="large" type="primary" onClick={testCreateUser}>
           create user
+        </Button>
+        <Button size="large" type="primary" onClick={testFollow}>
+          follow user
+        </Button>
+        <Button size="large" type="primary" onClick={testunFollow}>
+          unfollow user
         </Button>
       </div>
       <div className="grid grid-cols-5 gap-5 container mx-auto">

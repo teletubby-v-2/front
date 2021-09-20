@@ -6,13 +6,13 @@ import { getUserDetial } from '../../service/user'
 
 export const FollowList: React.FC = () => {
   const { userId } = useParams<{ userId: string }>()
-  const [info, setinfo] = useState({} as MyUser)
+  const [info, setInfo] = useState({} as MyUser)
   const minRow = 3
 
   //todo:GetuserData
 
   useEffect(() => {
-    getUserDetial(userId).then(data => setinfo({ ...data, userId: data.userId } as MyUser))
+    getUserDetial(userId).then(data => setInfo({ ...data, userId: data.userId } as MyUser))
   }, [userId])
 
   return (

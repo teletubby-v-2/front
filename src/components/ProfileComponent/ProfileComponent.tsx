@@ -13,6 +13,8 @@ import { UpdateUserDTO } from '../../constants/dto/myUser.dto'
 import { updateUser } from '../../service/user'
 import { AuthZone } from '..'
 import { useHistory } from 'react-router'
+import { followUser, unFollowUser } from '../../service/user/follow'
+import { UserInfo } from '../../pages/UserInfo'
 
 export interface ProfileComponentProps {
   onEdit?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
@@ -24,8 +26,10 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
   const [facebook, setFacebook] = useState('')
   const [instagram, setInstagram] = useState('')
   const [youtube, setYoutube] = useState('')
-
-  const { userInfo, setFollowing } = userInfoStore()
+  const { userInfo, addFollower, removeFollower, setFollower, removeFollowing, addFollowing } =
+    userInfoStore()
+  const [followCount, setFollowCount] = useState(0)
+  const [isFollow, setIsFollow] = useState(false)
   const history = useHistory()
 
   useEffect(() => {
@@ -44,23 +48,27 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
     }
   }, [Info.socialLink])
 
+  useEffect(() => {
+    setIsFollow(userInfo.following.includes(Info.userId))
+    setFollowCount(Info.followers?.length)
+  }, [Info, userInfo.following])
+
   const onFollow = () => {
-    const newfollowing = userInfo.following
-    newfollowing.push(Info.userId)
-    updateUser({ following: newfollowing } as UpdateUserDTO)
+    followUser(Info.userId)
       .then(() => {
-        setFollowing(newfollowing)
+        addFollowing(Info.userId)
+        setIsFollow(true)
+        setFollowCount(followCount + 1)
       })
       .catch(err => console.log(err))
   }
 
   const onUnfollow = () => {
-    const newfollowing = userInfo.following.filter(function (value, index, arr) {
-      return value != Info.userId
-    })
-    updateUser({ following: newfollowing } as UpdateUserDTO)
+    unFollowUser(Info.userId)
       .then(() => {
-        setFollowing(newfollowing)
+        setIsFollow(false)
+        removeFollowing(Info.userId)
+        setFollowCount(followCount - 1)
       })
       .catch(err => console.log(err))
   }
@@ -84,7 +92,7 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       </div>
       <div className="text-center items-center mt-3 mb-2">
         <p>
-          {Info?.followers?.length} ผู้ติดตาม{' '}
+          {followCount} ผู้ติดตาม{' '}
           <a className="ml-3 text-blue-600" onClick={tofollow}>
             {Info?.following?.length} กำลังติดตาม
           </a>
@@ -102,7 +110,7 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
           </>
         ) : (
           <AuthZone className="flex-grow">
-            {userInfo.following.includes(Info.userId) ? (
+            {isFollow ? (
               <Button onClick={onUnfollow} block>
                 เลิกติดตาม
               </Button>
