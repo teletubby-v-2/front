@@ -26,6 +26,7 @@ async function createUser(user: CreateUserDTO): Promise<MyUser> {
   const userId = firebaseApp.auth().currentUser?.uid
   const data = {
     ...user,
+    imageUrl: user.imageUrl || '',
     createAt: timeStamp,
     updateAt: timeStamp,
     bookmark: [],

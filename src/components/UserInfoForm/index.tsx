@@ -41,19 +41,19 @@ export const UserInfoForm: React.FC = () => {
 
   const onFinish = (value: UpdateValue) => {
     const { youtube, facebook, instagram, imageUrl, ...rest } = value
+    const obtimizeSocialLink = removeUndefined({
+      youtube,
+      facebook,
+      instagram,
+    })
     createUser({
       ...removeUndefined(rest as unknown as Json),
       imageUrl,
-      socialLink: {
-        youtube,
-        facebook,
-        instagram,
-      },
+      socialLink: obtimizeSocialLink,
     }).then(user => {
       setAll(user)
       history.push('subject')
     })
-    /* TODO: update profile */
   }
 
   return (

@@ -15,7 +15,11 @@ export const Home: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    getMySubject(userInfo.userSubject).then(data => setMySubject(data))
+    if (userInfo.userSubject.length !== 0) {
+      getMySubject(userInfo.userSubject)
+        .then(data => setMySubject(data))
+        .catch(() => console.log('no data'))
+    }
   }, [userInfo.userSubject])
 
   return (
