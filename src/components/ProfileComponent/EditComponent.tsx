@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Divider, Form, Upload, Input, Avatar } from 'antd'
 import { UploadOutlined, LoadingOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
@@ -13,9 +13,11 @@ import { useForm } from 'antd/lib/form/Form'
 import no_user from '../../assets/images/no_user.png'
 export interface UpdateValue {
   aboutMe: string
-  instagram: string
-  facebook: string
-  youtube: string
+  socialLink: {
+    instagram: string
+    facebook: string
+    youtube: string
+  }
 }
 
 export interface EditComponentProps {
@@ -37,44 +39,23 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
   })
   const [loading, setLoading] = useState(false)
 
-  const mapSocialLink = (social: string) => {
-    const index = userInfo.socialLink.findIndex(socials => socials?.socialMediaName === social)
-    if (index !== -1) {
-      return userInfo.socialLink[index].socialMedisUrl.replace('https://', '')
-    }
-    return undefined
-  }
-
-  useEffect(() => {
-    form.setFieldsValue({ youtube: mapSocialLink('youtube') })
-    form.setFieldsValue({ facebook: mapSocialLink('facebook') })
-    form.setFieldsValue({ instagram: mapSocialLink('instagram') })
-    form.setFieldsValue({ aboutMe: userInfo.aboutMe })
-  }, [userInfo])
-
   const onFinish = (value: UpdateValue) => {
     setLoading(true)
-    const socialLink: SocialLink[] = [
-      {
-        socialMediaName: 'instagram',
-        socialMedisUrl: value.instagram ? 'https://' + value.instagram.replace('https://', '') : '',
-      },
-      {
-        socialMediaName: 'youtube',
-        socialMedisUrl: value.youtube ? 'https://' + value.youtube.replace('https://', '') : '',
-      },
-      {
-        socialMediaName: 'facebook',
-        socialMedisUrl: value.facebook ? 'https://' + value.facebook.replace('https://', '') : '',
-      },
-    ]
+    const { socialLink } = value
+    const socialLinkMap: SocialLink = {
+      instagram: socialLink.instagram
+        ? 'https://' + socialLink.instagram.replace('https://', '')
+        : '',
+      facebook: socialLink.facebook ? 'https://' + socialLink.facebook.replace('https://', '') : '',
+      youtube: socialLink.youtube ? 'https://' + socialLink.youtube.replace('https://', '') : '',
+    }
     if (
       imageUrl != userInfo.imageUrl ||
       value.aboutMe != userInfo.aboutMe ||
-      socialLink != userInfo.socialLink
+      socialLinkMap != userInfo.socialLink
     ) {
       const data: UpdateUserDTO = {
-        socialLink: socialLink,
+        socialLink: socialLinkMap,
         imageUrl: imageUrl,
         aboutMe: value.aboutMe,
       }
@@ -89,7 +70,7 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
             deleteImages(userInfo.imageUrl)
           }
           imageUrl ? setImageURL(imageUrl) : null
-          setSocialLink(socialLink)
+          setSocialLink(socialLinkMap)
           setAboutme(value.aboutMe)
         })
         .catch(err => console.log(err))
@@ -139,7 +120,7 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
         )}
       </div>
 
-      <Form onFinish={onFinish} form={form}>
+      <Form onFinish={onFinish} form={form} initialValues={{ ...userInfo }}>
         <div className="text-center">
           <Form.Item name="imagefile">
             <Upload
@@ -175,16 +156,14 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
         <Divider>
           <p className="text-gray-400">Social Link</p>
         </Divider>
-        <Form.Item name="instagram">
+        <Form.Item name={['socialLink', 'instagram']}>
           <Input addonBefore="https://" placeholder="Instagram" onKeyDown={dontSubmitWhenEnter} />
         </Form.Item>
-        <Form.Item name="facebook">
+        <Form.Item name={['socialLink', 'facebook']}>
           <Input addonBefore="https://" placeholder="Facebook" onKeyDown={dontSubmitWhenEnter} />
         </Form.Item>
-        <Form.Item name="youtube">
-          <div className="content-center">
-            <Input addonBefore="https://" placeholder="Youtube" onKeyDown={dontSubmitWhenEnter} />
-          </div>
+        <Form.Item name={['socialLink', 'youtube']}>
+          <Input addonBefore="https://" placeholder="Youtube" onKeyDown={dontSubmitWhenEnter} />
         </Form.Item>
         <Form.Item className="text-center">
           <div className="flex space-x-2">

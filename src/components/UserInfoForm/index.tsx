@@ -7,7 +7,6 @@ import { useUploadpic } from '../../hooks/useUploadpic'
 import { Avatar } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import { createUser } from '../../service/user'
-import { SocialLink } from '../../constants/interface/myUser.interface'
 import { Json, removeUndefined } from '../../utils/object'
 import { useHistory } from 'react-router-dom'
 
@@ -21,7 +20,7 @@ export interface UpdateValue {
   imageUrl: string
 }
 
-export const UserInfoForm: React.FC = props => {
+export const UserInfoForm: React.FC = () => {
   const [isUploading, setIsUploading] = useState(false)
   const { userInfo, setAll } = userInfoStore()
   const { TextArea } = Input
@@ -41,30 +40,15 @@ export const UserInfoForm: React.FC = props => {
   }, [userInfo])
 
   const onFinish = (value: UpdateValue) => {
-    const { youtube, facebook, instagram, imageUrl: url, ...rest } = value
-    const socialLink: SocialLink[] = []
-    if (instagram) {
-      socialLink.push({
-        socialMediaName: 'instagram',
-        socialMedisUrl: 'https://' + instagram.replace('https://', ''),
-      })
-    }
-    if (facebook) {
-      socialLink.push({
-        socialMediaName: 'facebook',
-        socialMedisUrl: 'https://' + facebook.replace('https://', ''),
-      })
-    }
-    if (youtube) {
-      socialLink.push({
-        socialMediaName: 'youtube',
-        socialMedisUrl: 'https://' + youtube.replace('https://', ''),
-      })
-    }
+    const { youtube, facebook, instagram, imageUrl, ...rest } = value
     createUser({
       ...removeUndefined(rest as unknown as Json),
       imageUrl,
-      socialLink,
+      socialLink: {
+        youtube,
+        facebook,
+        instagram,
+      },
     }).then(user => {
       setAll(user)
       history.push('subject')

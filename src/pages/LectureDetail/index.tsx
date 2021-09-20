@@ -96,7 +96,7 @@ const LectureDetail: React.FC = () => {
             <a href={`/profile/${user?.userId}`}>{user?.userName}</a>
             <div>·</div>
             <div className="flex-grow">เข้าชม {lecture.viewCount} ครั้ง</div>
-            <Rate value={lecture.sumRating / lecture.reviewCount} disabled />
+            <Rate value={lecture.sumRating / lecture.reviewCount} disabled allowHalf />
             <div>{lecture.reviewCount} ratings</div>
           </div>
 

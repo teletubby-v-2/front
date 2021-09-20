@@ -7,7 +7,7 @@ import { createUser, updateUser, deleteUser } from '../../service/user'
 import { convertTimestampToTime } from '../../utils/time'
 import { description, img, username } from './dummy/index.dummy'
 import { DownOutlined } from '@ant-design/icons'
-import { getUserFollow, followUser, unFollowUser } from '../../service/user/follow'
+import { followUser, unFollowUser } from '../../service/user/follow'
 
 const User: React.FC = () => {
   const [count, setCount] = useState(0)
@@ -21,17 +21,6 @@ const User: React.FC = () => {
     }
     setCount(count + 1)
     createUser(data)
-  }
-
-  const testGetUser = () => {
-    const id = '1llHpm6ORtdkL6XL7iahRfr9rLx2'
-    getUserFollow(id)
-      .then(listFollower => {
-        console.log(listFollower)
-      })
-      .catch(error => {
-        console.log(error)
-      })
   }
 
   const testFollow = () => {
@@ -50,7 +39,9 @@ const User: React.FC = () => {
     const data: UpdateUserDTO = {
       imageUrl: img[count % 5],
       userName: username[count % 2],
-      socialLink: [{ socialMediaName: '123', socialMedisUrl: '123' }],
+      socialLink: {
+        facebook: 'https://www.facebook.com/prayutofficial/',
+      },
       donateImage: img[count % 4],
       donateDescription: username[count % 3],
       aboutMe: description[count % 6],
