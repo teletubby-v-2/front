@@ -1,7 +1,7 @@
 import { Collection } from './../../constants/index'
 import firebase from 'firebase'
-import { firebaseApp, firestore } from '../../config/firebase'
-import { CreateUserDTO, UpdateUserDTO, MyUserDTO } from '../../constants/dto/myUser.dto'
+import { firestore } from '../../config/firebase'
+import { MyUserDTO } from '../../constants/dto/myUser.dto'
 import { fetchUserArray } from '../../utils/fetchUser'
 
 const userCollection = firestore.collection(Collection.Users)

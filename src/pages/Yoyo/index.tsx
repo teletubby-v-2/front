@@ -66,7 +66,6 @@ const Yoyo: React.FC = () => {
       .collection('Lectures')
       .orderBy('createAt')
       .onSnapshot(querySnapshot => {
-        console.log(querySnapshot.size)
         querySnapshot.docChanges().forEach(change => {
           const data = change.doc.data()
           fetchUser(data.userId).then(user => {

@@ -5,7 +5,7 @@ import { CreateLectureForm } from '../../components/CreateLectureForm'
 import { MyQR } from './components/MyQR'
 import { userInfoStore } from '../../store/user.store'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
-import { firebaseApp, firestore } from '../../config/firebase'
+import { firebaseApp } from '../../config/firebase'
 import { lectureStore } from '../../store/lecture.store'
 import { Button, Card } from 'antd'
 import { DiffTwoTone, PlusOutlined, SearchOutlined } from '@ant-design/icons'
@@ -14,7 +14,7 @@ import { getBookmarkLectures, getOwnLectures } from '../../service/lectures/getL
 
 export const Profile: React.FC = () => {
   const { userInfo } = userInfoStore()
-  const { ownLecture, setOwnLecture, addOwnLecture } = lectureStore()
+  const { ownLecture, setOwnLecture } = lectureStore()
   const [bookmarkLecture, setBookmarkLecture] = useState<LectureDTO[]>([] as LectureDTO[])
   // const [ownLecture, setOwnLecture] = useState<LectureDTO[]>([] as LectureDTO[])
 
