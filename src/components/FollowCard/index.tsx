@@ -1,4 +1,4 @@
-import { Avatar, Button } from 'antd'
+import { Avatar, Button, Divider } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import { AuthZone } from '..'
@@ -40,6 +40,8 @@ export const FollowCard: React.FC<FollowCardProps> = ({ userId, className }) => 
       .catch(err => console.log(err))
   }
 
+  const isMe = userId == userInfo.userId
+
   return (
     <div className={`${className} ant-card-grid-hoverable border-2 border-gray-500 w-52 h-60 p-2 `}>
       {/* todo: no border???? why!!!! */}
@@ -50,14 +52,18 @@ export const FollowCard: React.FC<FollowCardProps> = ({ userId, className }) => 
         </div>
 
         <AuthZone className="">
-          {userInfo.following.includes(userId) ? (
-            <Button block onClick={onUnfollow}>
-              เลิกติดตาม
-            </Button>
+          {!isMe ? (
+            userInfo.following.includes(userId) ? (
+              <Button block onClick={onUnfollow}>
+                เลิกติดตาม
+              </Button>
+            ) : (
+              <Button type="primary" block onClick={onFollow}>
+                ติดตาม
+              </Button>
+            )
           ) : (
-            <Button type="primary" block onClick={onFollow}>
-              ติดตาม
-            </Button>
+            <div />
           )}
         </AuthZone>
       </div>
