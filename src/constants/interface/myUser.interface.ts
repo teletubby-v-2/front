@@ -22,5 +22,6 @@ export interface MyUser {
   bookmark: string[]
   createAt?: firebase.firestore.Timestamp
   updateAt?: firebase.firestore.Timestamp
+  notificationReadCount: string[]
   aboutMe?: string
 }

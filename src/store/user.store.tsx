@@ -22,6 +22,7 @@ const initUserData: MyUser = {
   donateDescription: '',
   aboutMe: '',
   bookmark: [],
+  notificationReadCount: [],
 }
 
 export const userInfoStore = create<UserInfo>((set, get) => ({
