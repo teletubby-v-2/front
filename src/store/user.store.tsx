@@ -15,6 +15,7 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
     followers: [], //user id
     following: [], //user id
     lectureCount: 0,
+    notificationReadCount: [],
     donateImage: '',
     donateDescription: '',
     aboutme: '',
@@ -91,6 +92,7 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
   clearAll: () => {
     set({
       userInfo: {
+        notificationReadCount: [],
         userId: '',
         email: '',
         imageUrl: '',
