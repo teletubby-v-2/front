@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Avatar, Button, Divider, Space } from 'antd'
+import { Avatar, Button, Divider } from 'antd'
 import {
   DashOutlined,
   FacebookOutlined,
@@ -9,12 +9,9 @@ import {
 import { MyUser } from '../../constants/interface/myUser.interface'
 import no_user from '../../assets/images/no_user.png'
 import { userInfoStore } from '../../store/user.store'
-import { UpdateUserDTO } from '../../constants/dto/myUser.dto'
-import { updateUser } from '../../service/user'
 import { AuthZone } from '..'
 import { useHistory } from 'react-router'
 import { followUser, unFollowUser } from '../../service/user/follow'
-import { UserInfo } from '../../pages/UserInfo'
 
 export interface ProfileComponentProps {
   onEdit?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
@@ -26,27 +23,16 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
   const [facebook, setFacebook] = useState('')
   const [instagram, setInstagram] = useState('')
   const [youtube, setYoutube] = useState('')
-  const { userInfo, addFollower, removeFollower, setFollower, removeFollowing, addFollowing } =
-    userInfoStore()
+  const { userInfo, removeFollowing, addFollowing } = userInfoStore()
   const [followCount, setFollowCount] = useState(0)
   const [isFollow, setIsFollow] = useState(false)
   const history = useHistory()
 
   useEffect(() => {
-    if (Info && Info.socialLink) {
-      Info.socialLink.forEach(social => {
-        if (social.socialMediaName == 'youtube') {
-          setYoutube(social.socialMedisUrl)
-        }
-        if (social.socialMediaName == 'instagram') {
-          setInstagram(social.socialMedisUrl)
-        }
-        if (social.socialMediaName == 'facebook') {
-          setFacebook(social.socialMedisUrl)
-        }
-      })
-    }
-  }, [Info.socialLink])
+    setYoutube(userInfo.socialLink.youtube || '')
+    setInstagram(userInfo.socialLink.instagram || '')
+    setFacebook(userInfo.socialLink.facebook || '')
+  }, [userInfo])
 
   useEffect(() => {
     setIsFollow(userInfo.following.includes(Info.userId))

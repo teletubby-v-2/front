@@ -6,7 +6,7 @@ import { queryOperator } from './queryOperator.dto'
 export interface CreateUserDTO {
   imageUrl?: string
   userName?: string
-  socialLink?: SocialLink[]
+  socialLink?: SocialLink
   userId?: string
   email?: string
   aboutMe?: string
