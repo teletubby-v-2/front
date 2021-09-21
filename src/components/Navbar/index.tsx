@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from 'react'
-import { Avatar, Menu, Dropdown, Button, Select, Tooltip, Badge } from 'antd'
+import { Avatar, Menu, Dropdown, Button, Select, Tooltip, Badge, Typography } from 'antd'
 import { useHistory } from 'react-router'
 import KUshare from '../../assets/icons/KUshare.svg'
 import {
@@ -10,6 +10,7 @@ import {
   UsergroupAddOutlined,
   BellFilled,
   DiffOutlined,
+  TeamOutlined,
 } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
 import { logout } from '../../service/auth'
@@ -23,23 +24,37 @@ import { Notification } from './../../constants/interface/notification.interface
 
 const NotiMenuItem: React.FC<Notification> = ({ notiId, type, body, link }) => {
   const history = useHistory()
+  const { userInfo } = userInfoStore()
   let icon
+  let className
   if (type == 'follow') {
-    icon = <UsergroupAddOutlined />
+    icon = <UsergroupAddOutlined className="align-middle" />
+  } else if (type == 'lecture') {
+    icon = <DiffOutlined className="align-middle" />
+  }
+
+  if (userInfo.notificationReadCount.includes(notiId ? notiId : '')) {
+    className = 'bg-gray-100'
   } else {
-    icon = <DiffOutlined />
+    className = 'bg-white'
   }
 
   return (
     <Menu.Item
-      className="bg-white"
+      className={`${className} p-2 space-x-2`}
       key={notiId}
       onClick={() => {
         history.push(link)
       }}
     >
-      {icon}
-      {body}
+      <div className="flex items-center">
+        <Avatar icon={icon} className="bg-blue-200 mr-3" />
+        <div>
+          <Typography.Text ellipsis className="w-40">
+            {body}
+          </Typography.Text>
+        </div>
+      </div>
     </Menu.Item>
   )
 }
@@ -53,21 +68,34 @@ export const Navbar: React.FC = () => {
   useEffect(() => {
     getNoti().then(data => {
       const menu = (
-        <Menu className="mt-3 text-lg bg-gray-200">
-          <div className="text-center  text-xl py-3">
-            <BellFilled className="mr-2" />
+        <Menu className="mt-3 text-base bg-gray-200 overflow-hidden">
+          <div className="p-1 pl-3">
+            <BellFilled className="mr-2 align-middle" />
             การแจ้งเตือน
           </div>
-          <Menu.Item className="bg-white" key="1">
-            test
+          {/*todo:test noti delete if complete*/}
+          <Menu.Item className="bg-white p-2 space-x-2" key="1">
+            <div className="flex items-center">
+              <Avatar
+                icon={<TeamOutlined className="align-middle" />}
+                className="bg-blue-200 mr-3"
+              />
+              <div>
+                <Typography.Text ellipsis className="w-40">
+                  testttttttttttttttttttttttttttttttttttttttttttt
+                </Typography.Text>
+              </div>
+            </div>
           </Menu.Item>
           {data.map(notiInfo => {
             NotiMenuItem(notiInfo)
+            if (!userInfo.notificationReadCount.includes(notiInfo.notiId ? notiInfo.notiId : '')) {
+              setNumnoti(Numnoti + 1)
+            }
           })}
         </Menu>
       )
       setnotiMenu(menu)
-      setNumnoti(data.length)
     })
   }, [])
 
@@ -145,21 +173,19 @@ export const Navbar: React.FC = () => {
                 </Tooltip>
               </CreateLectureForm>
 
-              <Tooltip title="การแจ้งเตือน" placement="bottom">
-                <Badge count={Numnoti}>
-                  <Dropdown
-                    className="text-xl text-black"
-                    overlay={notiMenu}
-                    trigger={['click']}
-                    placement="bottomCenter"
-                    overlayClassName="w-1/6 fixed"
-                  >
-                    <Button type="link" shape="circle">
-                      <BellOutlined className="align-top" />
-                    </Button>
-                  </Dropdown>
-                </Badge>
-              </Tooltip>
+              <Badge count={Numnoti}>
+                <Dropdown
+                  className="text-xl text-black"
+                  overlay={notiMenu}
+                  trigger={['click']}
+                  placement="bottomLeft"
+                  overlayClassName="w-56 fixed"
+                >
+                  <Button type="link" shape="circle">
+                    <BellOutlined className="align-top" />
+                  </Button>
+                </Dropdown>
+              </Badge>
               <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
                 {userInfo.imageUrl ? (
                   <Avatar src={userInfo.imageUrl} size="large" className="border cursor-pointer" />
