@@ -2,15 +2,31 @@ import { MyUser } from './../../constants/interface/myUser.interface'
 import { Collection } from './../../constants/index'
 import firebase from 'firebase'
 import { firebaseApp, firestore } from '../../config/firebase'
-import { CreateUserDTO, UpdateUserDTO, UserSubjectDTO } from '../../constants/dto/myUser.dto'
+import {
+  CreateUserDTO,
+  MyUserDTO,
+  UpdateUserDTO,
+  UserSubjectDTO,
+} from '../../constants/dto/myUser.dto'
 
 const userCollection = firestore.collection(Collection.Users)
+
+async function getUser() {
+  const userId = firebaseApp.auth().currentUser?.uid
+  if (userId) {
+    const doc = await userCollection.doc(userId).get()
+    return { ...doc.data(), userId: doc.id }
+  } else {
+    return firebase.auth().currentUser
+  }
+}
 
 async function createUser(user: CreateUserDTO): Promise<MyUser> {
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
   const userId = firebaseApp.auth().currentUser?.uid
   const data = {
     ...user,
+    imageUrl: user.imageUrl || '',
     createAt: timeStamp,
     updateAt: timeStamp,
     bookmark: [],
@@ -18,6 +34,7 @@ async function createUser(user: CreateUserDTO): Promise<MyUser> {
     followers: [],
     following: [],
     lectureCount: 0,
+    notificationReadCount: [],
   }
   if (userId) {
     await userCollection.doc(userId).set(data)
@@ -83,6 +100,16 @@ async function updateUserSubject(userSubject: UserSubjectDTO[]) {
   }
 }
 
+async function getUserDetial(userId: string) {
+  const bundleUser = await firestore.collection(Collection.Users).doc(userId).get()
+  if (bundleUser.exists) {
+    const data = { ...bundleUser.data(), userId: userId } as MyUserDTO
+    return data
+  } else {
+    throw new Error('no user')
+  }
+}
+
 export {
   createUser,
   updateUser,
@@ -90,4 +117,6 @@ export {
   addUserBookmark,
   deleteUserBookmark,
   updateUserSubject,
+  getUser,
+  getUserDetial,
 }

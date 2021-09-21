@@ -51,7 +51,6 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
   const beforeClose = () => {
     if (imageUrl != userInfo.donateImage && imageUrl) {
       deleteImages(imageUrl)
-      console.log(imageUrl)
     }
     onClose()
   }
