@@ -14,6 +14,7 @@ export interface CreateLectureDTO {
   isMid?: boolean
   isFinal?: boolean
   imageUrl: string[]
+  ratingScore?: number
   tags?: string[]
   sumRating?: number
   reviewCount?: number

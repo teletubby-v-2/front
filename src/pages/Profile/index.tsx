@@ -5,54 +5,29 @@ import { CreateLectureForm } from '../../components/CreateLectureForm'
 import { MyQR } from './components/MyQR'
 import { userInfoStore } from '../../store/user.store'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
-import { firebaseApp, firestore } from '../../config/firebase'
-import { Collection } from '../../constants'
-import firebase from 'firebase/app'
+import { firebaseApp } from '../../config/firebase'
 import { lectureStore } from '../../store/lecture.store'
 import { Button, Card } from 'antd'
 import { DiffTwoTone, PlusOutlined, SearchOutlined } from '@ant-design/icons'
 import { SubjectTable } from '../../components/SubjectTable'
-import { useHistory } from 'react-router'
+import { getBookmarkLectures, getOwnLectures } from '../../service/lectures/getLecture'
 
 export const Profile: React.FC = () => {
   const { userInfo } = userInfoStore()
-  const { ownLecture, setOwnLecture, addOwnLecture } = lectureStore()
+  const { ownLecture, setOwnLecture } = lectureStore()
   const [bookmarkLecture, setBookmarkLecture] = useState<LectureDTO[]>([] as LectureDTO[])
   // const [ownLecture, setOwnLecture] = useState<LectureDTO[]>([] as LectureDTO[])
-
-  const history = useHistory()
-
-  const islogin = firebaseApp.auth().currentUser
 
   useEffect(() => {
     setOwnLecture([])
     if (userInfo.userId) {
-      firestore
-        .collection(Collection.Lectures)
-        .where('userId', '==', userInfo.userId)
-        .get()
-        .then(doc => {
-          doc.forEach(lecture => {
-            addOwnLecture({ lectureId: lecture.id, ...lecture.data() } as LectureDTO)
-          })
-        })
+      getOwnLectures(userInfo.userId).then(data => setOwnLecture(data))
     }
   }, [userInfo.userId])
 
   useEffect(() => {
     if (bookmarkLecture.length === 0 && userInfo.bookmark && userInfo.bookmark.length !== 0) {
-      firestore
-        .collection(Collection.Lectures)
-        .where(firebase.firestore.FieldPath.documentId(), 'in', userInfo.bookmark)
-        .get()
-        .then(doc => {
-          doc.forEach(lecture => {
-            setBookmarkLecture(bookmarklLecture => [
-              ...bookmarklLecture,
-              { lectureId: lecture.id, ...lecture.data() } as LectureDTO,
-            ])
-          })
-        })
+      getBookmarkLectures(userInfo.bookmark).then(data => setBookmarkLecture(data))
     }
   }, [userInfo.bookmark])
 

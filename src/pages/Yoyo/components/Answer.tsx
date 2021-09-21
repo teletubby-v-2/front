@@ -96,11 +96,8 @@ export const AnswerCom: React.FC<AnswerComProps> = ({ id, qaId, className }) => 
           }
           if (change.type === 'removed') {
             console.log('Removed answer: ', data)
-            console.log(answer)
             setAnswer(commentMap =>
               commentMap.filter(comment => {
-                console.log(comment.answerId, change.doc.id)
-
                 return comment.answerId !== change.doc.id
               }),
             )

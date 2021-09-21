@@ -22,6 +22,8 @@ async function createReview(review: CreateReviewDTO): Promise<Review> {
   batch.update(lectureRef, {
     reviewCount: lectureData.data()?.reviewCount + 1,
     sumRating: lectureData.data()?.sumRating + review.rating,
+    ratingScore:
+      lectureData.data()?.sumRating + review.rating / (lectureData.data()?.reviewCount + 1),
   })
   const data: CreateReviewDTO = {
     ...review,

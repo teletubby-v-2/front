@@ -71,7 +71,7 @@ export const ReviewCom: React.FC<ReviewComProps> = ({ id }) => {
           setLoading(true)
           const data = change.doc.data()
           if (change.type === 'added') {
-            // console.log('New Lecture: ', data)
+            console.log('New Lecture: ', data)
             fetchUser(data.userId).then(user =>
               setReview(reviewMap => [
                 ...reviewMap,
@@ -80,7 +80,7 @@ export const ReviewCom: React.FC<ReviewComProps> = ({ id }) => {
             )
           }
           if (change.type === 'modified') {
-            // console.log('Modified Lecture: ', data)
+            console.log('Modified Lecture: ', data)
             setReview(reviewMap => {
               const index = reviewMap.findIndex(review => review.reviewId === change.doc.id)
               const user = {
@@ -95,7 +95,7 @@ export const ReviewCom: React.FC<ReviewComProps> = ({ id }) => {
             })
           }
           if (change.type === 'removed') {
-            // console.log('Removed Lecture: ', data)
+            console.log('Removed Lecture: ', data)
             setReview(reviewMap => reviewMap.filter(review => review.reviewId !== change.doc.id))
           }
         })

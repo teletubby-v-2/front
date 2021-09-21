@@ -2,7 +2,7 @@ import { Notification } from './../../constants/interface/notification.interface
 import { MyUser } from './../../constants/interface/myUser.interface'
 import { Collection } from './../../constants/index'
 import firebase from 'firebase'
-import { firebaseApp, firestore } from '../../config/firebase'
+import { firestore } from '../../config/firebase'
 import { getUser } from '../user'
 
 const notiBody: Record<string, (targetUsername: string) => string> = {
