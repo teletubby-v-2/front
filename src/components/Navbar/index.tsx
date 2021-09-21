@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from 'react'
-import { Input, Avatar, Menu, Dropdown, Button, Select, Tooltip, Drawer, Badge } from 'antd'
+import { Avatar, Menu, Dropdown, Button, Select, Tooltip, Badge } from 'antd'
 import { useHistory } from 'react-router'
 import KUshare from '../../assets/icons/KUshare.svg'
 import {
