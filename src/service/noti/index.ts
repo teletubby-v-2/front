@@ -10,20 +10,37 @@ const notiBody: Record<string, (targetUsername: string) => string> = {
   follow: (targetUsername: string) => `${targetUsername} ได้เริ่มติดตามคุณ`,
 }
 
-async function createNoti(type: 'lecture' | 'follow', link: string) {
+async function createLectureNoti(link: string) {
   const user = (await getUser()) as MyUser
   if (user.followers.length === 0) return
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
   const noti: Notification = {
     targetUserId: user.userId,
     relevantUserId: user.followers,
-    type: type,
-    body: notiBody[type](user.userName),
+    type: 'lecture',
+    body: notiBody['lecture'](user.userName),
     link: link,
     createAt: timeStamp,
     updateAt: timeStamp,
   }
   firestore.collection(Collection.Notifications).add(noti)
+}
+
+async function createFollowNoti(userId: string) {
+  const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
+  const target = firebase.auth().currentUser
+  if (target) {
+    const noti: Notification = {
+      targetUserId: target.uid,
+      relevantUserId: [userId],
+      type: 'follow',
+      body: notiBody['follow'](target.displayName || target.uid),
+      link: `/profile/${userId}`,
+      createAt: timeStamp,
+      updateAt: timeStamp,
+    }
+    firestore.collection(Collection.Notifications).add(noti)
+  }
 }
 
 async function getNoti() {
@@ -39,4 +56,4 @@ async function getNoti() {
   return data
 }
 
-export { createNoti, getNoti }
+export { createFollowNoti, createLectureNoti, getNoti }
