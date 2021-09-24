@@ -120,6 +120,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
         <ReviewBox review={review} key={index} />
       ))}
       {reviews &&
+        size - reviews.length >= 0 &&
         Array(size - reviews.length)
           .fill(Array(size - reviews.length).keys())
           .map((_, index) => <Skeleton active paragraph={{ rows: 1 }} avatar key={index} />)}

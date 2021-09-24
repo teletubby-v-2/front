@@ -3,7 +3,7 @@ import { Collection } from './../../constants/index'
 import firebase from 'firebase'
 import { firebaseApp, firestore } from '../../config/firebase'
 import { CreateLectureDTO, UpdateLectureDTO } from '../../constants/dto/lecture.dto'
-import { createNoti } from '../noti'
+import { createLectureNoti } from '../noti'
 
 const lectureCollection = firestore.collection(Collection.Lectures)
 
@@ -26,7 +26,7 @@ async function createLecture(lecture: CreateLectureDTO): Promise<LectureDTO> {
     }
 
     const newLecture = await lectureCollection.add(data)
-    createNoti('lecture', `/lecture/${newLecture.id}`)
+    createLectureNoti(`/lecture/${newLecture.id}`)
     return {
       ...data,
       lectureId: newLecture.id,
