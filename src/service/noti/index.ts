@@ -35,7 +35,7 @@ async function createFollowNoti(userId: string) {
       relevantUserId: [userId],
       type: 'follow',
       body: notiBody['follow'](target.displayName || target.uid),
-      link: `/profile/${userId}`,
+      link: `/profile/${target.uid}`,
       createAt: timeStamp,
       updateAt: timeStamp,
     }

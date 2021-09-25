@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useMemo, useState } from 'react'
 import { Avatar, Menu, Dropdown, Button, Select, Tooltip, Badge, Typography } from 'antd'
 import { useHistory } from 'react-router'
 import KUshare from '../../assets/icons/KUshare.svg'
@@ -7,9 +7,7 @@ import {
   BellOutlined,
   FileAddOutlined,
   SearchOutlined,
-  UsergroupAddOutlined,
   BellFilled,
-  DiffOutlined,
   TeamOutlined,
 } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
@@ -20,84 +18,22 @@ import { AuthZone } from '..'
 import { CreateLectureForm } from '../CreateLectureForm'
 import kuSubject from '../../constants/subjects.json'
 import { getNoti } from '../../service/noti'
-import { Notification } from './../../constants/interface/notification.interface'
-
-const NotiMenuItem: React.FC<Notification> = ({ notiId, type, body, link }) => {
-  const history = useHistory()
-  const { userInfo } = userInfoStore()
-  let icon
-  let className
-  if (type == 'follow') {
-    icon = <UsergroupAddOutlined className="align-middle" />
-  } else if (type == 'lecture') {
-    icon = <DiffOutlined className="align-middle" />
-  }
-
-  if (userInfo.notificationReadCount.includes(notiId ? notiId : '')) {
-    className = 'bg-gray-100'
-  } else {
-    className = 'bg-white'
-  }
-
-  return (
-    <Menu.Item
-      className={`${className} p-2 space-x-2`}
-      key={notiId}
-      onClick={() => {
-        history.push(link)
-      }}
-    >
-      <div className="flex items-center">
-        <Avatar icon={icon} className="bg-blue-200 mr-3" />
-        <div>
-          <Typography.Text ellipsis className="w-40">
-            {body}
-          </Typography.Text>
-        </div>
-      </div>
-    </Menu.Item>
-  )
-}
+import { NotiMenuItem } from '../NotiMenu'
+import { Notification } from '../../constants/interface/notification.interface'
 
 export const Navbar: React.FC = () => {
   const history = useHistory()
   const { userInfo } = userInfoStore()
-  const [notiMenu, setnotiMenu] = useState<ReactElement>(<Menu />)
   const [Numnoti, setNumnoti] = useState(0)
+  const [notilist, setnotilist] = useState<Notification[]>([])
+  const [notiMenu, setnotiMenu] = useState<ReactElement>(<Menu />)
+  const isLogin = () => (firebaseApp.auth().currentUser ? true : false)
 
   useEffect(() => {
     getNoti().then(data => {
-      const menu = (
-        <Menu className="mt-3 text-base bg-gray-200 overflow-hidden">
-          <div className="p-1 pl-3">
-            <BellFilled className="mr-2 align-middle" />
-            การแจ้งเตือน
-          </div>
-          {/*todo:test noti delete if complete*/}
-          <Menu.Item className="bg-white p-2 space-x-2" key="1">
-            <div className="flex items-center">
-              <Avatar
-                icon={<TeamOutlined className="align-middle" />}
-                className="bg-blue-200 mr-3"
-              />
-              <div>
-                <Typography.Text ellipsis className="w-40">
-                  testttttttttttttttttttttttttttttttttttttttttttt
-                </Typography.Text>
-              </div>
-            </div>
-          </Menu.Item>
-          {data.map(notiInfo => {
-            NotiMenuItem(notiInfo)
-            if (!userInfo.notificationReadCount.includes(notiInfo.notiId ? notiInfo.notiId : '')) {
-              setNumnoti(Numnoti + 1)
-            }
-          })}
-        </Menu>
-      )
-      setnotiMenu(menu)
+      setnotilist(data)
     })
-  }, [])
+  }, [isLogin()])
 
   const onSearch = (value: string) => {
     value ? history.push('/viewAll/' + value) : null
@@ -121,8 +57,6 @@ export const Navbar: React.FC = () => {
     }
   }
 
-  const isLogin = () => (firebaseApp.auth().currentUser ? true : false)
-
   const menu = (
     <Menu onClick={handleMenuClick} className="mt-2">
       <Menu.Item key="profile" hidden={!isLogin()}>
@@ -134,12 +68,39 @@ export const Navbar: React.FC = () => {
     </Menu>
   )
 
+  useEffect(() => {
+    const idlist = notilist.map(notiinfo => notiinfo.notiId)
+    const intersec = userInfo.notificationReadCount.filter(id => idlist.includes(id))
+    setNumnoti(idlist.length - intersec.length)
+    const notimenu = (
+      <Menu className="mt-3 text-base bg-gray-400 overflow-hidden">
+        <div className="p-1 pl-3">
+          <BellFilled className="mr-2 align-middle" />
+          การแจ้งเตือน
+        </div>
+        {notilist.map(notiInfo => {
+          if (notiInfo.notiId) {
+            return (
+              <NotiMenuItem
+                notiId={notiInfo.notiId}
+                type={notiInfo.type}
+                body={notiInfo.body}
+                link={notiInfo.link}
+                key={notiInfo.notiId}
+              />
+            )
+          }
+        })}
+      </Menu>
+    )
+    setnotiMenu(notimenu)
+  }, [notilist, userInfo.notificationReadCount])
+
   return (
     <div>
       <nav className="text-xl h-16 navbar">
         <div className="container mx-auto flex justify-between items-center p-3 ">
           <img width={129} src={KUshare} onClick={onClickLogo} className="cursor-pointer " />
-
           <div className="text-center w-full space-x-2">
             <SearchOutlined className="text-xl" />
             <Select
