@@ -82,7 +82,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
         querySnapshot.docChanges().forEach(change => {
           const data = change.doc.data()
           if (change.type === 'added') {
-            // console.log('New Lecture: ', data)
+            console.log('New Lecture: ', data)
             fetchUser(data.userId).then(user =>
               setReviews(reviewMap => [
                 ...reviewMap,
@@ -91,7 +91,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
             )
           }
           if (change.type === 'modified') {
-            // console.log('Modified Lecture: ', data)
+            console.log('Modified Lecture: ', data)
             setReviews(reviewMap => {
               const index = reviewMap.findIndex(review => review.reviewId === change.doc.id)
               const user = {
@@ -106,7 +106,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
             })
           }
           if (change.type === 'removed') {
-            // console.log('Removed Lecture: ', data)
+            console.log('Removed Lecture: ', data)
             setReviews(reviewMap => reviewMap.filter(review => review.reviewId !== change.doc.id))
           }
         })
@@ -120,6 +120,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
         <ReviewBox review={review} key={index} />
       ))}
       {reviews &&
+        size - reviews.length >= 0 &&
         Array(size - reviews.length)
           .fill(Array(size - reviews.length).keys())
           .map((_, index) => <Skeleton active paragraph={{ rows: 1 }} avatar key={index} />)}

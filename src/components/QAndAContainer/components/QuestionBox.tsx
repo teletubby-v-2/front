@@ -93,7 +93,6 @@ export const QuestionBox: React.FC<QuestionBoxProps> = ({ authorId, qAndA, lectu
           }
           if (change.type === 'removed') {
             console.log('Removed answer: ', data)
-            console.log(answers)
             setAnswers(commentMap =>
               commentMap.filter(comment => {
                 console.log(comment.answerId, change.doc.id)
