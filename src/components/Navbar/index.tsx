@@ -1,5 +1,5 @@
-import React, { ReactElement, useEffect, useMemo, useState } from 'react'
-import { Avatar, Menu, Dropdown, Button, Select, Tooltip, Badge, Typography } from 'antd'
+import React, { ReactElement, useEffect, useState } from 'react'
+import { Avatar, Menu, Dropdown, Button, Select, Tooltip, Badge } from 'antd'
 import { useHistory } from 'react-router'
 import KUshare from '../../assets/icons/KUshare.svg'
 import {
@@ -8,7 +8,6 @@ import {
   FileAddOutlined,
   SearchOutlined,
   BellFilled,
-  TeamOutlined,
 } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
 import { logout } from '../../service/auth'
