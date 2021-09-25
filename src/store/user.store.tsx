@@ -101,4 +101,12 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
   setAboutme: (aboutMe: string) => {
     set({ userInfo: { ...get().userInfo, aboutMe } })
   },
+  addnotificationReadCount: (notiId: string) => {
+    set({
+      userInfo: {
+        ...get().userInfo,
+        notificationReadCount: [...get().userInfo.notificationReadCount, notiId],
+      },
+    })
+  },
 }))

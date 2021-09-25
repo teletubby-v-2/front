@@ -26,7 +26,7 @@ async function createLecture(lecture: CreateLectureDTO): Promise<LectureDTO> {
     }
 
     const newLecture = await lectureCollection.add(data)
-    createLectureNoti(`/lecture/${newLecture.id}`)
+    createLectureNoti(`/lectureDetail/${newLecture.id}`)
     return {
       ...data,
       lectureId: newLecture.id,

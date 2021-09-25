@@ -35,7 +35,7 @@ async function createFollowNoti(userId: string) {
       relevantUserId: [userId],
       type: 'follow',
       body: notiBody['follow'](target.displayName || target.uid),
-      link: `/profile/${userId}`,
+      link: `/profile/${target.uid}`,
       createAt: timeStamp,
       updateAt: timeStamp,
     }
@@ -50,6 +50,7 @@ async function getNoti() {
     const notiDoc = await firestore
       .collection(Collection.Notifications)
       .where('relevantUserId', 'array-contains', userId)
+      .orderBy('createAt', 'desc')
       .get()
     notiDoc.forEach(noti => data.push({ ...noti.data(), notiId: noti.id } as Notification))
   }
