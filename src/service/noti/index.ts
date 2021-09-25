@@ -50,6 +50,7 @@ async function getNoti() {
     const notiDoc = await firestore
       .collection(Collection.Notifications)
       .where('relevantUserId', 'array-contains', userId)
+      .orderBy('createAt', 'desc')
       .get()
     notiDoc.forEach(noti => data.push({ ...noti.data(), notiId: noti.id } as Notification))
   }

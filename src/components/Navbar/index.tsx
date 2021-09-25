@@ -23,14 +23,14 @@ import { Notification } from '../../constants/interface/notification.interface'
 export const Navbar: React.FC = () => {
   const history = useHistory()
   const { userInfo } = userInfoStore()
-  const [Numnoti, setNumnoti] = useState(0)
-  const [notilist, setnotilist] = useState<Notification[]>([])
-  const [notiMenu, setnotiMenu] = useState<ReactElement>(<Menu />)
+  const [numnoti, setNumnoti] = useState(0)
+  const [notilist, setNotilist] = useState<Notification[]>([])
+  const [notiMenu, setNotiMenu] = useState<ReactElement>(<Menu />)
   const isLogin = () => (firebaseApp.auth().currentUser ? true : false)
 
   useEffect(() => {
     getNoti().then(data => {
-      setnotilist(data)
+      setNotilist(data)
     })
   }, [isLogin()])
 
@@ -72,7 +72,7 @@ export const Navbar: React.FC = () => {
     const intersec = userInfo.notificationReadCount.filter(id => idlist.includes(id))
     setNumnoti(idlist.length - intersec.length)
     const notimenu = (
-      <Menu className="mt-3 text-base bg-gray-400 overflow-hidden">
+      <Menu className="mt-3 text-base bg-gray-200 overflow-hidden">
         <div className="p-1 pl-3">
           <BellFilled className="mr-2 align-middle" />
           การแจ้งเตือน
@@ -92,7 +92,7 @@ export const Navbar: React.FC = () => {
         })}
       </Menu>
     )
-    setnotiMenu(notimenu)
+    setNotiMenu(notimenu)
   }, [notilist, userInfo.notificationReadCount])
 
   return (
@@ -133,7 +133,7 @@ export const Navbar: React.FC = () => {
                 </Tooltip>
               </CreateLectureForm>
 
-              <Badge count={Numnoti}>
+              <Badge count={numnoti}>
                 <Dropdown
                   className="text-xl text-black"
                   overlay={notiMenu}

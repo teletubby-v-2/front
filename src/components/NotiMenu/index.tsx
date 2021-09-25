@@ -2,7 +2,8 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { userInfoStore } from '../../store/user.store'
 import { DiffOutlined, TeamOutlined } from '@ant-design/icons'
-import { Avatar, Menu, Typography } from 'antd'
+import { Avatar, Menu, Typography, Badge } from 'antd'
+import { addnotification } from '../../service/user'
 
 export interface NotiMenuItemprop {
   notiId: string
@@ -16,6 +17,7 @@ export const NotiMenuItem: React.FC<NotiMenuItemprop> = ({ notiId, type, body, l
   const { userInfo, addnotificationReadCount } = userInfoStore()
   let icon
   let className
+  let AvatarIcon
   if (type == 'follow') {
     icon = <TeamOutlined className="align-middle" />
   } else if (type == 'lecture') {
@@ -23,9 +25,15 @@ export const NotiMenuItem: React.FC<NotiMenuItemprop> = ({ notiId, type, body, l
   }
 
   if (userInfo.notificationReadCount.includes(notiId ? notiId : '')) {
-    className = 'bg-gray-200'
+    className = 'bg-gray-100 '
+    AvatarIcon = <Avatar icon={icon} className="bg-blue-200 mr-3" />
   } else {
     className = 'bg-white'
+    AvatarIcon = (
+      <Badge dot>
+        <Avatar icon={icon} className="bg-blue-200 mr-3" />
+      </Badge>
+    )
   }
 
   return (
@@ -33,12 +41,16 @@ export const NotiMenuItem: React.FC<NotiMenuItemprop> = ({ notiId, type, body, l
       className={`${className} p-2 space-x-2`}
       key={notiId}
       onClick={() => {
-        addnotificationReadCount(notiId)
+        if (!userInfo.notificationReadCount.includes(notiId ? notiId : '')) {
+          addnotification(notiId, userInfo.notificationReadCount).then(() =>
+            addnotificationReadCount(notiId),
+          )
+        }
         history.push(link)
       }}
     >
       <div className="flex items-center">
-        <Avatar icon={icon} className="bg-blue-200 mr-3" />
+        {AvatarIcon}
         <div>
           <Typography.Text ellipsis className="w-40">
             {body}
