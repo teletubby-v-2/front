@@ -32,8 +32,6 @@ export const useLectureForm = (
 
   useEffect(() => {
     if (!isOnCreate) {
-      console.log(initData)
-
       form.resetFields()
       form.setFieldsValue({ tags: initData?.tags || [] })
       form.setFieldsValue({ imageUrl: initData?.imageUrl || [] })
@@ -161,7 +159,7 @@ export const useLectureForm = (
     if (!formValue.isPdf && fileList.length === 0) {
       return message.warning('กรุณาใส่ไฟล์สรุปของคุณ')
     }
-    if (!formValue.isPdf && pdf.length === 0) {
+    if (formValue.isPdf && pdf.length === 0) {
       return message.warning('กรุณาใส่ไฟล์สรุปของคุณ')
     }
     const value: Partial<CreateLectureDTO> = removeUndefined({
@@ -170,7 +168,6 @@ export const useLectureForm = (
       imageUrl: formValue.isPdf ? undefined : fileList.map(file => file.url),
       pdfUrl: formValue.isPdf ? pdf.map(file => file.url) : undefined,
     })
-    console.log(value)
 
     if (!isUpdate) {
       message.info('กำลังสร้าง...')

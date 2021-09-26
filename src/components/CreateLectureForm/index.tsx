@@ -155,7 +155,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
               <Checkbox>final</Checkbox>
             </Form.Item>
           </Form.Item>
-          <Form.Item label="แทค" {...formItemLayout} initialValue={initData?.tags}>
+          <Form.Item label="แทค" name="tags" {...formItemLayout} initialValue={initData?.tags}>
             {form.getFieldValue('tags') &&
               form.getFieldValue('tags').map((tag: string, index: number) => (
                 <Tag key={index} closable onClose={() => handleClose(tag)}>
