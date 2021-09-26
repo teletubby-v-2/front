@@ -77,7 +77,7 @@ export const SubjectTable: React.FC<SubjectTableProps> = ({ ...rest }) => {
       rowKey="title"
       expandable={{
         expandedRowRender: record => (
-          <div style={{ maxWidth: 810 }} className="flex justify-center">
+          <div className="flex justify-center ">
             <SubjectTableChild subjectId={record.subjectId} />,
           </div>
         ),
