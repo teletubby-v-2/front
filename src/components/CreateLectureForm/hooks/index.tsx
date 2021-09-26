@@ -32,13 +32,15 @@ export const useLectureForm = (
 
   useEffect(() => {
     if (!isOnCreate) {
+      console.log(initData)
+
       form.resetFields()
       form.setFieldsValue({ tags: initData?.tags || [] })
       form.setFieldsValue({ imageUrl: initData?.imageUrl || [] })
       form.setFieldsValue({ pdfUrl: initData?.pdfUrl || [] })
       form.setFieldsValue({ isPdf: initData?.isPdf || false })
       setFileList(initPhoto(initData?.imageUrl))
-      setPdf(initPhoto(initData?.imageUrl))
+      setPdf(initPhoto(initData?.pdfUrl))
     }
   }, [isOnCreate])
 
