@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 import { Empty, Popconfirm, Table, Tag } from 'antd'
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { SubjectTableChild } from './components/SujectTableChild'
 import { UserSubjectDTO } from '../../constants/dto/myUser.dto'

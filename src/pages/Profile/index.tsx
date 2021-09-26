@@ -83,7 +83,7 @@ export const Profile: React.FC = () => {
                     <Tooltip title="เลือกตารางเพื่อค้นหา">
                       <Button
                         type="primary"
-                        icon={<SearchOutlined className="align-middle" />}
+                        icon={<SearchOutlined />}
                         className="mr-3"
                         disabled={!selectKey.length}
                         onClick={async () => {
@@ -104,7 +104,7 @@ export const Profile: React.FC = () => {
                       </Button>
                     </Tooltip>
                     <AddSubject>
-                      <Button type="primary" icon={<PlusOutlined className="align-middle" />}>
+                      <Button type="primary" icon={<PlusOutlined />}>
                         เพิ่มตาราง
                       </Button>
                     </AddSubject>

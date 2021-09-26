@@ -1,6 +1,6 @@
 import { Tabs } from 'antd'
 import React from 'react'
-import { Redirect, useHistory, useParams } from 'react-router-dom'
+import { Redirect, useHistory } from 'react-router-dom'
 import { CommentContainer, QAndAContainer, ReviewContainer } from '../../../../components'
 
 export interface LectureDetailCommentProps {

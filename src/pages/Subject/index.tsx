@@ -34,7 +34,7 @@ export const Subject: React.FC = () => {
             showHeader={false}
             footer={() => (
               <AddSubject>
-                <Button type="dashed" block icon={<PlusOutlined className="align-middle" />}>
+                <Button type="dashed" block icon={<PlusOutlined />}>
                   เพิ่มตาราง
                 </Button>
               </AddSubject>
@@ -46,7 +46,7 @@ export const Subject: React.FC = () => {
             'ข้ามการเพิ่มวิชาของฉัน'
           ) : (
             <>
-              <CheckOutlined className="align-middle" /> ยืนยันการเพิ่มตาราง
+              <CheckOutlined /> ยืนยันการเพิ่มตาราง
             </>
           )}
         </Button>

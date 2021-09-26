@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Button,
   Checkbox,
@@ -7,6 +7,7 @@ import {
   message,
   Modal,
   ModalProps,
+  Radio,
   Select,
   Tag,
   Typography,
@@ -20,7 +21,12 @@ import { UpdateLectureDTO } from '../../constants/dto/lecture.dto'
 import { formItemLayout, myLocale } from './constants'
 import kuSubject from '../../constants/subjects.json'
 import { Lecture } from '../../constants/interface/lecture.interface'
+import { UploadOutlined } from '@ant-design/icons'
 
+const options = [
+  { label: 'picture', value: false },
+  { label: 'pdf', value: true },
+]
 export interface CreateLectureFormProps extends ModalProps {
   label?: string
   className?: string
@@ -51,6 +57,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
     fileList,
     isUploading,
     previewVisible,
+    pdf,
     previewImage,
     openModal,
     closeModal,
@@ -63,6 +70,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
     onFinish,
     OnAddTag,
     handlePreview,
+    handlePdfList,
     previewCancel,
   } = useLectureForm(addOwnLecture, initData, callback)
   return (
@@ -76,13 +84,16 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
         {children || label}
       </a>
       <Modal visible={previewVisible} footer={null} onCancel={previewCancel} centered zIndex={9999}>
-        <img alt="example" className="w-full" src={previewImage} />
+        {form.getFieldValue('isPdf') ? (
+          <iframe src={previewImage} width="90%" height={700}></iframe>
+        ) : (
+          <img alt="example" className="w-full" src={previewImage} />
+        )}
       </Modal>
       <Modal
         width="700px"
         maskClosable={false}
         visible={isOnCreate}
-        centered
         onCancel={() => {
           if (isUploading) {
             return message.warning('รูปภาพกำลังอัพโหลด')
@@ -94,7 +105,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
         closable
         footer={false}
         getContainer={false}
-        className="my-5"
+        className="my-5 top-10"
         {...rest}
       >
         <Typography.Title level={3} className="text-center mt-3">
@@ -144,7 +155,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
               <Checkbox>final</Checkbox>
             </Form.Item>
           </Form.Item>
-          <Form.Item name="tags" label="แทค" {...formItemLayout} initialValue={initData?.tags}>
+          <Form.Item label="แทค" {...formItemLayout} initialValue={initData?.tags}>
             {form.getFieldValue('tags') &&
               form.getFieldValue('tags').map((tag: string, index: number) => (
                 <Tag key={index} closable onClose={() => handleClose(tag)}>
@@ -165,40 +176,65 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
                   onKeyDown={dontSubmitWhenEnter}
                 />
               ) : (
-                <Tag className="site-tag-plus" onClick={OnAddTag}>
+                <Tag onClick={OnAddTag}>
                   <PlusOutlined /> New Tag
                 </Tag>
               ))}
           </Form.Item>
+          <Form.Item name="isPdf" label="รูปแบบของไฟล์" initialValue={false}>
+            <Radio.Group options={options} />
+          </Form.Item>
+
           <Form.Item
-            label="รูปภาพ"
+            shouldUpdate
+            label="อัพโหลดไฟล์"
             validateStatus="warning"
             help={
               <>
                 <InfoCircleOutlined className="tag-icon" />
-                {'  '}แนะนำให้เป็นรูปขนาดเล็กกว่า 2MB
+                {'  '}แนะนำให้เป็นไฟล์ขนาดเล็กกว่า 2MB
               </>
             }
             {...formItemLayout}
           >
-            <Upload
-              listType="picture-card"
-              accept="image/*"
-              fileList={fileList}
-              multiple
-              locale={myLocale}
-              onChange={handleFilelist}
-              disabled={isUploading}
-              customRequest={handleRequest}
-              onPreview={handlePreview}
-            >
-              <div>
-                {isUploading ? <LoadingOutlined /> : <PlusOutlined />}
-                <div className="m-2">อัพโหลด</div>
-              </div>
-            </Upload>
+            {() =>
+              form.getFieldValue('isPdf') ? (
+                <Upload
+                  name="logo"
+                  accept="application/pdf"
+                  listType="picture"
+                  maxCount={1}
+                  fileList={pdf}
+                  locale={myLocale}
+                  onChange={handlePdfList}
+                  disabled={isUploading}
+                  customRequest={handleRequest}
+                >
+                  <Button icon={isUploading ? <LoadingOutlined /> : <UploadOutlined />}>
+                    อัพโหลด PDF
+                  </Button>
+                </Upload>
+              ) : (
+                <Upload
+                  listType="picture-card"
+                  accept="image/*"
+                  fileList={fileList}
+                  multiple
+                  locale={myLocale}
+                  onChange={handleFilelist}
+                  disabled={isUploading}
+                  customRequest={handleRequest}
+                  onPreview={handlePreview}
+                >
+                  <div>
+                    {isUploading ? <LoadingOutlined /> : <PlusOutlined />}
+                    <div className="m-2">อัพโหลดรูป</div>
+                  </div>
+                </Upload>
+              )
+            }
           </Form.Item>
-          <Form.Item className="w-full text-right">
+          <Form.Item className="w-full text-right mb-0">
             <Form.Item noStyle>
               <Button
                 onClick={() => {

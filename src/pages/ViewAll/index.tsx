@@ -13,7 +13,6 @@ import {
   getMySubject,
   getOwnLectures,
 } from '../../service/lectures/getLecture'
-import { Button } from 'antd'
 
 export const ViewAll: React.FC = () => {
   const { userInfo } = userInfoStore()
