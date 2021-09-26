@@ -22,7 +22,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
   const { userInfo } = userInfoStore()
   const [size, setSize] = useState(0)
   const [reviewData, setReviewData] = useState<Review>()
-  const [edit, setEdit] = useState(false)
+  const [edit] = useState(false)
 
   const handleCreateReview = (value: any) => {
     if (reviewData) {

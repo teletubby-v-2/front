@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Comment, Avatar, Form, Input, Button, Divider, Skeleton } from 'antd'
+import { Avatar, Form, Input, Button, Divider, Skeleton } from 'antd'
 import { QAndA } from '../../../constants/interface/lecture.interface'
 import { AuthZone } from '../..'
 import { AnswersDTO } from '../../../constants/dto/lecture.dto'
