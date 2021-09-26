@@ -1,6 +1,6 @@
 import { Tabs } from 'antd'
 import React from 'react'
-import { Redirect, useHistory, useParams } from 'react-router-dom'
+import { Redirect, useHistory } from 'react-router-dom'
 import { CommentContainer, QAndAContainer, ReviewContainer } from '../../../../components'
 
 export interface LectureDetailCommentProps {
@@ -14,7 +14,7 @@ export const LectureDetailComment: React.FC<LectureDetailCommentProps> = ({
 }) => {
   const history = useHistory()
   if (history.location.hash.length == 0) {
-    return <Redirect to={`${history.location.pathname}#comment`} />
+    return <Redirect to={`${history.location.pathname}#review`} />
   }
 
   return (

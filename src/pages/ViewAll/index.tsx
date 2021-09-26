@@ -3,10 +3,16 @@ import React, { useEffect, useState } from 'react'
 import { LectureContainer } from '../../components'
 import { userInfoStore } from '../../store/user.store'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
-import { firestore } from '../../config/firebase'
-import { Collection } from '../../constants'
+import { LeftCircleOutlined } from '@ant-design/icons'
 import { useHistory, useParams } from 'react-router-dom'
-import firebase from 'firebase/app'
+import {
+  getBookmarkLectures,
+  getLectures,
+  getLecturesById,
+  getLecturesByListOfId,
+  getMySubject,
+  getOwnLectures,
+} from '../../service/lectures/getLecture'
 
 export const ViewAll: React.FC = () => {
   const { userInfo } = userInfoStore()
@@ -15,26 +21,6 @@ export const ViewAll: React.FC = () => {
   const [viewAllLecture, setViewAllLecture] = useState<LectureDTO[]>([] as LectureDTO[])
   const [title, settitle] = useState('')
 
-  const getAllParamLecture = (
-    key: firebase.firestore.FieldPath | string | false,
-    query: firebase.firestore.WhereFilterOp,
-    value: any,
-  ) => {
-    firestore
-      .collection(Collection.Lectures)
-      .where(key ? key : firebase.firestore.FieldPath.documentId(), query, value)
-      // .orderBy('createAt', 'desc')
-      .get()
-      .then(doc => {
-        doc.forEach(lecture => {
-          setViewAllLecture(allSubject => [
-            ...allSubject,
-            { lectureId: lecture.id, ...lecture.data() } as LectureDTO,
-          ])
-        })
-      })
-  }
-
   useEffect(() => {
     setViewAllLecture([])
     if (id) {
@@ -42,49 +28,35 @@ export const ViewAll: React.FC = () => {
         case 'ownLecture':
           settitle(id)
           if (userInfo.userId) {
-            return getAllParamLecture('userId', '==', userInfo.userId)
+            getOwnLectures(userInfo.userId).then(data => setViewAllLecture(data))
           }
           break
         case 'mySubject':
-          // eslint-disable-next-line no-case-declarations
-          const subjectId = userInfo.userSubject
-            .filter(subject => subject.isActive === true)
-            .map(subject => subject.subjectId)
-            .flatMap(x => x)
           settitle(id)
-          if (subjectId && subjectId.length !== 0) {
-            return getAllParamLecture('subjectId', 'in', subjectId)
-          }
+          getMySubject(userInfo.userSubject).then(data => setViewAllLecture(data))
           break
         case 'bookmark':
           settitle(id)
           if (userInfo.bookmark && userInfo.bookmark.length !== 0) {
-            return getAllParamLecture(false, 'in', userInfo.bookmark)
+            getBookmarkLectures(userInfo.bookmark).then(data => setViewAllLecture(data))
           }
           break
         case 'all':
           settitle(id)
-          firestore
-            .collection(Collection.Lectures)
-            .orderBy('createAt', 'desc')
-            .get()
-            .then(doc => {
-              doc.forEach(lecture => {
-                setViewAllLecture(allLecture => [
-                  ...allLecture,
-                  { lectureId: lecture.id, ...lecture.data() } as LectureDTO,
-                ])
-              })
-            })
+          getLectures().then(data => setViewAllLecture(data))
           break
         default:
           if (id.search('lecture') != -1) {
             settitle('สรุปของ ' + id.substring(id.search('lecture'), 0))
-            return getAllParamLecture('userId', '==', id.substring(id.search('lecture') + 7))
+            getOwnLectures(id.substring(id.search('lecture') + 7)).then(data =>
+              setViewAllLecture(data),
+            )
+          } else if (id?.[0] === '[') {
+            settitle('ค้นหาด้วยวิชาของฉัน')
+            getLecturesByListOfId(JSON.parse(id)).then(data => setViewAllLecture(data))
           } else {
             settitle('สรุปของวิชา ' + id)
-            console.log(id.slice(0, 8))
-            return getAllParamLecture('subjectId', '==', id.slice(0, 8))
+            getLecturesById(id.slice(0, 8)).then(data => setViewAllLecture(data))
           }
       }
     }
@@ -93,10 +65,14 @@ export const ViewAll: React.FC = () => {
   return (
     <div className="mx-2 space-y-7 md:mx-5 lg:mx-20 xl:mx-30 my-10">
       <LectureContainer
-        title={title}
+        title={
+          <>
+            <LeftCircleOutlined onClick={() => history.goBack()} className="align-middle mr-3" />
+            {title}
+          </>
+        }
         data={viewAllLecture}
         limit={false}
-        extra={<a onClick={() => history.goBack()}>back</a>}
       />
     </div>
   )

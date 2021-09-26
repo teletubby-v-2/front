@@ -1,5 +1,6 @@
 import React from 'react'
 import { FacebookFilled, TwitterOutlined } from '@ant-design/icons'
+import { Link } from 'react-router-dom'
 
 export const Footer: React.FC = () => {
   return (
@@ -8,7 +9,12 @@ export const Footer: React.FC = () => {
       <div className="flex justify-center space-x-14">
         <div>
           <p className="font-bold mb-2">Social</p>
-          <a className="text-white  mb-1" href="https://popcat.click/">
+          <a
+            target="_blank"
+            rel="noreferrer"
+            className="text-white  mb-1"
+            href="https://popcat.click/"
+          >
             <TwitterOutlined className="align-text-top" />
             {'  '}Twitter
           </a>

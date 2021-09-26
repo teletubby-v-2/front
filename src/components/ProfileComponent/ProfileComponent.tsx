@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Avatar, Button, Divider, Space } from 'antd'
+import { Avatar, Button, Divider } from 'antd'
 import {
   DashOutlined,
   FacebookOutlined,
@@ -9,58 +9,51 @@ import {
 import { MyUser } from '../../constants/interface/myUser.interface'
 import no_user from '../../assets/images/no_user.png'
 import { userInfoStore } from '../../store/user.store'
-import { UpdateUserDTO } from '../../constants/dto/myUser.dto'
-import { updateUser } from '../../service/user'
 import { AuthZone } from '..'
+import { useHistory } from 'react-router'
+import { followUser, unFollowUser } from '../../service/user/follow'
+import { UserInfo } from '../../pages/UserInfo'
+import { Link } from 'react-router-dom'
 
 export interface ProfileComponentProps {
   onEdit?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
   isMy: boolean
-  Info: MyUser
+  info: MyUser
 }
 
-export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy, Info }) => {
-  const [facebook, setFacebook] = useState('')
-  const [instagram, setInstagram] = useState('')
-  const [youtube, setYoutube] = useState('')
-
-  const { userInfo, setFollowing } = userInfoStore()
+export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy, info: Info }) => {
+  const history = useHistory()
+  const { userInfo, removeFollowing, addFollowing } = userInfoStore()
+  const [followCount, setFollowCount] = useState(0)
+  const [isFollow, setIsFollow] = useState(false)
 
   useEffect(() => {
-    if (Info && Info.socialLink) {
-      Info.socialLink.forEach(social => {
-        if (social.socialMediaName == 'youtube') {
-          setYoutube(social.socialMedisUrl)
-        }
-        if (social.socialMediaName == 'instagram') {
-          setInstagram(social.socialMedisUrl)
-        }
-        if (social.socialMediaName == 'facebook') {
-          setFacebook(social.socialMedisUrl)
-        }
-      })
-    }
-  }, [Info.socialLink])
+    setIsFollow(userInfo.following.includes(Info.userId))
+    setFollowCount(Info.followers?.length)
+  }, [Info, userInfo.following])
 
   const onFollow = () => {
-    const newfollowing = userInfo.following
-    newfollowing.push(Info.userId)
-    updateUser({ following: newfollowing } as UpdateUserDTO)
+    followUser(Info.userId)
       .then(() => {
-        setFollowing(newfollowing)
+        addFollowing(Info.userId)
+        setIsFollow(true)
+        setFollowCount(followCount + 1)
       })
       .catch(err => console.log(err))
   }
 
   const onUnfollow = () => {
-    const newfollowing = userInfo.following.filter(function (value, index, arr) {
-      return value != Info.userId
-    })
-    updateUser({ following: newfollowing } as UpdateUserDTO)
+    unFollowUser(Info.userId)
       .then(() => {
-        setFollowing(newfollowing)
+        setIsFollow(false)
+        removeFollowing(Info.userId)
+        setFollowCount(followCount - 1)
       })
       .catch(err => console.log(err))
+  }
+
+  const tofollow = () => {
+    history.push('/follow/' + Info.userId)
   }
 
   return (
@@ -77,23 +70,20 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       </div>
       <div className="text-center items-center mt-3 mb-2">
         <p>
-          {Info?.followers?.length} ผู้ติดตาม{' '}
-          <a className="ml-3 text-blue-600">{Info?.following?.length} กำลังติดตาม</a>
+          {followCount} ผู้ติดตาม{' '}
+          <a className="ml-3 text-blue-600" onClick={tofollow}>
+            {Info?.following?.length} กำลังติดตาม
+          </a>
         </p>
       </div>
       <div className="text-center space-x-4 flex">
         {isMy ? (
-          <>
-            <Button className="flex-grow" onClick={onEdit}>
-              แก้ไข
-            </Button>
-            <Button>
-              <DashOutlined />
-            </Button>
-          </>
+          <Button className="flex-grow" onClick={onEdit}>
+            แก้ไข
+          </Button>
         ) : (
           <AuthZone className="flex-grow">
-            {userInfo.following.includes(Info.userId) ? (
+            {isFollow ? (
               <Button onClick={onUnfollow} block>
                 เลิกติดตาม
               </Button>
@@ -108,34 +98,41 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       <Divider>
         <p className="text-gray-400 mb-0">Social Link</p>
       </Divider>
-      <ul className="list-none space-y-2 pl-0">
-        {instagram.length !== 0 && (
-          <li className="text-center">
-            <a href={instagram} className="overflow-hidden" target="_blank" rel="noreferrer">
-              <Button className="overflow-hidden w-1/2" type="text">
-                <InstagramOutlined className="text-2xl" /> Instagram
-              </Button>
+      <ul className="list-none space-y-2 pl-0 space-y-4">
+        <div className="text-center text-3xl">
+          {userInfo.socialLink.instagram?.length !== 0 && (
+            <a
+              href={userInfo.socialLink.instagram}
+              className="overflow-hidden text-gray-500 px-3 "
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span className="text-gradient  bg-gradient-to-r from-purple-400 to-pink-600">
+                <InstagramOutlined />
+              </span>
             </a>
-          </li>
-        )}
-        {facebook.length !== 0 && (
-          <li className="text-center">
-            <a href={facebook} className=" overflow-hidden" target="_blank" rel="noreferrer">
-              <Button className="overflow-hidden w-1/2" type="text">
-                <FacebookOutlined className="text-2xl" target="_blank" rel="noreferrer" /> Facebook
-              </Button>
+          )}
+          {userInfo.socialLink.facebook?.length !== 0 && (
+            <a
+              href={userInfo.socialLink.facebook}
+              className=" overflow-hidden text-gray-500 px-3"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FacebookOutlined />
             </a>
-          </li>
-        )}
-        {youtube.length !== 0 && (
-          <li className="text-center">
-            <a href={youtube} className="overflow-hidden" target="_blank" rel="noreferrer">
-              <Button className="overflow-hidden w-1/2" type="text">
-                <YoutubeOutlined className="text-2xl" target="_blank" rel="noreferrer" /> Youtube
-              </Button>
+          )}
+          {userInfo.socialLink.youtube?.length !== 0 && (
+            <a
+              href={userInfo.socialLink.youtube}
+              className="overflow-hidden text-gray-500 px-3"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <YoutubeOutlined />
             </a>
-          </li>
-        )}
+          )}
+        </div>
         {Info?.aboutMe?.length !== 0 && (
           <li>
             <p className="text-gray-500 mb-1">เกี่ยวกับฉัน : </p>
@@ -145,15 +142,4 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       </ul>
     </div>
   )
-}
-
-{
-  /* <Space className="overflow-hidden w-full">
-  <FacebookOutlined className="text-2xl" target="_blank" rel="noreferrer" /> Facebook:
-  <a href={facebook} className=" overflow-hidden" target="_blank" rel="noreferrer">
-    {facebook.replace('https://', '')}
-  </a>
-</Space>
-old style social link
- */
 }

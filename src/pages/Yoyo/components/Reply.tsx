@@ -89,7 +89,6 @@ export const Reply: React.FC<ReplyProps> = ({ id, commentId, className }) => {
               } else {
                 return commentMap
               }
-              // console.log(commentMap[index])
             })
           }
           if (change.type === 'removed') {

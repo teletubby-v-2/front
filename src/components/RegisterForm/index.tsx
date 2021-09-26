@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom'
 
 import { firebaseApp } from '../../config/firebase'
 import { userInfoStore } from '../../store/user.store'
-import firebase from 'firebase/app'
 export interface RegisterFormProps {
   className?: string
   callback?: () => void

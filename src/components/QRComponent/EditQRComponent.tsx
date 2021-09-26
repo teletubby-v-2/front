@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { Button, Divider, Form, Upload, Input, message } from 'antd'
+import { Button, Divider, Form, Upload, Input } from 'antd'
 import { InfoCircleOutlined, LoadingOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
-import { firebaseApp } from '../../config/firebase'
 import { dontSubmitWhenEnter } from '../../utils/eventManage'
 import { useUploadpic } from '../../hooks/useUploadpic'
 import { UpdateUserDTO } from '../../constants/dto/myUser.dto'
@@ -51,7 +50,6 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
   const beforeClose = () => {
     if (imageUrl != userInfo.donateImage && imageUrl) {
       deleteImages(imageUrl)
-      console.log(imageUrl)
     }
     onClose()
   }

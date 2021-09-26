@@ -5,6 +5,7 @@ import { Redirect } from 'react-router'
 import { LoginForm } from '../../components'
 import { getUserFromIndexDB } from '../../utils/firebase'
 import loginIcon from '../../assets/icons/login_icon.svg'
+import { Link } from 'react-router-dom'
 export const Login: React.FC = () => {
   const [isAuth, setIsAuth] = useState<any[]>()
 
@@ -34,9 +35,9 @@ export const Login: React.FC = () => {
             <Redirect to="/verifyEmail" />
           ))}
         <LoginForm />
-        <a href="/home" className="text-right text-blue-500 text-sm -mb-3 block">
+        <Link to="/home" className="text-right text-blue-500 text-sm -mb-3 block">
           เข้าสู่ระบบแบบผู้ใช้ทั่วไป
-        </a>
+        </Link>
       </Card>
     </div>
   )

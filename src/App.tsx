@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Redirect, Route, Switch, useHistory } from 'react-router-dom'
 import {
   Login,
@@ -11,6 +11,7 @@ import {
   VerifyEmail,
   Success,
   Subject,
+  LectureDetail,
 } from './pages'
 import { LoadingOutlined } from '@ant-design/icons'
 import Yoyo from './pages/Yoyo'
@@ -28,7 +29,7 @@ import { Spin } from 'antd'
 import styled from 'styled-components'
 import { lectureStore } from './store/lecture.store'
 import { SelectProfile } from './pages/SelectProfile'
-import LectureDetail from './pages/LectureDetail'
+import { FollowList } from './pages/FollowList'
 
 const Overlay = styled.div`
   position: fixed;
@@ -100,6 +101,7 @@ const App: React.FC = () => {
         <LayoutRoute exact path="/profile" component={Profile} />
         <LayoutRoute path="/viewAll/:id" component={ViewAll} />
         <LayoutRoute path="/profile/:userId" component={SelectProfile} />
+        <LayoutRoute path="/follow/:userId" component={FollowList} />
 
         {/* for test */}
         <LayoutRoute exact path="/yoyo" component={Yoyo} />

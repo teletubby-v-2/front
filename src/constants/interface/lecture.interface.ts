@@ -7,6 +7,8 @@ export interface Lecture {
   subjectId: string
   viewCount: number
   reviewCount: number
+  isPdf?: boolean
+  pdfUrl?: string[]
   sumRating: number
   lectureTitle: string
   description?: string
