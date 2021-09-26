@@ -101,7 +101,7 @@ export const AddSubject: React.FC<AddSubjectProps> = props => {
                 <Input />
               </Form.Item>
               <Form.Item name="isActive" valuePropName="checked" noStyle>
-                <Checkbox>active</Checkbox>
+                <Checkbox>ใช้งาน</Checkbox>
               </Form.Item>
             </Space>
           </Form.Item>

@@ -96,7 +96,7 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
         )}
       </div>
       <Divider>
-        <p className="text-gray-400 mb-0">Social Link</p>
+        <p className="text-gray-400 mb-0">ลิงก์โซเชียล</p>
       </Divider>
       <ul className="list-none space-y-2 pl-0 space-y-4">
         <div className="text-center text-3xl">
