@@ -141,7 +141,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   return (
     <>
       <div className={className}>
-        <h1 className="text-3xl font-bold	mb-5 text-center">login</h1>
+        <h1 className="text-3xl font-bold	mb-5 text-center">เข้าสู่ระบบ</h1>
         {message && (
           <Alert
             message="Error"
@@ -153,17 +153,17 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         )}
         <Form onFinish={onFinish}>
           <Form.Item name="email" rules={[{ type: 'email', required: true }]}>
-            <Input prefix={<UserOutlined />} placeholder="Email" size="large" />
+            <Input prefix={<UserOutlined />} placeholder="อีเมล" size="large" />
           </Form.Item>
           <Form.Item name="password" rules={[{ required: true }]}>
-            <Input.Password prefix={<KeyOutlined />} placeholder="password" size="large" />
+            <Input.Password prefix={<KeyOutlined />} placeholder="รหัสผ่าน" size="large" />
           </Form.Item>
           <div className="flex justify-between px-1 -mt-1">
             <a
               className="text-blue-500"
               onClick={() => (modal ? callback && callback() : history.push('/register'))}
             >
-              register
+              สร้างบัญชีใหม่
             </a>
             <a
               onClick={() =>
@@ -171,18 +171,18 @@ export const LoginForm: React.FC<LoginFormProps> = ({
               }
               className="flex justify-end mb-2 text-blue-500 "
             >
-              forgot password?
+              ลืมรหัสผ่าน?
             </a>
           </div>
           <Form.Item>
             <Button type="primary" htmlType="submit" size="large" block loading={isLoading}>
-              login
+              เข้าสู่ระบบ
             </Button>
           </Form.Item>
         </Form>
-        <Divider orientation="center">or</Divider>
+        <Divider orientation="center">หรือ</Divider>
         <div className="text-center">
-          <p className="mb-2">login with your social media account</p>
+          <p className="mb-2">เข้าสู่ระบบผ่านผู้ให้บริการ</p>
           <Space size="large" className="pb-2">
             <a onClick={() => signInProvider('facebook')}>
               <Avatar

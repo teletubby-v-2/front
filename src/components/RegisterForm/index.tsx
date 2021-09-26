@@ -81,7 +81,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
         </Form.Item>
         <Form.Item className="mb-2">
           <Button type="primary" htmlType="submit" size="large" block loading={isLoading}>
-            Register
+            สร้างบัญชีใหม่
           </Button>
         </Form.Item>
       </Form>
@@ -90,7 +90,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
           onClick={() => (modal ? callback && callback() : history.push('/login'))}
           className="text-blue-500 "
         >
-          already have account
+          มีบัญชีเรียบร้อยแล้ว
         </a>
       </div>
     </div>

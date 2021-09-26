@@ -35,7 +35,7 @@ export const Login: React.FC = () => {
           ))}
         <LoginForm />
         <a href="/home" className="text-right text-blue-500 text-sm -mb-3 block">
-          login as guest user
+          เข้าสู่ระบบแบบผู้ใช้ทั่วไป
         </a>
       </Card>
     </div>
