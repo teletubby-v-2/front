@@ -70,7 +70,7 @@ export const Profile: React.FC = () => {
                 title="บุ๊คมาร์ค"
                 data={bookmarkLecture}
                 limit={8}
-                extra={<a href="/viewAll/bookmark">ดูทั้งหมด</a>}
+                extra={<Link to="/viewAll/bookmark">ดูทั้งหมด</Link>}
               />
               <Card
                 title={

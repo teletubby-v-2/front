@@ -4,6 +4,7 @@ import { userInfoStore } from '../../store/user.store'
 import { Dropdown, Menu } from 'antd'
 import { DownOutlined } from '@ant-design/icons/lib/icons'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
+import { Link } from 'react-router-dom'
 import { getLectures, getMySubject } from '../../service/lectures/getLecture'
 export const Home: React.FC = () => {
   const { userInfo } = userInfoStore()
@@ -29,7 +30,7 @@ export const Home: React.FC = () => {
           title="วิชาของฉัน"
           data={mySubject}
           limit={10}
-          extra={<a href="/viewAll/mySubject">ดูทั้งหมด</a>}
+          extra={<Link to="/viewAll/mySubject">ดูทั้งหมด</Link>}
         />
       )}
       <LectureContainer

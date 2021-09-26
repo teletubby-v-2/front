@@ -12,6 +12,8 @@ import { userInfoStore } from '../../store/user.store'
 import { AuthZone } from '..'
 import { useHistory } from 'react-router'
 import { followUser, unFollowUser } from '../../service/user/follow'
+import { UserInfo } from '../../pages/UserInfo'
+import { Link } from 'react-router-dom'
 
 export interface ProfileComponentProps {
   onEdit?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void

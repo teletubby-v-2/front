@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { Comment, Avatar, Rate, Dropdown, Menu, Button, Form, Input } from 'antd'
 import { Review } from '../../../constants/interface/lecture.interface'
+import { Link } from 'react-router-dom'
 import { MoreOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../../store/user.store'
 import { MenuInfo } from 'rc-menu/lib/interface'
@@ -54,16 +55,16 @@ export const ReviewBox: React.FC<ReviewBoxProps> = ({ review }) => {
       <Comment
         author={
           <>
-            <a className="font-bold mr-3" href={`/profile/${review.userId}`}>
+            <Link className="font-bold mr-3" to={`/profile/${review.userId}`}>
               {review.username}
-            </a>
+            </Link>
             <Rate disabled value={review.rating} allowHalf className={edit ? 'hidden' : ''} />
           </>
         }
         avatar={
-          <a href={`/profile/${review.userId}`}>
+          <Link to={`/profile/${review.userId}`}>
             <Avatar src={review.photoURL} alt={review.userId} />
-          </a>
+          </Link>
         }
         content={
           !edit ? (

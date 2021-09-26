@@ -13,6 +13,9 @@ import kuSubject from '../../constants/subjects.json'
 import { addUserBookmark, deleteUserBookmark, getUserDetial } from '../../service/user'
 import { getLectureDetail } from '../../service/lectures/getLecture'
 import { SubjectDTO } from '../../constants/dto/subjects.dto'
+import { updateViewCount } from '../../service/lectures'
+
+import { Link } from 'react-router-dom'
 
 export const LectureDetail: React.FC = () => {
   const { userInfo, addBookmark, removeBookmark } = userInfoStore()
@@ -27,7 +30,8 @@ export const LectureDetail: React.FC = () => {
   useEffect(() => {
     setLoading(true)
     getLectureDetail(lectureId).then(data => setLecture(data))
-  }, [])
+    updateViewCount(lectureId)
+  }, [lectureId])
 
   useEffect(() => {
     if (lecture.userId) {
@@ -94,11 +98,11 @@ export const LectureDetail: React.FC = () => {
             <span>{subject?.[lecture?.subjectId as string]?.subjectNameTh || ''}</span>
           </div>
           <div className="flex w-full space-x-3 items-center my-4">
-            <a href={`/profile/${user?.userId}`}>
+            <Link to={`/profile/${user?.userId}`}>
               <Avatar src={user?.imageUrl} />
-            </a>
+            </Link>
             <div>โพสต์โดย</div>
-            <a href={`/profile/${user?.userId}`}>{user?.userName}</a>
+            <Link to={`/profile/${user?.userId}`}>{user?.userName}</Link>
             <div>·</div>
             <div className="flex-grow">เข้าชม {lecture.viewCount} ครั้ง</div>
             <Rate value={lecture.sumRating / lecture.reviewCount} disabled allowHalf />
