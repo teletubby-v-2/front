@@ -154,7 +154,7 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
           />
         </Form.Item>
         <Divider>
-          <p className="text-gray-400">Social Link</p>
+          <p className="text-gray-400">ลิงก์โซเชียล</p>
         </Divider>
         <Form.Item name={['socialLink', 'instagram']}>
           <Input addonBefore="https://" placeholder="Instagram" onKeyDown={dontSubmitWhenEnter} />

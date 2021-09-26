@@ -44,7 +44,7 @@ export const Home: React.FC = () => {
               trigger={['click']}
             >
               <a onClick={e => e.preventDefault()}>
-                filter <DownOutlined />
+                คัดกรอง <DownOutlined />
               </a>
             </Dropdown>
             <Dropdown
@@ -52,7 +52,7 @@ export const Home: React.FC = () => {
               trigger={['click']}
             >
               <a onClick={e => e.preventDefault()}>
-                sort <DownOutlined />
+                เรียง <DownOutlined />
               </a>
             </Dropdown>
           </div>

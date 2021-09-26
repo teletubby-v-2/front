@@ -26,7 +26,7 @@ export const SubjectTable: React.FC<SubjectTableProps> = ({ ...rest }) => {
         key: 'isActive',
         align: 'center',
         render: (isActive: boolean) => {
-          return isActive ? <Tag color="green">active</Tag> : <Tag color="red">inactive </Tag>
+          return isActive ? <Tag color="green">ใช้งาน</Tag> : <Tag color="red">ไม่ใช้งาน</Tag>
         },
         width: 100,
       },
