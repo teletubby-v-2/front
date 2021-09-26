@@ -49,6 +49,13 @@ async function updateLecture(lecture: UpdateLectureDTO): Promise<void> {
   return await lectureCollection.doc(lectureId).update(data)
 }
 
+async function updateViewCount(lectureId: string): Promise<void> {
+  const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
+  return await lectureCollection
+    .doc(lectureId)
+    .update({ viewCount: firebase.firestore.FieldValue.increment(1), updateAt: timeStamp })
+}
+
 async function deleteLecture(lectureId: string) {
   // const batch = firestore.batch()
   // const lectureRef = lectureCollection.doc(lectureId)
@@ -60,4 +67,4 @@ async function deleteLecture(lectureId: string) {
   return await lectureCollection.doc(lectureId).delete()
 }
 
-export { createLecture, updateLecture, deleteLecture }
+export { createLecture, updateLecture, deleteLecture, updateViewCount }
