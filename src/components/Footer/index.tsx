@@ -9,20 +9,25 @@ export const Footer: React.FC = () => {
       <div className="flex justify-center space-x-14">
         <div>
           <p className="font-bold mb-2">Social</p>
-          <Link className="text-white  mb-1" to="https://popcat.click/">
+          <a
+            target="_blank"
+            rel="noreferrer"
+            className="text-white  mb-1"
+            href="https://popcat.click/"
+          >
             <TwitterOutlined className="align-text-top" />
             {'  '}Twitter
-          </Link>
+          </a>
           <br />
-          <Link
+          <a
             className="text-white mb-1"
-            to="https://www.facebook.com/groups/toptvfangroup/"
+            href="https://www.facebook.com/groups/toptvfangroup/"
             target="_blank"
             rel="noreferrer"
           >
             <FacebookFilled className="align-text-top" />
             {'  '}Facebook
-          </Link>
+          </a>
         </div>
         <div>
           <p className="font-bold mb-2">Resources</p>
@@ -30,14 +35,14 @@ export const Footer: React.FC = () => {
           <br />
           <a className="text-white mb-1">{"What'"}s new</a>
           <br />
-          <Link
+          <a
             className="text-white mb-1"
-            to="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.nonburee.go.th%2F%3Fcat%3D217&psig=AOvVaw2uy8Qs_EH2vyfpYT628ZNE&ust=1630325096852000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCLCo8LOY1vICFQAAAAAdAAAAABAb"
+            href="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.nonburee.go.th%2F%3Fcat%3D217&psig=AOvVaw2uy8Qs_EH2vyfpYT628ZNE&ust=1630325096852000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCLCo8LOY1vICFQAAAAAdAAAAABAb"
             target="_blank"
             rel="noreferrer"
           >
             Privacy
-          </Link>
+          </a>
         </div>
         <div>
           <p className="font-bold mb-2">Help</p>
