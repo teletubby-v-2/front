@@ -1,5 +1,6 @@
 import React from 'react'
 import { FacebookFilled, TwitterOutlined } from '@ant-design/icons'
+import { Link } from 'react-router-dom'
 
 export const Footer: React.FC = () => {
   return (
@@ -8,20 +9,20 @@ export const Footer: React.FC = () => {
       <div className="flex justify-center space-x-14">
         <div>
           <p className="font-bold mb-2">Social</p>
-          <a className="text-white  mb-1" href="https://popcat.click/">
+          <Link className="text-white  mb-1" to="https://popcat.click/">
             <TwitterOutlined className="align-text-top" />
             {'  '}Twitter
-          </a>
+          </Link>
           <br />
-          <a
+          <Link
             className="text-white mb-1"
-            href="https://www.facebook.com/groups/toptvfangroup/"
+            to="https://www.facebook.com/groups/toptvfangroup/"
             target="_blank"
             rel="noreferrer"
           >
             <FacebookFilled className="align-text-top" />
             {'  '}Facebook
-          </a>
+          </Link>
         </div>
         <div>
           <p className="font-bold mb-2">Resources</p>
@@ -29,14 +30,14 @@ export const Footer: React.FC = () => {
           <br />
           <a className="text-white mb-1">{"What'"}s new</a>
           <br />
-          <a
+          <Link
             className="text-white mb-1"
-            href="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.nonburee.go.th%2F%3Fcat%3D217&psig=AOvVaw2uy8Qs_EH2vyfpYT628ZNE&ust=1630325096852000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCLCo8LOY1vICFQAAAAAdAAAAABAb"
+            to="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.nonburee.go.th%2F%3Fcat%3D217&psig=AOvVaw2uy8Qs_EH2vyfpYT628ZNE&ust=1630325096852000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCLCo8LOY1vICFQAAAAAdAAAAABAb"
             target="_blank"
             rel="noreferrer"
           >
             Privacy
-          </a>
+          </Link>
         </div>
         <div>
           <p className="font-bold mb-2">Help</p>

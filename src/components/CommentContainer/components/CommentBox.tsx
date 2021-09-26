@@ -6,6 +6,7 @@ import { AuthZone } from '../..'
 import { createReply } from '../../../service/lectures/comment'
 import { ReplyDTO } from '../../../constants/dto/lecture.dto'
 import { userInfoStore } from '../../../store/user.store'
+import { Link } from 'react-router-dom'
 
 export interface CommentBoxProps {
   comment: Comments | ReplyDTO
@@ -66,9 +67,9 @@ export const CommentBox: React.FC<CommentBoxProps> = ({
         }
         author={
           <>
-            <a className="font-bold" href={`/profile/${comment.userId}`}>
+            <Link className="font-bold" to={`/profile/${comment.userId}`}>
               {comment.username}
-            </a>
+            </Link>
             {isMain && (
               <a
                 className="ml-3 text-blue-500 "
@@ -83,9 +84,9 @@ export const CommentBox: React.FC<CommentBoxProps> = ({
           </>
         }
         avatar={
-          <a href={`/profile/${comment.userId}`}>
+          <Link to={`/profile/${comment.userId}`}>
             <Avatar src={comment.photoURL} alt={comment.userId} />
-          </a>
+          </Link>
         }
         content={comment.message}
       >

@@ -11,6 +11,7 @@ import { CommentCom } from './components/CommentCom'
 import { CreateLectureForm } from '../../components/CreateLectureForm'
 import { QACom } from './components/QA'
 import { LectureDetailComment } from '../LectureDetail/components/LectueDetailComment'
+import { Link } from 'react-router-dom'
 // import CommentCom from './components/comment'
 
 const Post: React.FC = () => {
@@ -32,14 +33,14 @@ const Post: React.FC = () => {
   const menu = (
     <Menu>
       <Menu.Item>
-        <a target="" rel="noopener noreferrer" href="/yoyo">
+        <Link target="" rel="noopener noreferrer" to="/yoyo">
           Lectures
-        </a>
+        </Link>
       </Menu.Item>
       <Menu.Item>
-        <a target="" rel="noopener noreferrer" href="/pong">
+        <Link target="" rel="noopener noreferrer" to="/pong">
           pongUser
-        </a>
+        </Link>
       </Menu.Item>
     </Menu>
   )
@@ -54,10 +55,10 @@ const Post: React.FC = () => {
           <Breadcrumb>
             <Breadcrumb.Item>Tester</Breadcrumb.Item>
             <Breadcrumb.Item>
-              <a href="/yoyo">Lectures</a>
+              <Link to="/yoyo">Lectures</Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-              <a href={`/post/${id}`}>{id}</a>
+              <Link to={`/post/${id}`}>{id}</Link>
             </Breadcrumb.Item>
           </Breadcrumb>
           <Dropdown overlay={menu}>

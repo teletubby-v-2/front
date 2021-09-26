@@ -15,6 +15,7 @@ import { AuthZone } from '..'
 import { useHistory } from 'react-router'
 import { followUser, unFollowUser } from '../../service/user/follow'
 import { UserInfo } from '../../pages/UserInfo'
+import { Link } from 'react-router-dom'
 
 export interface ProfileComponentProps {
   onEdit?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
@@ -127,8 +128,8 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       <ul className="list-none space-y-2 pl-0 space-y-4">
         <div className="text-center text-3xl">
           {instagram.length !== 0 && (
-            <a
-              href={instagram}
+            <Link
+              to={instagram}
               className="overflow-hidden text-gray-500 px-3 "
               target="_blank"
               rel="noreferrer"
@@ -136,27 +137,27 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
               <span className="text-gradient  bg-gradient-to-r from-purple-400 to-pink-600">
                 <InstagramOutlined />
               </span>
-            </a>
+            </Link>
           )}
           {facebook.length !== 0 && (
-            <a
-              href={facebook}
+            <Link
+              to={facebook}
               className=" overflow-hidden text-gray-500 px-3"
               target="_blank"
               rel="noreferrer"
             >
               <FacebookOutlined />
-            </a>
+            </Link>
           )}
           {youtube.length !== 0 && (
-            <a
-              href={youtube}
+            <Link
+              to={youtube}
               className="overflow-hidden text-gray-500 px-3"
               target="_blank"
               rel="noreferrer"
             >
               <YoutubeOutlined />
-            </a>
+            </Link>
           )}
         </div>
         {Info?.aboutMe?.length !== 0 && (
@@ -168,15 +169,4 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       </ul>
     </div>
   )
-}
-
-{
-  /* <Space className="overflow-hidden w-full">
-  <FacebookOutlined className="text-2xl" target="_blank" rel="noreferrer" /> Facebook:
-  <a href={facebook} className=" overflow-hidden" target="_blank" rel="noreferrer">
-    {facebook.replace('https://', '')}
-  </a>
-</Space>
-old style social link
- */
 }

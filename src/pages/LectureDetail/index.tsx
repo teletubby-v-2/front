@@ -12,6 +12,7 @@ import { userInfoStore } from '../../store/user.store'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 
 import { addUserBookmark, deleteUserBookmark } from '../../service/user'
+import { Link } from 'react-router-dom'
 
 const LectureDetail: React.FC = () => {
   const { userInfo, addBookmark, removeBookmark } = userInfoStore()
@@ -89,11 +90,11 @@ const LectureDetail: React.FC = () => {
           </div>
 
           <div className="flex w-full space-x-3 items-center my-4">
-            <a href={`/profile/${user?.userId}`}>
+            <Link to={`/profile/${user?.userId}`}>
               <Avatar src={user?.imageUrl} />
-            </a>
+            </Link>
             <div>โพสต์โดย</div>
-            <a href={`/profile/${user?.userId}`}>{user?.userName}</a>
+            <Link to={`/profile/${user?.userId}`}>{user?.userName}</Link>
             <div>·</div>
             <div className="flex-grow">เข้าชม {lecture.viewCount} ครั้ง</div>
             <Rate value={lecture.sumRating / lecture.reviewCount} disabled />

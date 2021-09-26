@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { Link, useHistory, useParams } from 'react-router-dom'
 import { ProfileComponent } from '../../components/ProfileComponent/ProfileComponent'
 import { firestore } from '../../config/firebase'
 import { Collection } from '../../constants'
@@ -89,7 +89,7 @@ export const OtherProfile: React.FC = () => {
               limit={8}
               extra={
                 <div className="space-x-3">
-                  <a href={viewAllurl}>ดูทั้งหมด</a>
+                  <Link to={viewAllurl}>ดูทั้งหมด</Link>
                 </div>
               }
             />

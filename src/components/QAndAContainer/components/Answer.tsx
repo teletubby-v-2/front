@@ -1,6 +1,7 @@
 import React from 'react'
 import { Comment, Avatar } from 'antd'
 import { AnswersDTO } from '../../../constants/dto/lecture.dto'
+import { Link } from 'react-router-dom'
 
 export interface AnswerBoxProps {
   answer: AnswersDTO
@@ -16,15 +17,15 @@ export const AnswerBox: React.FC<AnswerBoxProps> = ({ answer }) => {
       <Comment
         author={
           <>
-            <a className="font-bold mr-3" href={`/profile/${answer.userId}`}>
+            <Link className="font-bold mr-3" to={`/profile/${answer.userId}`}>
               {answer.username}
-            </a>
+            </Link>
           </>
         }
         avatar={
-          <a href={`/profile/${answer.userId}`}>
+          <Link to={`/profile/${answer.userId}`}>
             <Avatar src={answer.photoURL} alt={answer.userId} />
-          </a>
+          </Link>
         }
         content={answer.message}
       />

@@ -1,5 +1,6 @@
 import { List, Avatar, ListProps } from 'antd'
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { QAndA, Review } from '../../constants/interface/lecture.interface'
 export interface CommentListProps extends ListProps<QAndA | Comment | Review> {
   dataType?: 'QAndA' | 'Comment' | 'Review'
@@ -17,7 +18,7 @@ export const CommentList: React.FC<CommentListProps> = props => {
             avatar={
               <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
             }
-            title={<a href="https://ant.design">{item.answer}</a>}
+            title={<Link to="https://ant.design">{item.answer}</Link>}
             description="Ant Design, a design language for background applications, is refined by Ant UED Team"
           />
         </List.Item>

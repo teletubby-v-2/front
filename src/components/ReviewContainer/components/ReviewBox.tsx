@@ -2,6 +2,7 @@ import React from 'react'
 import { Comment, Avatar, Rate } from 'antd'
 import { Review } from '../../../constants/interface/lecture.interface'
 import StarFilled from '@ant-design/icons/lib/icons/StarFilled'
+import { Link } from 'react-router-dom'
 
 export interface ReviewBoxProps {
   review: Review
@@ -17,16 +18,16 @@ export const ReviewBox: React.FC<ReviewBoxProps> = ({ review }) => {
       <Comment
         author={
           <>
-            <a className="font-bold mr-3" href={`/profile/${review.userId}`}>
+            <Link className="font-bold mr-3" to={`/profile/${review.userId}`}>
               {review.username}
-            </a>
+            </Link>
             <Rate disabled value={review.rating} allowHalf />
           </>
         }
         avatar={
-          <a href={`/profile/${review.userId}`}>
+          <Link to={`/profile/${review.userId}`}>
             <Avatar src={review.photoURL} alt={review.userId} />
-          </a>
+          </Link>
         }
         content={review.message}
       />

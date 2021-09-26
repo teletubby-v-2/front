@@ -6,6 +6,7 @@ import { DownOutlined } from '@ant-design/icons/lib/icons'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { firestore } from '../../config/firebase'
 import { Collection } from '../../constants'
+import { Link } from 'react-router-dom'
 export const Home: React.FC = () => {
   const { userInfo } = userInfoStore()
   const [allLecture, setAllLecture] = useState<LectureDTO[]>([] as LectureDTO[])
@@ -56,7 +57,7 @@ export const Home: React.FC = () => {
           title="วิชาของฉัน"
           data={mySubject}
           limit={10}
-          extra={<a href="/viewAll/mySubject">ดูทั้งหมด</a>}
+          extra={<Link to="/viewAll/mySubject">ดูทั้งหมด</Link>}
         />
       )}
       <LectureContainer

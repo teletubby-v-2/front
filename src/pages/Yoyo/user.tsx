@@ -8,6 +8,7 @@ import { convertTimestampToTime } from '../../utils/time'
 import { description, img, username } from './dummy/index.dummy'
 import { DownOutlined } from '@ant-design/icons'
 import { getUserFollow, followUser, unFollowUser } from '../../service/user/follow'
+import { Link } from 'react-router-dom'
 
 const User: React.FC = () => {
   const [count, setCount] = useState(0)
@@ -111,9 +112,9 @@ const User: React.FC = () => {
   const menu = (
     <Menu>
       <Menu.Item>
-        <a target="" href="/yoyo">
+        <Link target="" to="/yoyo">
           Lectures
-        </a>
+        </Link>
       </Menu.Item>
     </Menu>
   )
@@ -124,7 +125,7 @@ const User: React.FC = () => {
         <Breadcrumb>
           <Breadcrumb.Item>Tester</Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a href="/pong">pongUser</a>
+            <Link to="/pong">pongUser</Link>
           </Breadcrumb.Item>
         </Breadcrumb>
         <Dropdown overlay={menu}>

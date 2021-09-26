@@ -13,6 +13,7 @@ import { Button, Card } from 'antd'
 import { DiffTwoTone, PlusOutlined, SearchOutlined } from '@ant-design/icons'
 import { SubjectTable } from '../../components/SubjectTable'
 import { useHistory } from 'react-router'
+import { Link } from 'react-router-dom'
 
 export const Profile: React.FC = () => {
   const { userInfo } = userInfoStore()
@@ -78,7 +79,7 @@ export const Profile: React.FC = () => {
                 extra={
                   <div className="space-x-3">
                     <CreateLectureForm className="inline-block" />
-                    <a href="/viewAll/ownLecture">ดูทั้งหมด</a>
+                    <Link to="/viewAll/ownLecture">ดูทั้งหมด</Link>
                   </div>
                 }
               />
@@ -87,7 +88,7 @@ export const Profile: React.FC = () => {
                 title="บุ๊คมาร์ค"
                 data={bookmarkLecture}
                 limit={8}
-                extra={<a href="/viewAll/bookmark">ดูทั้งหมด</a>}
+                extra={<Link to="/viewAll/bookmark">ดูทั้งหมด</Link>}
               />
               <Card
                 title={

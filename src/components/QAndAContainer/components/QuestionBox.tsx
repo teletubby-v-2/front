@@ -9,6 +9,7 @@ import { firestore } from '../../../config/firebase'
 import { Collection } from '../../../constants'
 import { fetchUser } from '../../../utils/fetchUser'
 import { AnswerBox } from './Answer'
+import { Link } from 'react-router-dom'
 
 export interface QuestionBoxProps {
   qAndA: QAndA
@@ -110,17 +111,17 @@ export const QuestionBox: React.FC<QuestionBoxProps> = ({ authorId, qAndA, lectu
   return (
     <div>
       <div className="flex space-x-2">
-        <a href={`/profile/${qAndA.userId}`} className="m-3">
+        <Link to={`/profile/${qAndA.userId}`} className="m-3">
           <Avatar src={qAndA.photoURL} alt={qAndA.userId} size={48} />
-        </a>
+        </Link>
         <div className="space-y-2 mt-2 flex-grow">
           <div className="font-bold text-xl">{qAndA.question}</div>
           <div>
             <div className="text-sm text-gray-500 mb-4">
               ถามโดย
-              <a href={`/profile/${qAndA.userId}`} className="mx-1">
+              <Link to={`/profile/${qAndA.userId}`} className="mx-1">
                 {qAndA.username}
-              </a>
+              </Link>
               เมื่อ{' '}
               {isToday(qAndA.createAt?.toDate())
                 ? qAndA.createAt?.toDate().toLocaleTimeString('th-TH')
