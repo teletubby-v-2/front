@@ -125,7 +125,7 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
           }}
         >
           <div className="text-black w-full h-full px-2 py-1" onClick={() => setIsOnEdit(true)}>
-            <EditOutlined className="align-middle" /> แก้ไข
+            <EditOutlined /> แก้ไข
           </div>
         </CreateLectureForm>
       </Menu.Item>
@@ -140,7 +140,7 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
           }}
         >
           <div className="px-2 py-1.5">
-            <DeleteOutlined className="align-middle" /> ลบ
+            <DeleteOutlined /> ลบ
           </div>
         </Popconfirm>
       </Menu.Item>

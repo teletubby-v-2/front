@@ -112,7 +112,7 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
           )
         ) : (
           <Avatar
-            icon={<LoadingOutlined className="align-middle" />}
+            icon={<LoadingOutlined />}
             alt="loading"
             size={200}
             className="mx-auto object-cover my-2 bg-center"

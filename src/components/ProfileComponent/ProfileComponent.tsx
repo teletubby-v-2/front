@@ -76,14 +76,9 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       </div>
       <div className="text-center space-x-4 flex">
         {isMy ? (
-          <>
-            <Button className="flex-grow" onClick={onEdit}>
-              แก้ไข
-            </Button>
-            <Button>
-              <DashOutlined />
-            </Button>
-          </>
+          <Button className="flex-grow" onClick={onEdit}>
+            แก้ไข
+          </Button>
         ) : (
           <AuthZone className="flex-grow">
             {isFollow ? (

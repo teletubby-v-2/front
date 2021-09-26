@@ -3,14 +3,13 @@ import React, { useEffect, useState } from 'react'
 import { LectureContainer } from '../../components'
 import { userInfoStore } from '../../store/user.store'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
-import { firestore } from '../../config/firebase'
-import { Collection } from '../../constants'
+import { LeftCircleOutlined } from '@ant-design/icons'
 import { useHistory, useParams } from 'react-router-dom'
-import firebase from 'firebase/app'
 import {
   getBookmarkLectures,
   getLectures,
   getLecturesById,
+  getLecturesByListOfId,
   getMySubject,
   getOwnLectures,
 } from '../../service/lectures/getLecture'
@@ -52,6 +51,9 @@ export const ViewAll: React.FC = () => {
             getOwnLectures(id.substring(id.search('lecture') + 7)).then(data =>
               setViewAllLecture(data),
             )
+          } else if (id?.[0] === '[') {
+            settitle('ค้นหาด้วยวิชาของฉัน')
+            getLecturesByListOfId(JSON.parse(id)).then(data => setViewAllLecture(data))
           } else {
             settitle('สรุปของวิชา ' + id)
             getLecturesById(id.slice(0, 8)).then(data => setViewAllLecture(data))
@@ -63,10 +65,14 @@ export const ViewAll: React.FC = () => {
   return (
     <div className="mx-2 space-y-7 md:mx-5 lg:mx-20 xl:mx-30 my-10">
       <LectureContainer
-        title={title}
+        title={
+          <>
+            <LeftCircleOutlined onClick={() => history.goBack()} className="align-middle mr-3" />
+            {title}
+          </>
+        }
         data={viewAllLecture}
         limit={false}
-        extra={<a onClick={() => history.goBack()}>back</a>}
       />
     </div>
   )

@@ -20,6 +20,15 @@ async function getLecturesById(lectureId: string) {
   return data
 }
 
+async function getLecturesByListOfId(lectureId: string[]) {
+  const data: LectureDTO[] = []
+  console.log(lectureId)
+
+  const lectures = await lectureCollection.where('subjectId', 'in', lectureId).get()
+  lectures.forEach(lecture => data.push({ lectureId: lecture.id, ...lecture.data() } as LectureDTO))
+  return data
+}
+
 async function getOwnLectures(userId: string) {
   const data: LectureDTO[] = []
   const lectures = await lectureCollection.where('userId', '==', userId).get()
@@ -69,4 +78,5 @@ export {
   getOwnLectures,
   getBookmarkLectures,
   getLecturesById,
+  getLecturesByListOfId,
 }

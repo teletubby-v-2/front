@@ -10,7 +10,7 @@ import { MyUserDTO } from '../../constants/dto/myUser.dto'
 import { userInfoStore } from '../../store/user.store'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import kuSubject from '../../constants/subjects.json'
-import { addUserBookmark, deleteUserBookmark, getUser, getUserDetial } from '../../service/user'
+import { addUserBookmark, deleteUserBookmark, getUserDetial } from '../../service/user'
 import { getLectureDetail } from '../../service/lectures/getLecture'
 import { SubjectDTO } from '../../constants/dto/subjects.dto'
 
@@ -104,32 +104,34 @@ export const LectureDetail: React.FC = () => {
             <Rate value={lecture.sumRating / lecture.reviewCount} disabled allowHalf />
             <div>{lecture.reviewCount} ratings</div>
           </div>
+          {lecture.pdfUrl ? (
+            <iframe src={lecture.pdfUrl[0]} style={{ width: '100%', height: 800 }}></iframe>
+          ) : (
+            <div className="flex justify-center my-5 relative">
+              <Image
+                style={{ height: 600 }}
+                className="object-center object-cover"
+                src={lecture?.imageUrl?.[count]}
+              />
+              <Button
+                shape="circle"
+                className="absolute top-1/2  right-3 -translate-y-1/2	"
+                onClick={() => setCount((count + 1) % lecture.imageUrl.length)}
+                disabled={!lecture.imageUrl?.length}
+                icon={<RightOutlined />}
+              />
 
-          {/* //todo: แบงค์ชินทำต่อ */}
-          <div className="flex justify-center my-5 relative">
-            <Image
-              style={{ height: 600 }}
-              className="object-center object-cover"
-              src={lecture?.imageUrl?.[count]}
-            />
-            <Button
-              shape="circle"
-              className="absolute top-1/2  right-3 -translate-y-1/2	"
-              onClick={() => setCount((count + 1) % lecture.imageUrl.length)}
-              disabled={!lecture.imageUrl?.length}
-              icon={<RightOutlined className="align-middle" />}
-            />
-
-            <Button
-              shape="circle"
-              className="absolute top-1/2 left-3 -translate-y-1/2	"
-              onClick={() =>
-                setCount((count - 1 + lecture.imageUrl.length) % lecture.imageUrl.length)
-              }
-              disabled={!lecture.imageUrl?.length}
-              icon={<LeftOutlined className="align-middle" />}
-            />
-          </div>
+              <Button
+                shape="circle"
+                className="absolute top-1/2 left-3 -translate-y-1/2	"
+                onClick={() =>
+                  setCount((count - 1 + lecture.imageUrl.length) % lecture.imageUrl.length)
+                }
+                disabled={!lecture.imageUrl?.length}
+                icon={<LeftOutlined />}
+              />
+            </div>
+          )}
 
           {lecture.description && (
             <Card title="คำอธิบาย" className="shadow-1 rounded-sm">

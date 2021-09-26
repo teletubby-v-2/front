@@ -69,7 +69,7 @@ export const Navbar: React.FC = () => {
 
   useEffect(() => {
     const idlist = notilist.map(notiinfo => notiinfo.notiId)
-    const intersec = userInfo.notificationReadCount.filter(id => idlist.includes(id))
+    const intersec = userInfo.notificationReadCount?.filter(id => idlist.includes(id)) || []
     setNumnoti(idlist.length - intersec.length)
     const notimenu = (
       <Menu className="mt-3 text-base bg-gray-200 overflow-hidden">

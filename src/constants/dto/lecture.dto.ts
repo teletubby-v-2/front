@@ -12,6 +12,8 @@ export interface CreateLectureDTO {
   lectureTitle: string
   description?: string
   isMid?: boolean
+  isPdf?: boolean
+  pdfUrl?: string[]
   isFinal?: boolean
   imageUrl: string[]
   ratingScore?: number

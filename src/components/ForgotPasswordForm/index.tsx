@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Alert, Avatar, Button, Divider, Form, Input, Modal, Space } from 'antd'
-import { UserOutlined, KeyOutlined } from '@ant-design/icons'
+import { Alert, Button, Form, Input } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
 import firebase from 'firebase'
 import { useHistory } from 'react-router-dom'
 
@@ -15,7 +15,6 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
   className,
   callback,
   modal,
-  closeModal,
 }) => {
   const history = useHistory()
   const [isReset, setIsReset] = useState(false)
@@ -26,10 +25,9 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
       const email = value.email
       await firebase.auth().sendPasswordResetEmail(email)
       setIsReset(true)
-    } catch (error: any) {
-      const errorCode = error.code
-      const errorMessage = error.message
-      setMessage(errorMessage)
+    } catch (error) {
+      const { message } = error as firebase.firestore.FirestoreError
+      setMessage(message)
     }
   }
   return (
