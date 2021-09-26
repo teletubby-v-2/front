@@ -110,6 +110,18 @@ async function getUserDetial(userId: string) {
   }
 }
 
+async function addnotification(notiId: string, oldnotification: string[]) {
+  const userId = firebaseApp.auth().currentUser?.uid
+  const data = {
+    notificationReadCount: [notiId, ...oldnotification],
+  }
+  if (userId) {
+    await userCollection.doc(userId).update(data)
+  } else {
+    throw new Error('young mai login')
+  }
+}
+
 export {
   createUser,
   updateUser,
@@ -119,4 +131,5 @@ export {
   updateUserSubject,
   getUser,
   getUserDetial,
+  addnotification,
 }
