@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from 'react'
-import { Avatar, Menu, Dropdown, Button, Select, Tooltip, Badge } from 'antd'
+import { Avatar, Menu, Dropdown, Button, Select, Tooltip, Badge, Empty, Divider } from 'antd'
 import { useHistory } from 'react-router'
 import KUshare from '../../assets/icons/KUshare.svg'
 import {
@@ -77,19 +77,26 @@ export const Navbar: React.FC = () => {
           <BellFilled className="mr-2 align-middle" />
           การแจ้งเตือน
         </div>
-        {notilist.map(notiInfo => {
-          if (notiInfo.notiId) {
-            return (
-              <NotiMenuItem
-                notiId={notiInfo.notiId}
-                type={notiInfo.type}
-                body={notiInfo.body}
-                link={notiInfo.link}
-                key={notiInfo.notiId}
-              />
-            )
-          }
-        })}
+        {notilist.length !== 0 ? (
+          notilist.map(notiInfo => {
+            if (notiInfo.notiId) {
+              return (
+                <NotiMenuItem
+                  notiId={notiInfo.notiId}
+                  type={notiInfo.type}
+                  body={notiInfo.body}
+                  link={notiInfo.link}
+                  key={notiInfo.notiId}
+                />
+              )
+            }
+          })
+        ) : (
+          <>
+            <Menu.Divider />
+            <Empty description="ไม่มีการแจ้งเตือน" />
+          </>
+        )}
       </Menu>
     )
     setNotiMenu(notimenu)
