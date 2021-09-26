@@ -4,49 +4,22 @@ import { userInfoStore } from '../../store/user.store'
 import { Dropdown, Menu } from 'antd'
 import { DownOutlined } from '@ant-design/icons/lib/icons'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
-import { firestore } from '../../config/firebase'
-import { Collection } from '../../constants'
 import { Link } from 'react-router-dom'
+import { getLectures, getMySubject } from '../../service/lectures/getLecture'
 export const Home: React.FC = () => {
   const { userInfo } = userInfoStore()
   const [allLecture, setAllLecture] = useState<LectureDTO[]>([] as LectureDTO[])
   const [mySubject, setMySubject] = useState<LectureDTO[]>([] as LectureDTO[])
 
   useEffect(() => {
-    firestore
-      .collection(Collection.Lectures)
-      .orderBy('createAt', 'desc')
-      .get()
-      .then(doc => {
-        doc.forEach(lecture => {
-          setAllLecture(allLecture => [
-            ...allLecture,
-            { lectureId: lecture.id, ...lecture.data() } as LectureDTO,
-          ])
-        })
-      })
+    getLectures().then(data => setAllLecture(data))
   }, [])
 
   useEffect(() => {
-    if (mySubject.length === 0 && userInfo.userSubject) {
-      const subjectId = userInfo.userSubject
-        .filter(subject => subject.isActive === true)
-        .map(subject => subject.subjectId)
-        .flatMap(x => x)
-      if (subjectId && subjectId.length !== 0) {
-        firestore
-          .collection(Collection.Lectures)
-          .where('subjectId', 'in', subjectId)
-          .get()
-          .then(doc => {
-            doc.forEach(lecture => {
-              setMySubject(mySubject => [
-                ...mySubject,
-                { lectureId: lecture.id, ...lecture.data() } as LectureDTO,
-              ])
-            })
-          })
-      }
+    if (userInfo.userSubject.length !== 0) {
+      getMySubject(userInfo.userSubject)
+        .then(data => setMySubject(data))
+        .catch(() => console.log('no data'))
     }
   }, [userInfo.userSubject])
 

@@ -1,68 +1,90 @@
 /* eslint-disable react/display-name */
-import { Checkbox, Table, Tag } from 'antd'
-import React, { useState } from 'react'
+import { Empty, Popconfirm, Table, Tag } from 'antd'
+import React, { useMemo } from 'react'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import { SujectTableChild } from './components/SujectTableChild'
+import { SubjectTableChild } from './components/SujectTableChild'
 import { UserSubjectDTO } from '../../constants/dto/myUser.dto'
-import { ColumnType } from 'antd/lib/table'
-export interface SubjectTableProps {
-  data: UserSubjectDTO[]
-}
+import { ColumnType, TableProps } from 'antd/lib/table'
+import { userInfoStore } from '../../store/user.store'
+import { AddSubject } from './components/AddSubject'
+import { updateUserSubject } from '../../service/user'
+export interface SubjectTableProps extends TableProps<UserSubjectDTO> {}
 
-const columns: ColumnType<UserSubjectDTO>[] = [
-  { title: 'เลือกทั้งหมด', dataIndex: 'title', key: 'title' },
-  {
-    title: '',
-    dataIndex: 'isActive',
-    key: 'isActive',
-    align: 'center',
-    render: (isActive: boolean) => {
-      return isActive ? <Tag color="green">active</Tag> : <Tag color="red">inactive </Tag>
-    },
-    width: 100,
-  },
-
-  {
-    title: '',
-    key: 'operation',
-    render: () => (
-      <a>
-        <EditOutlined />
-      </a>
-    ),
-    width: 50,
-  },
-  {
-    title: '',
-    key: 'operation',
-    render: () => (
-      <a>
-        <DeleteOutlined />
-      </a>
-    ),
-    width: 50,
-  },
-]
-
-export const SubjectTable: React.FC<SubjectTableProps> = ({ data }) => {
-  const [selectKey, setSelectKey] = useState<string[]>([])
-  const rowSelection = {
-    selectKey,
-    onChange: (selectedRowKeys: any[]) => setSelectKey(selectedRowKeys),
+export const SubjectTable: React.FC<SubjectTableProps> = ({ ...rest }) => {
+  const { userInfo, setUserSubject } = userInfoStore()
+  const removeUserSubject = (name: string) => {
+    const newUserSubject = userInfo.userSubject.filter(table => table.title !== name)
+    updateUserSubject(newUserSubject).then(() => setUserSubject(newUserSubject))
   }
+
+  const columns = useMemo<ColumnType<UserSubjectDTO>[]>(
+    () => [
+      { title: 'เลือกทั้งหมด', dataIndex: 'title', key: 'title' },
+      {
+        title: '',
+        dataIndex: 'isActive',
+        key: 'isActive',
+        align: 'center',
+        render: (isActive: boolean) => {
+          return isActive ? <Tag color="green">active</Tag> : <Tag color="red">inactive </Tag>
+        },
+        width: 100,
+      },
+
+      {
+        title: '',
+        key: 'operation',
+        render: (_, record) => (
+          <AddSubject initialValues={record}>
+            <a>
+              <EditOutlined />
+            </a>
+          </AddSubject>
+        ),
+        width: 50,
+      },
+      {
+        title: '',
+        key: 'operation',
+        render: (_, record) => (
+          <Popconfirm
+            title="แน่ใจใช่ไหมที่จะลบตาราง"
+            onConfirm={() => removeUserSubject(record.title)}
+          >
+            <DeleteOutlined className="cursor-pointer text-red-500" />
+          </Popconfirm>
+        ),
+        width: 50,
+      },
+    ],
+    [userInfo.userSubject],
+  )
+
   return (
-    <div>
-      <Table
-        className="components-table-demo-nested"
-        columns={columns}
-        rowSelection={rowSelection}
-        rowKey="title"
-        expandable={{
-          expandedRowRender: record => <SujectTableChild subjectId={record.subjectId} />,
-        }}
-        dataSource={data}
-        pagination={false}
-      />
-    </div>
+    <Table
+      columns={columns}
+      locale={{
+        emptyText: (
+          <Empty
+            description={
+              <>
+                <p>ไม่มีตาราง</p>
+              </>
+            }
+          />
+        ),
+      }}
+      rowKey="title"
+      expandable={{
+        expandedRowRender: record => (
+          <div style={{ maxWidth: 810 }} className="flex justify-center">
+            <SubjectTableChild subjectId={record.subjectId} />,
+          </div>
+        ),
+      }}
+      dataSource={userInfo.userSubject}
+      pagination={false}
+      {...rest}
+    />
   )
 }

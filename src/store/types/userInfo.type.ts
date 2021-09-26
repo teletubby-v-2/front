@@ -6,7 +6,7 @@ export interface UserInfo {
   userInfo: MyUser
   setUserName: (userName: string) => void
   setImageURL: (imageURL: string) => void
-  setSocialLink: (socialLink: SocialLink[]) => void
+  setSocialLink: (socialLink: SocialLink) => void
   setFollower: (follower: string[]) => void
   addFollower: (userId: string) => void
   removeFollower: (userId: string) => void
@@ -21,4 +21,5 @@ export interface UserInfo {
   setAboutme: (aboutme: string) => void
   setDonate: (donateImage: string, description: string) => void
   setUserSubject: (userSubject: UserSubjectDTO[]) => void
+  addnotificationReadCount: (notiId: string) => void
 }

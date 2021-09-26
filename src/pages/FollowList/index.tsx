@@ -1,27 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { FollowCard } from '../../components/FollowCard'
-import { firestore } from '../../config/firebase'
-import { Collection } from '../../constants'
 import { MyUser } from '../../constants/interface/myUser.interface'
-import { userInfoStore } from '../../store/user.store'
-import { fetchUser } from '../../utils/fetchUser'
+import { getUserDetial } from '../../service/user'
 
 export const FollowList: React.FC = () => {
   const { userId } = useParams<{ userId: string }>()
   const [info, setInfo] = useState({} as MyUser)
   const minRow = 3
+
   //todo:GetuserData
+
   useEffect(() => {
-    firestore
-      .collection(Collection.Users)
-      .doc(userId)
-      .get()
-      .then(doc => {
-        if (doc.exists) {
-          setInfo({ ...doc.data(), userId: doc.id } as MyUser)
-        }
-      })
+    getUserDetial(userId).then(data => setInfo({ ...data, userId: data.userId } as MyUser))
   }, [userId])
 
   return (

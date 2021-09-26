@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { CreateLectureDTO, UpdateLectureDTO } from '../../../constants/dto/lecture.dto'
 import { Lecture } from '../../../constants/interface/lecture.interface'
 import { createLecture, updateLecture } from '../../../service/lectures'
-import { deleteImages, uploadImage } from '../../../service/storage'
+import { deleteImages, uploadImage, uploadPdf } from '../../../service/storage'
 import { initPhoto, removeUndefined } from '../../../utils/object'
 
 export const useLectureForm = (
@@ -24,6 +24,7 @@ export const useLectureForm = (
   const [previewVisible, setPreviewVisible] = useState(false)
   const [previewImage, setPreviewImage] = useState<string>()
   const [isUpdate] = useState(initData?.lectureId ? true : false)
+  const [pdf, setPdf] = useState<UploadFile[]>(initPhoto(initData?.pdfUrl) || [])
 
   useEffect(() => {
     setIsOnAddTag(false)
@@ -34,7 +35,10 @@ export const useLectureForm = (
       form.resetFields()
       form.setFieldsValue({ tags: initData?.tags || [] })
       form.setFieldsValue({ imageUrl: initData?.imageUrl || [] })
+      form.setFieldsValue({ pdfUrl: initData?.pdfUrl || [] })
+      form.setFieldsValue({ isPdf: initData?.isPdf || false })
       setFileList(initPhoto(initData?.imageUrl))
+      setPdf(initPhoto(initData?.pdfUrl))
     }
   }, [isOnCreate])
 
@@ -84,6 +88,18 @@ export const useLectureForm = (
     }
   }
 
+  const uploadNewPdf = async (file: File) => {
+    try {
+      if (pdf.length !== 0) throw 'อัพได้มากสุด 1 ไฟล์'
+      const uploadStatus = await uploadPdf(file)
+      if (uploadStatus.url) {
+        setPdf(pdf => [...pdf, uploadStatus])
+      }
+    } catch (error: any) {
+      message.error(error)
+    }
+  }
+
   const handlePreview = (file: UploadFile<any>) => {
     setPreviewVisible(true)
     setPreviewImage(file.url as string)
@@ -117,22 +133,42 @@ export const useLectureForm = (
     }
   }
 
+  const handlePdfList = (file: UploadChangeParam<UploadFile>) => {
+    if (file.file.status === 'removed') {
+      setPdf(file.fileList)
+      form.setFieldsValue({ pdfUrl: file.fileList.map(file => file.url) })
+      deleteImages(file.file.url as string)
+    }
+    if (file.file.status === 'uploading') {
+      setIsUploading(true)
+    }
+  }
+
   const handleRequest = (option: any) => {
-    uploadNewImage(option.file).finally(() => setIsUploading(false))
+    console.log(form.getFieldValue('isPdf'))
+
+    if (form.getFieldValue('isPdf')) uploadNewPdf(option.file).finally(() => setIsUploading(false))
+    else uploadNewImage(option.file).finally(() => setIsUploading(false))
   }
 
   const onFinish = () => {
+    const formValue = form.getFieldsValue()
     if (isUploading) {
-      return message.warning('รูปภาพกำลังอัพโหลด')
+      return message.warning('ไฟล์กำลังอัพโหลด')
     }
-    if (fileList.length === 0) {
-      return message.warning('กรุณาใส่รูปภาพสรุปของคุณ')
+    if (!formValue.isPdf && fileList.length === 0) {
+      return message.warning('กรุณาใส่ไฟล์สรุปของคุณ')
+    }
+    if (formValue.isPdf && pdf.length === 0) {
+      return message.warning('กรุณาใส่ไฟล์สรุปของคุณ')
     }
     const value: Partial<CreateLectureDTO> = removeUndefined({
-      ...form.getFieldsValue(),
+      ...formValue,
       subjectId: form.getFieldValue('subjectId').split(' ')[0],
-      imageUrl: fileList.map(file => file.url),
+      imageUrl: formValue.isPdf ? undefined : fileList.map(file => file.url),
+      pdfUrl: formValue.isPdf ? pdf.map(file => file.url) : undefined,
     })
+
     if (!isUpdate) {
       message.info('กำลังสร้าง...')
       createLecture(value as CreateLectureDTO)
@@ -160,6 +196,7 @@ export const useLectureForm = (
 
   return {
     form,
+    pdf,
     isOnCreate,
     inputValue,
     checkTagSize,
@@ -180,5 +217,6 @@ export const useLectureForm = (
     OnAddTag,
     handlePreview,
     previewCancel,
+    handlePdfList,
   }
 }

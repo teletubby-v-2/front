@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Avatar, Button, Divider, Space } from 'antd'
+import { Avatar, Button, Divider } from 'antd'
 import {
   DashOutlined,
   FacebookOutlined,
@@ -9,8 +9,6 @@ import {
 import { MyUser } from '../../constants/interface/myUser.interface'
 import no_user from '../../assets/images/no_user.png'
 import { userInfoStore } from '../../store/user.store'
-import { UpdateUserDTO } from '../../constants/dto/myUser.dto'
-import { updateUser } from '../../service/user'
 import { AuthZone } from '..'
 import { useHistory } from 'react-router'
 import { followUser, unFollowUser } from '../../service/user/follow'
@@ -24,30 +22,10 @@ export interface ProfileComponentProps {
 }
 
 export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy, info: Info }) => {
-  const [facebook, setFacebook] = useState('')
-  const [instagram, setInstagram] = useState('')
-  const [youtube, setYoutube] = useState('')
-  const { userInfo, addFollower, removeFollower, setFollower, removeFollowing, addFollowing } =
-    userInfoStore()
+  const history = useHistory()
+  const { userInfo, removeFollowing, addFollowing } = userInfoStore()
   const [followCount, setFollowCount] = useState(0)
   const [isFollow, setIsFollow] = useState(false)
-  const history = useHistory()
-
-  useEffect(() => {
-    if (Info && Info.socialLink) {
-      Info.socialLink.forEach(social => {
-        if (social.socialMediaName == 'youtube') {
-          setYoutube(social.socialMedisUrl)
-        }
-        if (social.socialMediaName == 'instagram') {
-          setInstagram(social.socialMedisUrl)
-        }
-        if (social.socialMediaName == 'facebook') {
-          setFacebook(social.socialMedisUrl)
-        }
-      })
-    }
-  }, [Info.socialLink])
 
   useEffect(() => {
     setIsFollow(userInfo.following.includes(Info.userId))
@@ -100,14 +78,9 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       </div>
       <div className="text-center space-x-4 flex">
         {isMy ? (
-          <>
-            <Button className="flex-grow" onClick={onEdit}>
-              แก้ไข
-            </Button>
-            <Button>
-              <DashOutlined />
-            </Button>
-          </>
+          <Button className="flex-grow" onClick={onEdit}>
+            แก้ไข
+          </Button>
         ) : (
           <AuthZone className="flex-grow">
             {isFollow ? (
@@ -127,9 +100,9 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       </Divider>
       <ul className="list-none space-y-2 pl-0 space-y-4">
         <div className="text-center text-3xl">
-          {instagram.length !== 0 && (
-            <Link
-              to={instagram}
+          {userInfo.socialLink.instagram?.length !== 0 && (
+            <a
+              href={userInfo.socialLink.instagram}
               className="overflow-hidden text-gray-500 px-3 "
               target="_blank"
               rel="noreferrer"
@@ -137,27 +110,27 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
               <span className="text-gradient  bg-gradient-to-r from-purple-400 to-pink-600">
                 <InstagramOutlined />
               </span>
-            </Link>
+            </a>
           )}
-          {facebook.length !== 0 && (
-            <Link
-              to={facebook}
+          {userInfo.socialLink.facebook?.length !== 0 && (
+            <a
+              href={userInfo.socialLink.facebook}
               className=" overflow-hidden text-gray-500 px-3"
               target="_blank"
               rel="noreferrer"
             >
               <FacebookOutlined />
-            </Link>
+            </a>
           )}
-          {youtube.length !== 0 && (
-            <Link
-              to={youtube}
+          {userInfo.socialLink.youtube?.length !== 0 && (
+            <a
+              href={userInfo.socialLink.youtube}
               className="overflow-hidden text-gray-500 px-3"
               target="_blank"
               rel="noreferrer"
             >
               <YoutubeOutlined />
-            </Link>
+            </a>
           )}
         </div>
         {Info?.aboutMe?.length !== 0 && (

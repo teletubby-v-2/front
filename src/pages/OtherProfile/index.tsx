@@ -1,27 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Link, useHistory, useParams } from 'react-router-dom'
 import { ProfileComponent } from '../../components/ProfileComponent/ProfileComponent'
-import { firestore } from '../../config/firebase'
-import { Collection } from '../../constants'
 import { MyUser } from '../../constants/interface/myUser.interface'
-import { Spin } from 'antd'
-import styled from 'styled-components'
 import { QRComponent } from '../../components/QRComponent/QRComponent'
 import { LectureContainer } from '../../components'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
-
-const Overlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 100;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
+import { getUserDetial } from '../../service/user'
+import { getOwnLectures } from '../../service/lectures/getLecture'
 
 export const OtherProfile: React.FC = () => {
   const [info, setinfo] = useState({} as MyUser)
@@ -30,35 +15,19 @@ export const OtherProfile: React.FC = () => {
   const { userId } = useParams<{ userId: string }>()
 
   useEffect(() => {
-    firestore
-      .collection(Collection.Users)
-      .doc(userId)
-      .get()
+    getUserDetial(userId)
       .then(doc => {
-        if (doc.exists) {
-          setinfo({ ...doc.data(), userId: doc.id } as MyUser)
-        } else {
-          history.push('/Not_found')
-        }
+        setinfo({ ...doc, userId: doc.userId } as MyUser)
+      })
+      .catch(() => {
+        history.replace('/Not_found')
       })
   }, [userId])
 
   useEffect(() => {
     setotherlecture([])
     if (userId) {
-      firestore
-        .collection(Collection.Lectures)
-        .where('userId', '==', userId)
-        .get()
-        .then(doc => {
-          doc.forEach(lecture => {
-            setotherlecture(alllecture => [
-              ...alllecture,
-              { lectureId: lecture.id, ...lecture.data() } as LectureDTO,
-            ])
-          })
-        })
-        .finally(() => console.log(otherlecture))
+      getOwnLectures(userId).then(data => setotherlecture(data))
     }
   }, [userId])
 

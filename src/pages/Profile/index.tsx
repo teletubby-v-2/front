@@ -1,59 +1,41 @@
-import React, { useEffect, useState } from 'react'
+import React, { Key, useEffect, useState } from 'react'
 import { LectureContainer } from '../../components'
 import { MyProfile } from './components/MyProfile'
 import { CreateLectureForm } from '../../components/CreateLectureForm'
 import { MyQR } from './components/MyQR'
 import { userInfoStore } from '../../store/user.store'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
-import { firebaseApp, firestore } from '../../config/firebase'
-import { Collection } from '../../constants'
-import firebase from 'firebase/app'
+import { firebaseApp } from '../../config/firebase'
 import { lectureStore } from '../../store/lecture.store'
-import { Button, Card } from 'antd'
+import { Button, Card, Tooltip } from 'antd'
 import { DiffTwoTone, PlusOutlined, SearchOutlined } from '@ant-design/icons'
 import { SubjectTable } from '../../components/SubjectTable'
-import { useHistory } from 'react-router'
-import { Link } from 'react-router-dom'
+import { getBookmarkLectures, getOwnLectures } from '../../service/lectures/getLecture'
+import { AddSubject } from '../../components/SubjectTable/components/AddSubject'
+import { TableRowSelection } from 'antd/lib/table/interface'
+import { UserSubjectDTO } from '../../constants/dto/myUser.dto'
+import { Link, useHistory } from 'react-router-dom'
 
 export const Profile: React.FC = () => {
   const { userInfo } = userInfoStore()
-  const { ownLecture, setOwnLecture, addOwnLecture } = lectureStore()
-  const [bookmarkLecture, setBookmarkLecture] = useState<LectureDTO[]>([] as LectureDTO[])
-  // const [ownLecture, setOwnLecture] = useState<LectureDTO[]>([] as LectureDTO[])
-
   const history = useHistory()
-
-  const islogin = firebaseApp.auth().currentUser
-
+  const { ownLecture, setOwnLecture } = lectureStore()
+  const [bookmarkLecture, setBookmarkLecture] = useState<LectureDTO[]>([] as LectureDTO[])
+  const [selectKey, setSelectKey] = useState<Key[]>([])
+  const rowSelection: TableRowSelection<UserSubjectDTO> = {
+    selectedRowKeys: selectKey,
+    onChange: selectedRowKeys => setSelectKey(selectedRowKeys),
+  }
   useEffect(() => {
     setOwnLecture([])
     if (userInfo.userId) {
-      firestore
-        .collection(Collection.Lectures)
-        .where('userId', '==', userInfo.userId)
-        .get()
-        .then(doc => {
-          doc.forEach(lecture => {
-            addOwnLecture({ lectureId: lecture.id, ...lecture.data() } as LectureDTO)
-          })
-        })
+      getOwnLectures(userInfo.userId).then(data => setOwnLecture(data))
     }
   }, [userInfo.userId])
 
   useEffect(() => {
     if (bookmarkLecture.length === 0 && userInfo.bookmark && userInfo.bookmark.length !== 0) {
-      firestore
-        .collection(Collection.Lectures)
-        .where(firebase.firestore.FieldPath.documentId(), 'in', userInfo.bookmark)
-        .get()
-        .then(doc => {
-          doc.forEach(lecture => {
-            setBookmarkLecture(bookmarklLecture => [
-              ...bookmarklLecture,
-              { lectureId: lecture.id, ...lecture.data() } as LectureDTO,
-            ])
-          })
-        })
+      getBookmarkLectures(userInfo.bookmark).then(data => setBookmarkLecture(data))
     }
   }, [userInfo.bookmark])
 
@@ -98,21 +80,39 @@ export const Profile: React.FC = () => {
                 }
                 extra={
                   <>
-                    <Button
-                      type="primary"
-                      icon={<SearchOutlined className="align-middle" />}
-                      className="mr-3"
-                    >
-                      ค้นหา
-                    </Button>
-                    <Button type="primary" icon={<PlusOutlined className="align-middle" />}>
-                      เพิ่มตาราง
-                    </Button>
+                    <Tooltip title="เลือกตารางเพื่อค้นหา">
+                      <Button
+                        type="primary"
+                        icon={<SearchOutlined />}
+                        className="mr-3"
+                        disabled={!selectKey.length}
+                        onClick={async () => {
+                          let searchSubject: string[] = []
+                          for await (const id of selectKey) {
+                            console.log(
+                              userInfo.userSubject.find(table => table.title === id)?.subjectId,
+                            )
+                            const subjectId = userInfo.userSubject.find(
+                              table => table.title === id,
+                            )?.subjectId
+                            if (subjectId) searchSubject = [...searchSubject, ...subjectId]
+                          }
+                          history.push(`/viewAll/${JSON.stringify(searchSubject)}`)
+                        }}
+                      >
+                        ค้นหา
+                      </Button>
+                    </Tooltip>
+                    <AddSubject>
+                      <Button type="primary" icon={<PlusOutlined />}>
+                        เพิ่มตาราง
+                      </Button>
+                    </AddSubject>
                   </>
                 }
                 className="shadow-1"
               >
-                <SubjectTable data={userInfo.userSubject} />
+                <SubjectTable rowSelection={rowSelection} />
               </Card>
             </div>
           </div>

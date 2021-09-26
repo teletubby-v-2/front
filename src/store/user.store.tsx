@@ -4,22 +4,29 @@ import { UserSubjectDTO } from '../constants/dto/myUser.dto'
 import { MyUser, SocialLink } from '../constants/interface/myUser.interface'
 import { UserInfo } from './types/userInfo.type'
 
-export const userInfoStore = create<UserInfo>((set, get) => ({
-  userInfo: {
-    userId: '',
-    email: '',
-    imageUrl: '',
-    userName: '',
-    socialLink: [],
-    userSubject: [],
-    followers: [], //user id
-    following: [], //user id
-    lectureCount: 0,
-    donateImage: '',
-    donateDescription: '',
-    aboutme: '',
-    bookmark: [],
+const initUserData: MyUser = {
+  userId: '',
+  email: '',
+  imageUrl: '',
+  userName: '',
+  socialLink: {
+    facebook: '',
+    youtube: '',
+    instagram: '',
   },
+  userSubject: [],
+  followers: [], //user id
+  following: [], //user id
+  lectureCount: 0,
+  donateImage: '',
+  donateDescription: '',
+  aboutMe: '',
+  bookmark: [],
+  notificationReadCount: [],
+}
+
+export const userInfoStore = create<UserInfo>((set, get) => ({
+  userInfo: initUserData,
   setUserSubject: (userSubject: UserSubjectDTO[]) => {
     set({ userInfo: { ...get().userInfo, userSubject } })
   },
@@ -32,7 +39,7 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
   setImageURL: (imageUrl: string) => {
     set({ userInfo: { ...get().userInfo, imageUrl } })
   },
-  setSocialLink: (socialLink: SocialLink[]) => {
+  setSocialLink: (socialLink: SocialLink) => {
     set({ userInfo: { ...get().userInfo, socialLink } })
   },
   setAllFirebase: (info: firebase.UserInfo) => {
@@ -89,25 +96,17 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
     })
   },
   clearAll: () => {
-    set({
-      userInfo: {
-        userId: '',
-        email: '',
-        imageUrl: '',
-        userName: '',
-        socialLink: [],
-        userSubject: [],
-        followers: [], //user id
-        following: [], //user id
-        donateImage: '',
-        donateDescription: '',
-        lectureCount: 0,
-        aboutMe: '',
-        bookmark: [],
-      },
-    })
+    set({ userInfo: initUserData })
   },
   setAboutme: (aboutMe: string) => {
     set({ userInfo: { ...get().userInfo, aboutMe } })
+  },
+  addnotificationReadCount: (notiId: string) => {
+    set({
+      userInfo: {
+        ...get().userInfo,
+        notificationReadCount: [...get().userInfo.notificationReadCount, notiId],
+      },
+    })
   },
 }))

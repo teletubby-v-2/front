@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Avatar, Button, Form, Input, Rate, Skeleton } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { AuthZone } from '../../components'
@@ -22,7 +23,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
   const { userInfo } = userInfoStore()
   const [size, setSize] = useState(0)
   const [reviewData, setReviewData] = useState<Review>()
-  const [edit, setEdit] = useState(false)
+  const [edit] = useState(false)
 
   const handleCreateReview = (value: any) => {
     if (reviewData) {
@@ -82,7 +83,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
         querySnapshot.docChanges().forEach(change => {
           const data = change.doc.data()
           if (change.type === 'added') {
-            // console.log('New Lecture: ', data)
+            console.log('New Lecture: ', data)
             fetchUser(data.userId).then(user =>
               setReviews(reviewMap => [
                 ...reviewMap,
@@ -91,7 +92,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
             )
           }
           if (change.type === 'modified') {
-            // console.log('Modified Lecture: ', data)
+            console.log('Modified Lecture: ', data)
             setReviews(reviewMap => {
               const index = reviewMap.findIndex(review => review.reviewId === change.doc.id)
               const user = {
@@ -106,7 +107,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
             })
           }
           if (change.type === 'removed') {
-            // console.log('Removed Lecture: ', data)
+            console.log('Removed Lecture: ', data)
             setReviews(reviewMap => reviewMap.filter(review => review.reviewId !== change.doc.id))
           }
         })
@@ -120,6 +121,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
         <ReviewBox review={review} key={index} />
       ))}
       {reviews &&
+        size - reviews.length >= 0 &&
         Array(size - reviews.length)
           .fill(Array(size - reviews.length).keys())
           .map((_, index) => <Skeleton active paragraph={{ rows: 1 }} avatar key={index} />)}
