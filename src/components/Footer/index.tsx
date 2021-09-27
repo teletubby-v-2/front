@@ -31,9 +31,7 @@ export const Footer: React.FC = () => {
         </div>
         <div>
           <p className="font-bold mb-2">Resources</p>
-          <a className="text-white mb-1">About Us</a>
-          <br />
-          <a className="text-white mb-1">{"What'"}s new</a>
+          <a className="text-white mb-1">เกี่ยวกับเรา</a>
           <br />
           <a
             className="text-white mb-1"
@@ -45,10 +43,10 @@ export const Footer: React.FC = () => {
           </a>
         </div>
         <div>
-          <p className="font-bold mb-2">Help</p>
-          <a className="text-white mb-1">Contact Us</a>
+          <p className="font-bold mb-2">ช่วยเหลือ</p>
+          <a className="text-white mb-1">ติดต่อเรา</a>
           <br />
-          <a className="text-white mb-1">FAQ</a>
+          <a className="text-white mb-1">คำถามที่พบบ่อย</a>
         </div>
       </div>
     </div>

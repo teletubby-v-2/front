@@ -64,7 +64,7 @@ export const UserInfoForm: React.FC = () => {
       </div>
       <Form onFinish={onFinish} form={form}>
         <div className="text-center">
-          <Form.Item name="imageUrl">
+          <Form.Item>
             <Upload
               accept="image/*"
               maxCount={1}

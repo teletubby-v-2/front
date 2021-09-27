@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Alert, Button, Form, Input } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import firebase from 'firebase'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 export interface ForgotPasswordFormProps {
   className?: string
@@ -34,30 +34,33 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
     <div className={className}>
       {isReset ? (
         <>
-          <h1 className="text-3xl font-bold ">Send reset password</h1>
+          <h2 className="font-bold ">ส่งลิงก์เปลี่ยนรหัสไปในอีเมลเรียบร้อยแล้ว</h2>
+          <div className="w-full text-right">
+            <Link to="/login">กลับไปเข้าสู่ระบบ</Link>
+          </div>
         </>
       ) : (
         <>
+          <h1 className="text-3xl font-bold mb-6">ลืมรหัสผ่าน?</h1>
           {message && (
             <Alert
-              message="Error"
-              description={message}
+              message="เกิดปัญหา"
+              description="อีเมลไม่ถูกต้อง"
               type="error"
               showIcon
               style={{ textAlign: 'left', marginBottom: 10 }}
             />
           )}
-          <h1 className="text-3xl font-bold mb-6">Forgot your password?</h1>
           <Form layout="vertical" onFinish={resetPassword}>
             <Form.Item
               name="email"
-              rules={[{ type: 'email', required: true, message: 'invalid email address' }]}
+              rules={[{ type: 'email', required: true, message: 'รูปแบบอีเมลไม่ถูกต้อง' }]}
             >
-              <Input prefix={<UserOutlined />} placeholder="Email" size="large" />
+              <Input prefix={<UserOutlined />} placeholder="อีเมล" size="large" />
             </Form.Item>
             <Form.Item className="m-1">
               <Button type="primary" htmlType="submit" size="middle" block>
-                Reset password!
+                เปลี่ยนรหัสผ่าน
               </Button>
             </Form.Item>
           </Form>
@@ -65,7 +68,7 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
             onClick={() => (modal ? callback && callback() : history.push('/login'))}
             className="text-blue-500"
           >
-            <p className="mt-5 text-right">Back to login</p>
+            <p className="mt-5 text-right">กลับไปเข้าสู่ระบบ</p>
           </a>
         </>
       )}

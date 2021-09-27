@@ -8,6 +8,7 @@ import {
   UpdateUserDTO,
   UserSubjectDTO,
 } from '../../constants/dto/myUser.dto'
+import { removeUndefined } from '../../utils/object'
 
 const userCollection = firestore.collection(Collection.Users)
 
@@ -54,14 +55,16 @@ async function createUser(user: CreateUserDTO): Promise<MyUser> {
 async function updateUser(user: UpdateUserDTO): Promise<void> {
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
   const userId = firebaseApp.auth().currentUser?.uid
-  const data = {
+  const data = removeUndefined({
     ...user,
     updateAt: timeStamp,
-  }
+  })
+  console.log(data)
+
   await userCollection.doc(userId).update(data)
   if (firebaseApp.auth().currentUser && data.imageUrl) {
     await firebaseApp.auth().currentUser?.updateProfile({
-      photoURL: data.imageUrl,
+      photoURL: data.imageUrl as string,
     })
   }
 }

@@ -8,6 +8,7 @@ import {
   FileAddOutlined,
   SearchOutlined,
   BellFilled,
+  LogoutOutlined,
 } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
 import { logout } from '../../service/auth'
@@ -58,11 +59,11 @@ export const Navbar: React.FC = () => {
 
   const menu = (
     <Menu onClick={handleMenuClick} className="mt-2">
-      <Menu.Item key="profile" hidden={!isLogin()}>
-        Profile
+      <Menu.Item key="profile" hidden={!isLogin()} icon={<UserOutlined />}>
+        โปรไฟล์
       </Menu.Item>
-      <Menu.Item key="logout" hidden={!isLogin()}>
-        Logout
+      <Menu.Item key="logout" hidden={!isLogin()} icon={<LogoutOutlined />}>
+        ออกจากระบบ
       </Menu.Item>
     </Menu>
   )
@@ -133,7 +134,7 @@ export const Navbar: React.FC = () => {
           {isLogin() ? (
             <div className="flex items-center space-x-5">
               <CreateLectureForm>
-                <Tooltip title="เพิ่ม lecture" placement="bottom">
+                <Tooltip title="เพิ่มสรุป" placement="bottom">
                   <Button className="text-xl text-black" type="link" shape="circle">
                     <FileAddOutlined className="align-top" />
                   </Button>
@@ -167,8 +168,8 @@ export const Navbar: React.FC = () => {
                 <AuthZone>ลงชี่อเข้าใช้</AuthZone>
               </Button>
 
-              <Button className="text-l text-black" type="primary">
-                <AuthZone noAccount={true}>สมัครสมาชิก</AuthZone>
+              <Button className="text-l" type="primary">
+                <AuthZone noAccount={true}>ลงชื่อเข้าใช้</AuthZone>
               </Button>
             </div>
           )}

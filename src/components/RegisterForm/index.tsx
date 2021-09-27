@@ -48,10 +48,10 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
 
   return (
     <div className={className}>
-      <h1 className="text-3xl font-bold mb-5 text-center">Sign Up</h1>
+      <h1 className="text-3xl font-bold mb-5 text-center">ลงชื่อเข้าใช้</h1>
       {isFail && (
         <Alert
-          message="Error"
+          message="ลงชื่อเข้าใช้ไม่สำเร็จ"
           description={message}
           type="error"
           showIcon
@@ -60,17 +60,17 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
       )}
       <Form onFinish={onFinish}>
         <Form.Item name="email" rules={[{ type: 'email', required: true }]}>
-          <Input placeholder="Email" size="large" />
+          <Input placeholder="อีเมล" size="large" />
         </Form.Item>
         <Form.Item name="password" rules={[{ required: true }]}>
-          <Input.Password placeholder="password" size="large" />
+          <Input.Password placeholder="รหัสผ่าน" size="large" />
         </Form.Item>
         <Form.Item name="comfirmPassword" rules={[{ required: true }]}>
-          <Input.Password placeholder="comfirm password" size="large" />
+          <Input.Password placeholder="ยืนยันรหัสผ่าน" size="large" />
         </Form.Item>
         <Form.Item className="mb-2">
           <Button type="primary" htmlType="submit" size="large" block loading={isLoading}>
-            Register
+            สร้างบัญชีใหม่
           </Button>
         </Form.Item>
       </Form>
@@ -79,7 +79,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
           onClick={() => (modal ? callback && callback() : history.push('/login'))}
           className="text-blue-500 "
         >
-          already have account
+          มีบัญชีเรียบร้อยแล้ว
         </a>
       </div>
     </div>
