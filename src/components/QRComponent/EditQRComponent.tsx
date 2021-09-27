@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Divider, Form, Upload, Input } from 'antd'
-import { InfoCircleOutlined, LoadingOutlined } from '@ant-design/icons'
+import { InfoCircleOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
 import { dontSubmitWhenEnter } from '../../utils/eventManage'
 import { useUploadpic } from '../../hooks/useUploadpic'

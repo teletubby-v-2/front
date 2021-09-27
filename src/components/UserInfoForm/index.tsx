@@ -7,7 +7,7 @@ import { useUploadpic } from '../../hooks/useUploadpic'
 import { Avatar } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import { createUser } from '../../service/user'
-import { Json, removeUndefined } from '../../utils/object'
+import { removeUndefined } from '../../utils/object'
 import { useHistory } from 'react-router-dom'
 import { CreateUserDTO } from '../../constants/dto/myUser.dto'
 

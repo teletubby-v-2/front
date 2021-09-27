@@ -25,9 +25,9 @@ async function getUser() {
 async function createUser(user: CreateUserDTO): Promise<MyUser> {
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
   const userId = firebaseApp.auth().currentUser?.uid
-  const data = {
+  const data = removeUndefined({
     ...user,
-    imageUrl: user.imageUrl || '',
+    imageUrl: user.imageUrl,
     createAt: timeStamp,
     updateAt: timeStamp,
     bookmark: [],
@@ -36,19 +36,21 @@ async function createUser(user: CreateUserDTO): Promise<MyUser> {
     following: [],
     lectureCount: 0,
     notificationReadCount: [],
-  }
-
-  console.log(data)
-
+  }) as unknown as MyUser
   if (userId) {
     await userCollection.doc(userId).set(data)
-    await firebaseApp.auth().currentUser?.updateProfile({
-      photoURL: data.imageUrl,
-      displayName: data.userName,
-    })
+    if (data.imageUrl) {
+      await firebaseApp.auth().currentUser?.updateProfile({
+        photoURL: data.imageUrl,
+        displayName: data.userName,
+      })
+    } else
+      await firebaseApp.auth().currentUser?.updateProfile({
+        displayName: data.userName,
+      })
     return {
-      userId,
       ...data,
+      userId,
     } as MyUser
   } else {
     throw new Error('ออดเฟล')
