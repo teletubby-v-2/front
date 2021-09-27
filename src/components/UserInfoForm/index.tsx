@@ -39,13 +39,14 @@ export const UserInfoForm: React.FC = () => {
   }, [userInfo])
 
   const onFinish = (value: UpdateValue) => {
-    const { youtube, facebook, instagram, aboutMe } = value
+    const { youtube, facebook, instagram, aboutMe, ...rest } = value
     const obtimizeSocialLink = removeUndefined({
       youtube,
       facebook,
       instagram,
     })
     const data: CreateUserDTO = {
+      ...rest,
       aboutMe: aboutMe,
       imageUrl: imageUrl,
       socialLink: obtimizeSocialLink,
@@ -79,14 +80,16 @@ export const UserInfoForm: React.FC = () => {
           </Form.Item>
         </div>
         <Divider />
-        <div className="flex space-x-2">
-          <Form.Item className="flex-1" name="userName">
-            <Input addonBefore="ชื่อที่แสดง" />
-          </Form.Item>
-          <Form.Item className="flex-1" name="email">
-            <Input value={userInfo.email} disabled={true} addonBefore="อีเมลล์" />
-          </Form.Item>
-        </div>
+        <Form.Item>
+          <div className="flex space-x-2">
+            <Form.Item className="flex-1" name="userName" noStyle>
+              <Input addonBefore="ชื่อที่แสดง" />
+            </Form.Item>
+            <Form.Item className="flex-1" name="email" noStyle>
+              <Input value={userInfo.email} disabled={true} addonBefore="อีเมลล์" />
+            </Form.Item>
+          </div>
+        </Form.Item>
         <Form.Item name="aboutMe">
           <TextArea
             showCount

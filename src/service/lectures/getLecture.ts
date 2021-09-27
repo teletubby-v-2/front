@@ -22,7 +22,6 @@ async function getLecturesById(lectureId: string) {
 
 async function getLecturesByListOfId(lectureId: string[]) {
   const data: LectureDTO[] = []
-  console.log(lectureId)
 
   const lectures = await lectureCollection.where('subjectId', 'in', lectureId).get()
   lectures.forEach(lecture => data.push({ lectureId: lecture.id, ...lecture.data() } as LectureDTO))

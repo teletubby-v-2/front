@@ -37,6 +37,9 @@ async function createUser(user: CreateUserDTO): Promise<MyUser> {
     lectureCount: 0,
     notificationReadCount: [],
   }
+
+  console.log(data)
+
   if (userId) {
     await userCollection.doc(userId).set(data)
     await firebaseApp.auth().currentUser?.updateProfile({
@@ -59,7 +62,6 @@ async function updateUser(user: UpdateUserDTO): Promise<void> {
     ...user,
     updateAt: timeStamp,
   })
-  console.log(data)
 
   await userCollection.doc(userId).update(data)
   if (firebaseApp.auth().currentUser && data.imageUrl) {
