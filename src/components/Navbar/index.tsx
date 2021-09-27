@@ -20,10 +20,11 @@ import kuSubject from '../../constants/subjects.json'
 import { getNoti } from '../../service/noti'
 import { NotiMenuItem } from '../NotiMenu'
 import { Notification } from '../../constants/interface/notification.interface'
+import { addnotification } from '../../service/user'
 
 export const Navbar: React.FC = () => {
   const history = useHistory()
-  const { userInfo } = userInfoStore()
+  const { userInfo, addnotificationReadCount } = userInfoStore()
   const [numnoti, setNumnoti] = useState(0)
   const [notilist, setNotilist] = useState<Notification[]>([])
   const [notiMenu, setNotiMenu] = useState<ReactElement>(<Menu />)
@@ -68,15 +69,33 @@ export const Navbar: React.FC = () => {
     </Menu>
   )
 
+  const readAll = () => {
+    const idlist = notilist.map(notiinfo => notiinfo.notiId)
+    idlist.forEach(notiId => {
+      if (notiId && !userInfo.notificationReadCount.includes(notiId ? notiId : '')) {
+        addnotification(notiId, userInfo.notificationReadCount).then(() =>
+          addnotificationReadCount(notiId),
+        )
+      }
+    })
+  }
+
   useEffect(() => {
     const idlist = notilist.map(notiinfo => notiinfo.notiId)
     const intersec = userInfo.notificationReadCount?.filter(id => idlist.includes(id)) || []
     setNumnoti(idlist.length - intersec.length)
     const notimenu = (
       <Menu className="mt-3 text-base bg-gray-200 overflow-hidden">
-        <div className="p-1 pl-3">
-          <BellFilled className="mr-2 align-middle" />
-          การแจ้งเตือน
+        <div className="p-1 pl-3 flex items-center justify-between">
+          <div>
+            <BellFilled className="mr-2 align-middle" />
+            การแจ้งเตือน
+          </div>
+          <div>
+            <Button onClick={readAll} className="flex" size="small">
+              อ่านทั้งหมด
+            </Button>
+          </div>
         </div>
         {notilist.length !== 0 ? (
           notilist.map(notiInfo => {
@@ -147,7 +166,7 @@ export const Navbar: React.FC = () => {
                   overlay={notiMenu}
                   trigger={['click']}
                   placement="bottomLeft"
-                  overlayClassName="w-56 fixed"
+                  overlayClassName="w-72 fixed"
                 >
                   <Button type="link" shape="circle">
                     <BellOutlined className="align-top" />

@@ -122,7 +122,7 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
 
       <Form onFinish={onFinish} form={form} initialValues={{ ...userInfo }}>
         <div className="text-center">
-          <Form.Item name="imagefile">
+          <Form.Item name="imageFile">
             <Upload
               accept="image/*"
               maxCount={1}

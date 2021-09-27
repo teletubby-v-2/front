@@ -52,7 +52,7 @@ export const NotiMenuItem: React.FC<NotiMenuItemprop> = ({ notiId, type, body, l
       <div className="flex items-center">
         {AvatarIcon}
         <div>
-          <Typography.Text ellipsis className="w-40">
+          <Typography.Text ellipsis className="w-60">
             {body}
           </Typography.Text>
         </div>
