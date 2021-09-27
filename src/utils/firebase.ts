@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FilterUserDTO } from './../constants/dto/myUser.dto'
 import { FilterSubjectDTO } from './../constants/dto/subjects.dto'
 import { FilterLectureDTO } from './../constants/dto/lecture.dto'

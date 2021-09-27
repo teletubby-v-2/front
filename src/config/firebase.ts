@@ -33,3 +33,4 @@ export const storage = firebaseApp.storage()
 export const storageRef = storage.ref()
 
 export const imagesRef = storageRef.child('images')
+export const pdfRef = storageRef.child('pdfs')

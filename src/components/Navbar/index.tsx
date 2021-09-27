@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from 'react'
-import { Avatar, Menu, Dropdown, Button, Select, Tooltip, Badge } from 'antd'
+import { Avatar, Menu, Dropdown, Button, Select, Tooltip, Badge, Empty, Divider } from 'antd'
 import { useHistory } from 'react-router'
 import KUshare from '../../assets/icons/KUshare.svg'
 import {
@@ -8,6 +8,7 @@ import {
   FileAddOutlined,
   SearchOutlined,
   BellFilled,
+  LogoutOutlined,
 } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
 import { logout } from '../../service/auth'
@@ -59,11 +60,11 @@ export const Navbar: React.FC = () => {
 
   const menu = (
     <Menu onClick={handleMenuClick} className="mt-2">
-      <Menu.Item key="profile" hidden={!isLogin()}>
-        Profile
+      <Menu.Item key="profile" hidden={!isLogin()} icon={<UserOutlined />}>
+        โปรไฟล์
       </Menu.Item>
-      <Menu.Item key="logout" hidden={!isLogin()}>
-        Logout
+      <Menu.Item key="logout" hidden={!isLogin()} icon={<LogoutOutlined />}>
+        ออกจากระบบ
       </Menu.Item>
     </Menu>
   )
@@ -81,7 +82,7 @@ export const Navbar: React.FC = () => {
 
   useEffect(() => {
     const idlist = notilist.map(notiinfo => notiinfo.notiId)
-    const intersec = userInfo.notificationReadCount.filter(id => idlist.includes(id))
+    const intersec = userInfo.notificationReadCount?.filter(id => idlist.includes(id)) || []
     setNumnoti(idlist.length - intersec.length)
     const notimenu = (
       <Menu className="mt-3 text-base bg-gray-200 overflow-hidden">
@@ -96,19 +97,26 @@ export const Navbar: React.FC = () => {
             </Button>
           </div>
         </div>
-        {notilist.map(notiInfo => {
-          if (notiInfo.notiId) {
-            return (
-              <NotiMenuItem
-                notiId={notiInfo.notiId}
-                type={notiInfo.type}
-                body={notiInfo.body}
-                link={notiInfo.link}
-                key={notiInfo.notiId}
-              />
-            )
-          }
-        })}
+        {notilist.length !== 0 ? (
+          notilist.map(notiInfo => {
+            if (notiInfo.notiId) {
+              return (
+                <NotiMenuItem
+                  notiId={notiInfo.notiId}
+                  type={notiInfo.type}
+                  body={notiInfo.body}
+                  link={notiInfo.link}
+                  key={notiInfo.notiId}
+                />
+              )
+            }
+          })
+        ) : (
+          <>
+            <Menu.Divider />
+            <Empty description="ไม่มีการแจ้งเตือน" />
+          </>
+        )}
       </Menu>
     )
     setNotiMenu(notimenu)
@@ -145,7 +153,7 @@ export const Navbar: React.FC = () => {
           {isLogin() ? (
             <div className="flex items-center space-x-5">
               <CreateLectureForm>
-                <Tooltip title="เพิ่ม lecture" placement="bottom">
+                <Tooltip title="เพิ่มสรุป" placement="bottom">
                   <Button className="text-xl text-black" type="link" shape="circle">
                     <FileAddOutlined className="align-top" />
                   </Button>
@@ -179,8 +187,8 @@ export const Navbar: React.FC = () => {
                 <AuthZone>ลงชี่อเข้าใช้</AuthZone>
               </Button>
 
-              <Button className="text-l text-black" type="primary">
-                <AuthZone noAccount={true}>สมัครสมาชิก</AuthZone>
+              <Button className="text-l" type="primary">
+                <AuthZone noAccount={true}>ลงชื่อเข้าใช้</AuthZone>
               </Button>
             </div>
           )}

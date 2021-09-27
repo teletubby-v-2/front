@@ -12,6 +12,8 @@ import { userInfoStore } from '../../store/user.store'
 import { AuthZone } from '..'
 import { useHistory } from 'react-router'
 import { followUser, unFollowUser } from '../../service/user/follow'
+import { UserInfo } from '../../pages/UserInfo'
+import { Link } from 'react-router-dom'
 
 export interface ProfileComponentProps {
   onEdit?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
@@ -76,14 +78,9 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       </div>
       <div className="text-center space-x-4 flex">
         {isMy ? (
-          <>
-            <Button className="flex-grow" onClick={onEdit}>
-              แก้ไข
-            </Button>
-            <Button>
-              <DashOutlined />
-            </Button>
-          </>
+          <Button className="flex-grow" onClick={onEdit}>
+            แก้ไข
+          </Button>
         ) : (
           <AuthZone className="flex-grow">
             {isFollow ? (
@@ -99,7 +96,7 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
         )}
       </div>
       <Divider>
-        <p className="text-gray-400 mb-0">Social Link</p>
+        <p className="text-gray-400 mb-0">ลิงก์โซเชียล</p>
       </Divider>
       <ul className="list-none space-y-2 pl-0 space-y-4">
         <div className="text-center text-3xl">

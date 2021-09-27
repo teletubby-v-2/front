@@ -10,9 +10,12 @@ import { MyUserDTO } from '../../constants/dto/myUser.dto'
 import { userInfoStore } from '../../store/user.store'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import kuSubject from '../../constants/subjects.json'
-import { addUserBookmark, deleteUserBookmark, getUser, getUserDetial } from '../../service/user'
+import { addUserBookmark, deleteUserBookmark, getUserDetial } from '../../service/user'
 import { getLectureDetail } from '../../service/lectures/getLecture'
 import { SubjectDTO } from '../../constants/dto/subjects.dto'
+import { updateViewCount } from '../../service/lectures'
+
+import { Link } from 'react-router-dom'
 
 export const LectureDetail: React.FC = () => {
   const { userInfo, addBookmark, removeBookmark } = userInfoStore()
@@ -27,7 +30,8 @@ export const LectureDetail: React.FC = () => {
   useEffect(() => {
     setLoading(true)
     getLectureDetail(lectureId).then(data => setLecture(data))
-  }, [])
+    updateViewCount(lectureId)
+  }, [lectureId])
 
   useEffect(() => {
     if (lecture.userId) {
@@ -94,42 +98,44 @@ export const LectureDetail: React.FC = () => {
             <span>{subject?.[lecture?.subjectId as string]?.subjectNameTh || ''}</span>
           </div>
           <div className="flex w-full space-x-3 items-center my-4">
-            <a href={`/profile/${user?.userId}`}>
+            <Link to={`/profile/${user?.userId}`}>
               <Avatar src={user?.imageUrl} />
-            </a>
+            </Link>
             <div>โพสต์โดย</div>
-            <a href={`/profile/${user?.userId}`}>{user?.userName}</a>
+            <Link to={`/profile/${user?.userId}`}>{user?.userName}</Link>
             <div>·</div>
             <div className="flex-grow">เข้าชม {lecture.viewCount} ครั้ง</div>
             <Rate value={lecture.sumRating / lecture.reviewCount} disabled allowHalf />
             <div>{lecture.reviewCount} ratings</div>
           </div>
+          {lecture.pdfUrl ? (
+            <iframe src={lecture.pdfUrl[0]} style={{ width: '100%', height: 800 }}></iframe>
+          ) : (
+            <div className="flex justify-center my-5 relative">
+              <Image
+                style={{ height: 600 }}
+                className="object-center object-cover"
+                src={lecture?.imageUrl?.[count]}
+              />
+              <Button
+                shape="circle"
+                className="absolute top-1/2  right-3 -translate-y-1/2	"
+                onClick={() => setCount((count + 1) % lecture.imageUrl.length)}
+                disabled={!lecture.imageUrl?.length}
+                icon={<RightOutlined />}
+              />
 
-          {/* //todo: แบงค์ชินทำต่อ */}
-          <div className="flex justify-center my-5 relative">
-            <Image
-              style={{ height: 600 }}
-              className="object-center object-cover"
-              src={lecture?.imageUrl?.[count]}
-            />
-            <Button
-              shape="circle"
-              className="absolute top-1/2  right-3 -translate-y-1/2	"
-              onClick={() => setCount((count + 1) % lecture.imageUrl.length)}
-              disabled={!lecture.imageUrl?.length}
-              icon={<RightOutlined className="align-middle" />}
-            />
-
-            <Button
-              shape="circle"
-              className="absolute top-1/2 left-3 -translate-y-1/2	"
-              onClick={() =>
-                setCount((count - 1 + lecture.imageUrl.length) % lecture.imageUrl.length)
-              }
-              disabled={!lecture.imageUrl?.length}
-              icon={<LeftOutlined className="align-middle" />}
-            />
-          </div>
+              <Button
+                shape="circle"
+                className="absolute top-1/2 left-3 -translate-y-1/2	"
+                onClick={() =>
+                  setCount((count - 1 + lecture.imageUrl.length) % lecture.imageUrl.length)
+                }
+                disabled={!lecture.imageUrl?.length}
+                icon={<LeftOutlined />}
+              />
+            </div>
+          )}
 
           {lecture.description && (
             <Card title="คำอธิบาย" className="shadow-1 rounded-sm">

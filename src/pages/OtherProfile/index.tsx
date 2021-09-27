@@ -1,26 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { Link, useHistory, useParams } from 'react-router-dom'
 import { ProfileComponent } from '../../components/ProfileComponent/ProfileComponent'
 import { MyUser } from '../../constants/interface/myUser.interface'
-import styled from 'styled-components'
 import { QRComponent } from '../../components/QRComponent/QRComponent'
 import { LectureContainer } from '../../components'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { getUserDetial } from '../../service/user'
 import { getOwnLectures } from '../../service/lectures/getLecture'
-
-const Overlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 100;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
 
 export const OtherProfile: React.FC = () => {
   const [info, setinfo] = useState({} as MyUser)
@@ -72,7 +58,7 @@ export const OtherProfile: React.FC = () => {
               limit={8}
               extra={
                 <div className="space-x-3">
-                  <a href={viewAllurl}>ดูทั้งหมด</a>
+                  <Link to={viewAllurl}>ดูทั้งหมด</Link>
                 </div>
               }
             />

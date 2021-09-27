@@ -112,7 +112,7 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
           )
         ) : (
           <Avatar
-            icon={<LoadingOutlined className="align-middle" />}
+            icon={<LoadingOutlined />}
             alt="loading"
             size={200}
             className="mx-auto object-cover my-2 bg-center"
@@ -154,7 +154,7 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
           />
         </Form.Item>
         <Divider>
-          <p className="text-gray-400">Social Link</p>
+          <p className="text-gray-400">ลิงก์โซเชียล</p>
         </Divider>
         <Form.Item name={['socialLink', 'instagram']}>
           <Input addonBefore="https://" placeholder="Instagram" onKeyDown={dontSubmitWhenEnter} />
