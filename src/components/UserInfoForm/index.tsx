@@ -9,15 +9,14 @@ import { UserOutlined } from '@ant-design/icons'
 import { createUser } from '../../service/user'
 import { Json, removeUndefined } from '../../utils/object'
 import { useHistory } from 'react-router-dom'
+import { CreateUserDTO } from '../../constants/dto/myUser.dto'
 
 export interface UpdateValue {
-  email: string
   userName: string
   aboutMe: string
   instagram: string
   facebook: string
   youtube: string
-  imageUrl: string
 }
 
 export const UserInfoForm: React.FC = () => {
@@ -40,17 +39,18 @@ export const UserInfoForm: React.FC = () => {
   }, [userInfo])
 
   const onFinish = (value: UpdateValue) => {
-    const { youtube, facebook, instagram, imageUrl, ...rest } = value
+    const { youtube, facebook, instagram, aboutMe } = value
     const obtimizeSocialLink = removeUndefined({
       youtube,
       facebook,
       instagram,
     })
-    createUser({
-      ...removeUndefined(rest as unknown as Json),
-      imageUrl,
+    const data: CreateUserDTO = {
+      aboutMe: aboutMe,
+      imageUrl: imageUrl,
       socialLink: obtimizeSocialLink,
-    }).then(user => {
+    }
+    createUser(data).then(user => {
       setAll(user)
       history.push('subject')
     })
@@ -64,7 +64,7 @@ export const UserInfoForm: React.FC = () => {
       </div>
       <Form onFinish={onFinish} form={form}>
         <div className="text-center">
-          <Form.Item name="imageUrl">
+          <Form.Item name="imageFile">
             <Upload
               accept="image/*"
               maxCount={1}

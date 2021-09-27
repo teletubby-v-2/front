@@ -11,6 +11,7 @@ import { deleteImages } from '../../service/storage'
 
 export interface UpdateValue {
   donateDescription: string
+  qrCodeFile: string
 }
 
 export interface EditComponentProps {
@@ -32,16 +33,16 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
 
   const onFinish = (value: UpdateValue) => {
     onClose()
-    if (imageUrl != userInfo.imageUrl || value.donateDescription != userInfo.donateDescription) {
+    if (imageUrl != userInfo.donateImage || value.donateDescription != userInfo.donateDescription) {
       const data: UpdateUserDTO = {
         donateImage: imageUrl,
-        donateDescription: value.donateDescription,
+        donateDescription: value.donateDescription ? value.donateDescription : '',
       }
       updateUser(data)
         .then(() => {
           imageUrl && setDonate(imageUrl, value.donateDescription)
-          if (imageUrl != userInfo.imageUrl && userInfo.imageUrl) {
-            deleteImages(userInfo.imageUrl)
+          if (imageUrl != userInfo.donateImage && userInfo.donateImage) {
+            deleteImages(userInfo.donateImage)
           }
         })
         .catch(err => console.log(err))
@@ -62,7 +63,7 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
       </Divider>
       <Form onFinish={onFinish} initialValues={userInfo}>
         <Form.Item
-          name="qrCodeUrl"
+          name="qrCodeFile"
           label="Upload QRcode: "
           help={
             <>
