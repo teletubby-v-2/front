@@ -109,7 +109,11 @@ export const LectureDetail: React.FC = () => {
             <div>{lecture.reviewCount} ratings</div>
           </div>
           {lecture.pdfUrl ? (
-            <iframe src={lecture.pdfUrl[0]} style={{ width: '100%', height: 800 }}></iframe>
+            <embed
+              src={lecture.pdfUrl[0]}
+              type="application/pdf"
+              style={{ width: '100%', height: 800 }}
+            />
           ) : (
             <div className="flex justify-center my-5 relative">
               <Image

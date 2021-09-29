@@ -4,6 +4,7 @@ import { SubjectDTO } from '../../constants/dto/subjects.dto'
 import { Lecture } from '../../constants/interface/lecture.interface'
 import kuSubject from '../../constants/subjects.json'
 import { useHistory } from 'react-router'
+import styled from 'styled-components'
 export interface LectureCardProps extends CardProps {
   data?: Lecture
   className?: string
@@ -21,14 +22,28 @@ export const LectureCard: React.FC<LectureCardProps> = props => {
     >
       <Badge.Ribbon text={`${data?.viewCount} views`} placement="start" className="mt-1">
         <div className={`border-2 w-40 h-52 relative bg-contain flex flex-col justify-end `}>
-          <img
-            src={data?.imageUrl?.[0]}
-            alt="no photo"
-            className=" w-40 h-52 absolute object-contain "
-            style={{
-              border: '0.5px solid #e7e7e7',
-            }}
-          />
+          {data?.pdfUrl ? (
+            <iframe
+              src={data?.pdfUrl[0]}
+              className=" w-40 h-52 absolute"
+              color="#e7e7e7"
+              style={{
+                cursor: 'pointer',
+                border: '0.5px solid #e7e7e7',
+              }}
+            >
+              Browser not compatible
+            </iframe>
+          ) : (
+            <img
+              src={data?.imageUrl?.[0]}
+              alt="no photo"
+              className=" w-40 h-52 absolute object-contain "
+              style={{
+                border: '0.5px solid #e7e7e7',
+              }}
+            />
+          )}
           <div className="flex flex-col items-end justify-end w-full h-full">
             {data?.tags.map((tag, index) => (
               <div key={index}>
