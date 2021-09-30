@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { userInfoStore } from '../../store/user.store'
 import { DiffOutlined, TeamOutlined } from '@ant-design/icons'
@@ -15,6 +15,7 @@ export interface NotiMenuItemprop {
 export const NotiMenuItem: React.FC<NotiMenuItemprop> = ({ notiId, type, body, link }) => {
   const history = useHistory()
   const { userInfo, addnotificationReadCount } = userInfoStore()
+  const [bodys] = useState(body.split(' '))
   let icon
   let className
   let AvatarIcon
@@ -37,24 +38,24 @@ export const NotiMenuItem: React.FC<NotiMenuItemprop> = ({ notiId, type, body, l
   }
 
   return (
-    <Menu.Item
-      className={`${className} p-2 space-x-2`}
+    <div
+      className={`${className} p-2 space-x-2 cursor-pointer`}
       key={notiId}
       onClick={() => {
         if (!userInfo.notificationReadCount.includes(notiId ? notiId : '')) {
           addnotification(notiId).then(() => addnotificationReadCount(notiId))
         }
-        history.push(link)
       }}
+      onDoubleClick={() => history.push(link)}
     >
       <div className="flex items-center">
-        {AvatarIcon}
+        <div>{AvatarIcon}</div>
         <div>
-          <Typography.Text ellipsis className="w-60">
-            {body}
-          </Typography.Text>
+          {bodys.slice(0, bodys.length - 1).join(' ')}
+          <br />
+          {bodys[bodys.length - 1]}
         </div>
       </div>
-    </Menu.Item>
+    </div>
   )
 }

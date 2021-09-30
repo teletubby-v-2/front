@@ -4,7 +4,6 @@ import { SubjectDTO } from '../../constants/dto/subjects.dto'
 import { Lecture } from '../../constants/interface/lecture.interface'
 import kuSubject from '../../constants/subjects.json'
 import { useHistory } from 'react-router'
-import styled from 'styled-components'
 export interface LectureCardProps extends CardProps {
   data?: Lecture
   className?: string

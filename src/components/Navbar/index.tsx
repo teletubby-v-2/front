@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from 'react'
-import { Avatar, Menu, Dropdown, Button, Select, Tooltip, Badge, Empty } from 'antd'
+import { Avatar, Menu, Dropdown, Button, Select, Tooltip, Badge, Empty, Popover } from 'antd'
 import { useHistory } from 'react-router'
 import KUshare from '../../assets/icons/KUshare.svg'
 import {
@@ -59,7 +59,7 @@ export const Navbar: React.FC = () => {
   }
 
   const menu = (
-    <Menu onClick={handleMenuClick} className="mt-2">
+    <Menu onClick={handleMenuClick}>
       <Menu.Item key="profile" hidden={!isLogin()} icon={<UserOutlined />}>
         โปรไฟล์
       </Menu.Item>
@@ -83,14 +83,19 @@ export const Navbar: React.FC = () => {
     const intersec = userInfo.notificationReadCount?.filter(id => idlist.includes(id)) || []
     setNumnoti(idlist.length - intersec.length)
     const notimenu = (
-      <Menu className="mt-3 text-base bg-gray-200 overflow-y-auto overflow-x-hidden max-h-96">
+      <>
         <div className="p-1 pl-3 flex items-center justify-between">
-          <div>
+          <div className="py-1">
             <BellFilled className="mr-2 align-middle" />
             การแจ้งเตือน
           </div>
           <div>
-            <Button onClick={readAll} className="flex" size="small">
+            <Button
+              onClick={readAll}
+              className="flex"
+              size="small"
+              disabled={userInfo.notificationReadCount.length === notilist.length}
+            >
               อ่านทั้งหมด
             </Button>
           </div>
@@ -115,7 +120,7 @@ export const Navbar: React.FC = () => {
             <Empty description="ไม่มีการแจ้งเตือน" />
           </>
         )}
-      </Menu>
+      </>
     )
     setNotiMenu(notimenu)
   }, [notilist, userInfo.notificationReadCount])
@@ -159,19 +164,30 @@ export const Navbar: React.FC = () => {
               </CreateLectureForm>
 
               <Badge count={numnoti}>
-                <Dropdown
+                <Popover
                   className="text-xl text-black"
-                  overlay={notiMenu}
-                  trigger={['click']}
+                  content={notiMenu}
                   placement="bottomLeft"
-                  overlayClassName="w-72 fixed top-10"
+                  trigger="click"
+                  overlayStyle={{
+                    top: '50px !important',
+                    marginLeft: '4px',
+                  }}
+                  overlayClassName="w-72 fixed "
+                  autoAdjustOverflow
                 >
                   <Button type="link" shape="circle">
                     <BellOutlined className="align-top" />
                   </Button>
-                </Dropdown>
+                </Popover>
               </Badge>
-              <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
+              <Dropdown
+                overlay={menu}
+                trigger={['click']}
+                placement="bottomRight"
+                overlayClassName="fixed"
+                arrow
+              >
                 {userInfo.imageUrl ? (
                   <Avatar src={userInfo.imageUrl} size="large" className="border cursor-pointer" />
                 ) : (
