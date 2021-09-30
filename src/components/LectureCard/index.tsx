@@ -17,7 +17,7 @@ export const LectureCard: React.FC<LectureCardProps> = props => {
 
   return (
     <div
-      className={`cursor-pointer  ${className} ant-card-grid-hoverable border-2 border-gray-500`}
+      className={`cursor-pointer  ${className} ant-card-grid-hoverable border-2 border-gray-50 `}
       onClick={() => history.push(`/lectureDetail/${data?.lectureId}`)}
     >
       <Badge.Ribbon text={`${data?.viewCount} views`} placement="start" className="mt-1">
@@ -25,10 +25,11 @@ export const LectureCard: React.FC<LectureCardProps> = props => {
           {data?.pdfUrl ? (
             <iframe
               src={data?.pdfUrl[0]}
-              className=" w-40 h-52 absolute"
+              className=" w-40 h-52 absolute "
               color="#e7e7e7"
+              scrolling="no"
               style={{
-                cursor: 'pointer',
+                overflow: 'hidden',
                 border: '0.5px solid #e7e7e7',
               }}
             >
@@ -44,7 +45,7 @@ export const LectureCard: React.FC<LectureCardProps> = props => {
               }}
             />
           )}
-          <div className="flex flex-col items-end justify-end w-full h-full">
+          <div className="flex flex-col items-end justify-end w-full h-full bg-red-500 opacity-0">
             {data?.tags.map((tag, index) => (
               <div key={index}>
                 <span className="bg-white mb-1 mr-1 px-1 rounded-sm opacity-75 text-xs z-20">
