@@ -1,5 +1,16 @@
-import React, { ReactElement, useEffect, useState } from 'react'
-import { Avatar, Menu, Dropdown, Button, Select, Tooltip, Badge, Empty, Popover } from 'antd'
+import React, { ReactElement, useEffect, useMemo, useState } from 'react'
+import {
+  Avatar,
+  Menu,
+  Dropdown,
+  Button,
+  Select,
+  Tooltip,
+  Badge,
+  Empty,
+  Popover,
+  Divider,
+} from 'antd'
 import { useHistory } from 'react-router'
 import KUshare from '../../assets/icons/KUshare.svg'
 import {
@@ -27,7 +38,6 @@ export const Navbar: React.FC = () => {
   const { userInfo, addnotificationReadCount } = userInfoStore()
   const [numnoti, setNumnoti] = useState(0)
   const [notilist, setNotilist] = useState<Notification[]>([])
-  const [notiMenu, setNotiMenu] = useState<ReactElement>(<Menu />)
   const isLogin = () => (firebaseApp.auth().currentUser ? true : false)
 
   useEffect(() => {
@@ -78,14 +88,14 @@ export const Navbar: React.FC = () => {
     })
   }
 
-  useEffect(() => {
+  const notiMenu = useMemo(() => {
     const idlist = notilist.map(notiinfo => notiinfo.notiId)
     const intersec = userInfo.notificationReadCount?.filter(id => idlist.includes(id)) || []
     setNumnoti(idlist.length - intersec.length)
-    const notimenu = (
+    return (
       <>
-        <div className="p-1 pl-3 flex items-center justify-between">
-          <div className="py-1">
+        <div className="pb-1 flex items-center justify-between">
+          <div className="py-1 text-lg">
             <BellFilled className="mr-2 align-middle" />
             การแจ้งเตือน
           </div>
@@ -100,29 +110,33 @@ export const Navbar: React.FC = () => {
             </Button>
           </div>
         </div>
-        {notilist.length !== 0 ? (
-          notilist.map(notiInfo => {
-            if (notiInfo.notiId) {
-              return (
-                <NotiMenuItem
-                  notiId={notiInfo.notiId}
-                  type={notiInfo.type}
-                  body={notiInfo.body}
-                  link={notiInfo.link}
-                  key={notiInfo.notiId}
-                />
-              )
-            }
-          })
-        ) : (
-          <>
-            <Menu.Divider />
-            <Empty description="ไม่มีการแจ้งเตือน" />
-          </>
-        )}
+        <div className="overflow-y-scroll max-h-96">
+          {notilist.length !== 0 ? (
+            notilist.map(notiInfo => {
+              if (notiInfo.notiId) {
+                return (
+                  <>
+                    <NotiMenuItem
+                      notiId={notiInfo.notiId}
+                      type={notiInfo.type}
+                      body={notiInfo.body}
+                      link={notiInfo.link}
+                      key={notiInfo.notiId}
+                    />
+                    <Divider className="my-0" />
+                  </>
+                )
+              }
+            })
+          ) : (
+            <>
+              <Divider className="mt-1 mb-2" />
+              <Empty description="ไม่มีการแจ้งเตือน" />
+            </>
+          )}
+        </div>
       </>
     )
-    setNotiMenu(notimenu)
   }, [notilist, userInfo.notificationReadCount])
 
   return (
