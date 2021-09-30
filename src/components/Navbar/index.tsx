@@ -183,12 +183,11 @@ export const Navbar: React.FC = () => {
                   content={notiMenu}
                   placement="bottomLeft"
                   trigger="click"
-                  overlayStyle={{
-                    top: '50px !important',
-                    marginLeft: '4px',
-                  }}
-                  overlayClassName="w-72 fixed "
-                  autoAdjustOverflow
+                  // overlayStyle={{
+                  //   top: '50px',
+                  //   marginLeft: '8px',
+                  // }}
+                  overlayClassName="w-72 fixed top-12 ml-3"
                 >
                   <Button type="link" shape="circle">
                     <BellOutlined className="align-top" />
