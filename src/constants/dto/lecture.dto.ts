@@ -63,16 +63,8 @@ export interface UpdateCommentDTO extends Partial<CreateCommentDTO> {
   lectureId: string
 }
 
-export interface ReplyDTO {
-  replyId?: string
-  commentId: string
-  lectureId: string
-  userId?: string
-  username?: string
-  photoURL?: string
-  message: string
-  createAt?: firebase.firestore.Timestamp
-  updateAt?: firebase.firestore.Timestamp
+export interface ReplyDTO extends Comments {
+  commentId?: string
 }
 
 //-------------------------- Filter -------------------------

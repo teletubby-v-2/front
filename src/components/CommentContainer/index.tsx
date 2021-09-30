@@ -10,6 +10,7 @@ import { fetchUser } from '../../utils/fetchUser'
 import { CommentBox } from './components/CommentBox'
 import Avatar from 'antd/lib/avatar/avatar'
 import { userInfoStore } from '../../store/user.store'
+import { ReplyDTO } from '../../constants/dto/lecture.dto'
 
 export interface CommentProps {
   lectureId: string
@@ -110,6 +111,7 @@ export const CommentContainer: React.FC<CommentProps> = ({ lectureId }) => {
         </CommentBox>
       ))}
       {comments &&
+        size - comments.length > 0 &&
         Array(size - comments.length)
           .fill(Array(size - comments.length).keys())
           .map((_, index) => <Skeleton active paragraph={{ rows: 1 }} avatar key={index} />)}

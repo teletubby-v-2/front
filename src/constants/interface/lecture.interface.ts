@@ -22,6 +22,7 @@ export interface Lecture {
   qa?: QAndA[]
   comment?: Comment[]
   review?: Review[]
+  ratingScore?: number
 }
 
 export interface Comments {

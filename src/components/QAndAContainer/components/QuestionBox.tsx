@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import { Avatar, Form, Input, Button, Divider, Skeleton } from 'antd'
+import React, { useEffect, useMemo, useState } from 'react'
+import { Avatar, Form, Input, Button, Divider, Skeleton, Menu, Dropdown } from 'antd'
 import { QAndA } from '../../../constants/interface/lecture.interface'
 import { AuthZone } from '../..'
 import { AnswersDTO } from '../../../constants/dto/lecture.dto'
 import { userInfoStore } from '../../../store/user.store'
-import { createAnswer } from '../../../service/lectures/qanda'
+import { createAnswer, deleteQAndA } from '../../../service/lectures/qanda'
 import { firestore } from '../../../config/firebase'
 import { Collection } from '../../../constants'
 import { fetchUser } from '../../../utils/fetchUser'
 import { AnswerBox } from './Answer'
 import { Link } from 'react-router-dom'
+import { MoreOutlined, DeleteOutlined } from '@ant-design/icons'
+import { MenuInfo } from 'rc-menu/lib/interface'
 
 export interface QuestionBoxProps {
   qAndA: QAndA
@@ -27,6 +29,23 @@ export const QuestionBox: React.FC<QuestionBoxProps> = ({ authorId, qAndA, lectu
   const { userInfo } = userInfoStore()
   const [size, setSize] = useState(0)
   // const numOfChildren = React.useMemo(() => React.Children.toArray(children), [children])
+
+  const handleMenuClick = (info: MenuInfo) => {
+    switch (info.key) {
+      case 'delete':
+        return deleteQAndA(qAndA.lectureId, qAndA.qaId || '')
+    }
+  }
+  const menu = useMemo(
+    () => (
+      <Menu onClick={handleMenuClick} className="mr-3">
+        <Menu.Item key="delete" danger icon={<DeleteOutlined />}>
+          ลบ
+        </Menu.Item>
+      </Menu>
+    ),
+    [],
+  )
 
   const handleCreateReply = (value: CommentForm) => {
     setLoading(true)
@@ -114,7 +133,18 @@ export const QuestionBox: React.FC<QuestionBoxProps> = ({ authorId, qAndA, lectu
           <Avatar src={qAndA.photoURL} alt={qAndA.userId} size={48} />
         </Link>
         <div className="space-y-2 mt-2 flex-grow">
-          <div className="font-bold text-xl">{qAndA.question}</div>
+          <div className="flex font-bold text-xl">
+            <p className="flex-grow">{qAndA.question}</p>
+            {userInfo.userId === qAndA.userId && (
+              <p className="-m-3">
+                <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
+                  <Button type="link">
+                    <MoreOutlined className="text-2xl text-black" />
+                  </Button>
+                </Dropdown>
+              </p>
+            )}
+          </div>
           <div>
             <div className="text-sm text-gray-500 mb-4">
               ถามโดย
@@ -141,6 +171,7 @@ export const QuestionBox: React.FC<QuestionBoxProps> = ({ authorId, qAndA, lectu
             <AnswerBox answer={answer} key={index} />
           ))}
           {answers &&
+            size - answers.length > 0 &&
             Array(size - answers.length)
               .fill(Array(size - answers.length).keys())
               .map((_, index) => <Skeleton active paragraph={{ rows: 1 }} avatar key={index} />)}

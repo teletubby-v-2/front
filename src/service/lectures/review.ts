@@ -1,3 +1,4 @@
+import { removeUndefined } from './../../utils/object'
 import { Collection } from './../../constants/index'
 import firebase from 'firebase'
 import { firebaseApp, firestore } from '../../config/firebase'
@@ -23,7 +24,7 @@ async function createReview(review: CreateReviewDTO): Promise<Review> {
     reviewCount: lectureData.data()?.reviewCount + 1,
     sumRating: lectureData.data()?.sumRating + review.rating,
     ratingScore:
-      lectureData.data()?.sumRating + review.rating / (lectureData.data()?.reviewCount + 1),
+      (lectureData.data()?.sumRating + review.rating) / (lectureData.data()?.reviewCount + 1),
   })
   const data: CreateReviewDTO = {
     ...review,
@@ -49,6 +50,9 @@ async function updateReview(review: UpdateReviewDTO): Promise<void> {
   if (review.rating && lectureData.exists)
     batch.update(lectureRef, {
       sumRating: lectureData.data()?.sumRating + review.rating - originReview.data()?.rating,
+      ratingScore:
+        (lectureData.data()?.sumRating + review.rating - originReview.data()?.rating) /
+        lectureData.data()?.reviewCount,
     })
   const id = review.reviewId
   delete review['reviewId']
@@ -56,7 +60,7 @@ async function updateReview(review: UpdateReviewDTO): Promise<void> {
     ...review,
     updateAt: timeStamp,
   }
-  batch.update(reviewCollection.doc(id), data)
+  batch.update(reviewCollection.doc(id), removeUndefined(data))
   return batch.commit()
 }
 
@@ -68,6 +72,8 @@ async function deleteReview(review: CreateReviewDTO) {
   batch.update(lectureRef, {
     reviewCount: lectureData.data()?.reviewCount - 1,
     sumRating: lectureData.data()?.sumRating - review.rating,
+    ratingScore:
+      (lectureData.data()?.sumRating - review.rating) / (lectureData.data()?.reviewCount - 1) || 0,
   })
   const reviewCollection = getReviewCollection(review.lectureId)
   batch.delete(reviewCollection.doc(review.reviewId))
