@@ -42,9 +42,7 @@ export const NotiMenuItem: React.FC<NotiMenuItemprop> = ({ notiId, type, body, l
       key={notiId}
       onClick={() => {
         if (!userInfo.notificationReadCount.includes(notiId ? notiId : '')) {
-          addnotification(notiId, userInfo.notificationReadCount).then(() =>
-            addnotificationReadCount(notiId),
-          )
+          addnotification(notiId).then(() => addnotificationReadCount(notiId))
         }
         history.push(link)
       }}

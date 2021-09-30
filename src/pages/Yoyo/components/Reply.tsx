@@ -35,7 +35,7 @@ export const Reply: React.FC<ReplyProps> = ({ id, commentId, className }) => {
       message: dummyMessage[count % 7],
       lectureId: lectureId,
       commentId: commentId,
-      replyId: id,
+      id: id,
     }
     setCount(count + 1)
     updateReply(data)
@@ -48,7 +48,7 @@ export const Reply: React.FC<ReplyProps> = ({ id, commentId, className }) => {
       case 'delete':
         return testDeleteComment(answer)
       case 'update':
-        return testUpdateComment(lectureId, answer.replyId as string)
+        return testUpdateComment(lectureId, answer.id as string)
     }
   }
 
@@ -68,14 +68,14 @@ export const Reply: React.FC<ReplyProps> = ({ id, commentId, className }) => {
             fetchUser(data.userId).then(user =>
               setReply(commentMap => [
                 ...commentMap,
-                { ...data, replyId: change.doc.id, ...user } as ReplyDTO,
+                { ...data, id: change.doc.id, ...user } as ReplyDTO,
               ]),
             )
           }
           if (change.type === 'modified') {
             console.log('Modified comment reply: ', data, 'in', commentId)
             setReply(commentMap => {
-              const index = commentMap.findIndex(comment => comment.replyId === change.doc.id)
+              const index = commentMap.findIndex(comment => comment.id === change.doc.id)
               if (commentMap[index]) {
                 const user = {
                   username: commentMap[index].username,
@@ -83,7 +83,7 @@ export const Reply: React.FC<ReplyProps> = ({ id, commentId, className }) => {
                 }
                 return [
                   ...commentMap.slice(0, index),
-                  { ...data, replyId: change.doc.id, ...user } as ReplyDTO,
+                  { ...data, id: change.doc.id, ...user } as ReplyDTO,
                   ...commentMap.slice(index + 1),
                 ]
               } else {
@@ -93,7 +93,7 @@ export const Reply: React.FC<ReplyProps> = ({ id, commentId, className }) => {
           }
           if (change.type === 'removed') {
             console.log('Removed comment reply: ', data, 'in', commentId)
-            setReply(commentMap => commentMap.filter(comment => comment.replyId !== change.doc.id))
+            setReply(commentMap => commentMap.filter(comment => comment.id !== change.doc.id))
           }
         })
       })
