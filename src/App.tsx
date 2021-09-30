@@ -101,7 +101,7 @@ const App: React.FC = () => {
         <LayoutRoute exact path="/profile" component={Profile} />
         <LayoutRoute path="/viewAll/:id" component={ViewAll} />
         <LayoutRoute path="/profile/:userId" component={SelectProfile} />
-        <LayoutRoute path="/follow/:userId" component={FollowList} />
+        <LayoutRoute path="/follow/:userId/:type" component={FollowList} />
 
         {/* for test */}
         <LayoutRoute exact path="/yoyo" component={Yoyo} />

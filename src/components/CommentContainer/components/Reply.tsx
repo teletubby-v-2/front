@@ -31,13 +31,13 @@ export const Reply: React.FC<ReplyProps> = ({ id, commentId }) => {
             fetchUser(data.userId).then(user =>
               setReply(commentMap => [
                 ...commentMap,
-                { ...data, replyId: change.doc.id, ...user } as ReplyDTO,
+                { ...data, id: change.doc.id, ...user } as ReplyDTO,
               ]),
             )
           }
           if (change.type === 'modified') {
             setReply(commentMap => {
-              const index = commentMap.findIndex(comment => comment.replyId === change.doc.id)
+              const index = commentMap.findIndex(comment => comment.id === change.doc.id)
               if (commentMap[index]) {
                 const user = {
                   username: commentMap[index].username,
@@ -45,7 +45,7 @@ export const Reply: React.FC<ReplyProps> = ({ id, commentId }) => {
                 }
                 return [
                   ...commentMap.slice(0, index),
-                  { ...data, replyId: change.doc.id, ...user } as ReplyDTO,
+                  { ...data, id: change.doc.id, ...user } as ReplyDTO,
                   ...commentMap.slice(index + 1),
                 ]
               } else {
@@ -54,7 +54,7 @@ export const Reply: React.FC<ReplyProps> = ({ id, commentId }) => {
             })
           }
           if (change.type === 'removed') {
-            setReply(commentMap => commentMap.filter(comment => comment.replyId !== change.doc.id))
+            setReply(commentMap => commentMap.filter(comment => comment.id !== change.doc.id))
           }
         })
       })
@@ -65,6 +65,7 @@ export const Reply: React.FC<ReplyProps> = ({ id, commentId }) => {
     <>
       {reply && reply.map((item, index) => <CommentBox comment={item} key={index} />)}
       {reply &&
+        size - reply.length > 0 &&
         Array(size - reply.length)
           .fill(Array(size - reply.length).keys())
           .map((_, index) => <Skeleton active paragraph={{ rows: 1 }} avatar key={index} />)}

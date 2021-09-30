@@ -73,9 +73,7 @@ export const Navbar: React.FC = () => {
     const idlist = notilist.map(notiinfo => notiinfo.notiId)
     idlist.forEach(notiId => {
       if (notiId && !userInfo.notificationReadCount.includes(notiId ? notiId : '')) {
-        addnotification(notiId, userInfo.notificationReadCount).then(() =>
-          addnotificationReadCount(notiId),
-        )
+        addnotification(notiId).then(() => addnotificationReadCount(notiId))
       }
     })
   }
@@ -85,7 +83,7 @@ export const Navbar: React.FC = () => {
     const intersec = userInfo.notificationReadCount?.filter(id => idlist.includes(id)) || []
     setNumnoti(idlist.length - intersec.length)
     const notimenu = (
-      <Menu className="mt-3 text-base bg-gray-200 overflow-hidden">
+      <Menu className="mt-3 text-base bg-gray-200 overflow-y-auto overflow-x-hidden max-h-96">
         <div className="p-1 pl-3 flex items-center justify-between">
           <div>
             <BellFilled className="mr-2 align-middle" />
@@ -166,7 +164,7 @@ export const Navbar: React.FC = () => {
                   overlay={notiMenu}
                   trigger={['click']}
                   placement="bottomLeft"
-                  overlayClassName="w-72 fixed"
+                  overlayClassName="w-72 fixed top-10"
                 >
                   <Button type="link" shape="circle">
                     <BellOutlined className="align-top" />

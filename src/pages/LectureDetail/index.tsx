@@ -71,7 +71,6 @@ export const LectureDetail: React.FC = () => {
       })
       .catch(() => message.error('ลบบุ๊คมาร์คไม่สำเร็จ'))
   }
-
   return (
     <div className="mx-5 my-10 flex space-x-10 w-full">
       {history.location.hash.length == 0 && <Redirect to={`${history.location.pathname}#review`} />}

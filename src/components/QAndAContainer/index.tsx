@@ -82,6 +82,7 @@ export const QAndAContainer: React.FC<QAndAContainerProps> = ({ lectureId, autho
         <QuestionBox qAndA={qAndA} key={index} authorId={authorId} lectureId={lectureId} />
       ))}
       {qAndAs &&
+        size - qAndAs.length > 0 &&
         Array(size - qAndAs.length)
           .fill(Array(size - qAndAs.length).keys())
           .map((_, index) => <Skeleton active paragraph={{ rows: 1 }} avatar key={index} />)}

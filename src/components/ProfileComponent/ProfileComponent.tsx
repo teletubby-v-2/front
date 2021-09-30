@@ -45,8 +45,12 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       .catch(err => console.log(err))
   }
 
-  const tofollow = () => {
-    history.push('/follow/' + Info.userId)
+  const tofollowing = () => {
+    history.push('/follow/' + Info.userId + '/following')
+  }
+
+  const tofollowers = () => {
+    history.push('/follow/' + Info.userId + '/followers')
   }
 
   return (
@@ -63,8 +67,10 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       </div>
       <div className="text-center items-center mt-3 mb-2">
         <p>
-          {followCount} ผู้ติดตาม{' '}
-          <a className="ml-3 text-blue-600" onClick={tofollow}>
+          <a className="ml-3 text-blue-600" onClick={tofollowers}>
+            {followCount} ผู้ติดตาม{' '}
+          </a>
+          <a className="ml-3 text-blue-600" onClick={tofollowing}>
             {Info?.following?.length} กำลังติดตาม
           </a>
         </p>
