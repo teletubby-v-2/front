@@ -13,7 +13,6 @@ import kuSubject from '../../constants/subjects.json'
 import { addUserBookmark, deleteUserBookmark, getUserDetial } from '../../service/user'
 import { getLectureDetail } from '../../service/lectures/getLecture'
 import { SubjectDTO } from '../../constants/dto/subjects.dto'
-import { updateViewCount } from '../../service/lectures'
 
 import { Link } from 'react-router-dom'
 
@@ -29,8 +28,9 @@ export const LectureDetail: React.FC = () => {
 
   useEffect(() => {
     setLoading(true)
-    getLectureDetail(lectureId).then(data => setLecture(data))
-    updateViewCount(lectureId)
+    getLectureDetail(lectureId).then(data => {
+      setLecture(data)
+    })
   }, [lectureId])
 
   useEffect(() => {
@@ -91,7 +91,6 @@ export const LectureDetail: React.FC = () => {
               </Tooltip>
             </div>
           </div>
-
           <div className=" space-x-3 mt-2">
             <span>{lecture.subjectId}</span>
             <span>{subject?.[lecture?.subjectId as string]?.subjectNameTh || ''}</span>

@@ -2,7 +2,7 @@ import firebase from 'firebase/app'
 import { useEffect, useState } from 'react'
 
 export function usePaginateQuery<TData = unknown, TError = unknown>(
-  query: firebase.firestore.Query,
+  query: () => firebase.firestore.Query | firebase.firestore.Query,
   initPage = 0,
   limit = 10,
 ) {
@@ -12,9 +12,7 @@ export function usePaginateQuery<TData = unknown, TError = unknown>(
   const [error, setError] = useState<TError>()
 
   const getNewPageData = async () => {
-    console.log(currentPage * limit)
-
-    const thisPageData = await query.orderBy('createAt').startAt(0).limit(limit).get()
+    const thisPageData = await query().orderBy('createAt').startAt(0).limit(limit).get()
     return thisPageData.docs.map(doc => ({ lectureId: doc.id, ...doc.data() } as unknown as TData))
   }
 

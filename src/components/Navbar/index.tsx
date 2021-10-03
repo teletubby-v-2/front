@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
   Avatar,
   Menu,
@@ -24,27 +24,41 @@ import {
 import { userInfoStore } from '../../store/user.store'
 import { logout } from '../../service/auth'
 import { MenuInfo } from 'rc-menu/lib/interface'
-import { firebaseApp } from '../../config/firebase'
+import { firebaseApp, firestore } from '../../config/firebase'
 import { AuthZone } from '..'
 import { CreateLectureForm } from '../CreateLectureForm'
 import kuSubject from '../../constants/subjects.json'
-import { getNoti } from '../../service/noti'
 import { NotiMenuItem } from '../NotiMenu'
 import { Notification } from '../../constants/interface/notification.interface'
 import { addnotification } from '../../service/user'
+import { useInfiniteQuery } from '../../hooks/useInfiniteQuery'
+import { Collection } from '../../constants'
 
 export const Navbar: React.FC = () => {
   const history = useHistory()
   const { userInfo, addnotificationReadCount } = userInfoStore()
-  const [numnoti, setNumnoti] = useState(0)
-  const [notilist, setNotilist] = useState<Notification[]>([])
+  const [numnoti, setNumnoti] = useState(() => 0)
+  // const [notilist, setNotilist] = useState<Notification[]>([])
+  const { data, hasNext, setQuery, fetchMore, isLoading } = useInfiniteQuery<Notification>(
+    firestore.collection(Collection.Notifications).where('relevantUserId', 'array-contains', ''),
+    'notiId',
+  )
+
   const isLogin = () => (firebaseApp.auth().currentUser ? true : false)
 
+  // useEffect(() => {
+  //   getNoti().then(data => {
+  //     setNotilist(data)
+  //   })
+  // }, [isLogin()])
+
   useEffect(() => {
-    getNoti().then(data => {
-      setNotilist(data)
-    })
-  }, [isLogin()])
+    setQuery(
+      firestore
+        .collection(Collection.Notifications)
+        .where('relevantUserId', 'array-contains', userInfo.userId),
+    )
+  }, [userInfo])
 
   const onSearch = (value: string) => {
     value ? history.push('/viewAll/' + value) : null
@@ -80,18 +94,20 @@ export const Navbar: React.FC = () => {
   )
 
   const readAll = () => {
-    const idlist = notilist.map(notiinfo => notiinfo.notiId)
-    idlist.forEach(notiId => {
-      if (notiId && !userInfo.notificationReadCount.includes(notiId ? notiId : '')) {
-        addnotification(notiId).then(() => addnotificationReadCount(notiId))
-      }
-    })
+    data
+      .map(notiinfo => notiinfo.notiId)
+      .forEach(notiId => {
+        if (notiId && !userInfo.notificationReadCount.includes(notiId ? notiId : '')) {
+          addnotification(notiId).then(() => addnotificationReadCount(notiId))
+        }
+      })
   }
 
   const notiMenu = useMemo(() => {
-    const idlist = notilist.map(notiinfo => notiinfo.notiId)
-    const intersec = userInfo.notificationReadCount?.filter(id => idlist.includes(id)) || []
-    setNumnoti(idlist.length - intersec.length)
+    const idList = data.map(notiinfo => notiinfo.notiId)
+    const intersec = userInfo.notificationReadCount?.filter(id => idList.includes(id)) || []
+    setNumnoti(idList.length - intersec.length)
+
     return (
       <>
         <div className="pb-1 flex items-center justify-between">
@@ -104,18 +120,18 @@ export const Navbar: React.FC = () => {
               onClick={readAll}
               className="flex"
               size="small"
-              disabled={userInfo.notificationReadCount.length === notilist.length}
+              disabled={userInfo.notificationReadCount.length === data.length}
             >
               อ่านทั้งหมด
             </Button>
           </div>
         </div>
         <div className="overflow-y-scroll max-h-96">
-          {notilist.length !== 0 ? (
-            notilist.map(notiInfo => {
-              if (notiInfo.notiId) {
-                return (
-                  <>
+          {data.length !== 0 ? (
+            <>
+              {data.map(notiInfo => {
+                if (notiInfo.notiId) {
+                  return (
                     <NotiMenuItem
                       notiId={notiInfo.notiId}
                       type={notiInfo.type}
@@ -123,11 +139,15 @@ export const Navbar: React.FC = () => {
                       link={notiInfo.link}
                       key={notiInfo.notiId}
                     />
-                    <Divider className="my-0" />
-                  </>
-                )
-              }
-            })
+                  )
+                }
+              })}
+              {hasNext && (
+                <Button loading={isLoading} onClick={fetchMore} block type="dashed">
+                  ดูเพิ่มเติม
+                </Button>
+              )}
+            </>
           ) : (
             <>
               <Divider className="mt-1 mb-2" />
@@ -137,7 +157,7 @@ export const Navbar: React.FC = () => {
         </div>
       </>
     )
-  }, [notilist, userInfo.notificationReadCount])
+  }, [data, userInfo.notificationReadCount, isLoading, hasNext])
 
   return (
     <div>
@@ -166,7 +186,6 @@ export const Navbar: React.FC = () => {
               ))}
             </Select>
           </div>
-
           {isLogin() ? (
             <div className="flex items-center space-x-5">
               <CreateLectureForm>
@@ -181,12 +200,8 @@ export const Navbar: React.FC = () => {
                 <Popover
                   className="text-xl text-black"
                   content={notiMenu}
+                  trigger={['click']}
                   placement="bottomLeft"
-                  trigger="click"
-                  // overlayStyle={{
-                  //   top: '50px',
-                  //   marginLeft: '8px',
-                  // }}
                   overlayClassName="w-72 fixed top-12 ml-3"
                 >
                   <Button type="link" shape="circle">

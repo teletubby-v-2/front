@@ -10,7 +10,6 @@ import { fetchUser } from '../../utils/fetchUser'
 import { CommentBox } from './components/CommentBox'
 import Avatar from 'antd/lib/avatar/avatar'
 import { userInfoStore } from '../../store/user.store'
-import { ReplyDTO } from '../../constants/dto/lecture.dto'
 
 export interface CommentProps {
   lectureId: string

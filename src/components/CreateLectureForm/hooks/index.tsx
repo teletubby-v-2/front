@@ -145,8 +145,6 @@ export const useLectureForm = (
   }
 
   const handleRequest = (option: any) => {
-    console.log(form.getFieldValue('isPdf'))
-
     if (form.getFieldValue('isPdf')) uploadNewPdf(option.file).finally(() => setIsUploading(false))
     else uploadNewImage(option.file).finally(() => setIsUploading(false))
   }
