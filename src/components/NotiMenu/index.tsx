@@ -14,7 +14,7 @@ export interface NotiMenuItemprop {
 
 export const NotiMenuItem: React.FC<NotiMenuItemprop> = ({ notiId, type, body, link }) => {
   const history = useHistory()
-  const { userInfo, addnotificationReadCount } = userInfoStore()
+  const { userInfo, addNotificationReadCount: addnotificationReadCount } = userInfoStore()
   const [bodys] = useState(body.split(' '))
   let icon
   let className

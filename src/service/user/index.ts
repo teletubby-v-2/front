@@ -9,6 +9,7 @@ import {
   UserSubjectDTO,
 } from '../../constants/dto/myUser.dto'
 import { removeUndefined } from '../../utils/object'
+import { NotificationDTO } from '../../constants/dto/notification.dto'
 
 const userCollection = firestore.collection(Collection.Users)
 
@@ -128,6 +129,19 @@ async function addnotification(notiId: string) {
   }
 }
 
+async function readAllNoti(notiList: NotificationDTO[]) {
+  const userId = firebaseApp.auth().currentUser?.uid
+  const idList = notiList.map(noti => noti.notiId || '')
+  if (userId) {
+    await userCollection.doc(userId).update({
+      notificationReadCount: firebase.firestore.FieldValue.arrayUnion(idList),
+    })
+  } else {
+    throw new Error('young mai login')
+  }
+  return idList
+}
+
 export {
   createUser,
   updateUser,
@@ -138,4 +152,5 @@ export {
   getUser,
   getUserDetial,
   addnotification,
+  readAllNoti,
 }

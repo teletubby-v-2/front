@@ -30,27 +30,17 @@ import { CreateLectureForm } from '../CreateLectureForm'
 import kuSubject from '../../constants/subjects.json'
 import { NotiMenuItem } from '../NotiMenu'
 import { Notification } from '../../constants/interface/notification.interface'
-import { addnotification } from '../../service/user'
+import { addnotification, readAllNoti } from '../../service/user'
 import { useInfiniteQuery } from '../../hooks/useInfiniteQuery'
 import { Collection } from '../../constants'
 
 export const Navbar: React.FC = () => {
   const history = useHistory()
-  const { userInfo, addnotificationReadCount } = userInfoStore()
-  const [numnoti, setNumnoti] = useState(() => 0)
-  // const [notilist, setNotilist] = useState<Notification[]>([])
+  const { userInfo, setNotificationReadCount } = userInfoStore()
   const { data, hasNext, setQuery, fetchMore, isLoading } = useInfiniteQuery<Notification>(
     firestore.collection(Collection.Notifications).where('relevantUserId', 'array-contains', ''),
     'notiId',
   )
-
-  const isLogin = () => (firebaseApp.auth().currentUser ? true : false)
-
-  // useEffect(() => {
-  //   getNoti().then(data => {
-  //     setNotilist(data)
-  //   })
-  // }, [isLogin()])
 
   useEffect(() => {
     setQuery(
@@ -82,32 +72,33 @@ export const Navbar: React.FC = () => {
     }
   }
 
-  const menu = (
-    <Menu onClick={handleMenuClick}>
-      <Menu.Item key="profile" hidden={!isLogin()} icon={<UserOutlined />}>
-        โปรไฟล์
-      </Menu.Item>
-      <Menu.Item key="logout" hidden={!isLogin()} icon={<LogoutOutlined />}>
-        ออกจากระบบ
-      </Menu.Item>
-    </Menu>
+  const menu = useMemo(
+    () => (
+      <Menu onClick={handleMenuClick}>
+        <Menu.Item key="profile" icon={<UserOutlined />}>
+          โปรไฟล์
+        </Menu.Item>
+        <Menu.Item key="logout" icon={<LogoutOutlined />}>
+          ออกจากระบบ
+        </Menu.Item>
+      </Menu>
+    ),
+    [],
   )
 
   const readAll = () => {
-    data
-      .map(notiinfo => notiinfo.notiId)
-      .forEach(notiId => {
-        if (notiId && !userInfo.notificationReadCount.includes(notiId ? notiId : '')) {
-          addnotification(notiId).then(() => addnotificationReadCount(notiId))
-        }
-      })
+    readAllNoti(data).then(idList => {
+      const unionId = new Set([...userInfo.notificationReadCount, ...idList])
+      setNotificationReadCount([...unionId])
+    })
   }
 
-  const notiMenu = useMemo(() => {
-    const idList = data.map(notiinfo => notiinfo.notiId)
-    const intersec = userInfo.notificationReadCount?.filter(id => idList.includes(id)) || []
-    setNumnoti(idList.length - intersec.length)
+  const numNoti = useMemo(
+    () => data.filter(noti => !userInfo.notificationReadCount.includes(noti.notiId || '')).length,
+    [data, userInfo.notificationReadCount],
+  )
 
+  const notiMenu = useMemo(() => {
     return (
       <>
         <div className="pb-1 flex items-center justify-between">
@@ -186,7 +177,7 @@ export const Navbar: React.FC = () => {
               ))}
             </Select>
           </div>
-          {isLogin() ? (
+          {firebaseApp.auth().currentUser ? (
             <div className="flex items-center space-x-5">
               <CreateLectureForm>
                 <Tooltip title="เพิ่มสรุป" placement="bottom">
@@ -196,7 +187,7 @@ export const Navbar: React.FC = () => {
                 </Tooltip>
               </CreateLectureForm>
 
-              <Badge count={numnoti}>
+              <Badge count={numNoti}>
                 <Popover
                   className="text-xl text-black"
                   content={notiMenu}
