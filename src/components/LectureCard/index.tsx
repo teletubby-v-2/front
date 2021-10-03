@@ -21,9 +21,9 @@ export const LectureCard: React.FC<LectureCardProps> = props => {
     >
       <Badge.Ribbon text={`${data?.viewCount} views`} placement="start" className="mt-1">
         <div className={`border-2 w-40 h-52 relative bg-contain flex flex-col justify-end `}>
-          {data?.pdfUrl ? (
+          {data?.isPdf ? (
             <iframe
-              src={data?.pdfUrl[0]}
+              src={data?.pdfUrl?.[0]}
               className=" w-40 h-52 absolute "
               color="#e7e7e7"
               scrolling="no"

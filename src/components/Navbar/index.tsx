@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import {
   Avatar,
   Menu,
@@ -30,7 +30,7 @@ import { CreateLectureForm } from '../CreateLectureForm'
 import kuSubject from '../../constants/subjects.json'
 import { NotiMenuItem } from '../NotiMenu'
 import { Notification } from '../../constants/interface/notification.interface'
-import { addnotification, readAllNoti } from '../../service/user'
+import { readAllNoti } from '../../service/user'
 import { useInfiniteQuery } from '../../hooks/useInfiniteQuery'
 import { Collection } from '../../constants'
 

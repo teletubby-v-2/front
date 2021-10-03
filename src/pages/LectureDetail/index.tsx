@@ -106,9 +106,9 @@ export const LectureDetail: React.FC = () => {
             <Rate value={lecture.sumRating / lecture.reviewCount} disabled allowHalf />
             <div>{lecture.reviewCount} ratings</div>
           </div>
-          {lecture.pdfUrl ? (
+          {lecture.isPdf ? (
             <embed
-              src={lecture.pdfUrl[0]}
+              src={lecture.pdfUrl?.[0]}
               type="application/pdf"
               style={{ width: '100%', height: 800 }}
             />
