@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { CreateLectureDTO, UpdateLectureDTO } from '../../../constants/dto/lecture.dto'
 import { Lecture } from '../../../constants/interface/lecture.interface'
 import { createLecture, updateLecture } from '../../../service/lectures'
-import { deleteImages, uploadImage, uploadPdf } from '../../../service/storage'
+import { uploadImage, uploadPdf } from '../../../service/storage'
 import { initPhoto, removeUndefined } from '../../../utils/object'
 
 export const useLectureForm = (
@@ -126,7 +126,7 @@ export const useLectureForm = (
     if (file.file.status === 'removed') {
       setFileList(file.fileList)
       form.setFieldsValue({ imageUrl: file.fileList.map(file => file.url) })
-      deleteImages(file.file.url as string)
+      // deleteImages(file.file.url as string)
     }
     if (file.file.status === 'uploading') {
       setIsUploading(true)
@@ -137,7 +137,7 @@ export const useLectureForm = (
     if (file.file.status === 'removed') {
       setPdf(file.fileList)
       form.setFieldsValue({ pdfUrl: file.fileList.map(file => file.url) })
-      deleteImages(file.file.url as string)
+      // deleteImages(file.file.url as string)
     }
     if (file.file.status === 'uploading') {
       setIsUploading(true)
@@ -145,8 +145,6 @@ export const useLectureForm = (
   }
 
   const handleRequest = (option: any) => {
-    console.log(form.getFieldValue('isPdf'))
-
     if (form.getFieldValue('isPdf')) uploadNewPdf(option.file).finally(() => setIsUploading(false))
     else uploadNewImage(option.file).finally(() => setIsUploading(false))
   }

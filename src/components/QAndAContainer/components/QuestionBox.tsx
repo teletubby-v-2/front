@@ -84,7 +84,6 @@ export const QuestionBox: React.FC<QuestionBoxProps> = ({ authorId, qAndA, lectu
         querySnapshot.docChanges().forEach(change => {
           const data = change.doc.data()
           if (change.type === 'added') {
-            console.log('New answer: ', data)
             fetchUser(data.userId).then(user =>
               setAnswers(commentMap => [
                 ...commentMap,
@@ -93,7 +92,6 @@ export const QuestionBox: React.FC<QuestionBoxProps> = ({ authorId, qAndA, lectu
             )
           }
           if (change.type === 'modified') {
-            console.log('Modified answer: ', data)
             setAnswers(commentMap => {
               const index = commentMap.findIndex(comment => comment.answerId === change.doc.id)
               if (commentMap[index]) {
@@ -112,13 +110,8 @@ export const QuestionBox: React.FC<QuestionBoxProps> = ({ authorId, qAndA, lectu
             })
           }
           if (change.type === 'removed') {
-            console.log('Removed answer: ', data)
             setAnswers(commentMap =>
-              commentMap.filter(comment => {
-                console.log(comment.answerId, change.doc.id)
-
-                return comment.answerId !== change.doc.id
-              }),
+              commentMap.filter(comment => comment.answerId !== change.doc.id),
             )
           }
         })

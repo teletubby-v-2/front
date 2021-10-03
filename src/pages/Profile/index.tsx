@@ -89,9 +89,6 @@ export const Profile: React.FC = () => {
                         onClick={async () => {
                           let searchSubject: string[] = []
                           for await (const id of selectKey) {
-                            console.log(
-                              userInfo.userSubject.find(table => table.title === id)?.subjectId,
-                            )
                             const subjectId = userInfo.userSubject.find(
                               table => table.title === id,
                             )?.subjectId

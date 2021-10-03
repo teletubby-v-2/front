@@ -20,6 +20,11 @@ export const ViewAll: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   const [viewAllLecture, setViewAllLecture] = useState<LectureDTO[]>([] as LectureDTO[])
   const [title, settitle] = useState('')
+  // const { data, fetchMore } = useInfiniteQuery<LectureDTO>(
+  //   firestore.collection(Collection.Lectures),
+  //   'lectureId',
+  //   4,
+  // )
 
   useEffect(() => {
     setViewAllLecture([])
@@ -74,6 +79,7 @@ export const ViewAll: React.FC = () => {
         data={viewAllLecture}
         limit={false}
       />
+      {/* <Button onClick={fetchMore}>more</Button> */}
     </div>
   )
 }

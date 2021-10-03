@@ -3,6 +3,7 @@ import firebase from 'firebase'
 import { firestore } from '../../config/firebase'
 import { Collection } from '../../constants'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
+import { updateViewCount } from '.'
 
 const lectureCollection = firestore.collection(Collection.Lectures)
 
@@ -41,6 +42,7 @@ async function getLectureDetail(lectureId: string) {
     ...bundle.data(),
     lectureId: bundle.id,
   } as LectureDTO
+  updateViewCount(lectureId)
   return data
 }
 

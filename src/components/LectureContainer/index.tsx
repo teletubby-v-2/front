@@ -1,4 +1,14 @@
-import { Button, Card, CardProps, Dropdown, Menu, message, Popconfirm, Skeleton } from 'antd'
+import {
+  Button,
+  Card,
+  CardProps,
+  Dropdown,
+  Menu,
+  message,
+  Popconfirm,
+  Skeleton,
+  Tooltip,
+} from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Lecture } from '../../constants/interface/lecture.interface'
 import { addUserBookmark, deleteUserBookmark } from '../../service/user'
@@ -178,27 +188,27 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
                     </Button>
                   </Dropdown>
                 )}
-                {userInfo.userId !== lecture?.userId &&
-                  userInfo.bookmark &&
-                  (userInfo.bookmark.findIndex(mark => mark === lecture?.lectureId) === -1 ? (
-                    <AuthZone>
+                {userInfo.userId !== lecture?.userId && userInfo.bookmark && (
+                  <AuthZone>
+                    <Tooltip title="บุ๊คมาร์ค">
                       <Button
                         shape="circle"
                         className="mt-1 mr-1"
-                        onClick={() => handleAddBookmark(lecture)}
+                        onClick={() =>
+                          userInfo.bookmark.some(mark => mark === lecture?.lectureId)
+                            ? handleDeleteBookmark(lecture)
+                            : handleAddBookmark(lecture)
+                        }
                       >
-                        <BookOutlined className=" align-middle" />
+                        {userInfo.bookmark.some(mark => mark === lecture?.lectureId) ? (
+                          <BookFilled className=" align-middle text-green-500" />
+                        ) : (
+                          <BookOutlined className=" align-middle" />
+                        )}
                       </Button>
-                    </AuthZone>
-                  ) : (
-                    <Button
-                      shape="circle"
-                      className="mt-1 mr-1"
-                      onClick={() => handleDeleteBookmark(lecture)}
-                    >
-                      <BookFilled className=" align-middle text-green-500" />
-                    </Button>
-                  ))}
+                    </Tooltip>
+                  </AuthZone>
+                )}
               </div>
               <LectureCard data={lecture} className="mx-auto border-2 border-gray-500" />
             </div>

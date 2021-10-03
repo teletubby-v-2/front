@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { userInfoStore } from '../../store/user.store'
 import { DiffOutlined, TeamOutlined } from '@ant-design/icons'
-import { Avatar, Menu, Typography, Badge } from 'antd'
+import { Avatar, Badge, Divider } from 'antd'
 import { addnotification } from '../../service/user'
 
 export interface NotiMenuItemprop {
@@ -14,7 +14,8 @@ export interface NotiMenuItemprop {
 
 export const NotiMenuItem: React.FC<NotiMenuItemprop> = ({ notiId, type, body, link }) => {
   const history = useHistory()
-  const { userInfo, addnotificationReadCount } = userInfoStore()
+  const { userInfo, addNotificationReadCount: addnotificationReadCount } = userInfoStore()
+  const [bodys] = useState(body.split(' '))
   let icon
   let className
   let AvatarIcon
@@ -37,24 +38,27 @@ export const NotiMenuItem: React.FC<NotiMenuItemprop> = ({ notiId, type, body, l
   }
 
   return (
-    <Menu.Item
-      className={`${className} p-2 space-x-2`}
-      key={notiId}
-      onClick={() => {
-        if (!userInfo.notificationReadCount.includes(notiId ? notiId : '')) {
-          addnotification(notiId).then(() => addnotificationReadCount(notiId))
-        }
-        history.push(link)
-      }}
-    >
-      <div className="flex items-center">
-        {AvatarIcon}
-        <div>
-          <Typography.Text ellipsis className="w-60">
-            {body}
-          </Typography.Text>
+    <>
+      <div
+        className={`${className} p-2 space-x-2 cursor-pointer`}
+        key={notiId}
+        onClick={() => {
+          if (!userInfo.notificationReadCount.includes(notiId ? notiId : '')) {
+            addnotification(notiId).then(() => addnotificationReadCount(notiId))
+          }
+          history.push(link)
+        }}
+      >
+        <div className="flex items-center">
+          <div>{AvatarIcon}</div>
+          <div>
+            {bodys.slice(0, bodys.length - 1).join(' ')}
+            <br />
+            {bodys[bodys.length - 1]}
+          </div>
         </div>
       </div>
-    </Menu.Item>
+      <Divider className="my-0" />
+    </>
   )
 }
