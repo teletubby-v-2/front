@@ -2,15 +2,21 @@ import React, { useRef, useState } from 'react'
 import { Select, Rate, Checkbox, Button, Popover } from 'antd'
 import kuSubject from '../../constants/subjects.json'
 import { DownOutlined } from '@ant-design/icons'
-export interface FilterBoxProps {
-  isSubject?: boolean
-}
 
-export const FilterBox: React.FC<FilterBoxProps> = ({ isSubject = false }) => {
-  const options = [
-    { label: 'มิดเทอม', value: 'midterm' },
-    { label: 'ไฟนอล', value: 'final' },
-  ]
+export interface IFilter {
+  isMid: boolean
+  isFinal: boolean
+  rating: number
+}
+export interface FilterBoxProps {
+  callback?: (filterOptions: IFilter) => void
+}
+const options = [
+  { label: 'มิดเทอม', value: 'isMid' },
+  { label: 'ไฟนอล', value: 'isFinal' },
+]
+
+export const FilterBox: React.FC<FilterBoxProps> = ({ callback }) => {
   const [subject, setSubject] = useState('')
   const [term, setTerm] = useState<string[]>([])
   const [rating, setRating] = useState(0)
@@ -20,13 +26,19 @@ export const FilterBox: React.FC<FilterBoxProps> = ({ isSubject = false }) => {
     setRating(0)
   }
   const onSubmit = () => {
+    const data = {
+      isMid: term.some(t => t === 'isMid'),
+      isFinal: term.some(t => t === 'isFinal'),
+      rating,
+    }
+    callback && callback(data)
     ref.current?.click()
   }
   const filterBox = (
     <div className=" w-80">
       <div className="font-bold text-2xl text-center">ฟิลเตอร์</div>
       <div className="mt-2  grid grid-cols-5 gap-y-3 ">
-        {isSubject && (
+        {/* {isSubject && (
           <>
             <div>ชื่อวิชา:</div>
             <Select
@@ -47,7 +59,7 @@ export const FilterBox: React.FC<FilterBoxProps> = ({ isSubject = false }) => {
               ))}
             </Select>
           </>
-        )}
+        )} */}
         เทอม:
         <Checkbox.Group
           value={term}

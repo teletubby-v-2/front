@@ -18,6 +18,9 @@ import {
   getMySubject,
   getOwnLectures,
 } from '../../service/lectures/getLecture'
+import { useInfiniteQuery } from '../../hooks/useInfiniteQuery'
+import { firestore } from '../../config/firebase'
+import { Collection } from '../../constants'
 
 export const ViewAll: React.FC = () => {
   const { userInfo } = userInfoStore()
@@ -25,11 +28,11 @@ export const ViewAll: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   const [viewAllLecture, setViewAllLecture] = useState<LectureDTO[]>([] as LectureDTO[])
   const [title, settitle] = useState('')
-  // const { data, fetchMore } = useInfiniteQuery<LectureDTO>(
-  //   firestore.collection(Collection.Lectures),
-  //   'lectureId',
-  //   4,
-  // )
+  const { data, fetchMore, setQuery } = useInfiniteQuery<LectureDTO>(
+    firestore.collection(Collection.Lectures),
+    'lectureId',
+    4,
+  )
 
   useEffect(() => {
     setViewAllLecture([])
@@ -93,7 +96,7 @@ export const ViewAll: React.FC = () => {
         limit={false}
         extra={
           <div className="space-x-3 ">
-            <FilterBox isSubject />
+            <FilterBox />
             <Dropdown
               placement="bottomRight"
               overlay={

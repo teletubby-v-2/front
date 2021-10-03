@@ -7,6 +7,8 @@ import { updateViewCount } from '.'
 
 const lectureCollection = firestore.collection(Collection.Lectures)
 
+export const newLectureRef = lectureCollection
+
 async function getLectures() {
   const data: LectureDTO[] = []
   const lectures = await lectureCollection.orderBy('createAt', 'desc').get()
