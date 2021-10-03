@@ -1,4 +1,5 @@
 import { UploadFile } from 'antd/lib/upload/interface'
+import { getFilePath } from '../service/storage'
 export interface Json {
   [key: string]: unknown
 }
@@ -12,7 +13,7 @@ export const removeUndefined = (json: Json): Json => {
 
 export const initPhoto = (urls = [] as string[]): UploadFile[] => {
   return urls.map(url => ({
-    uid: url,
+    uid: getFilePath(url),
     name: url,
     status: 'done',
     url: url,
