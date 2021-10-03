@@ -11,12 +11,18 @@ import { DownOutlined } from '@ant-design/icons'
 import { FilterBox } from '../../components/FilterBox'
 import MenuItem from 'antd/lib/menu/MenuItem'
 import {
+  bookmarkLectureRef,
   getBookmarkLectures,
   getLectures,
   getLecturesById,
   getLecturesByListOfId,
   getMySubject,
   getOwnLectures,
+  lectureRef,
+  listSubjectRef,
+  mySubjectRef,
+  subjectRef,
+  userLectureRef,
 } from '../../service/lectures/getLecture'
 import { useInfiniteQuery } from '../../hooks/useInfiniteQuery'
 import { firestore } from '../../config/firebase'
@@ -29,10 +35,12 @@ export const ViewAll: React.FC = () => {
   const [viewAllLecture, setViewAllLecture] = useState<LectureDTO[]>([] as LectureDTO[])
   const [title, settitle] = useState('')
   const { data, fetchMore, setQuery } = useInfiniteQuery<LectureDTO>(
-    firestore.collection(Collection.Lectures),
+    firestore.collection(Collection.Lectures).where('id', '==', 1),
     'lectureId',
-    4,
+    Infinity,
   )
+
+  console.log(data)
 
   useEffect(() => {
     setViewAllLecture([])
@@ -41,35 +49,45 @@ export const ViewAll: React.FC = () => {
         case 'ownLecture':
           settitle(id)
           if (userInfo.userId) {
-            getOwnLectures(userInfo.userId).then(data => setViewAllLecture(data))
+            setQuery(userLectureRef(userInfo.userId))
+            // getOwnLectures(userInfo.userId).then(data => setViewAllLecture(data))
           }
           break
         case 'mySubject':
           settitle(id)
-          getMySubject(userInfo.userSubject).then(data => setViewAllLecture(data))
+          console.log(userInfo.userSubject)
+          if (userInfo.userSubject && userInfo.userSubject.length !== 0) {
+            setQuery(mySubjectRef(userInfo.userSubject))
+          }
+          // getMySubject(userInfo.userSubject).then(data => setViewAllLecture(data))
           break
         case 'bookmark':
           settitle(id)
           if (userInfo.bookmark && userInfo.bookmark.length !== 0) {
-            getBookmarkLectures(userInfo.bookmark).then(data => setViewAllLecture(data))
+            setQuery(bookmarkLectureRef(userInfo.bookmark))
+            // getBookmarkLectures(userInfo.bookmark).then(data => setViewAllLecture(data))
           }
           break
         case 'all':
           settitle(id)
-          getLectures().then(data => setViewAllLecture(data))
+          setQuery(lectureRef)
+          // getLectures().then(data => setViewAllLecture(data))
           break
         default:
           if (id.search('lecture') != -1) {
             settitle('สรุปของ ' + id.substring(id.search('lecture'), 0))
-            getOwnLectures(id.substring(id.search('lecture') + 7)).then(data =>
-              setViewAllLecture(data),
-            )
+            setQuery(userLectureRef(id.substring(id.search('lecture') + 7)))
+            // getOwnLectures(id.substring(id.search('lecture') + 7)).then(data =>
+            //   setViewAllLecture(data),
+            // )
           } else if (id?.[0] === '[') {
             settitle('ค้นหาด้วยวิชาของฉัน')
-            getLecturesByListOfId(JSON.parse(id)).then(data => setViewAllLecture(data))
+            setQuery(listSubjectRef(JSON.parse(id)))
+            // getLecturesByListOfId(JSON.parse(id)).then(data => setViewAllLecture(data))
           } else {
             settitle('สรุปของวิชา ' + id)
-            getLecturesById(id.slice(0, 8)).then(data => setViewAllLecture(data))
+            setQuery(subjectRef(id.slice(0, 8)))
+            // getLecturesById(id.slice(0, 8)).then(data => setViewAllLecture(data))
           }
       }
     }
@@ -92,7 +110,7 @@ export const ViewAll: React.FC = () => {
             {title}
           </>
         }
-        data={viewAllLecture}
+        data={data}
         limit={false}
         extra={
           <div className="space-x-3 ">

@@ -20,8 +20,6 @@ export const mySubjectRef = (userSubject: UserSubjectDTO[]) => {
   return lectureRef.where('subjectId', 'in', subjectId)
 }
 
-export const newLectureRef = lectureCollection
-
 async function getLectures() {
   const data: LectureDTO[] = []
   const lectures = await lectureRef.orderBy('createAt', 'desc').get()
