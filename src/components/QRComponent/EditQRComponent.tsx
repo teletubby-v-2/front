@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
-import { Button, Divider, Form, Upload, Input, message } from 'antd'
-import { InfoCircleOutlined, LoadingOutlined } from '@ant-design/icons'
+import { Button, Divider, Form, Upload, Input } from 'antd'
+import { InfoCircleOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
-import { firebaseApp } from '../../config/firebase'
 import { dontSubmitWhenEnter } from '../../utils/eventManage'
 import { useUploadpic } from '../../hooks/useUploadpic'
 import { UpdateUserDTO } from '../../constants/dto/myUser.dto'
 import { updateUser } from '../../service/user'
 import { deleteImages } from '../../service/storage'
+import { initPhoto } from '../../utils/object'
 
 export interface UpdateValue {
   donateDescription: string
+  qrCodeFile: string
 }
 
 export interface EditComponentProps {
@@ -32,16 +33,16 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
 
   const onFinish = (value: UpdateValue) => {
     onClose()
-    if (imageUrl != userInfo.imageUrl || value.donateDescription != userInfo.donateDescription) {
+    if (imageUrl != userInfo.donateImage || value.donateDescription != userInfo.donateDescription) {
       const data: UpdateUserDTO = {
         donateImage: imageUrl,
-        donateDescription: value.donateDescription,
+        donateDescription: value.donateDescription ? value.donateDescription : '',
       }
       updateUser(data)
         .then(() => {
           imageUrl && setDonate(imageUrl, value.donateDescription)
-          if (imageUrl != userInfo.imageUrl && userInfo.imageUrl) {
-            deleteImages(userInfo.imageUrl)
+          if (imageUrl != userInfo.donateImage && userInfo.donateImage) {
+            deleteImages(userInfo.donateImage)
           }
         })
         .catch(err => console.log(err))
@@ -51,7 +52,6 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
   const beforeClose = () => {
     if (imageUrl != userInfo.donateImage && imageUrl) {
       deleteImages(imageUrl)
-      console.log(imageUrl)
     }
     onClose()
   }
@@ -63,7 +63,7 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
       </Divider>
       <Form onFinish={onFinish} initialValues={userInfo}>
         <Form.Item
-          name="qrCodeUrl"
+          name="qrCodeFile"
           label="Upload QRcode: "
           help={
             <>
@@ -76,22 +76,19 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
             listType="picture-card"
             accept="image/*"
             maxCount={1}
+            fileList={imageUrl ? initPhoto([imageUrl]) : undefined}
             disabled={isUploading}
             customRequest={handleRequest}
             beforeUpload={beforeUpload}
-            showUploadList={false}
+            onRemove={() => setimageUrl(undefined)}
           >
-            {!isUploading ? (
-              imageUrl ? (
-                <img src={imageUrl} alt="QR" />
+            {!imageUrl &&
+              !isUploading &&
+              (imageUrl ? (
+                <img src={imageUrl} alt="QR" className="w-30 h-30 object-center object-cover" />
               ) : (
                 <p>อัพโหลด</p>
-              )
-            ) : (
-              <div className="text-center my-10">
-                <LoadingOutlined />
-              </div>
-            )}
+              ))}
           </Upload>
         </Form.Item>
         <Form.Item name="donateDescription">

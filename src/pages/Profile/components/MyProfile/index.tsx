@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { EditComponent } from '../../../../components/ProfileComponent/EditComponent'
 import { ProfileComponent } from '../../../../components/ProfileComponent/ProfileComponent'
-import { firestore } from '../../../../config/firebase'
 import { userInfoStore } from '../../../../store/user.store'
 
 export const MyProfile: React.FC = () => {
@@ -13,7 +12,7 @@ export const MyProfile: React.FC = () => {
       {isEdit ? (
         <EditComponent onClose={() => setEdit(false)} />
       ) : (
-        <ProfileComponent isMy={true} onEdit={() => setEdit(true)} Info={userInfo} />
+        <ProfileComponent isMy={true} onEdit={() => setEdit(true)} info={userInfo} />
       )}
     </div>
   )

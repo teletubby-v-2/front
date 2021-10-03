@@ -21,8 +21,8 @@ export const QRComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy, Inf
         ) : (
           <img src={no_image} alt="noimage" className="w-52 h-52  my-3" />
         )}
-        {Info.donateDescription ? (
-          <p className="text-center">{Info.donateDescription}</p>
+        {Info.donateDescription || Info.donateImage ? (
+          <p className="text-center">{Info.donateDescription || ''}</p>
         ) : (
           <p className="text-center">เจ้าของสรุปยังไม่ได้ใส่ช่องทางในการสนับสนุน </p>
         )}

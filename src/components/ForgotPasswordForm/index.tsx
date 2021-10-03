@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { Alert, Avatar, Button, Divider, Form, Input, Modal, Space } from 'antd'
-import { UserOutlined, KeyOutlined } from '@ant-design/icons'
+import { Alert, Button, Form, Input, Modal } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
 import firebase from 'firebase'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 export interface ForgotPasswordFormProps {
   className?: string
@@ -15,7 +15,6 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
   className,
   callback,
   modal,
-  closeModal,
 }) => {
   const history = useHistory()
   const [message, setMessage] = useState<string>()

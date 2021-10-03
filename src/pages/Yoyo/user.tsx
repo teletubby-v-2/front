@@ -1,12 +1,14 @@
 import { Breadcrumb, Button, Card, Dropdown, Menu } from 'antd'
 import Meta from 'antd/lib/card/Meta'
 import React, { useEffect, useState } from 'react'
-import { firestore } from '../../config/firebase'
+import { firebaseApp, firestore } from '../../config/firebase'
 import { CreateUserDTO, UpdateUserDTO } from '../../constants/dto/myUser.dto'
 import { createUser, updateUser, deleteUser } from '../../service/user'
 import { convertTimestampToTime } from '../../utils/time'
 import { description, img, username } from './dummy/index.dummy'
 import { DownOutlined } from '@ant-design/icons'
+import { followUser, unFollowUser } from '../../service/user/follow'
+import { Link } from 'react-router-dom'
 
 const User: React.FC = () => {
   const [count, setCount] = useState(0)
@@ -22,11 +24,25 @@ const User: React.FC = () => {
     createUser(data)
   }
 
+  const testFollow = () => {
+    const id = '777'
+    followUser(id)
+    console.log(firebaseApp.auth().currentUser?.uid)
+  }
+
+  const testunFollow = () => {
+    const id = '777'
+    unFollowUser(id)
+    console.log(firebaseApp.auth().currentUser?.uid)
+  }
+
   const testUpdateUser = () => {
     const data: UpdateUserDTO = {
       imageUrl: img[count % 5],
       userName: username[count % 2],
-      socialLink: [{ socialMediaName: '123', socialMedisUrl: '123' }],
+      socialLink: {
+        facebook: 'https://www.facebook.com/prayutofficial/',
+      },
       donateImage: img[count % 4],
       donateDescription: username[count % 3],
       aboutMe: description[count % 6],
@@ -87,9 +103,9 @@ const User: React.FC = () => {
   const menu = (
     <Menu>
       <Menu.Item>
-        <a target="" href="/yoyo">
+        <Link target="" to="/yoyo">
           Lectures
-        </a>
+        </Link>
       </Menu.Item>
     </Menu>
   )
@@ -100,7 +116,7 @@ const User: React.FC = () => {
         <Breadcrumb>
           <Breadcrumb.Item>Tester</Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a href="/pong">pongUser</a>
+            <Link to="/pong">pongUser</Link>
           </Breadcrumb.Item>
         </Breadcrumb>
         <Dropdown overlay={menu}>
@@ -120,6 +136,12 @@ const User: React.FC = () => {
       <div className="flex justify-center space-x-2">
         <Button size="large" type="primary" onClick={testCreateUser}>
           create user
+        </Button>
+        <Button size="large" type="primary" onClick={testFollow}>
+          follow user
+        </Button>
+        <Button size="large" type="primary" onClick={testunFollow}>
+          unfollow user
         </Button>
       </div>
       <div className="grid grid-cols-5 gap-5 container mx-auto">

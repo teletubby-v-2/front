@@ -110,6 +110,7 @@ export const CommentContainer: React.FC<CommentProps> = ({ lectureId }) => {
         </CommentBox>
       ))}
       {comments &&
+        size - comments.length > 0 &&
         Array(size - comments.length)
           .fill(Array(size - comments.length).keys())
           .map((_, index) => <Skeleton active paragraph={{ rows: 1 }} avatar key={index} />)}

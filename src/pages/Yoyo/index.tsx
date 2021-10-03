@@ -64,9 +64,9 @@ const Yoyo: React.FC = () => {
   useEffect(() => {
     const unsubscribe = firestore
       .collection('Lectures')
-      .orderBy('createAt')
+      .orderBy('createAt', 'desc')
+      .limit(4)
       .onSnapshot(querySnapshot => {
-        console.log(querySnapshot.size)
         querySnapshot.docChanges().forEach(change => {
           const data = change.doc.data()
           fetchUser(data.userId).then(user => {
@@ -146,7 +146,7 @@ const Yoyo: React.FC = () => {
           <Card
             title={lecture.username || ''}
             key={lecture.lectureId}
-            cover={<img className="h-96 object-cover" alt="cock" src={lecture.imageUrl[0]} />}
+            cover={<img className="h-96 object-cover" alt="cock" src={lecture.imageUrl?.[0]} />}
             actions={[
               <div key="2" onClick={() => history.push(`post/${lecture.lectureId}`)}>
                 show all

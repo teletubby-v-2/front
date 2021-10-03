@@ -7,21 +7,19 @@ import { useUploadpic } from '../../hooks/useUploadpic'
 import { Avatar } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import { createUser } from '../../service/user'
-import { SocialLink } from '../../constants/interface/myUser.interface'
-import { Json, removeUndefined } from '../../utils/object'
+import { removeUndefined } from '../../utils/object'
 import { useHistory } from 'react-router-dom'
+import { CreateUserDTO } from '../../constants/dto/myUser.dto'
 
 export interface UpdateValue {
-  email: string
   userName: string
   aboutMe: string
   instagram: string
   facebook: string
   youtube: string
-  imageUrl: string
 }
 
-export const UserInfoForm: React.FC = props => {
+export const UserInfoForm: React.FC = () => {
   const [isUploading, setIsUploading] = useState(false)
   const { userInfo, setAll } = userInfoStore()
   const { TextArea } = Input
@@ -41,35 +39,22 @@ export const UserInfoForm: React.FC = props => {
   }, [userInfo])
 
   const onFinish = (value: UpdateValue) => {
-    const { youtube, facebook, instagram, imageUrl: url, ...rest } = value
-    const socialLink: SocialLink[] = []
-    if (instagram) {
-      socialLink.push({
-        socialMediaName: 'instagram',
-        socialMedisUrl: 'https://' + instagram.replace('https://', ''),
-      })
+    const { youtube, facebook, instagram, aboutMe, ...rest } = value
+    const obtimizeSocialLink = removeUndefined({
+      youtube,
+      facebook,
+      instagram,
+    })
+    const data: CreateUserDTO = {
+      ...rest,
+      aboutMe: aboutMe,
+      imageUrl: imageUrl,
+      socialLink: obtimizeSocialLink,
     }
-    if (facebook) {
-      socialLink.push({
-        socialMediaName: 'facebook',
-        socialMedisUrl: 'https://' + facebook.replace('https://', ''),
-      })
-    }
-    if (youtube) {
-      socialLink.push({
-        socialMediaName: 'youtube',
-        socialMedisUrl: 'https://' + youtube.replace('https://', ''),
-      })
-    }
-    createUser({
-      ...removeUndefined(rest as unknown as Json),
-      imageUrl,
-      socialLink,
-    }).then(user => {
+    createUser(data).then(user => {
       setAll(user)
       history.push('subject')
     })
-    /* TODO: update profile */
   }
 
   return (
@@ -78,10 +63,9 @@ export const UserInfoForm: React.FC = props => {
       <div className="w-full flex justify-center mb-5">
         <Avatar size={200} icon={<UserOutlined />} src={imageUrl} />
       </div>
-      {console.log(userInfo)}
       <Form onFinish={onFinish} form={form}>
         <div className="text-center">
-          <Form.Item name="imageUrl">
+          <Form.Item>
             <Upload
               accept="image/*"
               maxCount={1}
@@ -95,16 +79,17 @@ export const UserInfoForm: React.FC = props => {
             </Upload>
           </Form.Item>
         </div>
-        {console.log(userInfo)}
         <Divider />
-        <div className="flex space-x-2">
-          <Form.Item className="flex-1" name="userName">
-            <Input addonBefore="ชื่อที่แสดง" />
-          </Form.Item>
-          <Form.Item className="flex-1" name="email">
-            <Input value={userInfo.email} disabled={true} addonBefore="อีเมลล์" />
-          </Form.Item>
-        </div>
+        <Form.Item>
+          <div className="flex space-x-2">
+            <Form.Item className="flex-1" name="userName" noStyle>
+              <Input addonBefore="ชื่อที่แสดง" />
+            </Form.Item>
+            <Form.Item className="flex-1" name="email" noStyle>
+              <Input value={userInfo.email} disabled={true} addonBefore="อีเมลล์" />
+            </Form.Item>
+          </div>
+        </Form.Item>
         <Form.Item name="aboutMe">
           <TextArea
             showCount

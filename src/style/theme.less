@@ -5,6 +5,17 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .text-gradient {
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+* {
+  margin: 0px;
+}
+
 a {
   color: @blue-6;
 }
@@ -121,4 +132,11 @@ svg {
 
 .ant-comment-inner {
   padding: 8px;
+}
+.anticon {
+  vertical-align: middle;
+}
+
+.ant-popover-inner-content {
+  padding: 12px 8px;
 }

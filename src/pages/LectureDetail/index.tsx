@@ -1,41 +1,48 @@
-import { Card, Rate, Skeleton, Image, Tooltip, Avatar, Col, message } from 'antd'
+import { Card, Rate, Skeleton, Image, Tooltip, Avatar, message, Button } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { firestore } from '../../config/firebase'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { Redirect, useHistory, useParams } from 'react-router'
 import { LectureDetailComment } from '../LectureDetail/components/LectueDetailComment'
-import { Collection } from '../../constants'
-import { BookOutlined, ShareAltOutlined, BookFilled, CloudUploadOutlined } from '@ant-design/icons'
+import {} from '../../constants'
+import { BookOutlined, ShareAltOutlined, BookFilled } from '@ant-design/icons'
 import no_image from '../../assets/images/no_image.jpg'
 import { MyUserDTO } from '../../constants/dto/myUser.dto'
 import { userInfoStore } from '../../store/user.store'
-import { addUserBookmark, deleteUserBookmark } from '../../service/user'
+import { LeftOutlined, RightOutlined } from '@ant-design/icons'
+import kuSubject from '../../constants/subjects.json'
+import { addUserBookmark, deleteUserBookmark, getUserDetial } from '../../service/user'
+import { getLectureDetail } from '../../service/lectures/getLecture'
+import { SubjectDTO } from '../../constants/dto/subjects.dto'
 
-const LectureDetail: React.FC = () => {
+import { Link } from 'react-router-dom'
+
+export const LectureDetail: React.FC = () => {
   const { userInfo, addBookmark, removeBookmark } = userInfoStore()
   const history = useHistory()
   const [lecture, setLecture] = useState<LectureDTO>({} as LectureDTO)
   const { lectureId } = useParams<{ lectureId: string }>()
   const [loading, setLoading] = useState(false)
-  const [visible, setVisible] = useState(false)
   const [user, setUser] = useState<MyUserDTO>()
+  const [count, setCount] = useState(0)
+  const [subject] = useState<Record<string, SubjectDTO>>(kuSubject.subjects)
 
   useEffect(() => {
     setLoading(true)
-    const getLecture = async () => {
-      const bundle = await firestore.collection(Collection.Lectures).doc(lectureId).get()
-      const data = {
-        ...bundle.data(),
-        lectureId: bundle.id,
-      } as LectureDTO
-      const bundleUser = await firestore.collection(Collection.Users).doc(data.userId).get()
-
+    getLectureDetail(lectureId).then(data => {
       setLecture(data)
-      setUser({ ...bundleUser.data(), userId: data.userId } as MyUserDTO)
-    }
-
-    getLecture().then(() => setLoading(false))
+    })
   }, [lectureId])
+
+  useEffect(() => {
+    if (lecture.userId) {
+      getUserDetial(lecture.userId)
+        .then(data => {
+          setUser(data)
+          setLoading(false)
+        })
+        .catch(() => history.replace('/Not_found'))
+    }
+  }, [lecture])
 
   const copy = () => {
     navigator.clipboard
@@ -64,9 +71,8 @@ const LectureDetail: React.FC = () => {
       })
       .catch(() => message.error('ลบบุ๊คมาร์คไม่สำเร็จ'))
   }
-
   return (
-    <div className="my-10 flex space-x-10 w-full">
+    <div className="mx-5 my-10 flex space-x-10 w-full">
       {history.location.hash.length == 0 && <Redirect to={`${history.location.pathname}#review`} />}
       <Skeleton loading={loading} paragraph={{ rows: 10 }} active className="flex-grow">
         <div className="flex-grow">
@@ -85,28 +91,54 @@ const LectureDetail: React.FC = () => {
               </Tooltip>
             </div>
           </div>
-
+          <div className=" space-x-3 mt-2">
+            <span>{lecture.subjectId}</span>
+            <span>{subject?.[lecture?.subjectId as string]?.subjectNameTh || ''}</span>
+          </div>
           <div className="flex w-full space-x-3 items-center my-4">
-            <a href={`/profile/${user?.userId}`}>
+            <Link to={`/profile/${user?.userId}`}>
               <Avatar src={user?.imageUrl} />
-            </a>
+            </Link>
             <div>โพสต์โดย</div>
-            <a href={`/profile/${user?.userId}`}>{user?.userName}</a>
+            <Link to={`/profile/${user?.userId}`}>{user?.userName}</Link>
             <div>·</div>
             <div className="flex-grow">เข้าชม {lecture.viewCount} ครั้ง</div>
-            <Rate value={lecture.sumRating / lecture.reviewCount} disabled />
+            <Rate value={lecture.sumRating / lecture.reviewCount} disabled allowHalf />
             <div>{lecture.reviewCount} ratings</div>
           </div>
-
-          {/* //todo: แบงค์ชินทำต่อ */}
-          <div className="flex justify-center my-5">
-            <Image
-              style={{ height: 600 }}
-              preview={{ visible: false }}
-              src={lecture?.imageUrl?.[0]}
-              onClick={() => setVisible(true)}
+          {lecture.isPdf ? (
+            <embed
+              src={lecture.pdfUrl?.[0]}
+              type="application/pdf"
+              style={{ width: '100%', height: 800 }}
             />
-          </div>
+          ) : (
+            <div className="flex justify-center my-5 relative">
+              <Image
+                style={{ height: 600 }}
+                className="object-center object-cover"
+                src={lecture?.imageUrl?.[count]}
+              />
+              <Button
+                shape="circle"
+                className="absolute top-1/2  right-3 -translate-y-1/2	"
+                onClick={() => setCount((count + 1) % lecture.imageUrl.length)}
+                disabled={!lecture.imageUrl?.length}
+                icon={<RightOutlined />}
+              />
+
+              <Button
+                shape="circle"
+                className="absolute top-1/2 left-3 -translate-y-1/2	"
+                onClick={() =>
+                  setCount((count - 1 + lecture.imageUrl.length) % lecture.imageUrl.length)
+                }
+                disabled={!lecture.imageUrl?.length}
+                icon={<LeftOutlined />}
+              />
+            </div>
+          )}
+
           {lecture.description && (
             <Card title="คำอธิบาย" className="shadow-1 rounded-sm">
               {lecture.description}
@@ -117,14 +149,6 @@ const LectureDetail: React.FC = () => {
             <div className="flex justify-center">
               <LectureDetailComment authorId={lecture.userId as string} lectureId={lectureId} />
             </div>
-          </div>
-
-          <div style={{ display: 'none' }}>
-            <Image.PreviewGroup preview={{ visible, onVisibleChange: vis => setVisible(vis) }}>
-              {lecture?.imageUrl?.map((image, index) => (
-                <Image width={200} key={index} src={image} />
-              ))}
-            </Image.PreviewGroup>
           </div>
         </div>
       </Skeleton>
@@ -146,5 +170,3 @@ const LectureDetail: React.FC = () => {
     </div>
   )
 }
-
-export default LectureDetail
