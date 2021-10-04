@@ -83,6 +83,7 @@ const App: React.FC = () => {
           <Spin tip="Loading..." indicator={<LoadingOutlined style={{ fontSize: 50 }} spin />} />
         </Overlay>
       )}
+      test preview
       <Switch>
         <Route exact path="/">
           {/* ชั่วคราวสำหรับ test */}
