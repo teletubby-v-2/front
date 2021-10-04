@@ -5,7 +5,7 @@ name: Firebase CI
 
 on:
   push:
-    branches: [main]
+    branches: [main,mvp]
   # pull_request:
   #   branches: [ master ]
 
@@ -46,9 +46,15 @@ jobs:
         with:
           name: build
           path: build
+      - name: Set beta env
+          if: ${{ github.ref == 'refs/heads/mvp' }}
+          run: mv firebase-beta.json firebase.json
       - name: Depoy to Firebase
         uses: w9jds/firebase-action@master
         with:
+          if: ${{ github.ref == 'refs/heads/mvp' }}
+          run: deploy --only hosting
+          else: 
           args: deploy --only hosting:kushare
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
