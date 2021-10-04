@@ -37,11 +37,12 @@ export function useInfiniteQuery<TData = unknown, TError = unknown>(
   }
 
   useEffect(() => {
-    setIsLoading(true)
     setData([])
     setCurrentPage(0)
     setLastDoc(undefined)
     fetchMore()
+    console.log('1111111111')
+
     // const unsubscribe = query
     //   .orderBy('createAt', 'desc')
     //   .limit(1)
@@ -51,6 +52,7 @@ export function useInfiniteQuery<TData = unknown, TError = unknown>(
     //       if (!data.some((item: any) => item[fieldId] === newData[fieldId]))
     //         setData(data => [newData as TData, ...data])
     //     }
+
     //   })
     // return unsubscribe
   }, [query])

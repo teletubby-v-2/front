@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MenuInfo } from 'rc-menu/lib/interface'
 import React, { useEffect, useState } from 'react'
@@ -8,7 +9,7 @@ import { LeftCircleOutlined } from '@ant-design/icons'
 import { useHistory, useParams } from 'react-router-dom'
 import { Dropdown, Menu } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
-import { FilterBox } from '../../components/FilterBox'
+import { FilterBox, IFilter } from '../../components/FilterBox'
 import MenuItem from 'antd/lib/menu/MenuItem'
 import {
   bookmarkLectureRef,
@@ -27,6 +28,24 @@ import {
 import { useInfiniteQuery } from '../../hooks/useInfiniteQuery'
 import { firestore } from '../../config/firebase'
 import { Collection } from '../../constants'
+import firebase from 'firebase/app'
+
+const setNewQuery = (query: firebase.firestore.Query, option: IFilter) => {
+  console.log(option)
+
+  if (option.isFinal) {
+    query.where('isFinal', '==', true)
+  }
+  if (option.isMid) {
+    query.where('isMid', '==', true)
+  }
+  if (option.rating) {
+    query.where('ratingScore', '>=', option.rating)
+  }
+  console.log(query)
+
+  return query
+}
 
 export const ViewAll: React.FC = () => {
   const { userInfo } = userInfoStore()
@@ -34,14 +53,15 @@ export const ViewAll: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   const [viewAllLecture, setViewAllLecture] = useState<LectureDTO[]>([] as LectureDTO[])
   const [title, settitle] = useState('')
-  const { data, fetchMore, setQuery } = useInfiniteQuery<LectureDTO>(
+  const [originQuery, setOriginQuery] = useState<firebase.firestore.Query>()
+  const { data, fetchMore, setQuery, error } = useInfiniteQuery<LectureDTO>(
     firestore.collection(Collection.Lectures).where('id', '==', 1),
     'lectureId',
     Infinity,
   )
 
   console.log(data)
-
+  error && console.log('error: ', error)
   useEffect(() => {
     setViewAllLecture([])
     if (id) {
@@ -56,39 +76,54 @@ export const ViewAll: React.FC = () => {
         case 'mySubject':
           settitle(id)
           console.log(userInfo.userSubject)
+          const query1 = mySubjectRef(userInfo.userSubject)
           if (userInfo.userSubject && userInfo.userSubject.length !== 0) {
-            setQuery(mySubjectRef(userInfo.userSubject))
+            setQuery(query1)
+            setOriginQuery(query1)
           }
           // getMySubject(userInfo.userSubject).then(data => setViewAllLecture(data))
           break
         case 'bookmark':
           settitle(id)
+          const query2 = mySubjectRef(userInfo.userSubject)
+
           if (userInfo.bookmark && userInfo.bookmark.length !== 0) {
-            setQuery(bookmarkLectureRef(userInfo.bookmark))
+            setQuery(query2)
+            setOriginQuery(query2)
             // getBookmarkLectures(userInfo.bookmark).then(data => setViewAllLecture(data))
           }
           break
         case 'all':
+          const query3 = lectureRef
           settitle(id)
-          setQuery(lectureRef)
+          setQuery(query3)
+          setOriginQuery(query3)
           // getLectures().then(data => setViewAllLecture(data))
           break
         default:
+          let query: firebase.firestore.Query
           if (id.search('lecture') != -1) {
             settitle('สรุปของ ' + id.substring(id.search('lecture'), 0))
-            setQuery(userLectureRef(id.substring(id.search('lecture') + 7)))
+            query = userLectureRef(id.substring(id.search('lecture') + 7)).orderBy(
+              'createAt',
+              'desc',
+            )
+            setOriginQuery(query)
+            setQuery(query)
             // getOwnLectures(id.substring(id.search('lecture') + 7)).then(data =>
             //   setViewAllLecture(data),
             // )
           } else if (id?.[0] === '[') {
             settitle('ค้นหาด้วยวิชาของฉัน')
-            setQuery(listSubjectRef(JSON.parse(id)))
+            query = listSubjectRef(JSON.parse(id))
             // getLecturesByListOfId(JSON.parse(id)).then(data => setViewAllLecture(data))
           } else {
             settitle('สรุปของวิชา ' + id)
-            setQuery(subjectRef(id.slice(0, 8)))
+            query = subjectRef(id.slice(0, 8))
             // getLecturesById(id.slice(0, 8)).then(data => setViewAllLecture(data))
           }
+          setQuery(query)
+          setOriginQuery(query)
       }
     }
   }, [userInfo, id])
@@ -114,7 +149,11 @@ export const ViewAll: React.FC = () => {
         limit={false}
         extra={
           <div className="space-x-3 ">
-            <FilterBox />
+            <FilterBox
+              callback={option => {
+                setQuery(setNewQuery(originQuery as firebase.firestore.Query, option))
+              }}
+            />
             <Dropdown
               placement="bottomRight"
               overlay={

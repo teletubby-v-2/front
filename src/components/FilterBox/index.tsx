@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { Select, Rate, Checkbox, Button, Popover } from 'antd'
-import kuSubject from '../../constants/subjects.json'
+import { Rate, Checkbox, Button, Popover } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
 
 export interface IFilter {
@@ -17,11 +16,11 @@ const options = [
 ]
 
 export const FilterBox: React.FC<FilterBoxProps> = ({ callback }) => {
-  const [subject, setSubject] = useState('')
+  // const [subject, setSubject] = useState('')
   const [term, setTerm] = useState<string[]>([])
   const [rating, setRating] = useState(0)
   const onClear = () => {
-    setSubject('')
+    // setSubject('')
     setTerm([])
     setRating(0)
   }
@@ -35,7 +34,7 @@ export const FilterBox: React.FC<FilterBoxProps> = ({ callback }) => {
     ref.current?.click()
   }
   const filterBox = (
-    <div className=" w-80">
+    <div className=" w-64">
       <div className="font-bold text-2xl text-center">ฟิลเตอร์</div>
       <div className="mt-2  grid grid-cols-5 gap-y-3 ">
         {/* {isSubject && (
