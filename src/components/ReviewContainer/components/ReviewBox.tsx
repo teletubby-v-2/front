@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react'
 import { Comment, Avatar, Rate, Dropdown, Menu, Button, Form, Input } from 'antd'
 import { Review } from '../../../constants/interface/lecture.interface'
 import { Link } from 'react-router-dom'
-import { MoreOutlined } from '@ant-design/icons'
+import { MoreOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../../store/user.store'
 import { MenuInfo } from 'rc-menu/lib/interface'
 import { deleteReview, updateReview } from '../../../service/lectures/review'
@@ -40,9 +40,11 @@ export const ReviewBox: React.FC<ReviewBoxProps> = ({ review }) => {
   }
   const menu = useMemo(
     () => (
-      <Menu onClick={handleMenuClick}>
-        <Menu.Item key="edit">แก้ไข</Menu.Item>
-        <Menu.Item key="delete" danger>
+      <Menu onClick={handleMenuClick} className="mr-3">
+        <Menu.Item key="edit" icon={<EditOutlined />}>
+          แก้ไข
+        </Menu.Item>
+        <Menu.Item key="delete" danger icon={<DeleteOutlined />}>
           ลบ
         </Menu.Item>
       </Menu>

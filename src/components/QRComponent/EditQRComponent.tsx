@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { Button, Divider, Form, Upload, Input } from 'antd'
-import { InfoCircleOutlined, LoadingOutlined } from '@ant-design/icons'
+import { InfoCircleOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
 import { dontSubmitWhenEnter } from '../../utils/eventManage'
 import { useUploadpic } from '../../hooks/useUploadpic'
 import { UpdateUserDTO } from '../../constants/dto/myUser.dto'
 import { updateUser } from '../../service/user'
 import { deleteImages } from '../../service/storage'
+import { initPhoto } from '../../utils/object'
 
 export interface UpdateValue {
   donateDescription: string
@@ -75,22 +76,19 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
             listType="picture-card"
             accept="image/*"
             maxCount={1}
+            fileList={imageUrl ? initPhoto([imageUrl]) : undefined}
             disabled={isUploading}
             customRequest={handleRequest}
             beforeUpload={beforeUpload}
-            showUploadList={false}
+            onRemove={() => setimageUrl(undefined)}
           >
-            {!isUploading ? (
-              imageUrl ? (
-                <img src={imageUrl} alt="QR" />
+            {!imageUrl &&
+              !isUploading &&
+              (imageUrl ? (
+                <img src={imageUrl} alt="QR" className="w-30 h-30 object-center object-cover" />
               ) : (
                 <p>อัพโหลด</p>
-              )
-            ) : (
-              <div className="text-center my-10">
-                <LoadingOutlined />
-              </div>
-            )}
+              ))}
           </Upload>
         </Form.Item>
         <Form.Item name="donateDescription">

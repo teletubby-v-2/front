@@ -13,7 +13,6 @@ import kuSubject from '../../constants/subjects.json'
 import { addUserBookmark, deleteUserBookmark, getUserDetial } from '../../service/user'
 import { getLectureDetail } from '../../service/lectures/getLecture'
 import { SubjectDTO } from '../../constants/dto/subjects.dto'
-import { updateViewCount } from '../../service/lectures'
 
 import { Link } from 'react-router-dom'
 
@@ -29,8 +28,9 @@ export const LectureDetail: React.FC = () => {
 
   useEffect(() => {
     setLoading(true)
-    getLectureDetail(lectureId).then(data => setLecture(data))
-    updateViewCount(lectureId)
+    getLectureDetail(lectureId).then(data => {
+      setLecture(data)
+    })
   }, [lectureId])
 
   useEffect(() => {
@@ -71,7 +71,6 @@ export const LectureDetail: React.FC = () => {
       })
       .catch(() => message.error('ลบบุ๊คมาร์คไม่สำเร็จ'))
   }
-
   return (
     <div className="mx-5 my-10 flex space-x-10 w-full">
       {history.location.hash.length == 0 && <Redirect to={`${history.location.pathname}#review`} />}
@@ -92,7 +91,6 @@ export const LectureDetail: React.FC = () => {
               </Tooltip>
             </div>
           </div>
-
           <div className=" space-x-3 mt-2">
             <span>{lecture.subjectId}</span>
             <span>{subject?.[lecture?.subjectId as string]?.subjectNameTh || ''}</span>
@@ -108,8 +106,12 @@ export const LectureDetail: React.FC = () => {
             <Rate value={lecture.sumRating / lecture.reviewCount} disabled allowHalf />
             <div>{lecture.reviewCount} ratings</div>
           </div>
-          {lecture.pdfUrl ? (
-            <iframe src={lecture.pdfUrl[0]} style={{ width: '100%', height: 800 }}></iframe>
+          {lecture.isPdf ? (
+            <embed
+              src={lecture.pdfUrl?.[0]}
+              type="application/pdf"
+              style={{ width: '100%', height: 800 }}
+            />
           ) : (
             <div className="flex justify-center my-5 relative">
               <Image

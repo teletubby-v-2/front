@@ -54,7 +54,7 @@ async function deleteComment(lectureId: string, id: string) {
 async function createReply(reply: ReplyDTO): Promise<void> {
   firebaseApp.auth().currentUser?.reload()
   const batch = firestore.batch()
-  const replyCollection = getReplyCollection(reply.lectureId, reply.commentId)
+  const replyCollection = getReplyCollection(reply.lectureId, reply.commentId || '')
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
   const data: ReplyDTO = {
     ...reply,
@@ -67,20 +67,20 @@ async function createReply(reply: ReplyDTO): Promise<void> {
 }
 
 async function updateReply(reply: ReplyDTO): Promise<void> {
-  const replyCollection = getReplyCollection(reply.lectureId, reply.commentId)
+  const replyCollection = getReplyCollection(reply.lectureId, reply.commentId || '')
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
-  const replyId = reply.replyId
+  const id = reply.id
   const data = {
     ...reply,
     updateAt: timeStamp,
   }
-  delete data['replyId']
-  return await replyCollection.doc(replyId).update(data)
+  delete data['id']
+  return await replyCollection.doc(id).update(data)
 }
 
 async function deleteReply(reply: ReplyDTO) {
-  const replyCollection = getReplyCollection(reply.lectureId, reply.commentId)
-  return await replyCollection.doc(reply.replyId).delete()
+  const replyCollection = getReplyCollection(reply.lectureId, reply.commentId || '')
+  return await replyCollection.doc(reply.id).delete()
 }
 
 export { createComment, updateComment, deleteComment, createReply, updateReply, deleteReply }

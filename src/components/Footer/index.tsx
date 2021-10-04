@@ -1,6 +1,5 @@
 import React from 'react'
 import { FacebookFilled, TwitterOutlined } from '@ant-design/icons'
-import { Link } from 'react-router-dom'
 
 export const Footer: React.FC = () => {
   return (

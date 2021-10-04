@@ -83,7 +83,6 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
         querySnapshot.docChanges().forEach(change => {
           const data = change.doc.data()
           if (change.type === 'added') {
-            console.log('New Lecture: ', data)
             fetchUser(data.userId).then(user =>
               setReviews(reviewMap => [
                 ...reviewMap,
@@ -92,7 +91,6 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
             )
           }
           if (change.type === 'modified') {
-            console.log('Modified Lecture: ', data)
             setReviews(reviewMap => {
               const index = reviewMap.findIndex(review => review.reviewId === change.doc.id)
               const user = {
@@ -107,7 +105,6 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
             })
           }
           if (change.type === 'removed') {
-            console.log('Removed Lecture: ', data)
             setReviews(reviewMap => reviewMap.filter(review => review.reviewId !== change.doc.id))
           }
         })

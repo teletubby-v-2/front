@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import { firebaseApp } from '../../config/firebase'
-import { userInfoStore } from '../../store/user.store'
 export interface RegisterFormProps {
   className?: string
   callback?: () => void
@@ -21,7 +20,6 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
   const [isFail, setIsFail] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState<string>()
-  const { setUserName } = userInfoStore()
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onFinish = (value: any) => {
@@ -33,11 +31,6 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
     firebaseApp
       .auth()
       .createUserWithEmailAndPassword(value.email, value.password)
-      .then(userCredentail => {
-        userCredentail.user?.updateProfile({ displayName: value.userName })
-        setUserName(value.userName)
-        return userCredentail
-      })
       .then(user => {
         closeModal && closeModal()
         if (user.user?.emailVerified) {
@@ -68,9 +61,6 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
       <Form onFinish={onFinish}>
         <Form.Item name="email" rules={[{ type: 'email', required: true }]}>
           <Input placeholder="อีเมล" size="large" />
-        </Form.Item>
-        <Form.Item name="userName" rules={[{ required: true }]}>
-          <Input placeholder="ชื่อผู้ใช้ [username]" size="large" />
         </Form.Item>
         <Form.Item name="password" rules={[{ required: true }]}>
           <Input.Password placeholder="รหัสผ่าน" size="large" />

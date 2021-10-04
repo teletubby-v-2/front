@@ -8,6 +8,8 @@ import {
   UpdateUserDTO,
   UserSubjectDTO,
 } from '../../constants/dto/myUser.dto'
+import { removeUndefined } from '../../utils/object'
+import { NotificationDTO } from '../../constants/dto/notification.dto'
 
 const userCollection = firestore.collection(Collection.Users)
 
@@ -24,9 +26,9 @@ async function getUser() {
 async function createUser(user: CreateUserDTO): Promise<MyUser> {
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
   const userId = firebaseApp.auth().currentUser?.uid
-  const data = {
+  const data = removeUndefined({
     ...user,
-    imageUrl: user.imageUrl || '',
+    imageUrl: user.imageUrl,
     createAt: timeStamp,
     updateAt: timeStamp,
     bookmark: [],
@@ -35,16 +37,21 @@ async function createUser(user: CreateUserDTO): Promise<MyUser> {
     following: [],
     lectureCount: 0,
     notificationReadCount: [],
-  }
+  }) as unknown as MyUser
   if (userId) {
     await userCollection.doc(userId).set(data)
-    await firebaseApp.auth().currentUser?.updateProfile({
-      photoURL: data.imageUrl,
-      displayName: data.userName,
-    })
+    if (data.imageUrl) {
+      await firebaseApp.auth().currentUser?.updateProfile({
+        photoURL: data.imageUrl,
+        displayName: data.userName,
+      })
+    } else
+      await firebaseApp.auth().currentUser?.updateProfile({
+        displayName: data.userName,
+      })
     return {
-      userId,
       ...data,
+      userId,
     } as MyUser
   } else {
     throw new Error('ออดเฟล')
@@ -54,14 +61,15 @@ async function createUser(user: CreateUserDTO): Promise<MyUser> {
 async function updateUser(user: UpdateUserDTO): Promise<void> {
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
   const userId = firebaseApp.auth().currentUser?.uid
-  const data = {
+  const data = removeUndefined({
     ...user,
     updateAt: timeStamp,
-  }
+  })
+
   await userCollection.doc(userId).update(data)
   if (firebaseApp.auth().currentUser && data.imageUrl) {
     await firebaseApp.auth().currentUser?.updateProfile({
-      photoURL: data.imageUrl,
+      photoURL: data.imageUrl as string,
     })
   }
 }
@@ -110,16 +118,28 @@ async function getUserDetial(userId: string) {
   }
 }
 
-async function addnotification(notiId: string, oldnotification: string[]) {
+async function addnotification(notiId: string) {
   const userId = firebaseApp.auth().currentUser?.uid
-  const data = {
-    notificationReadCount: [notiId, ...oldnotification],
-  }
   if (userId) {
-    await userCollection.doc(userId).update(data)
+    await userCollection
+      .doc(userId)
+      .update({ notificationReadCount: firebase.firestore.FieldValue.arrayUnion(notiId) })
   } else {
     throw new Error('young mai login')
   }
+}
+
+async function readAllNoti(notiList: NotificationDTO[]) {
+  const userId = firebaseApp.auth().currentUser?.uid
+  const idList = notiList.map(noti => noti.notiId || '')
+  if (userId) {
+    await userCollection.doc(userId).update({
+      notificationReadCount: firebase.firestore.FieldValue.arrayUnion(idList),
+    })
+  } else {
+    throw new Error('young mai login')
+  }
+  return idList
 }
 
 export {
@@ -132,4 +152,5 @@ export {
   getUser,
   getUserDetial,
   addnotification,
+  readAllNoti,
 }

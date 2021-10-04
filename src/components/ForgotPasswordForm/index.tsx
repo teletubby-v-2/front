@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Alert, Button, Form, Input } from 'antd'
+import { Alert, Button, Form, Input, Modal } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import firebase from 'firebase'
 import { Link, useHistory } from 'react-router-dom'
@@ -17,61 +17,59 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
   modal,
 }) => {
   const history = useHistory()
-  const [isReset, setIsReset] = useState(false)
   const [message, setMessage] = useState<string>()
 
   const resetPassword = async (value: any) => {
     try {
       const email = value.email
       await firebase.auth().sendPasswordResetEmail(email)
-      setIsReset(true)
-    } catch (error) {
-      const { message } = error as firebase.firestore.FirestoreError
-      setMessage(message)
+      success()
+    } catch (error: any) {
+      const errorCode = error.code
+      const errorMessage = error.message
+      setMessage(errorMessage)
     }
+  }
+  function success() {
+    Modal.success({
+      centered: true,
+      onOk: () => history.push('/login'),
+      content: 'ส่งเมลยืนยันการเปลี่ยนรหัสแล้ว',
+    })
   }
   return (
     <div className={className}>
-      {isReset ? (
-        <>
-          <h2 className="font-bold ">ส่งลิงก์เปลี่ยนรหัสไปในอีเมลเรียบร้อยแล้ว</h2>
-          <div className="w-full text-right">
-            <Link to="/login">กลับไปเข้าสู่ระบบ</Link>
-          </div>
-        </>
-      ) : (
-        <>
-          <h1 className="text-3xl font-bold mb-6">ลืมรหัสผ่าน?</h1>
-          {message && (
-            <Alert
-              message="เกิดปัญหา"
-              description="อีเมลไม่ถูกต้อง"
-              type="error"
-              showIcon
-              style={{ textAlign: 'left', marginBottom: 10 }}
-            />
-          )}
-          <Form layout="vertical" onFinish={resetPassword}>
-            <Form.Item
-              name="email"
-              rules={[{ type: 'email', required: true, message: 'รูปแบบอีเมลไม่ถูกต้อง' }]}
-            >
-              <Input prefix={<UserOutlined />} placeholder="อีเมล" size="large" />
-            </Form.Item>
-            <Form.Item className="m-1">
-              <Button type="primary" htmlType="submit" size="middle" block>
-                เปลี่ยนรหัสผ่าน
-              </Button>
-            </Form.Item>
-          </Form>
-          <a
-            onClick={() => (modal ? callback && callback() : history.push('/login'))}
-            className="text-blue-500"
+      <>
+        {message && (
+          <Alert
+            message="Error"
+            description={message}
+            type="error"
+            showIcon
+            style={{ textAlign: 'left', marginBottom: 10 }}
+          />
+        )}
+        <h1 className="text-3xl font-bold mb-6">Forgot your password?</h1>
+        <Form layout="vertical" onFinish={resetPassword}>
+          <Form.Item
+            name="email"
+            rules={[{ type: 'email', required: true, message: 'invalid email address' }]}
           >
-            <p className="mt-5 text-right">กลับไปเข้าสู่ระบบ</p>
-          </a>
-        </>
-      )}
+            <Input prefix={<UserOutlined />} placeholder="Email" size="large" />
+          </Form.Item>
+          <Form.Item className="m-1">
+            <Button type="primary" htmlType="submit" size="middle" block>
+              Reset password!
+            </Button>
+          </Form.Item>
+        </Form>
+        <a
+          onClick={() => (modal ? callback && callback() : history.push('/login'))}
+          className="text-blue-500"
+        >
+          <p className="mt-5 text-right -mb-3">Back to login</p>
+        </a>
+      </>
     </div>
   )
 }

@@ -44,7 +44,6 @@ export const QAndAContainer: React.FC<QAndAContainerProps> = ({ lectureId, autho
         querySnapshot.docChanges().forEach(change => {
           const data = change.doc.data()
           if (change.type === 'added') {
-            console.log('New QandA: ', data)
             fetchUser(data.userId).then(user =>
               setQAndAs(commentMap => [
                 ...commentMap,
@@ -53,7 +52,6 @@ export const QAndAContainer: React.FC<QAndAContainerProps> = ({ lectureId, autho
             )
           }
           if (change.type === 'modified') {
-            console.log('Modified QandA: ', data)
             setQAndAs(commentMap => {
               const index = commentMap.findIndex(comment => comment.qaId === change.doc.id)
               const user = {
@@ -68,7 +66,6 @@ export const QAndAContainer: React.FC<QAndAContainerProps> = ({ lectureId, autho
             })
           }
           if (change.type === 'removed') {
-            console.log('Removed QandA: ', data)
             setQAndAs(commentMap => commentMap.filter(comment => comment.qaId !== change.doc.id))
           }
         })
@@ -82,6 +79,7 @@ export const QAndAContainer: React.FC<QAndAContainerProps> = ({ lectureId, autho
         <QuestionBox qAndA={qAndA} key={index} authorId={authorId} lectureId={lectureId} />
       ))}
       {qAndAs &&
+        size - qAndAs.length > 0 &&
         Array(size - qAndAs.length)
           .fill(Array(size - qAndAs.length).keys())
           .map((_, index) => <Skeleton active paragraph={{ rows: 1 }} avatar key={index} />)}

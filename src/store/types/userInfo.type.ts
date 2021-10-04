@@ -21,5 +21,6 @@ export interface UserInfo {
   setAboutme: (aboutme: string) => void
   setDonate: (donateImage: string, description: string) => void
   setUserSubject: (userSubject: UserSubjectDTO[]) => void
-  addnotificationReadCount: (notiId: string) => void
+  addNotificationReadCount: (notiId: string) => void
+  setNotificationReadCount: (notiIds: string[]) => void
 }

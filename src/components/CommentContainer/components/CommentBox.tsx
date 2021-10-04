@@ -1,15 +1,17 @@
-import React, { useState } from 'react'
-import { Comment, Avatar, Form, Input, Button } from 'antd'
+import React, { useMemo, useState } from 'react'
+import { Comment, Avatar, Form, Input, Button, Menu, Dropdown } from 'antd'
 import { Comments } from '../../../constants/interface/lecture.interface'
 import { CaretDownFilled } from '@ant-design/icons'
 import { AuthZone } from '../..'
-import { createReply } from '../../../service/lectures/comment'
+import { createReply, deleteComment, deleteReply } from '../../../service/lectures/comment'
 import { ReplyDTO } from '../../../constants/dto/lecture.dto'
 import { userInfoStore } from '../../../store/user.store'
 import { Link } from 'react-router-dom'
+import { MenuInfo } from 'rc-menu/lib/interface'
+import { MoreOutlined, DeleteOutlined } from '@ant-design/icons'
 
 export interface CommentBoxProps {
-  comment: Comments | ReplyDTO
+  comment: ReplyDTO
   showReply?: boolean
   isParent?: boolean
 }
@@ -31,6 +33,26 @@ export const CommentBox: React.FC<CommentBoxProps> = ({
   const [reply] = useState(comment as ReplyDTO)
   const { userInfo } = userInfoStore()
   // const numOfChildren = React.useMemo(() => React.Children.toArray(children), [children])
+
+  const handleMenuClick = (info: MenuInfo) => {
+    switch (info.key) {
+      case 'delete':
+        if (comment.commentId) {
+          return deleteReply(comment)
+        }
+        return deleteComment(comment.lectureId, comment.id || '')
+    }
+  }
+  const menu = useMemo(
+    () => (
+      <Menu onClick={handleMenuClick} className="mr-3">
+        <Menu.Item key="delete" danger icon={<DeleteOutlined />}>
+          ลบ
+        </Menu.Item>
+      </Menu>
+    ),
+    [],
+  )
 
   const handleCreateReply = (value: CommentForm) => {
     setLoading(true)
@@ -55,10 +77,7 @@ export const CommentBox: React.FC<CommentBoxProps> = ({
         actions={
           isMain && children
             ? [
-                <a
-                  key={parentComment.id || reply.replyId}
-                  onClick={() => setIsShowReply(!isShowReply)}
-                >
+                <a key={parentComment.id || reply.id} onClick={() => setIsShowReply(!isShowReply)}>
                   <CaretDownFilled rotate={isShowReply ? 180 : 0} />
                   {isShowReply ? ' ซ่อนการตอบกลับ' : ' ดูการตอบกลับ'}
                 </a>,
@@ -88,7 +107,20 @@ export const CommentBox: React.FC<CommentBoxProps> = ({
             <Avatar src={comment.photoURL} alt={comment.userId} />
           </Link>
         }
-        content={comment.message}
+        content={
+          <div className="flex">
+            <p className="flex-grow">{comment.message}</p>
+            {userInfo.userId === comment.userId && (
+              <p className="-m-3">
+                <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
+                  <Button type="link">
+                    <MoreOutlined className="text-xl text-black" />
+                  </Button>
+                </Dropdown>
+              </p>
+            )}
+          </div>
+        }
       >
         {isShowReply && children && children}
         {onWrite && isShowReply && (
