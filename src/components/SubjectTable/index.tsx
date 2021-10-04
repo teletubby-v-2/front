@@ -19,7 +19,12 @@ export const SubjectTable: React.FC<SubjectTableProps> = ({ ...rest }) => {
 
   const columns = useMemo<ColumnType<UserSubjectDTO>[]>(
     () => [
-      { title: 'เลือกทั้งหมด', dataIndex: 'title', key: 'title' },
+      {
+        title: 'เลือกทั้งหมด',
+        dataIndex: 'title',
+        key: 'title',
+        sorter: (a, b) => a.title.localeCompare(b.title),
+      },
       {
         title: '',
         dataIndex: 'isActive',
@@ -28,6 +33,12 @@ export const SubjectTable: React.FC<SubjectTableProps> = ({ ...rest }) => {
         render: (isActive: boolean) => {
           return isActive ? <Tag color="green">ใช้งาน</Tag> : <Tag color="red">ไม่ใช้งาน</Tag>
         },
+        sorter: (a, b) => {
+          if (a.isActive) return -1
+          if (b.isActive) return 1
+          return 0
+        },
+        showSorterTooltip: { title: 'เรียงการใช้งาน' },
         width: 100,
       },
 
