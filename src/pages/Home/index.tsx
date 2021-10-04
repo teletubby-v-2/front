@@ -37,26 +37,7 @@ export const Home: React.FC = () => {
         title="สรุปล่าสุด"
         data={allLecture}
         limit={10}
-        extra={
-          <div className="space-x-3">
-            <Dropdown
-              overlay={<Menu>{/* //TODO add filter component here */}</Menu>}
-              trigger={['click']}
-            >
-              <a onClick={e => e.preventDefault()}>
-                คัดกรอง <DownOutlined />
-              </a>
-            </Dropdown>
-            <Dropdown
-              overlay={<Menu>{/* //TODO add sort component here */}</Menu>}
-              trigger={['click']}
-            >
-              <a onClick={e => e.preventDefault()}>
-                เรียง <DownOutlined />
-              </a>
-            </Dropdown>
-          </div>
-        }
+        extra={<Link to="/viewAll/all">ดูทั้งหมด</Link>}
       />
     </div>
   )

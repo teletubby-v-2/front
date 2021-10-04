@@ -12,10 +12,15 @@ export const removeUndefined = (json: Json): Json => {
 }
 
 export const initPhoto = (urls = [] as string[]): UploadFile[] => {
-  return urls.map(url => ({
-    uid: getFilePath(url),
-    name: url,
-    status: 'done',
-    url: url,
-  }))
+  return urls.map(url => {
+    const path = getFilePath(url).split('/')
+    console.log(path, path.slice(1, path.length).join('/'))
+
+    return {
+      uid: getFilePath(url),
+      name: path.slice(1, path.length).join(' '),
+      status: 'done',
+      url: url,
+    }
+  })
 }

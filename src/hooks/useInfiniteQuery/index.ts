@@ -17,9 +17,8 @@ export function useInfiniteQuery<TData = unknown, TError = unknown>(
 
   const getNewPageData = async () => {
     let thisPageData = null
-    if (lastDoc)
-      thisPageData = await query.orderBy('createAt', 'desc').startAfter(lastDoc).limit(limit).get()
-    else thisPageData = await query.orderBy('createAt', 'desc').limit(limit).get()
+    if (lastDoc) thisPageData = await query.startAfter(lastDoc).limit(limit).get()
+    else thisPageData = await query.limit(limit).get()
     setLastDoc(thisPageData.docs[thisPageData.size - 1])
 
     if (thisPageData.size < limit) setHasNext(false)
@@ -38,10 +37,10 @@ export function useInfiniteQuery<TData = unknown, TError = unknown>(
   }
 
   useEffect(() => {
-    setIsLoading(true)
     setData([])
     setCurrentPage(0)
     fetchMore()
+
     // const unsubscribe = query
     //   .orderBy('createAt', 'desc')
     //   .limit(1)
@@ -51,6 +50,7 @@ export function useInfiniteQuery<TData = unknown, TError = unknown>(
     //       if (!data.some((item: any) => item[fieldId] === newData[fieldId]))
     //         setData(data => [newData as TData, ...data])
     //     }
+
     //   })
     // return unsubscribe
   }, [query])

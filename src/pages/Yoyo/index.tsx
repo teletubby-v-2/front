@@ -12,6 +12,7 @@ import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
 import { CreateLectureForm } from '../../components/CreateLectureForm'
 import { AuthZone } from '../../components'
+import { FilterBox } from '../../components/FilterBox'
 interface LectureUser extends CreateLectureDTO {
   username?: string
 }

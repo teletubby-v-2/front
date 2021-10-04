@@ -1,10 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { MenuInfo } from 'rc-menu/lib/interface'
 import React, { useEffect, useState } from 'react'
 import { LectureContainer } from '../../components'
 import { userInfoStore } from '../../store/user.store'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { LeftCircleOutlined } from '@ant-design/icons'
 import { useHistory, useParams } from 'react-router-dom'
+import { Dropdown, Menu } from 'antd'
+import { DownOutlined } from '@ant-design/icons'
+import { FilterBox, IFilter } from '../../components/FilterBox'
+import MenuItem from 'antd/lib/menu/MenuItem'
 import {
   getBookmarkLectures,
   getLectures,
@@ -14,17 +18,31 @@ import {
   getOwnLectures,
 } from '../../service/lectures/getLecture'
 
+const setNewQuery = (data: LectureDTO[], option: IFilter) => {
+  let newData = data
+  if (option.isFinal) {
+    newData = newData.filter(lecture => lecture.isFinal)
+  }
+  if (option.isMid) {
+    newData = newData.filter(lecture => lecture.isMid)
+  }
+  if (option.rating) {
+    newData = newData.filter(lecture => lecture.ratingScore || 0 >= option.rating)
+  }
+  return newData
+}
+
 export const ViewAll: React.FC = () => {
   const { userInfo } = userInfoStore()
   const history = useHistory()
   const { id } = useParams<{ id: string }>()
   const [viewAllLecture, setViewAllLecture] = useState<LectureDTO[]>([] as LectureDTO[])
   const [title, settitle] = useState('')
-  // const { data, fetchMore } = useInfiniteQuery<LectureDTO>(
-  //   firestore.collection(Collection.Lectures),
-  //   'lectureId',
-  //   4,
-  // )
+  const [filterData, setFilterData] = useState<LectureDTO[]>([] as LectureDTO[])
+
+  useEffect(() => {
+    setFilterData(viewAllLecture)
+  }, [viewAllLecture])
 
   useEffect(() => {
     setViewAllLecture([])
@@ -67,6 +85,20 @@ export const ViewAll: React.FC = () => {
     }
   }, [userInfo, id])
 
+  const handleMenuClick = ({ key }: MenuInfo) => {
+    switch (key) {
+      case 'lastest':
+        return setFilterData(
+          [...filterData].sort((a, b) => {
+            const timeA = a.createAt?.toMillis() || 0
+            const timeB = b.createAt?.toMillis() || 0
+            return timeB - timeA
+          }),
+        )
+      case 'view':
+        return setFilterData([...filterData].sort((a, b) => b.viewCount - a.viewCount))
+    }
+  }
   return (
     <div className="mx-2 space-y-7 md:mx-5 lg:mx-20 xl:mx-30 my-10">
       <LectureContainer
@@ -76,10 +108,32 @@ export const ViewAll: React.FC = () => {
             {title}
           </>
         }
-        data={viewAllLecture}
+        data={filterData}
         limit={false}
+        extra={
+          <div className="space-x-3 ">
+            <FilterBox
+              callback={option => {
+                setFilterData(setNewQuery(viewAllLecture, option))
+              }}
+            />
+            <Dropdown
+              placement="bottomRight"
+              overlay={
+                <Menu onClick={handleMenuClick}>
+                  <MenuItem key="lastest">ล่าสุด</MenuItem>
+                  <MenuItem key="view">เข้าดูมากสุด</MenuItem>
+                </Menu>
+              }
+              trigger={['click']}
+            >
+              <a onClick={e => e.preventDefault()}>
+                เรียงตาม <DownOutlined />
+              </a>
+            </Dropdown>
+          </div>
+        }
       />
-      {/* <Button onClick={fetchMore}>more</Button> */}
     </div>
   )
 }
