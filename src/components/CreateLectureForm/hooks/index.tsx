@@ -38,6 +38,8 @@ export const useLectureForm = (
       form.setFieldsValue({ pdfUrl: initData?.pdfUrl || [] })
       form.setFieldsValue({ isPdf: initData?.isPdf || false })
       setFileList(initPhoto(initData?.imageUrl))
+      console.log(initPhoto(initData?.pdfUrl))
+
       setPdf(initPhoto(initData?.pdfUrl))
     }
   }, [isOnCreate])

@@ -73,6 +73,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
     handlePdfList,
     previewCancel,
   } = useLectureForm(addOwnLecture, initData, callback)
+
   return (
     <div className={className}>
       <a
@@ -181,8 +182,8 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
                 </Tag>
               ))}
           </Form.Item>
-          <Form.Item name="isPdf" label="รูปแบบของไฟล์" initialValue={false}>
-            <Radio.Group options={options} />
+          <Form.Item name="isPdf" label="รูปแบบของไฟล์" initialValue={initData.isPdf || false}>
+            <Radio.Group options={options} disabled={initData.isPdf !== undefined} />
           </Form.Item>
 
           <Form.Item
