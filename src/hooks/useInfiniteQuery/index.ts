@@ -39,9 +39,7 @@ export function useInfiniteQuery<TData = unknown, TError = unknown>(
   useEffect(() => {
     setData([])
     setCurrentPage(0)
-    setLastDoc(undefined)
     fetchMore()
-    console.log('1111111111')
 
     // const unsubscribe = query
     //   .orderBy('createAt', 'desc')
