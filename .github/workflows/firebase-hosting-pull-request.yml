@@ -48,7 +48,7 @@ jobs:
           path: build
 
       - name: Set beta env
-        if: ${{ github.ref == 'refs/heads/mvp' }}
+        if: ${{ github.ref != 'refs/heads/main' }}
         run: mv firebase-beta.json firebase.json
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
