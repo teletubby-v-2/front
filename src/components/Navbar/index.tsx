@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
   Avatar,
   Menu,
@@ -162,8 +162,6 @@ export const Navbar: React.FC = () => {
     )
   }, [data, userInfo.notificationReadCount, isLoading, hasNext])
 
-  const ref = useRef(null)
-
   return (
     <div>
       <nav className="text-xl h-16 navbar">
@@ -172,7 +170,6 @@ export const Navbar: React.FC = () => {
           <div className="text-center w-full space-x-2">
             <SearchOutlined className="text-xl" />
             <AutoComplete
-              ref={ref}
               options={options}
               value={value}
               onSelect={onSelect}

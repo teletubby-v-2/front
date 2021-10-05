@@ -62,6 +62,7 @@ export const Profile: React.FC = () => {
           <div className="flex-grow">
             <div className=" space-y-8">
               <LectureContainer
+                numOfSkeleton={4}
                 profile
                 title="สรุปของฉัน"
                 data={ownLecture}
@@ -76,6 +77,7 @@ export const Profile: React.FC = () => {
               <LectureContainer
                 profile
                 title="บุ๊คมาร์ค"
+                numOfSkeleton={4}
                 data={bookmarkLecture}
                 loading={loading2}
                 extra={<Link to="/viewAll/bookmark">ดูทั้งหมด</Link>}

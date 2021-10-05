@@ -5,7 +5,7 @@ import { userInfoStore } from '../../store/user.store'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { LeftCircleOutlined } from '@ant-design/icons'
 import { useHistory, useParams } from 'react-router-dom'
-import { Dropdown, Menu } from 'antd'
+import { Dropdown, Menu, Skeleton } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
 import { FilterBox, IFilter } from '../../components/FilterBox'
 import MenuItem from 'antd/lib/menu/MenuItem'
@@ -17,6 +17,7 @@ import {
   getMySubject,
   getOwnLectures,
 } from '../../service/lectures/getLecture'
+import InfiniteScroll from 'react-infinite-scroll-component'
 
 const setNewQuery = (data: LectureDTO[], option: IFilter) => {
   let newData = data
@@ -40,6 +41,7 @@ export const ViewAll: React.FC = () => {
   const [viewAllLecture, setViewAllLecture] = useState<LectureDTO[]>([] as LectureDTO[])
   const [title, settitle] = useState('')
   const [filterData, setFilterData] = useState<LectureDTO[]>([] as LectureDTO[])
+  const [limit, setLimit] = useState(10)
 
   useEffect(() => {
     setFilterData(viewAllLecture)
@@ -100,41 +102,66 @@ export const ViewAll: React.FC = () => {
         return setFilterData([...filterData].sort((a, b) => b.viewCount - a.viewCount))
     }
   }
+  console.log(limit, limit < filterData.length)
+
   return (
     <div className="mx-2 space-y-7 md:mx-5 lg:mx-20 xl:mx-30 my-10">
-      <LectureContainer
-        title={
-          <>
-            <LeftCircleOutlined onClick={() => history.goBack()} className="align-middle mr-3" />
-            {title}
-          </>
-        }
-        data={filterData}
-        limit={false}
-        extra={
-          <div className="space-x-3 ">
-            <FilterBox
-              callback={option => {
-                setFilterData(setNewQuery(viewAllLecture, option))
-              }}
-            />
-            <Dropdown
-              placement="bottomRight"
-              overlay={
-                <Menu onClick={handleMenuClick}>
-                  <MenuItem key="lastest">ล่าสุด</MenuItem>
-                  <MenuItem key="view">เข้าดูมากสุด</MenuItem>
-                </Menu>
-              }
-              trigger={['click']}
-            >
-              <a onClick={e => e.preventDefault()}>
-                เรียงตาม <DownOutlined />
-              </a>
-            </Dropdown>
+      <InfiniteScroll
+        next={() => setLimit(limit => limit + 10)}
+        hasMore={limit < filterData.length}
+        loader={
+          <div className="w-full flex justify-evenly mt-5 bg-white">
+            {Array(5)
+              .fill(0)
+              .map((_, index) => (
+                <Skeleton.Avatar
+                  active
+                  size={160}
+                  shape="square"
+                  className="mx-auto"
+                  key={index}
+                  style={{ height: '208px', borderRadius: 4 }}
+                />
+              ))}
           </div>
         }
-      />
+        dataLength={limit}
+      >
+        <LectureContainer
+          title={
+            <>
+              <LeftCircleOutlined onClick={() => history.goBack()} className="align-middle mr-3" />
+              {title}
+            </>
+          }
+          data={filterData}
+          limit={limit}
+          extra={
+            <div className="space-x-3 ">
+              <FilterBox
+                callback={option => {
+                  setFilterData(setNewQuery(viewAllLecture, option))
+                  setLimit(20)
+                }}
+              />
+              <Dropdown
+                placement="bottomRight"
+                overlay={
+                  <Menu onClick={handleMenuClick}>
+                    <MenuItem key="lastest">ล่าสุด</MenuItem>
+                    <MenuItem key="view">เข้าดูมากสุด</MenuItem>
+                  </Menu>
+                }
+                trigger={['click']}
+              >
+                <a onClick={e => e.preventDefault()}>
+                  เรียงตาม <DownOutlined />
+                </a>
+              </Dropdown>
+            </div>
+          }
+        />
+      </InfiniteScroll>
     </div>
   )
 }

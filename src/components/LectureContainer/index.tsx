@@ -32,6 +32,7 @@ export interface LectureContainerProps extends CardProps {
   minRow?: 1 | 2
   profile?: boolean
   loading?: boolean
+  numOfSkeleton?: number
 }
 
 interface LectureWithDropdown extends Lecture {
@@ -47,6 +48,7 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
     profile = false,
     title,
     loading = false,
+    numOfSkeleton = 5,
     ...restCradProps
   } = props
   const [isOnEdit, setIsOnEdit] = useState(false)
@@ -61,6 +63,10 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
     }
     setLectures(data?.map(lecture => ({ ...lecture, dropDownVisible: false })))
   }, [data])
+
+  useEffect(() => {
+    setSize(limit || data?.length)
+  }, [limit])
 
   const handleAddBookmark = (data: Lecture) => {
     if (data?.lectureId) {
@@ -176,7 +182,7 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
         } ${lectures?.length === 0 ? '' : `row-${minRow}-card`}`}
       >
         {loading
-          ? Array(4)
+          ? Array(numOfSkeleton)
               .fill(0)
               .map((_, index) => (
                 <Skeleton.Avatar

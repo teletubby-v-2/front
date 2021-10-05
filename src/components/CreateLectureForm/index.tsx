@@ -13,7 +13,7 @@ import {
   Typography,
   Upload,
 } from 'antd'
-import { LoadingOutlined, PlusOutlined, InfoCircleOutlined } from '@ant-design/icons'
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { dontSubmitWhenEnter } from '../../utils/eventManage'
 import { useLectureForm } from './hooks'
 import { lectureStore } from '../../store/lecture.store'
