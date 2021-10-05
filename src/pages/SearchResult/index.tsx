@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { SearchOutlined } from '@ant-design/icons'
 import { options } from '../../utils/optionsUtil'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import ScrollToTop from '../../components/ScrollToTop'
 
 function useQuery() {
   return new URLSearchParams(useLocation().search).get('search') || ''
@@ -22,6 +23,7 @@ export const SearchResult: React.FC = () => {
 
   return (
     <div className="py-10 px-5">
+      <ScrollToTop />
       <h1>
         <SearchOutlined className="mr-2" />
         ผลการค้นหาวิชา {`"${search}"`}

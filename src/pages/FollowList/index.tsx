@@ -1,34 +1,42 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { FollowCard } from '../../components/FollowCard'
+import ScrollToTop from '../../components/ScrollToTop'
 import { getUserDetial } from '../../service/user'
 
-export const FollowList = () => {
+export const FollowList: React.FC = () => {
   const { userId, type } = useParams<{ userId: string; type: string }>()
   const [list, setList] = useState<string[]>([])
-  const [text, settext] = useState<string>('')
-  const minRow = 3
-
-  //todo:GetuserData
+  const [text, settext] = useState<React.ReactNode>('')
 
   useEffect(() => {
     getUserDetial(userId).then(data => {
       if (type == 'following') {
         setList(data.following)
-        settext(data.userName + ' กำลังติดตาม')
+        settext(
+          <h2 className="text-center text-2xl ">
+            <span className="font-bold">{data.userName}</span> กำลังติดตาม
+          </h2>,
+        )
       } else if (type == 'followers') {
         setList(data.followers)
-        settext(' ผู้ที่กำลังติดตาม ' + data.userName)
+        settext(
+          <h2 className="text-center text-2xl ">
+            ผู้ที่กำลังติดตาม
+            <span className="font-bold">{data.userName}</span>
+          </h2>,
+        )
       }
     })
   }, [userId])
 
   return (
     <div className="mt-10">
-      <div className="text-center text-2xl mb-10">{text}</div>
-      <div className={`grid gap-y-10 md:grid-cols-4 row-${minRow}-card `}>
+      <ScrollToTop />
+      {text}{' '}
+      <div className="flex justify-center flex-wrap ">
         {list.map(userId => (
-          <FollowCard userId={userId} key={userId} className="mx-auto border-2 border-gray-500" />
+          <FollowCard userId={userId} key={userId} className="m-4" />
         ))}
       </div>
     </div>

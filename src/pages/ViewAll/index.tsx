@@ -18,6 +18,7 @@ import {
   getOwnLectures,
 } from '../../service/lectures/getLecture'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import ScrollToTop from '../../components/ScrollToTop'
 
 const setNewQuery = (data: LectureDTO[], option: IFilter) => {
   let newData = data
@@ -106,6 +107,7 @@ export const ViewAll: React.FC = () => {
 
   return (
     <div className="mx-2 space-y-7 md:mx-5 lg:mx-20 xl:mx-30 my-10">
+      <ScrollToTop />
       <InfiniteScroll
         next={() => setLimit(limit => limit + 10)}
         hasMore={limit < filterData.length}

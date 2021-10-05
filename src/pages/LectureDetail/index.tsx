@@ -13,8 +13,8 @@ import kuSubject from '../../constants/subjects.json'
 import { addUserBookmark, deleteUserBookmark, getUserDetial } from '../../service/user'
 import { getLectureDetail } from '../../service/lectures/getLecture'
 import { SubjectDTO } from '../../constants/dto/subjects.dto'
-
 import { Link } from 'react-router-dom'
+import ScrollToTop from '../../components/ScrollToTop'
 
 export const LectureDetail: React.FC = () => {
   const { userInfo, addBookmark, removeBookmark } = userInfoStore()
@@ -73,6 +73,7 @@ export const LectureDetail: React.FC = () => {
   }
   return (
     <div className="mx-5 my-10 flex space-x-10 w-full">
+      <ScrollToTop />
       {history.location.hash.length == 0 && <Redirect to={`${history.location.pathname}#review`} />}
       <div className="flex-grow">
         {loading ? (

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { Profile } from '..'
 import { OtherProfile } from '..'
+import ScrollToTop from '../../components/ScrollToTop'
 import { userInfoStore } from '../../store/user.store'
 
 export const SelectProfile: React.FC = () => {
@@ -13,5 +14,10 @@ export const SelectProfile: React.FC = () => {
       setisMy(true)
     }
   }, [userId, userInfo.userId])
-  return <>{isMy ? <Profile /> : <OtherProfile />}</>
+  return (
+    <>
+      <ScrollToTop />
+      {isMy ? <Profile /> : <OtherProfile />}
+    </>
+  )
 }
