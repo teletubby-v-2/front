@@ -1,17 +1,18 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import {
   Avatar,
   Menu,
   Dropdown,
   Button,
-  Select,
   Tooltip,
   Badge,
   Empty,
   Popover,
   Divider,
+  AutoComplete,
+  Input,
 } from 'antd'
-import { useHistory } from 'react-router'
+import { useHistory, useLocation } from 'react-router'
 import KUshare from '../../assets/icons/KUshare.svg'
 import {
   UserOutlined,
@@ -27,20 +28,22 @@ import { MenuInfo } from 'rc-menu/lib/interface'
 import { firebaseApp, firestore } from '../../config/firebase'
 import { AuthZone } from '..'
 import { CreateLectureForm } from '../CreateLectureForm'
-import kuSubject from '../../constants/subjects.json'
 import { NotiMenuItem } from '../NotiMenu'
 import { Notification } from '../../constants/interface/notification.interface'
 import { readAllNoti } from '../../service/user'
 import { useInfiniteQuery } from '../../hooks/useInfiniteQuery'
 import { Collection } from '../../constants'
+import { options } from '../../utils/optionsUtil'
 
 export const Navbar: React.FC = () => {
   const history = useHistory()
+  const location = useLocation()
   const { userInfo, setNotificationReadCount } = userInfoStore()
   const { data, hasNext, setQuery, fetchMore, isLoading } = useInfiniteQuery<Notification>(
     firestore.collection(Collection.Notifications).where('relevantUserId', 'array-contains', ''),
     'notiId',
   )
+  const [value, setvalue] = useState('')
 
   useEffect(() => {
     setQuery(
@@ -50,8 +53,11 @@ export const Navbar: React.FC = () => {
     )
   }, [userInfo])
 
-  const onSearch = (value: string) => {
-    value ? history.push('/viewAll/' + value) : null
+  const onSelect = (value: string) => {
+    if (value) {
+      setvalue('')
+      history.push('/viewAll/' + value)
+    }
   }
 
   const onClickLogo = () => {
@@ -62,6 +68,12 @@ export const Navbar: React.FC = () => {
     logout()
     history.push('/login')
   }
+
+  useEffect(() => {
+    if (location.pathname !== '/searchResult') {
+      setvalue('')
+    }
+  }, [location])
 
   const handleMenuClick = (info: MenuInfo) => {
     switch (info.key) {
@@ -150,6 +162,8 @@ export const Navbar: React.FC = () => {
     )
   }, [data, userInfo.notificationReadCount, isLoading, hasNext])
 
+  const ref = useRef(null)
+
   return (
     <div>
       <nav className="text-xl h-16 navbar">
@@ -157,25 +171,34 @@ export const Navbar: React.FC = () => {
           <img width={129} src={KUshare} onClick={onClickLogo} className="cursor-pointer " />
           <div className="text-center w-full space-x-2">
             <SearchOutlined className="text-xl" />
-            <Select
+            <AutoComplete
+              ref={ref}
+              options={options}
+              value={value}
+              onSelect={onSelect}
+              onChange={e => setvalue(e)}
               allowClear
-              showSearch
-              className="max-w-3xl w-4/6 text-left"
-              onSelect={onSearch}
               size="large"
+              autoClearSearchValue
+              onFocus={e => (e.target as HTMLInputElement).select()}
+              filterOption={(inputValue, option) => {
+                const node = option?.label?.valueOf() as JSX.Element
+                return !!node.key?.toString().includes(inputValue.toLowerCase())
+              }}
               dropdownClassName="fixed"
-              showArrow={false}
-              placeholder="ค้นหารายวิชา"
+              className="max-w-3xl w-4/6 text-left"
             >
-              {Object.entries(kuSubject.subjects).map(([key, subject]) => (
-                <Select.Option
-                  key={key}
-                  value={`${key} ${subject.subjectNameTh}${subject.subjectNameEn}`}
-                >
-                  {key} {subject.subjectNameTh} {subject.subjectNameEn}
-                </Select.Option>
-              ))}
-            </Select>
+              <Input
+                type="text"
+                placeholder="ค้นหารายวิชา"
+                size="large"
+                onKeyDown={e => {
+                  if (e.code === 'Enter') {
+                    history.push(`/searchResult?search=${(e.target as HTMLInputElement).value}`)
+                  }
+                }}
+              />
+            </AutoComplete>
           </div>
           {firebaseApp.auth().currentUser ? (
             <div className="flex items-center space-x-5">

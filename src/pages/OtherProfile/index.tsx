@@ -13,6 +13,7 @@ export const OtherProfile: React.FC = () => {
   const [otherlecture, setotherlecture] = useState([] as LectureDTO[])
   const history = useHistory()
   const { userId } = useParams<{ userId: string }>()
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     getUserDetial(userId)
@@ -26,8 +27,11 @@ export const OtherProfile: React.FC = () => {
 
   useEffect(() => {
     setotherlecture([])
+    setLoading(true)
     if (userId) {
-      getOwnLectures(userId).then(data => setotherlecture(data))
+      getOwnLectures(userId)
+        .then(data => setotherlecture(data))
+        .finally(() => setLoading(false))
     }
   }, [userId])
 
@@ -56,6 +60,7 @@ export const OtherProfile: React.FC = () => {
               title={title}
               data={otherlecture}
               limit={8}
+              loading={loading}
               extra={
                 <div className="space-x-3">
                   <Link to={viewAllurl}>ดูทั้งหมด</Link>

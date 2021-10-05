@@ -30,6 +30,7 @@ import styled from 'styled-components'
 import { lectureStore } from './store/lecture.store'
 import { SelectProfile } from './pages/SelectProfile'
 import { FollowList } from './pages/FollowList'
+import { SearchResult } from './pages/SearchResult'
 
 const Overlay = styled.div`
   position: fixed;
@@ -102,7 +103,7 @@ const App: React.FC = () => {
         <LayoutRoute path="/viewAll/:id" component={ViewAll} />
         <LayoutRoute path="/profile/:userId" component={SelectProfile} />
         <LayoutRoute path="/follow/:userId/:type" component={FollowList} />
-
+        <LayoutRoute path="/searchResult" component={SearchResult} />
         {/* for test */}
         <LayoutRoute exact path="/yoyo" component={Yoyo} />
         <LayoutRoute exact path="/post/:id" component={Post} />

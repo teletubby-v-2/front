@@ -19,7 +19,7 @@ import { useLectureForm } from './hooks'
 import { lectureStore } from '../../store/lecture.store'
 import { UpdateLectureDTO } from '../../constants/dto/lecture.dto'
 import { formItemLayout, myLocale } from './constants'
-import kuSubject from '../../constants/subjects.json'
+import { options as selectOptions } from '../../utils/optionsUtil'
 import { Lecture } from '../../constants/interface/lecture.interface'
 import { UploadOutlined } from '@ant-design/icons'
 
@@ -134,19 +134,19 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
             label="ชื่อวิชา"
             name="subjectId"
             rules={[{ required: true }]}
-            getValueFromEvent={value => value.split()[0]}
+            getValueFromEvent={value => {
+              return value
+            }}
             {...formItemLayout}
           >
-            <Select allowClear showSearch dropdownClassName="fixed">
-              {Object.entries(kuSubject.subjects).map(([key, subject]) => (
-                <Select.Option
-                  key={key}
-                  value={`${key} ${subject.subjectNameTh}${subject.subjectNameEn}`}
-                >
-                  {key} {subject.subjectNameTh} {subject.subjectNameEn}
-                </Select.Option>
-              ))}
-            </Select>
+            <Select
+              allowClear
+              showSearch
+              dropdownClassName="fixed"
+              optionLabelProp="key"
+              autoClearSearchValue={false}
+              options={selectOptions}
+            />
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 4 }}>
             <Form.Item name="isMid" valuePropName="checked" noStyle>
@@ -189,13 +189,14 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
           <Form.Item
             shouldUpdate
             label="อัพโหลดไฟล์"
+            valuePropName="fileList"
             validateStatus="warning"
-            help={
-              <>
-                <InfoCircleOutlined className="tag-icon" />
-                {'  '}แนะนำให้เป็นไฟล์ขนาดเล็กกว่า 2MB
-              </>
-            }
+            // help={
+            //   <>
+            //     <InfoCircleOutlined className="tag-icon" />
+            //     {'  '}แนะนำให้เป็นไฟล์ขนาดเล็กกว่า 2MB
+            //   </>
+            // }
             {...formItemLayout}
           >
             {() =>

@@ -20,10 +20,11 @@ import {
 
 const setNewQuery = (data: LectureDTO[], option: IFilter) => {
   let newData = data
-  if (option.isFinal) {
+  if (option.isFinal && option.isMid) {
+    newData = newData.filter(lecture => lecture.isFinal || lecture.isMid)
+  } else if (option.isFinal) {
     newData = newData.filter(lecture => lecture.isFinal)
-  }
-  if (option.isMid) {
+  } else if (option.isMid) {
     newData = newData.filter(lecture => lecture.isMid)
   }
   if (option.rating) {

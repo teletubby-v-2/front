@@ -3,6 +3,7 @@ import {
   Card,
   CardProps,
   Dropdown,
+  Empty,
   Menu,
   message,
   Popconfirm,
@@ -30,6 +31,7 @@ export interface LectureContainerProps extends CardProps {
   data?: Lecture[]
   minRow?: 1 | 2
   profile?: boolean
+  loading?: boolean
 }
 
 interface LectureWithDropdown extends Lecture {
@@ -37,18 +39,23 @@ interface LectureWithDropdown extends Lecture {
 }
 
 export const LectureContainer: React.FC<LectureContainerProps> = props => {
-  const { limit, data, className, minRow = 2, profile = false, title, ...restCradProps } = props
+  const {
+    limit,
+    data,
+    className,
+    minRow = 1,
+    profile = false,
+    title,
+    loading = false,
+    ...restCradProps
+  } = props
   const [isOnEdit, setIsOnEdit] = useState(false)
-  const [loading, setLoading] = useState(true)
   const [lastOpenIndex, setLastOpenIndex] = useState(0)
   const [size, setSize] = useState(limit !== false ? limit || 10 : data?.length)
   const { userInfo, addBookmark, removeBookmark } = userInfoStore()
   const [lectures, setLectures] = useState<LectureWithDropdown[]>()
 
   useEffect(() => {
-    if (data) {
-      setLoading(false)
-    }
     if (!limit) {
       setSize(data?.length)
     }
@@ -163,58 +170,78 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
       title={<span className="title-lecture-container">{title}</span>}
       className={`${className} shadow-1`}
     >
-      <Skeleton loading={loading} paragraph active>
-        <div
-          className={`grid grid-cols-3 gap-y-10 md:grid-cols-4 ${
-            profile ? 'lg:grid-cols-4' : 'lg:grid-cols-5'
-          } row-${minRow}-card `}
-        >
-          {lectures?.slice(0, size).map((lecture, index) => (
-            <div className="relative w-40 h-52 mx-auto border-2 border-gray-500" key={index}>
-              <div className="absolute z-10 right-0 top-0">
-                {userInfo.userId === lecture?.userId && (
-                  <Dropdown
-                    visible={lecture.dropDownVisible}
-                    overlay={menu(lecture, index)}
-                    placement="bottomRight"
-                    trigger={['click']}
-                  >
-                    <Button
-                      shape="circle"
-                      className="mt-1 mr-1"
-                      onClick={() => setIsDropDownVisible(true, index)}
+      <div
+        className={`grid grid-cols-3 gap-y-10 md:grid-cols-4 ${
+          profile ? 'lg:grid-cols-4' : 'lg:grid-cols-5'
+        } ${lectures?.length === 0 ? '' : `row-${minRow}-card`}`}
+      >
+        {loading
+          ? Array(4)
+              .fill(0)
+              .map((_, index) => (
+                <Skeleton.Avatar
+                  active
+                  size={160}
+                  shape="square"
+                  className="mx-auto"
+                  key={index}
+                  style={{ height: '208px', borderRadius: 4 }}
+                />
+              ))
+          : lectures &&
+            lectures?.length !== 0 &&
+            lectures?.slice(0, size).map((lecture, index) => (
+              <div className="relative w-40 h-52 mx-auto border-2 border-gray-500" key={index}>
+                <div className="absolute z-10 right-0 top-0">
+                  {userInfo.userId === lecture?.userId && (
+                    <Dropdown
+                      visible={lecture.dropDownVisible}
+                      overlay={menu(lecture, index)}
+                      placement="bottomRight"
+                      trigger={['click']}
                     >
-                      <MoreOutlined className=" align-middle text-lg" rotate={90} />
-                    </Button>
-                  </Dropdown>
-                )}
-                {userInfo.userId !== lecture?.userId && userInfo.bookmark && (
-                  <AuthZone>
-                    <Tooltip title="บุ๊คมาร์ค">
                       <Button
                         shape="circle"
                         className="mt-1 mr-1"
-                        onClick={() =>
-                          userInfo.bookmark.some(mark => mark === lecture?.lectureId)
-                            ? handleDeleteBookmark(lecture)
-                            : handleAddBookmark(lecture)
-                        }
+                        onClick={() => setIsDropDownVisible(true, index)}
                       >
-                        {userInfo.bookmark.some(mark => mark === lecture?.lectureId) ? (
-                          <BookFilled className=" align-middle text-green-500" />
-                        ) : (
-                          <BookOutlined className=" align-middle" />
-                        )}
+                        <MoreOutlined className=" align-middle text-lg" rotate={90} />
                       </Button>
-                    </Tooltip>
-                  </AuthZone>
-                )}
+                    </Dropdown>
+                  )}
+                  {userInfo.userId !== lecture?.userId && userInfo.bookmark && (
+                    <AuthZone>
+                      <Tooltip title="บุ๊คมาร์ค">
+                        <Button
+                          shape="circle"
+                          className="mt-1 mr-1"
+                          onClick={() =>
+                            userInfo.bookmark.some(mark => mark === lecture?.lectureId)
+                              ? handleDeleteBookmark(lecture)
+                              : handleAddBookmark(lecture)
+                          }
+                        >
+                          {userInfo.bookmark.some(mark => mark === lecture?.lectureId) ? (
+                            <BookFilled className=" align-middle text-green-500" />
+                          ) : (
+                            <BookOutlined className=" align-middle" />
+                          )}
+                        </Button>
+                      </Tooltip>
+                    </AuthZone>
+                  )}
+                </div>
+                <LectureCard data={lecture} className="mx-auto border-2 border-gray-500" />
               </div>
-              <LectureCard data={lecture} className="mx-auto border-2 border-gray-500" />
-            </div>
-          ))}
+            ))}
+      </div>
+      {/* <div className="w-full flex justify-items-center"> */}
+      {!loading && lectures && lectures?.length === 0 && (
+        <div className="row-1-card flex justify-center items-center">
+          <Empty description="ไม่มีสรุป" />
         </div>
-      </Skeleton>
+      )}
+      {/* </div> */}
     </Card>
   )
 }

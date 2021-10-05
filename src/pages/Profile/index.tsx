@@ -22,6 +22,8 @@ export const Profile: React.FC = () => {
   const { ownLecture, setOwnLecture } = lectureStore()
   const [bookmarkLecture, setBookmarkLecture] = useState<LectureDTO[]>([] as LectureDTO[])
   const [selectKey, setSelectKey] = useState<Key[]>([])
+  const [loading1, setLoading1] = useState(false)
+  const [loading2, setLoading2] = useState(false)
   const rowSelection: TableRowSelection<UserSubjectDTO> = {
     selectedRowKeys: selectKey,
     onChange: selectedRowKeys => setSelectKey(selectedRowKeys),
@@ -29,13 +31,19 @@ export const Profile: React.FC = () => {
   useEffect(() => {
     setOwnLecture([])
     if (userInfo.userId) {
-      getOwnLectures(userInfo.userId).then(data => setOwnLecture(data))
+      setLoading1(true)
+      getOwnLectures(userInfo.userId, 8)
+        .then(data => setOwnLecture(data))
+        .finally(() => setLoading1(false))
     }
   }, [userInfo.userId])
 
   useEffect(() => {
     if (bookmarkLecture.length === 0 && userInfo.bookmark && userInfo.bookmark.length !== 0) {
-      getBookmarkLectures(userInfo.bookmark).then(data => setBookmarkLecture(data))
+      setLoading2(true)
+      getBookmarkLectures(userInfo.bookmark, 8)
+        .then(data => setBookmarkLecture(data))
+        .finally(() => setLoading2(false))
     }
   }, [userInfo.bookmark])
 
@@ -57,7 +65,7 @@ export const Profile: React.FC = () => {
                 profile
                 title="สรุปของฉัน"
                 data={ownLecture}
-                limit={8}
+                loading={loading1}
                 extra={
                   <div className="space-x-3">
                     <CreateLectureForm className="inline-block" />
@@ -69,7 +77,7 @@ export const Profile: React.FC = () => {
                 profile
                 title="บุ๊คมาร์ค"
                 data={bookmarkLecture}
-                limit={8}
+                loading={loading2}
                 extra={<Link to="/viewAll/bookmark">ดูทั้งหมด</Link>}
               />
               <Card

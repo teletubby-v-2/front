@@ -151,6 +151,7 @@ export const useLectureForm = (
 
   const onFinish = () => {
     const formValue = form.getFieldsValue()
+
     if (isUploading) {
       return message.warning('ไฟล์กำลังอัพโหลด')
     }
@@ -162,7 +163,7 @@ export const useLectureForm = (
     }
     const value: Partial<CreateLectureDTO> = removeUndefined({
       ...formValue,
-      subjectId: form.getFieldValue('subjectId').split(' ')[0],
+      subjectId: formValue.subjectId.split(' ')[0],
       imageUrl: formValue.isPdf ? undefined : fileList.map(file => file.url),
       pdfUrl: formValue.isPdf ? pdf.map(file => file.url) : undefined,
     })

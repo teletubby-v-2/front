@@ -20,31 +20,31 @@ export const mySubjectRef = (userSubject: UserSubjectDTO[]) => {
   return lectureRef.where('subjectId', 'in', subjectId)
 }
 
-async function getLectures() {
+async function getLectures(limit = Infinity) {
   const data: LectureDTO[] = []
-  const lectures = await lectureRef.orderBy('createAt', 'desc').get()
+  const lectures = await lectureRef.orderBy('createAt', 'desc').limit(limit).get()
   lectures.forEach(lecture => data.push({ lectureId: lecture.id, ...lecture.data() } as LectureDTO))
   return data
 }
 
-async function getLecturesById(subjectId: string) {
+async function getLecturesById(subjectId: string, limit = Infinity) {
   const data: LectureDTO[] = []
-  const lectures = await lectureRef.where('subjectId', '==', subjectId).get()
+  const lectures = await lectureRef.where('subjectId', '==', subjectId).limit(limit).get()
   lectures.forEach(lecture => data.push({ lectureId: lecture.id, ...lecture.data() } as LectureDTO))
   return data
 }
 
-async function getLecturesByListOfId(sujectIds: string[]) {
+async function getLecturesByListOfId(sujectIds: string[], limit = Infinity) {
   const data: LectureDTO[] = []
 
-  const lectures = await lectureRef.where('subjectId', 'in', sujectIds).get()
+  const lectures = await lectureRef.where('subjectId', 'in', sujectIds).limit(limit).get()
   lectures.forEach(lecture => data.push({ lectureId: lecture.id, ...lecture.data() } as LectureDTO))
   return data
 }
 
-async function getOwnLectures(userId: string) {
+async function getOwnLectures(userId: string, limit = Infinity) {
   const data: LectureDTO[] = []
-  const lectures = await lectureRef.where('userId', '==', userId).get()
+  const lectures = await lectureRef.where('userId', '==', userId).limit(limit).get()
   lectures.forEach(lecture => data.push({ lectureId: lecture.id, ...lecture.data() } as LectureDTO))
   return data
 }
@@ -59,16 +59,17 @@ async function getLectureDetail(lectureId: string) {
   return data
 }
 
-async function getBookmarkLectures(bookmark: string[]) {
+async function getBookmarkLectures(bookmark: string[], limit = Infinity) {
   const data: LectureDTO[] = []
   const lectures = await lectureRef
     .where(firebase.firestore.FieldPath.documentId(), 'in', bookmark)
+    .limit(limit)
     .get()
   lectures.forEach(lecture => data.push({ lectureId: lecture.id, ...lecture.data() } as LectureDTO))
   return data
 }
 
-async function getMySubject(userSubject: UserSubjectDTO[]) {
+async function getMySubject(userSubject: UserSubjectDTO[], limit = Infinity) {
   const data: LectureDTO[] = []
   const subjectId = userSubject
     .filter(subject => subject.isActive === true)
@@ -76,7 +77,7 @@ async function getMySubject(userSubject: UserSubjectDTO[]) {
     .flatMap(x => x)
 
   if (subjectId && subjectId.length !== 0) {
-    const myLecturs = await lectureRef.where('subjectId', 'in', subjectId).get()
+    const myLecturs = await lectureRef.where('subjectId', 'in', subjectId).limit(limit).get()
     myLecturs.forEach(lecture =>
       data.push({ lectureId: lecture.id, ...lecture.data() } as LectureDTO),
     )
