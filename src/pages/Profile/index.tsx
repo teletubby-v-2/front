@@ -15,6 +15,7 @@ import { AddSubject } from '../../components/SubjectTable/components/AddSubject'
 import { TableRowSelection } from 'antd/lib/table/interface'
 import { UserSubjectDTO } from '../../constants/dto/myUser.dto'
 import { Link, useHistory } from 'react-router-dom'
+import { containerTitle } from '../../utils/titleLecture'
 
 export const Profile: React.FC = () => {
   const { userInfo } = userInfoStore()
@@ -64,7 +65,7 @@ export const Profile: React.FC = () => {
               <LectureContainer
                 numOfSkeleton={4}
                 profile
-                title="สรุปของฉัน"
+                title={containerTitle.ownLecture}
                 data={ownLecture}
                 loading={loading1}
                 extra={
@@ -76,7 +77,7 @@ export const Profile: React.FC = () => {
               />
               <LectureContainer
                 profile
-                title="บุ๊คมาร์ค"
+                title={containerTitle.bookmark}
                 numOfSkeleton={4}
                 data={bookmarkLecture}
                 loading={loading2}

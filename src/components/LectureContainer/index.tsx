@@ -173,7 +173,7 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
   return (
     <Card
       {...restCradProps}
-      title={<span className="title-lecture-container">{title}</span>}
+      title={<span className="text-xl">{title}</span>}
       className={`${className} shadow-1`}
     >
       <div
@@ -244,7 +244,7 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
       {/* <div className="w-full flex justify-items-center"> */}
       {!loading && lectures && lectures?.length === 0 && (
         <div className="row-1-card flex justify-center items-center">
-          <Empty description="ไม่มีสรุป" />
+          <Empty description="ไม่มีรายการ" />
         </div>
       )}
       {/* </div> */}

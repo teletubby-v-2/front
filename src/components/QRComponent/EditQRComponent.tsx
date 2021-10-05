@@ -57,7 +57,7 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
   }
 
   return (
-    <div className="p-3">
+    <div className="p-3 bg-white">
       <Divider>
         <div className="text-xl">ช่องทางสนับสนุน</div>
       </Divider>

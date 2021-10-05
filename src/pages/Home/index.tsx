@@ -3,7 +3,9 @@ import { LectureContainer } from '../../components'
 import { userInfoStore } from '../../store/user.store'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { Link } from 'react-router-dom'
+import { containerTitle } from '../../utils/titleLecture'
 import { getLectures, getMySubject } from '../../service/lectures/getLecture'
+
 export const Home: React.FC = () => {
   const { userInfo } = userInfoStore()
   const [allLecture, setAllLecture] = useState<LectureDTO[]>([] as LectureDTO[])
@@ -33,14 +35,14 @@ export const Home: React.FC = () => {
     <div className="mb-10 mx-2 space-y-7 md:mx-5 lg:mx-20 xl:mx-30 ">
       {userInfo.userId && userInfo.userId.length !== 0 && (
         <LectureContainer
-          title="วิชาของฉัน"
+          title={containerTitle.myLecture}
           data={mySubject}
           loading={loading1}
           extra={<Link to="/viewAll/mySubject">ดูทั้งหมด</Link>}
         />
       )}
       <LectureContainer
-        title="สรุปล่าสุด"
+        title={containerTitle.all}
         data={allLecture}
         loading={loading2}
         extra={<Link to="/viewAll/all">ดูทั้งหมด</Link>}

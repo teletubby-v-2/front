@@ -40,9 +40,9 @@ export const ViewAll: React.FC = () => {
   const history = useHistory()
   const { id } = useParams<{ id: string }>()
   const [viewAllLecture, setViewAllLecture] = useState<LectureDTO[]>([] as LectureDTO[])
-  const [title, settitle] = useState('')
+  const [title, setTitle] = useState<React.ReactNode>('')
   const [filterData, setFilterData] = useState<LectureDTO[]>([] as LectureDTO[])
-  const [limit, setLimit] = useState(10)
+  const [limit, setLimit] = useState(20)
 
   useEffect(() => {
     setFilterData(viewAllLecture)
@@ -53,36 +53,36 @@ export const ViewAll: React.FC = () => {
     if (id) {
       switch (id) {
         case 'ownLecture':
-          settitle(id)
+          setTitle('สรุปของฉัน')
           if (userInfo.userId) {
             getOwnLectures(userInfo.userId).then(data => setViewAllLecture(data))
           }
           break
         case 'mySubject':
-          settitle(id)
+          setTitle('วิชาของฉัน')
           getMySubject(userInfo.userSubject).then(data => setViewAllLecture(data))
           break
         case 'bookmark':
-          settitle(id)
+          setTitle('บุ๊คมาร์ค')
           if (userInfo.bookmark && userInfo.bookmark.length !== 0) {
             getBookmarkLectures(userInfo.bookmark).then(data => setViewAllLecture(data))
           }
           break
         case 'all':
-          settitle(id)
+          setTitle('สรุปล่าสุด')
           getLectures().then(data => setViewAllLecture(data))
           break
         default:
           if (id.search('lecture') != -1) {
-            settitle('สรุปของ ' + id.substring(id.search('lecture'), 0))
+            setTitle('สรุปของ ' + id.substring(id.search('lecture'), 0))
             getOwnLectures(id.substring(id.search('lecture') + 7)).then(data =>
               setViewAllLecture(data),
             )
           } else if (id?.[0] === '[') {
-            settitle('ค้นหาด้วยวิชาของฉัน')
+            setTitle('ค้นหาด้วยวิชาของฉัน')
             getLecturesByListOfId(JSON.parse(id)).then(data => setViewAllLecture(data))
           } else {
-            settitle('สรุปของวิชา ' + id)
+            setTitle(<>สรุปวิชา {id.split(' ').slice(1, id.split(' ').length).join(' ')}</>)
             getLecturesById(id.slice(0, 8)).then(data => setViewAllLecture(data))
           }
       }

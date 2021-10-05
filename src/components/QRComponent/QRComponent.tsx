@@ -11,7 +11,7 @@ export interface ProfileComponentProps {
 
 export const QRComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy, Info }) => {
   return (
-    <div className="p-3">
+    <div className="p-3 bg-white">
       <Divider>
         <div className="text-xl">ช่องทางสนับสนุน</div>
       </Divider>

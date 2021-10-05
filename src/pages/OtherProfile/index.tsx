@@ -7,6 +7,7 @@ import { LectureContainer } from '../../components'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { getUserDetial } from '../../service/user'
 import { getOwnLectures } from '../../service/lectures/getLecture'
+import BookOutlined from '@ant-design/icons/lib/icons/BookOutlined'
 
 export const OtherProfile: React.FC = () => {
   const [info, setinfo] = useState({} as MyUser)
@@ -36,7 +37,12 @@ export const OtherProfile: React.FC = () => {
   }, [userId])
 
   const title = useMemo(() => {
-    return 'สรุปของ ' + info.userName
+    return (
+      <>
+        <BookOutlined className="mr-3" />
+        สรุปของ{info.userName}
+      </>
+    )
   }, [info])
   const viewAllurl = useMemo(() => {
     return '/viewAll/' + info.userName + 'lecture' + userId
