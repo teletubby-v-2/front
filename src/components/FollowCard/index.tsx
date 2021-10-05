@@ -55,7 +55,7 @@ export const FollowCard: React.FC<FollowCardProps> = ({ userId, className }) => 
       >
         {loading ? (
           <div className="mx-5">
-            <Skeleton title={false} paragraph={{ rows: 2 }} className="h-14" loading />
+            <Skeleton title={false} paragraph={{ rows: 2 }} className="h-14" loading active />
           </div>
         ) : (
           <div className="flex justify-center h-14">
@@ -69,7 +69,7 @@ export const FollowCard: React.FC<FollowCardProps> = ({ userId, className }) => 
         )}
         <div className="flex justify-center">
           {loading ? (
-            <Skeleton.Avatar size={100} />
+            <Skeleton.Avatar size={100} active />
           ) : (
             <Avatar src={imageUrl} size={100} alt="Profile picture" className="object-cover" />
           )}
@@ -79,7 +79,7 @@ export const FollowCard: React.FC<FollowCardProps> = ({ userId, className }) => 
       <div className="absolute bottom-0 w-full p-5 right-0">
         <AuthZone className="z-10">
           {loading ? (
-            <Skeleton.Button block />
+            <Skeleton.Button block active />
           ) : (
             !(userId == userInfo.userId) &&
             (userInfo.following.includes(userId) ? (
