@@ -15,6 +15,7 @@ import { getLectureDetail } from '../../service/lectures/getLecture'
 import { SubjectDTO } from '../../constants/dto/subjects.dto'
 import { Link } from 'react-router-dom'
 import ScrollToTop from '../../components/ScrollToTop'
+import { ImageCarousel } from '../../components/ImageCarousel'
 
 export const LectureDetail: React.FC = () => {
   const { userInfo, addBookmark, removeBookmark } = userInfoStore()
@@ -141,30 +142,35 @@ export const LectureDetail: React.FC = () => {
                   style={{ width: '100%', height: 800 }}
                 />
               ) : (
-                <div className="flex justify-center my-5 relative">
-                  <Image
-                    style={{ height: 600 }}
-                    className="object-center object-cover"
-                    src={lecture?.imageUrl?.[count]}
+                <>
+                  <ImageCarousel
+                    images={lecture?.imageUrl?.map((url, index) => ({ id: index, url }))}
                   />
-                  <Button
-                    shape="circle"
-                    className="absolute top-1/2  right-3 -translate-y-1/2	"
-                    onClick={() => setCount((count + 1) % lecture.imageUrl.length)}
-                    disabled={!lecture.imageUrl?.length}
-                    icon={<RightOutlined />}
-                  />
+                  {/* <div className="flex justify-center my-5 relative">
+                    <Image
+                      style={{ height: 600 }}
+                      className="object-center object-cover"
+                      src={lecture?.imageUrl?.[count]}
+                    />
+                    <Button
+                      shape="circle"
+                      className="absolute top-1/2  right-3 -translate-y-1/2	"
+                      onClick={() => setCount((count + 1) % lecture.imageUrl.length)}
+                      disabled={!lecture.imageUrl?.length}
+                      icon={<RightOutlined />}
+                    />
 
-                  <Button
-                    shape="circle"
-                    className="absolute top-1/2 left-3 -translate-y-1/2	"
-                    onClick={() =>
-                      setCount((count - 1 + lecture.imageUrl.length) % lecture.imageUrl.length)
-                    }
-                    disabled={!lecture.imageUrl?.length}
-                    icon={<LeftOutlined />}
-                  />
-                </div>
+                    <Button
+                      shape="circle"
+                      className="absolute top-1/2 left-3 -translate-y-1/2	"
+                      onClick={() =>
+                        setCount((count - 1 + lecture.imageUrl.length) % lecture.imageUrl.length)
+                      }
+                      disabled={!lecture.imageUrl?.length}
+                      icon={<LeftOutlined />}
+                    />
+                  </div> */}
+                </>
               )}
 
               {lecture.description && (
