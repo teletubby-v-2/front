@@ -43,6 +43,7 @@ export const ViewAll: React.FC = () => {
   const [title, setTitle] = useState<React.ReactNode>('')
   const [filterData, setFilterData] = useState<LectureDTO[]>([] as LectureDTO[])
   const [limit, setLimit] = useState(20)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     setFilterData(viewAllLecture)
@@ -50,57 +51,76 @@ export const ViewAll: React.FC = () => {
 
   useEffect(() => {
     setViewAllLecture([])
+    setLoading(true)
     if (id) {
       switch (id) {
         case 'ownLecture':
           setTitle('สรุปของฉัน')
           if (userInfo.userId) {
-            getOwnLectures(userInfo.userId).then(data => setViewAllLecture(data))
+            getOwnLectures(userInfo.userId)
+              .then(data => setViewAllLecture(data))
+              .finally(() => setLoading(false))
           }
           break
         case 'mySubject':
           setTitle('วิชาของฉัน')
-          getMySubject(userInfo.userSubject).then(data => setViewAllLecture(data))
+          getMySubject(userInfo.userSubject)
+            .then(data => setViewAllLecture(data))
+            .finally(() => setLoading(false))
           break
         case 'bookmark':
           setTitle('บุ๊คมาร์ค')
           if (userInfo.bookmark && userInfo.bookmark.length !== 0) {
-            getBookmarkLectures(userInfo.bookmark).then(data => setViewAllLecture(data))
+            getBookmarkLectures(userInfo.bookmark)
+              .then(data => setViewAllLecture(data))
+              .finally(() => setLoading(false))
           }
           break
         case 'all':
           setTitle('สรุปล่าสุด')
-          getLectures().then(data => setViewAllLecture(data))
+          getLectures()
+            .then(data => setViewAllLecture(data))
+            .finally(() => setLoading(false))
           break
         default:
           if (id.search('lecture') != -1) {
             setTitle('สรุปของ ' + id.substring(id.search('lecture'), 0))
-            getOwnLectures(id.substring(id.search('lecture') + 7)).then(data =>
-              setViewAllLecture(data),
-            )
+            getOwnLectures(id.substring(id.search('lecture') + 7))
+              .then(data => setViewAllLecture(data))
+              .finally(() => setLoading(false))
           } else if (id?.[0] === '[') {
             setTitle('ค้นหาด้วยวิชาของฉัน')
-            getLecturesByListOfId(JSON.parse(id)).then(data => setViewAllLecture(data))
+            getLecturesByListOfId(JSON.parse(id))
+              .then(data => setViewAllLecture(data))
+              .finally(() => setLoading(false))
           } else {
             setTitle(<>สรุปวิชา {id.split(' ').slice(1, id.split(' ').length).join(' ')}</>)
-            getLecturesById(id.slice(0, 8)).then(data => setViewAllLecture(data))
+            getLecturesById(id.slice(0, 8))
+              .then(data => setViewAllLecture(data))
+              .finally(() => setLoading(false))
           }
       }
     }
   }, [userInfo, id])
 
   const handleMenuClick = ({ key }: MenuInfo) => {
+    setLoading(true)
     switch (key) {
       case 'lastest':
-        return setFilterData(
+        setFilterData(
           [...filterData].sort((a, b) => {
             const timeA = a.createAt?.toMillis() || 0
             const timeB = b.createAt?.toMillis() || 0
             return timeB - timeA
           }),
         )
+        return setLoading(false)
       case 'view':
-        return setFilterData([...filterData].sort((a, b) => b.viewCount - a.viewCount))
+        setFilterData([...filterData].sort((a, b) => b.viewCount - a.viewCount))
+        return setLoading(false)
+      case 'rating':
+        setFilterData([...filterData].sort((a, b) => (b.ratingScore || 0) - (a.ratingScore || 0)))
+        return setLoading(false)
     }
   }
 
@@ -137,20 +157,26 @@ export const ViewAll: React.FC = () => {
           }
           data={filterData}
           limit={limit}
+          loading={loading}
+          numOfSkeleton={15}
           extra={
             <div className="space-x-3 ">
               <FilterBox
                 callback={option => {
+                  setLoading(true)
                   setFilterData(setNewQuery(viewAllLecture, option))
                   setLimit(20)
+                  setLoading(false)
                 }}
               />
               <Dropdown
                 placement="bottomRight"
+                arrow
                 overlay={
                   <Menu onClick={handleMenuClick}>
                     <MenuItem key="lastest">ล่าสุด</MenuItem>
                     <MenuItem key="view">เข้าดูมากสุด</MenuItem>
+                    <MenuItem key="rating">คะแนนโหวด</MenuItem>
                   </Menu>
                 }
                 trigger={['click']}
