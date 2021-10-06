@@ -14,7 +14,6 @@ export const removeUndefined = (json: Json): Json => {
 export const initPhoto = (urls = [] as string[]): UploadFile[] => {
   return urls.map(url => {
     const path = getFilePath(url).split('/')
-    console.log(path, path.slice(1, path.length).join('/'))
 
     return {
       uid: getFilePath(url),

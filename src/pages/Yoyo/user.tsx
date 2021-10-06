@@ -27,13 +27,11 @@ const User: React.FC = () => {
   const testFollow = () => {
     const id = '777'
     followUser(id)
-    console.log(firebaseApp.auth().currentUser?.uid)
   }
 
   const testunFollow = () => {
     const id = '777'
     unFollowUser(id)
-    console.log(firebaseApp.auth().currentUser?.uid)
   }
 
   const testUpdateUser = () => {

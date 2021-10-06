@@ -103,7 +103,6 @@ export const ViewAll: React.FC = () => {
         return setFilterData([...filterData].sort((a, b) => b.viewCount - a.viewCount))
     }
   }
-  console.log(limit, limit < filterData.length)
 
   return (
     <div className="mx-2 space-y-7 md:mx-5 lg:mx-20 xl:mx-30 my-10">
