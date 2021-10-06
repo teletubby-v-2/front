@@ -136,7 +136,7 @@ export const LectureDetail: React.FC = () => {
                   <span>โพสต์โดย</span>
                   <Link to={`/profile/${user?.userId}`}>{user?.userName}</Link> · เข้าชม{' '}
                   {lecture.viewCount} ครั้ง
-                  {lecture.tags.map((tag, index) => (
+                  {lecture.tags?.map((tag, index) => (
                     <Tag key={index} color="blue">
                       {tag}
                     </Tag>
