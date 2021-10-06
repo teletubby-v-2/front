@@ -13,7 +13,17 @@ moment.locale('th')
 
 ReactDOM.render(
   <React.StrictMode>
-    <ConfigProvider locale={thTH}>
+    <ConfigProvider
+      locale={thTH}
+      form={{
+        validateMessages: {
+          required: 'กรุณากรอก${label}',
+          types: {
+            email: 'ไม่ใช่รูปแบบของอีเมลที่ถูกต้อง',
+          },
+        },
+      }}
+    >
       <BrowserRouter>
         <App />
       </BrowserRouter>

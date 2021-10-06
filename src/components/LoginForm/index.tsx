@@ -150,11 +150,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({
             className="m-auto text-left mb-3"
           />
         )}
-        <Form onFinish={onFinish}>
-          <Form.Item name="email" rules={[{ type: 'email', required: true }]}>
+        <Form onFinish={onFinish} labelCol={{ span: 0 }}>
+          <Form.Item label="อีเมลล์" name="email" rules={[{ type: 'email', required: true }]}>
             <Input prefix={<UserOutlined />} placeholder="อีเมล" size="large" />
           </Form.Item>
-          <Form.Item name="password" rules={[{ required: true }]}>
+          <Form.Item label="รหัสผ่าน" name="password" rules={[{ required: true }]}>
             <Input.Password prefix={<KeyOutlined />} placeholder="รหัสผ่าน" size="large" />
           </Form.Item>
           <div className="flex justify-between px-1 -mt-1">

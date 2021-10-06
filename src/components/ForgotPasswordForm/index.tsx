@@ -48,17 +48,19 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
             style={{ textAlign: 'left', marginBottom: 10 }}
           />
         )}
-        <h1 className="text-3xl font-bold mb-6">Forgot your password?</h1>
+        <h1 className="text-3xl font-bold mb-6">ลืมรหัสผ่าน?</h1>
         <Form layout="vertical" onFinish={resetPassword}>
           <Form.Item
+            label="อีเมลล์"
+            labelCol={{ span: 0 }}
             name="email"
-            rules={[{ type: 'email', required: true, message: 'invalid email address' }]}
+            rules={[{ type: 'email' }, { required: true }]}
           >
-            <Input prefix={<UserOutlined />} placeholder="Email" size="large" />
+            <Input prefix={<UserOutlined />} size="large" placeholder="อีเมลล์" />
           </Form.Item>
-          <Form.Item className="m-1">
+          <Form.Item className="mb-2">
             <Button type="primary" htmlType="submit" size="middle" block>
-              Reset password!
+              เปลี่ยนรหัสผ่าน
             </Button>
           </Form.Item>
         </Form>
@@ -66,7 +68,7 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
           onClick={() => (modal ? callback && callback() : history.push('/login'))}
           className="text-blue-500"
         >
-          <p className="mt-5 text-right -mb-3">Back to login</p>
+          <p className="text-right -mb-3">กลับไปเข้าสู่ระบบ</p>
         </a>
       </>
     </div>

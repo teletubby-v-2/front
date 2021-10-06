@@ -58,8 +58,6 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images = [] }) => 
 
   useEffect(() => {
     const newIdx = value - 1
-    console.log(newIdx)
-
     if (newIdx >= 0 && newIdx < images.length) {
       handleSelectedImageChange(newIdx)
     }
