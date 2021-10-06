@@ -126,7 +126,6 @@ export const useLectureForm = (
     if (file.file.status === 'removed') {
       setFileList(file.fileList)
       form.setFieldsValue({ imageUrl: file.fileList.map(file => file.url) })
-      // deleteImages(file.file.url as string)
     }
     if (file.file.status === 'uploading') {
       setIsUploading(true)
@@ -137,7 +136,6 @@ export const useLectureForm = (
     if (file.file.status === 'removed') {
       setPdf(file.fileList)
       form.setFieldsValue({ pdfUrl: file.fileList.map(file => file.url) })
-      // deleteImages(file.file.url as string)
     }
     if (file.file.status === 'uploading') {
       setIsUploading(true)

@@ -12,13 +12,13 @@ import { BrowserRouter } from 'react-router-dom'
 moment.locale('th')
 
 ReactDOM.render(
-  // <React.StrictMode>
-  <ConfigProvider locale={thTH}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </ConfigProvider>,
-  // </React.StrictMode>,
+  <React.StrictMode>
+    <ConfigProvider locale={thTH}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ConfigProvider>
+  </React.StrictMode>,
   document.getElementById('root'),
 )
 

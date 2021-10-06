@@ -36,7 +36,7 @@ export interface FilterUserDTO {
   userSubject: string[] | [queryOperator, string | string[]]
   bookmark: string[] | [queryOperator, string | string[]]
   aboutme: string | [queryOperator, string | string[]]
-  // socialLink?: SocialLink[] | [queryOperator, SocialLink[]]
+  socialLink?: SocialLink | [queryOperator, SocialLink]
 }
 
 export interface UserSubjectDTO {

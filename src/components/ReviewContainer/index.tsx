@@ -138,7 +138,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
                     <Input.TextArea
                       placeholder="บอกคนอื่นเกี่ยวกับสรุปนี้"
                       rows={4}
-                      maxLength={100}
+                      maxLength={200}
                       showCount
                       disabled={!!reviewData}
                     />

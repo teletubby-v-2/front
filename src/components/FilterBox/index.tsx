@@ -16,11 +16,9 @@ const options = [
 ]
 
 export const FilterBox: React.FC<FilterBoxProps> = ({ callback }) => {
-  // const [subject, setSubject] = useState('')
   const [term, setTerm] = useState<string[]>([])
   const [rating, setRating] = useState(0)
   const onClear = () => {
-    // setSubject('')
     setTerm([])
     setRating(0)
   }

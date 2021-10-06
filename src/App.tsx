@@ -14,12 +14,9 @@ import {
   LectureDetail,
 } from './pages'
 import { LoadingOutlined } from '@ant-design/icons'
-import Yoyo from './pages/Yoyo'
 import { LayoutRoute, AuthRoute } from './components'
 import firebase from 'firebase'
 import { userInfoStore } from './store/user.store'
-import eiei from './pages/Yoyo/user'
-import Post from './pages/Yoyo/Post'
 import { UserInfo } from './pages/UserInfo'
 import { firestore } from './config/firebase'
 import { Collection } from './constants'
@@ -86,7 +83,6 @@ const App: React.FC = () => {
       )}
       <Switch>
         <Route exact path="/">
-          {/* ชั่วคราวสำหรับ test */}
           <Redirect to="/login" />
         </Route>
         <AuthRoute exact path="/login" component={Login} />
@@ -104,10 +100,6 @@ const App: React.FC = () => {
         <LayoutRoute path="/profile/:userId" component={SelectProfile} />
         <LayoutRoute path="/follow/:userId/:type" component={FollowList} />
         <LayoutRoute path="/searchResult" component={SearchResult} />
-        {/* for test */}
-        <LayoutRoute exact path="/yoyo" component={Yoyo} />
-        <LayoutRoute exact path="/post/:id" component={Post} />
-        <LayoutRoute exact path="/pong" component={eiei} />
         <AuthRoute exact path="*" component={NotFound} />
       </Switch>
     </>

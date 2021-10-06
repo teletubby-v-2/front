@@ -7,7 +7,6 @@ export interface LectureDetailCommentProps {
   authorId: string
   lectureId: string
 }
-// TODO: รอ component เข้ามาใส่ใน TabPane
 export const LectureDetailComment: React.FC<LectureDetailCommentProps> = ({
   authorId,
   lectureId,

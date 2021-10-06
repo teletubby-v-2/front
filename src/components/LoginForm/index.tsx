@@ -39,10 +39,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   const [message, setMessage] = useState<string>()
   const [method, setMethod] = useState<string>('')
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onFinish = (value: any) => {
+  const onFinish = ({ email = '', password = '' }) => {
     setIsLoading(true)
-    signInWithEmailAndPassword(value.email, value.password)
+    signInWithEmailAndPassword(email, password)
       .then(user => {
         closeModal && closeModal()
         if (user.user?.emailVerified) {

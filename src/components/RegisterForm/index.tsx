@@ -10,6 +10,12 @@ export interface RegisterFormProps {
   closeModal?: () => void
 }
 
+interface ICreateUser {
+  email: string
+  password: string
+  comfirmPassword: string
+}
+
 export const RegisterForm: React.FC<RegisterFormProps> = ({
   className,
   callback,
@@ -21,8 +27,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState<string>()
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onFinish = (value: any) => {
+  const onFinish = (value: ICreateUser) => {
     if (value.password !== value.comfirmPassword) {
       setMessage('Password and comfirm password is not collabed')
       return setIsFail(true)

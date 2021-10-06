@@ -93,7 +93,7 @@ export const ReviewBox: React.FC<ReviewBoxProps> = ({ review }) => {
                 <Input.TextArea
                   placeholder="บอกคนอื่นเกี่ยวกับสรุปนี้"
                   rows={4}
-                  maxLength={100}
+                  maxLength={200}
                   showCount
                 />
               </Form.Item>

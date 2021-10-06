@@ -44,10 +44,11 @@ async function signInWithGoogle(): Promise<firebase.auth.UserCredential> {
 
   const userCredentail = await providerSignIn(provider)
 
-  // get higher quality photo
-  // await firebase.auth().currentUser?.updateProfile({
-  //   photoURL: firebaseApp.auth().currentUser?.photoURL + '?type=large&return_ssl_resources=1',
-  // })
+  if (!firebase.auth().currentUser?.photoURL) {
+    await firebase.auth().currentUser?.updateProfile({
+      photoURL: firebaseApp.auth().currentUser?.photoURL + '?type=large&return_ssl_resources=1',
+    })
+  }
 
   return userCredentail
 }
@@ -75,10 +76,11 @@ async function signInWithFacebook(): Promise<firebase.auth.UserCredential> {
     userCredential.user?.sendEmailVerification()
   }
   // get higher quality photo
-  // await firebaseApp.auth().currentUser?.updateProfile({
-  //   photoURL: firebase.auth().currentUser?.photoURL + '?type=large&return_ssl_resources=1',
-  // })
-
+  if (!firebase.auth().currentUser?.photoURL) {
+    await firebaseApp.auth().currentUser?.updateProfile({
+      photoURL: firebase.auth().currentUser?.photoURL + '?type=large&return_ssl_resources=1',
+    })
+  }
   return userCredential
 }
 
@@ -87,9 +89,11 @@ async function signInWithTwitter(): Promise<firebase.auth.UserCredential> {
   const userCredential = await providerSignIn(provider)
 
   // get higher quality photo
-  // await firebase.auth().currentUser?.updateProfile({
-  //   photoURL: firebaseApp.auth().currentUser?.photoURL?.replace('_normal', ''),
-  // })
+  if (!firebase.auth().currentUser?.photoURL) {
+    await firebase.auth().currentUser?.updateProfile({
+      photoURL: firebaseApp.auth().currentUser?.photoURL?.replace('_normal', ''),
+    })
+  }
 
   return userCredential
 }

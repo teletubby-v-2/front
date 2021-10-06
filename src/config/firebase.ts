@@ -24,8 +24,10 @@ const firebaseConfig = {
 export const firebaseApp = !firebase.apps.length
   ? firebase.initializeApp(firebaseConfig)
   : firebase.app()
+
 // firebase.analytics();
 firebaseApp.auth().languageCode = 'TH'
+firebase.auth().useDeviceLanguage()
 
 export const firestore = firebaseApp.firestore()
 

@@ -125,7 +125,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
             <Input.TextArea
               showCount
               allowClear
-              maxLength={200}
+              maxLength={300}
               autoSize={{ minRows: 3, maxRows: 6 }}
               onKeyDown={dontSubmitWhenEnter}
             />
@@ -191,12 +191,6 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
             label="อัพโหลดไฟล์"
             valuePropName="fileList"
             validateStatus="warning"
-            // help={
-            //   <>
-            //     <InfoCircleOutlined className="tag-icon" />
-            //     {'  '}แนะนำให้เป็นไฟล์ขนาดเล็กกว่า 2MB
-            //   </>
-            // }
             {...formItemLayout}
           >
             {() =>
