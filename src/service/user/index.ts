@@ -134,7 +134,7 @@ async function readAllNoti(notiList: NotificationDTO[]) {
   const idList = notiList.map(noti => noti.notiId || '')
   if (userId) {
     await userCollection.doc(userId).update({
-      notificationReadCount: firebase.firestore.FieldValue.arrayUnion(idList),
+      notificationReadCount: firebase.firestore.FieldValue.arrayUnion(...idList),
     })
   } else {
     throw new Error('young mai login')
