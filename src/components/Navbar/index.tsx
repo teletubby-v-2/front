@@ -50,9 +50,10 @@ export const Navbar: React.FC = () => {
     setQuery(
       firestore
         .collection(Collection.Notifications)
-        .where('relevantUserId', 'array-contains', userInfo.userId),
+        .where('relevantUserId', 'array-contains', userInfo.userId)
+        .orderBy('createAt', 'desc'),
     )
-  }, [userInfo])
+  }, [userInfo.userId])
 
   const onSelect = (value: string) => {
     if (value) {
@@ -109,8 +110,8 @@ export const Navbar: React.FC = () => {
 
   const readAll = () => {
     readAllNoti(data).then(idList => {
-      const unionId = new Set([...userInfo.notificationReadCount, ...idList])
-      setNotificationReadCount([...unionId])
+      // const unionId = new Set([...userInfo.notificationReadCount, ...idList])
+      setNotificationReadCount([...userInfo.notificationReadCount, ...idList])
     })
   }
 
@@ -169,7 +170,7 @@ export const Navbar: React.FC = () => {
         </div>
       </>
     )
-  }, [data, userInfo.notificationReadCount, isLoading, hasNext])
+  }, [data, isLoading, hasNext])
 
   return (
     <div>

@@ -22,11 +22,20 @@ import { formItemLayout, myLocale } from './constants'
 import { options as selectOptions } from '../../utils/optionsUtil'
 import { Lecture } from '../../constants/interface/lecture.interface'
 import { UploadOutlined } from '@ant-design/icons'
+import styled from 'styled-components'
 
 const options = [
   { label: 'picture', value: false },
   { label: 'pdf', value: true },
 ]
+
+const UploadStyled = styled(Upload)`
+  & .ant-upload-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+`
+
 export interface CreateLectureFormProps extends ModalProps {
   label?: string
   className?: string
@@ -73,6 +82,27 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
     handlePdfList,
     previewCancel,
   } = useLectureForm(addOwnLecture, initData, callback)
+  const cancelModal = () => {
+    Modal.warning({
+      closable: true,
+      okCancel: true,
+      centered: true,
+      autoFocusButton: 'cancel',
+      onOk: () => {
+        if (isUploading) {
+          return message.warning('รูปภาพกำลังอัพโหลด')
+        }
+        closeModal()
+        callback && callback()
+      },
+      zIndex: 9999,
+      maskClosable: true,
+      title: `ยกเลิกการ${initData.lectureId ? 'แก้ไขโพสต์สรุป' : 'สร้างโพสต์สรุป'}`,
+      content: `คุณแน่ใจใช่ไหมที่จะยกเลิกการ${
+        initData.lectureId ? 'แก้ไขโพสต์สรุป' : 'สร้างโพสต์สรุป'
+      }`,
+    })
+  }
 
   return (
     <div className={className}>
@@ -95,13 +125,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
         width="700px"
         maskClosable={false}
         visible={isOnCreate}
-        onCancel={() => {
-          if (isUploading) {
-            return message.warning('รูปภาพกำลังอัพโหลด')
-          }
-          closeModal()
-          callback && callback()
-        }}
+        onCancel={cancelModal}
         destroyOnClose
         closable
         footer={false}
@@ -112,16 +136,17 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
         <Typography.Title level={3} className="text-center mt-3">
           {initData.lectureId ? 'แก้ไขโพสต์สรุป' : 'สร้างโพสต์สรุป'}
         </Typography.Title>
-        <Form form={form} name="createLecture" onFinish={onFinish} initialValues={initData}>
-          <Form.Item
-            label="ชื่อหัวข้อสรุป"
-            name="lectureTitle"
-            rules={[{ required: true }]}
-            {...formItemLayout}
-          >
+        <Form
+          form={form}
+          name="createLecture"
+          onFinish={onFinish}
+          initialValues={initData}
+          {...formItemLayout}
+        >
+          <Form.Item label="ชื่อหัวข้อสรุป" name="lectureTitle" rules={[{ required: true }]}>
             <Input onKeyDown={dontSubmitWhenEnter} />
           </Form.Item>
-          <Form.Item label="คำอธิบาย" name="description" {...formItemLayout}>
+          <Form.Item label="คำอธิบาย" name="description">
             <Input.TextArea
               showCount
               allowClear
@@ -148,10 +173,10 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
               <Checkbox>final</Checkbox>
             </Form.Item>
           </Form.Item>
-          <Form.Item label="แทค" name="tags" {...formItemLayout} initialValue={initData?.tags}>
+          <Form.Item label="แทค" name="tags" initialValue={initData?.tags}>
             {form.getFieldValue('tags') &&
               form.getFieldValue('tags').map((tag: string, index: number) => (
-                <Tag key={index} closable onClose={() => handleClose(tag)} color="blue">
+                <Tag key={index} closable onClose={() => handleClose(tag)} color="green">
                   {tag.length > 20 ? `${tag.slice(0, 20)}...` : tag}
                 </Tag>
               ))}
@@ -169,7 +194,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
                   onKeyDown={dontSubmitWhenEnter}
                 />
               ) : (
-                <Tag onClick={OnAddTag}>
+                <Tag onClick={OnAddTag} color="#5CDB95">
                   <PlusOutlined /> New Tag
                 </Tag>
               ))}
@@ -183,7 +208,6 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
             label="อัพโหลดไฟล์"
             valuePropName="fileList"
             validateStatus="warning"
-            {...formItemLayout}
           >
             {() =>
               form.getFieldValue('isPdf') ? (
@@ -203,7 +227,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
                   </Button>
                 </Upload>
               ) : (
-                <Upload
+                <UploadStyled
                   listType="picture-card"
                   accept="image/*"
                   fileList={fileList}
@@ -218,36 +242,13 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
                     {isUploading ? <LoadingOutlined /> : <PlusOutlined />}
                     <div className="m-2">อัพโหลดรูป</div>
                   </div>
-                </Upload>
+                </UploadStyled>
               )
             }
           </Form.Item>
-          <Form.Item className="w-full text-right mb-0">
+          <Form.Item className="w-full text-right mb-0" wrapperCol={{ span: 24 }}>
             <Form.Item noStyle>
-              <Button
-                onClick={() =>
-                  Modal.warning({
-                    closable: true,
-                    okCancel: true,
-                    centered: true,
-                    autoFocusButton: 'cancel',
-                    onOk: () => {
-                      if (isUploading) {
-                        return message.warning('รูปภาพกำลังอัพโหลด')
-                      }
-                      closeModal()
-                      callback && callback()
-                    },
-                    maskClosable: true,
-                    title: `ยกเลิกการ${initData.lectureId ? 'แก้ไขโพสต์สรุป' : 'สร้างโพสต์สรุป'}`,
-                    content: `คุณแน่ใจใช่ไหมที่จะยกเลิกการ${
-                      initData.lectureId ? 'แก้ไขโพสต์สรุป' : 'สร้างโพสต์สรุป'
-                    }`,
-                  })
-                }
-              >
-                ยกเลิก
-              </Button>
+              <Button onClick={cancelModal}>ยกเลิก</Button>
             </Form.Item>
             <span className="ml-3" />
             <Form.Item noStyle>

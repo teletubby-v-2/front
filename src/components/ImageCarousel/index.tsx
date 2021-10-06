@@ -23,6 +23,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images = [] }) => 
   }, [images])
 
   const handleSelectedImageChange = (newIdx: number) => {
+    if (value + 1 !== newIdx) setValue(newIdx + 1)
     if (images && images.length > 0) {
       setSelectedImage(images[newIdx])
       setSelectedImageIndex(newIdx)

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Avatar, Button, Form, Input, Rate, Skeleton } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { AuthZone } from '../../components'
@@ -16,6 +15,11 @@ export interface ReviewContainerProps {
   lectureId: string
 }
 
+interface IReview {
+  message: string
+  rating: number
+}
+
 export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) => {
   const [reviews, setReviews] = useState<Review[]>([])
   const [loading, setLoading] = useState(false)
@@ -25,7 +29,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
   const [reviewData, setReviewData] = useState<Review>()
   const [edit] = useState(false)
 
-  const handleCreateReview = (value: any) => {
+  const handleCreateReview = (value: IReview) => {
     if (reviewData) {
       handleUpdateReview(value)
     }
@@ -44,7 +48,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
       })
   }
 
-  const handleUpdateReview = (value: any) => {
+  const handleUpdateReview = (value: IReview) => {
     const data = {
       ...reviewData,
       lectureId: lectureId,
@@ -159,7 +163,6 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
                     )}
                   </Form.Item>
                 </Form>
-                {/* {!edit && reviewData && <Button>แก้ขายรีวิวว</Button>} */}
               </Skeleton>
             </>
           )}

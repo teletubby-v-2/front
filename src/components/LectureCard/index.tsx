@@ -44,10 +44,10 @@ export const LectureCard: React.FC<LectureCardProps> = props => {
               }}
             />
           )}
-          <div className="flex flex-col items-end justify-end w-full h-full bg-red-500 opacity-0">
+          <div className="flex flex-col items-end justify-end w-full h-full opacity-95">
             {data?.tags.map((tag, index) => (
               <div key={index}>
-                <span className="bg-white mb-1 mr-1 px-1 rounded-sm opacity-75 text-xs z-20">
+                <span className="bg-white mb-1 mr-1 px-1 rounded-sm opacity-75 text-xs z-40">
                   {tag}
                 </span>
               </div>

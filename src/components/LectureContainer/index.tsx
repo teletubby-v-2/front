@@ -25,6 +25,7 @@ import {
 } from '@ant-design/icons'
 import { AuthZone } from '..'
 import { deleteLecture } from '../../service/lectures'
+import { lectureStore } from '../../store/lecture.store'
 
 export interface LectureContainerProps extends CardProps {
   limit?: number | false
@@ -55,6 +56,7 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
   const [lastOpenIndex, setLastOpenIndex] = useState(0)
   const [size, setSize] = useState(limit !== false ? limit || 10 : data?.length)
   const { userInfo, addBookmark, removeBookmark } = userInfoStore()
+  const { removeOwnLecture } = lectureStore()
   const [lectures, setLectures] = useState<LectureWithDropdown[]>()
 
   useEffect(() => {
@@ -158,7 +160,12 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
           placement="right"
           className="px-2 py-1.5"
           onConfirm={() => {
-            deleteLecture(data.lectureId || '').then(() => removeLecture(index))
+            deleteLecture(data.lectureId || '').then(() => {
+              if (data.userId === userInfo.userId) {
+                removeOwnLecture(data.lectureId || '')
+              }
+              removeLecture(index)
+            })
             setIsDropDownVisible(false, index)
           }}
         >
@@ -241,13 +248,11 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
               </div>
             ))}
       </div>
-      {/* <div className="w-full flex justify-items-center"> */}
       {!loading && lectures && lectures?.length === 0 && (
         <div className="row-1-card flex justify-center items-center">
           <Empty description="ไม่มีรายการ" />
         </div>
       )}
-      {/* </div> */}
     </Card>
   )
 }

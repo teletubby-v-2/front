@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import firebase from 'firebase/app'
 import { useEffect, useState } from 'react'
 
@@ -39,20 +38,22 @@ export function useInfiniteQuery<TData = unknown, TError = unknown>(
   useEffect(() => {
     setData([])
     setCurrentPage(0)
-    fetchMore()
-
-    // const unsubscribe = query
-    //   .orderBy('createAt', 'desc')
-    //   .limit(1)
-    //   .onSnapshot(snap => {
-    //     for (const change of snap.docChanges()) {
-    //       const newData = { [fieldId]: change.doc.id, ...change.doc.data() }
-    //       if (!data.some((item: any) => item[fieldId] === newData[fieldId]))
-    //         setData(data => [newData as TData, ...data])
-    //     }
-
-    //   })
-    // return unsubscribe
+    const unsubscribe = query.limit(10).onSnapshot(snap => {
+      for (const change of snap.docChanges()) {
+        const newData = { [fieldId]: change.doc.id, ...change.doc.data() }
+        if (change.type === 'added') {
+          if (change.newIndex !== 0) {
+            setData(data => [...data, newData as TData])
+          } else {
+            setData(data => [newData as TData, ...data])
+          }
+          if (!lastDoc) {
+            setLastDoc(newData)
+          }
+        }
+      }
+    })
+    return unsubscribe
   }, [query])
 
   return { data, hasNext, currentPage, isLoading, error, fetchMore, setQuery }

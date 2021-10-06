@@ -6,18 +6,44 @@ import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { updateViewCount } from '.'
 
 export const lectureRef = firestore.collection(Collection.Lectures)
-export const subjectRef = (subjectId: string) => lectureRef.where('subjectId', '==', subjectId)
-export const listSubjectRef = (iistSubject: string) =>
-  lectureRef.where('subjectId', 'in', iistSubject)
-export const userLectureRef = (userId: string) => lectureRef.where('userId', '==', userId)
-export const bookmarkLectureRef = (bookmark: string[]) =>
-  lectureRef.where(firebase.firestore.FieldPath.documentId(), 'in', bookmark)
-export const mySubjectRef = (userSubject: UserSubjectDTO[]) => {
-  const subjectId = userSubject
-    .filter(subject => subject.isActive === true)
-    .map(subject => subject.subjectId)
-    .flatMap(x => x)
-  return lectureRef.where('subjectId', 'in', subjectId)
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function getContentById<T = any, R = any>(
+  ref: firebase.firestore.CollectionReference,
+  ids: T[],
+  limit = Infinity,
+  field?: string,
+) {
+  return new Promise(res => {
+    // don't run if there aren't any ids or a path for the collection
+    if (ids.length === 0) return res([])
+
+    const batches = []
+    const uniqIds = Array.from(new Set(ids))
+
+    while (uniqIds.length) {
+      // firestore limits batches to 10
+      const batch = uniqIds.splice(0, 10)
+
+      // add the batch request to to a queue
+      batches.push(
+        new Promise(response => {
+          ref
+            .where(field || firebase.firestore.FieldPath.documentId(), 'in', [...batch])
+            .limit(limit)
+            .get()
+            .then(results => response(results.docs.map(result => ({ ...result.data() }))))
+        }),
+      )
+    }
+
+    // after all of the data is fetched, return it
+    Promise.all(batches).then(content => {
+      console.log(content)
+
+      res(content.flat().slice(0, limit) as R[])
+    })
+  })
 }
 
 async function getLectures(limit = Infinity) {
@@ -38,12 +64,9 @@ async function getLecturesById(subjectId: string, limit = Infinity) {
   return data
 }
 
-async function getLecturesByListOfId(sujectIds: string[], limit = Infinity) {
-  const data: LectureDTO[] = []
-
-  const lectures = await lectureRef.where('subjectId', 'in', sujectIds).limit(limit).get()
-  lectures.forEach(lecture => data.push({ lectureId: lecture.id, ...lecture.data() } as LectureDTO))
-  return data
+async function getLecturesByListOfId(subjectIds: string[], limit = Infinity) {
+  const data = await getContentById<string, LectureDTO>(lectureRef, subjectIds, limit, 'subjectId')
+  return data as LectureDTO[]
 }
 
 async function getOwnLectures(userId: string, limit = Infinity) {
@@ -67,36 +90,21 @@ async function getLectureDetail(lectureId: string) {
   return data
 }
 
-async function getBookmarkLectures(bookmark: string[], limit = Infinity) {
-  const data: LectureDTO[] = []
-  const lectures = await lectureRef
-    .where(firebase.firestore.FieldPath.documentId(), 'in', bookmark)
-    .limit(limit)
-    .get()
-  lectures.forEach(lecture => data.push({ lectureId: lecture.id, ...lecture.data() } as LectureDTO))
-  return data
+async function getBookmarkLectures(bookmarks: string[], limit = Infinity) {
+  const data = await getContentById<string, LectureDTO>(lectureRef, bookmarks, limit)
+  console.log(data)
+
+  return data as LectureDTO[]
 }
 
 async function getMySubject(userSubject: UserSubjectDTO[], limit = Infinity) {
-  const data: LectureDTO[] = []
   const subjectId = userSubject
     .filter(subject => subject.isActive === true)
     .map(subject => subject.subjectId)
     .flatMap(x => x)
 
-  if (subjectId && subjectId.length !== 0) {
-    const myLecturs = await lectureRef
-      .where('subjectId', 'in', subjectId)
-      .orderBy('createAt', 'desc')
-      .limit(limit)
-      .get()
-    myLecturs.forEach(lecture =>
-      data.push({ lectureId: lecture.id, ...lecture.data() } as LectureDTO),
-    )
-    return data
-  } else {
-    throw new Error('err')
-  }
+  const data = await getContentById<string, LectureDTO>(lectureRef, subjectId, limit, 'subjectId')
+  return data as LectureDTO[]
 }
 export {
   getLectures,

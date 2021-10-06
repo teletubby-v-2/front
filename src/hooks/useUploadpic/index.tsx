@@ -1,6 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { message } from 'antd'
 import { uploadImage, deleteImages } from '../../service/storage'
+import { RcFile } from 'antd/lib/upload/interface'
+import { UploadRequestOption } from 'rc-upload/lib/interface'
 
 export interface UploadPicProps {
   setimageUrl: (imageUrl: string) => void
@@ -13,7 +14,7 @@ export const useUploadpic = (props: UploadPicProps) => {
   const { setimageUrl, setIsUploading, imageUrl, originalimageUrl } = props
   const oldimageUrl = imageUrl
 
-  const uploadNewImage = async (file: File) => {
+  const uploadNewImage = async (file: RcFile) => {
     try {
       setIsUploading(true)
       const uploadStatus = await uploadImage(file)
@@ -23,16 +24,16 @@ export const useUploadpic = (props: UploadPicProps) => {
           oldimageUrl ? deleteImages(oldimageUrl) : null
         }
       }
-    } catch (error: any) {
+    } catch (error) {
       console.log(error)
     }
   }
 
-  const handleRequest = (option: any) => {
-    uploadNewImage(option.file).finally(() => setIsUploading(false))
+  const handleRequest = (option: UploadRequestOption) => {
+    uploadNewImage(option.file as RcFile).finally(() => setIsUploading(false))
   }
 
-  function beforeUpload(file: any) {
+  function beforeUpload(file: RcFile) {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
     if (!isJpgOrPng) {
       message.error('You can only upload JPG/PNG file!')

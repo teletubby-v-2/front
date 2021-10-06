@@ -12,23 +12,23 @@ import { BrowserRouter } from 'react-router-dom'
 moment.locale('th')
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ConfigProvider
-      locale={thTH}
-      form={{
-        validateMessages: {
-          required: 'กรุณากรอก${label}',
-          types: {
-            email: 'ไม่ใช่รูปแบบของอีเมลที่ถูกต้อง',
-          },
+  // <React.StrictMode>
+  <ConfigProvider
+    locale={thTH}
+    form={{
+      validateMessages: {
+        required: 'กรุณากรอก${label}',
+        types: {
+          email: 'ไม่ใช่รูปแบบของอีเมลที่ถูกต้อง',
         },
-      }}
-    >
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </ConfigProvider>
-  </React.StrictMode>,
+      },
+    }}
+  >
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </ConfigProvider>,
+  // </React.StrictMode>,
   document.getElementById('root'),
 )
 
