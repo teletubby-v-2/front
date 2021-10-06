@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Divider, Form, Upload, Input } from 'antd'
-import { InfoCircleOutlined } from '@ant-design/icons'
+import { Button, Divider, Form, Upload, Input, Popconfirm } from 'antd'
 import { userInfoStore } from '../../store/user.store'
 import { dontSubmitWhenEnter } from '../../utils/eventManage'
 import { useUploadpic } from '../../hooks/useUploadpic'
@@ -57,21 +56,12 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
   }
 
   return (
-    <div className="p-3 bg-white">
+    <div className="p-6 bg-white">
       <Divider>
         <div className="text-xl">ช่องทางสนับสนุน</div>
       </Divider>
       <Form onFinish={onFinish} initialValues={userInfo}>
-        <Form.Item
-          name="qrCodeFile"
-          label="Upload QRcode: "
-          help={
-            <>
-              <InfoCircleOutlined className="tag-icon" />
-              {'  '}แนะนำให้เป็นรูปขนาดเล็กกว่า 2MB
-            </>
-          }
-        >
+        <Form.Item name="qrCodeFile" label="อัพโหลด QR code">
           <Upload
             listType="picture-card"
             accept="image/*"
@@ -94,17 +84,17 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
         <Form.Item name="donateDescription">
           <TextArea
             showCount
-            maxLength={300}
+            maxLength={200}
             placeholder="เกี่ยวกับการสนับสนุน"
             onKeyDown={dontSubmitWhenEnter}
           />
         </Form.Item>
-        <Form.Item className="m-3 text-center">
-          <Button type="primary" htmlType="submit" size="large" className="mx-4">
-            Save
-          </Button>
-          <Button type="primary" size="large" onClick={beforeClose} className="mx-4">
-            Cancel
+        <Form.Item className="text-right mb-0">
+          <Popconfirm title="คุณแน่ใช่ไหมว่าจะยกเลิกการแก้ไข" onConfirm={beforeClose}>
+            <Button>ยกเลิก</Button>
+          </Popconfirm>
+          <Button type="primary" htmlType="submit" className="px-4 ml-3">
+            ตกลง
           </Button>
         </Form.Item>
       </Form>

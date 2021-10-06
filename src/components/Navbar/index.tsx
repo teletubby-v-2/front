@@ -11,6 +11,7 @@ import {
   Divider,
   AutoComplete,
   Input,
+  Modal,
 } from 'antd'
 import { useHistory, useLocation } from 'react-router'
 import KUshare from '../../assets/icons/KUshare.svg'
@@ -80,7 +81,15 @@ export const Navbar: React.FC = () => {
       case 'profile':
         return history.push('/Profile')
       case 'logout':
-        return onLogout()
+        return Modal.warning({
+          title: 'ออกจากระบบ',
+          content: 'คุณแน่ใจใช่ไหมว่าจะออกจากระบบ',
+          autoFocusButton: 'cancel',
+          onOk: onLogout,
+          closable: true,
+          okCancel: true,
+          maskClosable: true,
+        })
     }
   }
 

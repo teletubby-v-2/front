@@ -233,13 +233,26 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
           <Form.Item className="w-full text-right mb-0">
             <Form.Item noStyle>
               <Button
-                onClick={() => {
-                  if (isUploading) {
-                    return message.warning('รูปภาพกำลังอัพโหลด')
-                  }
-                  closeModal()
-                  callback && callback()
-                }}
+                onClick={() =>
+                  Modal.warning({
+                    closable: true,
+                    okCancel: true,
+                    centered: true,
+                    autoFocusButton: 'cancel',
+                    onOk: () => {
+                      if (isUploading) {
+                        return message.warning('รูปภาพกำลังอัพโหลด')
+                      }
+                      closeModal()
+                      callback && callback()
+                    },
+                    maskClosable: true,
+                    title: `ยกเลิกการ${initData.lectureId ? 'แก้ไขโพสต์สรุป' : 'สร้างโพสต์สรุป'}`,
+                    content: `คุณแน่ใจใช่ไหมที่จะยกเลิกการ${
+                      initData.lectureId ? 'แก้ไขโพสต์สรุป' : 'สร้างโพสต์สรุป'
+                    }`,
+                  })
+                }
               >
                 ยกเลิก
               </Button>
