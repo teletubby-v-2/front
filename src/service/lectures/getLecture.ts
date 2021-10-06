@@ -29,7 +29,11 @@ async function getLectures(limit = Infinity) {
 
 async function getLecturesById(subjectId: string, limit = Infinity) {
   const data: LectureDTO[] = []
-  const lectures = await lectureRef.where('subjectId', '==', subjectId).limit(limit).get()
+  const lectures = await lectureRef
+    .where('subjectId', '==', subjectId)
+    .orderBy('createAt', 'desc')
+    .limit(limit)
+    .get()
   lectures.forEach(lecture => data.push({ lectureId: lecture.id, ...lecture.data() } as LectureDTO))
   return data
 }
@@ -44,7 +48,11 @@ async function getLecturesByListOfId(sujectIds: string[], limit = Infinity) {
 
 async function getOwnLectures(userId: string, limit = Infinity) {
   const data: LectureDTO[] = []
-  const lectures = await lectureRef.where('userId', '==', userId).limit(limit).get()
+  const lectures = await lectureRef
+    .where('userId', '==', userId)
+    .limit(limit)
+    .orderBy('createAt', 'desc')
+    .get()
   lectures.forEach(lecture => data.push({ lectureId: lecture.id, ...lecture.data() } as LectureDTO))
   return data
 }
@@ -77,7 +85,11 @@ async function getMySubject(userSubject: UserSubjectDTO[], limit = Infinity) {
     .flatMap(x => x)
 
   if (subjectId && subjectId.length !== 0) {
-    const myLecturs = await lectureRef.where('subjectId', 'in', subjectId).limit(limit).get()
+    const myLecturs = await lectureRef
+      .where('subjectId', 'in', subjectId)
+      .orderBy('createAt', 'desc')
+      .limit(limit)
+      .get()
     myLecturs.forEach(lecture =>
       data.push({ lectureId: lecture.id, ...lecture.data() } as LectureDTO),
     )

@@ -5,7 +5,7 @@ import { firestore } from '../../config/firebase'
 import { Collection } from '../../constants'
 import { CreateQAndADTO } from '../../constants/dto/lecture.dto'
 import { QAndA } from '../../constants/interface/lecture.interface'
-import { createQAndA, deleteQAndA, updateQAndA } from '../../service/lectures/qanda'
+import { createQAndA } from '../../service/lectures/qanda'
 import { userInfoStore } from '../../store/user.store'
 import { fetchUser } from '../../utils/fetchUser'
 import { QuestionBox } from './components/QuestionBox'
@@ -22,11 +22,11 @@ export const QAndAContainer: React.FC<QAndAContainerProps> = ({ lectureId, autho
   const [loading, setLoading] = useState(false)
   const [size, setSize] = useState(0)
 
-  const handleCreateQAndA = (value: any) => {
+  const handleCreateQAndA = ({ question = '' }) => {
     setLoading(true)
     const data = {
       lectureId: lectureId,
-      question: value.question,
+      question: question,
     }
     createQAndA(data as CreateQAndADTO)
       .then(() => form.resetFields())

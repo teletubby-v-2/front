@@ -1,4 +1,4 @@
-import { Card, Rate, Skeleton, Image, Tooltip, Avatar, message, Button, Carousel } from 'antd'
+import { Card, Rate, Skeleton, Tooltip, Avatar, message } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { Redirect, useHistory, useParams } from 'react-router'
@@ -8,7 +8,6 @@ import { BookOutlined, ShareAltOutlined, BookFilled } from '@ant-design/icons'
 import no_image from '../../assets/images/no_image.jpg'
 import { MyUserDTO } from '../../constants/dto/myUser.dto'
 import { userInfoStore } from '../../store/user.store'
-import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import kuSubject from '../../constants/subjects.json'
 import { addUserBookmark, deleteUserBookmark, getUserDetial } from '../../service/user'
 import { getLectureDetail } from '../../service/lectures/getLecture'
@@ -24,14 +23,15 @@ export const LectureDetail: React.FC = () => {
   const { lectureId } = useParams<{ lectureId: string }>()
   const [loading, setLoading] = useState(false)
   const [user, setUser] = useState<MyUserDTO>()
-  const [count, setCount] = useState(0)
   const [subject] = useState<Record<string, SubjectDTO>>(kuSubject.subjects)
 
   useEffect(() => {
     setLoading(true)
-    getLectureDetail(lectureId).then(data => {
-      setLecture(data)
-    })
+    getLectureDetail(lectureId)
+      .then(data => {
+        setLecture(data)
+      })
+      .catch(error => console.log(error))
   }, [lectureId])
 
   useEffect(() => {
@@ -39,9 +39,9 @@ export const LectureDetail: React.FC = () => {
       getUserDetial(lecture.userId)
         .then(data => {
           setUser(data)
-          setLoading(false)
         })
         .catch(() => history.replace('/Not_found'))
+        .finally(() => setLoading(false))
     }
   }, [lecture])
 
@@ -142,35 +142,9 @@ export const LectureDetail: React.FC = () => {
                   style={{ width: '100%', height: 800 }}
                 />
               ) : (
-                <>
-                  <ImageCarousel
-                    images={lecture?.imageUrl?.map((url, index) => ({ id: index, url }))}
-                  />
-                  {/* <div className="flex justify-center my-5 relative">
-                    <Image
-                      style={{ height: 600 }}
-                      className="object-center object-cover"
-                      src={lecture?.imageUrl?.[count]}
-                    />
-                    <Button
-                      shape="circle"
-                      className="absolute top-1/2  right-3 -translate-y-1/2	"
-                      onClick={() => setCount((count + 1) % lecture.imageUrl.length)}
-                      disabled={!lecture.imageUrl?.length}
-                      icon={<RightOutlined />}
-                    />
-
-                    <Button
-                      shape="circle"
-                      className="absolute top-1/2 left-3 -translate-y-1/2	"
-                      onClick={() =>
-                        setCount((count - 1 + lecture.imageUrl.length) % lecture.imageUrl.length)
-                      }
-                      disabled={!lecture.imageUrl?.length}
-                      icon={<LeftOutlined />}
-                    />
-                  </div> */}
-                </>
+                <ImageCarousel
+                  images={lecture?.imageUrl?.map((url, index) => ({ id: index, url }))}
+                />
               )}
 
               {lecture.description && (

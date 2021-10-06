@@ -1,7 +1,5 @@
-import { Button, Image } from 'antd'
+import { Button, Image, InputNumber } from 'antd'
 import React, { useEffect, useRef, useState } from 'react'
-import { UpOutlined, DownOutlined } from '@ant-design/icons'
-import CaretUpOutlined from '@ant-design/icons/lib/icons/CaretUpOutlined'
 import DoubleRightOutlined from '@ant-design/icons/lib/icons/DoubleRightOutlined'
 export type ImageType = { id: number; url: string }
 
@@ -13,6 +11,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images = [] }) => 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [selectedImage, setSelectedImage] = useState<ImageType>()
   const carouselItemsRef = useRef<HTMLDivElement[] | null[]>([])
+  const [value, setValue] = useState<number>(1)
 
   useEffect(() => {
     if (images && images[0]) {
@@ -57,18 +56,25 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images = [] }) => 
     }
   }
 
+  useEffect(() => {
+    const newIdx = value - 1
+    console.log(newIdx)
+
+    if (newIdx >= 0 && newIdx < images.length) {
+      handleSelectedImageChange(newIdx)
+    }
+  }, [value])
+
   return (
     <div className="carousel-container flex border mb-10 space-x-3">
-      <div className="relative w-1/4 border shadow-1">
-        <div className="absolute top-2  w-full px-2 ">
-          <Button block onClick={handleLeftClick}>
-            <DoubleRightOutlined rotate={-90} />
-          </Button>
-        </div>
-        <div className="carousel__images mt-10 h-full  ">
+      <div className="w-1/4 flex flex-col shadow-1 p-2">
+        <Button block onClick={handleLeftClick}>
+          <DoubleRightOutlined rotate={-90} />
+        </Button>
+        <div className="flex-grow overflow-y-auto h-full">
           {images &&
             images.map((image, idx) => (
-              <div key={image.id} className="p-2">
+              <div key={image.id} className="py-2">
                 <div
                   onClick={() => handleSelectedImageChange(idx)}
                   style={{ backgroundImage: `url(${image.url})` }}
@@ -81,18 +87,29 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images = [] }) => 
               </div>
             ))}
         </div>
-
-        <div className="absolute bottom-1 px-2 w-full">
-          <Button block onClick={handleRightClick}>
-            <DoubleRightOutlined rotate={90} />
-          </Button>
-        </div>
+        <Button block onClick={handleRightClick}>
+          <DoubleRightOutlined rotate={90} />
+        </Button>
       </div>
-      <div className="w-3/4 flex justify-center items-center shadow-1 ">
+      <div className="w-3/4 flex justify-center items-center shadow-1 relative ">
+        <div className="absolute z-40 bottom-4 right-4 ">
+          <InputNumber
+            value={value}
+            min={0}
+            max={images.length + 1}
+            onChange={value => {
+              if (value !== images.length + 1 && value !== 0) setValue(value)
+            }}
+            className="w-40"
+            step={-1}
+            addonBefore="หน้า"
+            addonAfter={`จาก ${images.length}`}
+          />
+        </div>
         <Image
           className="selected-image bg-white h-full p-1"
           src={selectedImage?.url}
-          style={{ height: 690 }}
+          style={{ height: 700 }}
         />
       </div>
     </div>
