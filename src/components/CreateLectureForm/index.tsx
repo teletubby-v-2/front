@@ -151,7 +151,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
           <Form.Item label="แทค" name="tags" {...formItemLayout} initialValue={initData?.tags}>
             {form.getFieldValue('tags') &&
               form.getFieldValue('tags').map((tag: string, index: number) => (
-                <Tag key={index} closable onClose={() => handleClose(tag)}>
+                <Tag key={index} closable onClose={() => handleClose(tag)} color="blue">
                   {tag.length > 20 ? `${tag.slice(0, 20)}...` : tag}
                 </Tag>
               ))}

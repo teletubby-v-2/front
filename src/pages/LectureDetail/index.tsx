@@ -1,4 +1,4 @@
-import { Card, Rate, Skeleton, Tooltip, Avatar, message } from 'antd'
+import { Card, Rate, Skeleton, Tooltip, Avatar, message, Tag } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { Redirect, useHistory, useParams } from 'react-router'
@@ -120,20 +120,30 @@ export const LectureDetail: React.FC = () => {
                   </Tooltip>
                 </div>
               </div>
-              <div className=" space-x-3 mt-2">
-                <span>{lecture.subjectId}</span>
-                <span>{subject?.[lecture?.subjectId as string]?.subjectNameTh || ''}</span>
+              <div className="flex mt-2 ">
+                <div className=" space-x-3 flex-grow">
+                  <span>{lecture.subjectId}</span>
+                  <span>{subject?.[lecture?.subjectId as string]?.subjectNameTh || ''}</span>
+                </div>
+                {lecture.isMid && <Tag color="green">มิดเทอม</Tag>}
+                {lecture.isFinal && <Tag color="cyan">ไฟนอล</Tag>}
               </div>
               <div className="flex w-full space-x-3 items-center my-4">
-                <Link to={`/profile/${user?.userId}`}>
-                  <Avatar src={user?.imageUrl} />
-                </Link>
-                <div>โพสต์โดย</div>
-                <Link to={`/profile/${user?.userId}`}>{user?.userName}</Link>
-                <div>·</div>
-                <div className="flex-grow">เข้าชม {lecture.viewCount} ครั้ง</div>
+                <div className="flex-grow space-x-3">
+                  <Link to={`/profile/${user?.userId}`}>
+                    <Avatar src={user?.imageUrl} />
+                  </Link>
+                  <span>โพสต์โดย</span>
+                  <Link to={`/profile/${user?.userId}`}>{user?.userName}</Link> · เข้าชม{' '}
+                  {lecture.viewCount} ครั้ง
+                  {lecture.tags.map((tag, index) => (
+                    <Tag key={index} color="blue">
+                      {tag}
+                    </Tag>
+                  ))}
+                </div>
                 <Rate value={lecture.sumRating / lecture.reviewCount} disabled allowHalf />
-                <div>{lecture.reviewCount} ratings</div>
+                <div>{lecture.reviewCount} ผู้ให้คะแนน</div>
               </div>
               {lecture.isPdf ? (
                 <embed
