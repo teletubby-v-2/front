@@ -8,7 +8,7 @@ import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { firebaseApp } from '../../config/firebase'
 import { lectureStore } from '../../store/lecture.store'
 import { Button, Card, Tooltip } from 'antd'
-import { DiffTwoTone, PlusOutlined, SearchOutlined } from '@ant-design/icons'
+import { PlusOutlined, SearchOutlined } from '@ant-design/icons'
 import { SubjectTable } from '../../components/SubjectTable'
 import { getBookmarkLectures, getOwnLectures } from '../../service/lectures/getLecture'
 import { AddSubject } from '../../components/SubjectTable/components/AddSubject'
@@ -84,11 +84,7 @@ export const Profile: React.FC = () => {
                 extra={<Link to="/viewAll/bookmark">ดูทั้งหมด</Link>}
               />
               <Card
-                title={
-                  <>
-                    <DiffTwoTone twoToneColor="black" className="align-text-top" /> วิชาของฉัน
-                  </>
-                }
+                title={<span className="text-xl">{containerTitle.mySubject}</span>}
                 extra={
                   <>
                     <Tooltip title="เลือกตารางเพื่อค้นหา">

@@ -130,15 +130,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
               onKeyDown={dontSubmitWhenEnter}
             />
           </Form.Item>
-          <Form.Item
-            label="ชื่อวิชา"
-            name="subjectId"
-            rules={[{ required: true }]}
-            getValueFromEvent={value => {
-              return value
-            }}
-            {...formItemLayout}
-          >
+          <Form.Item label="ชื่อวิชา" name="subjectId" rules={[{ required: true }]}>
             <Select
               allowClear
               showSearch

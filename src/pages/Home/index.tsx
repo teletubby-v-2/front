@@ -35,7 +35,7 @@ export const Home: React.FC = () => {
     <div className="mb-10 mx-2 space-y-7 md:mx-5 lg:mx-20 xl:mx-30 ">
       {userInfo.userId && userInfo.userId.length !== 0 && (
         <LectureContainer
-          title={containerTitle.myLecture}
+          title={containerTitle.mySubject}
           data={mySubject}
           loading={loading1}
           extra={<Link to="/viewAll/mySubject">ดูทั้งหมด</Link>}
