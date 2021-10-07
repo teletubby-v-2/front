@@ -5,13 +5,17 @@ import { linkWithEmailAndPassword } from '../../service/auth'
 import { errorStore } from '../../store/error.store'
 import firebase from 'firebase/app'
 
+interface ILogin {
+  email: string
+  password: string
+}
+
 export const LinkAccount: React.FC = () => {
   const history = useHistory()
 
   const { authError } = errorStore()
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onFinish = (value: any) => {
+  const onFinish = (value: ILogin) => {
     linkWithEmailAndPassword(
       value.email,
       value.password,

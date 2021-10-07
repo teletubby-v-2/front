@@ -16,11 +16,9 @@ const options = [
 ]
 
 export const FilterBox: React.FC<FilterBoxProps> = ({ callback }) => {
-  // const [subject, setSubject] = useState('')
   const [term, setTerm] = useState<string[]>([])
   const [rating, setRating] = useState(0)
   const onClear = () => {
-    // setSubject('')
     setTerm([])
     setRating(0)
   }
@@ -37,28 +35,6 @@ export const FilterBox: React.FC<FilterBoxProps> = ({ callback }) => {
     <div className=" w-64">
       <div className="font-bold text-2xl text-center">ฟิลเตอร์</div>
       <div className="mt-2  grid grid-cols-5 gap-y-3 ">
-        {/* {isSubject && (
-          <>
-            <div>ชื่อวิชา:</div>
-            <Select
-              value={subject}
-              onChange={value => setSubject(value)}
-              showSearch
-              placeholder="Please Select"
-              optionFilterProp="children"
-              className="block col-span-4"
-            >
-              {Object.entries(kuSubject.subjects).map(([key, subject]) => (
-                <Select.Option
-                  key={key}
-                  value={`${key} ${subject.subjectNameTh}${subject.subjectNameEn}`}
-                >
-                  {key} {subject.subjectNameTh} {subject.subjectNameEn}
-                </Select.Option>
-              ))}
-            </Select>
-          </>
-        )} */}
         เทอม:
         <Checkbox.Group
           value={term}
@@ -85,7 +61,7 @@ export const FilterBox: React.FC<FilterBoxProps> = ({ callback }) => {
       </div>
     </div>
   )
-  const ref = useRef<HTMLAnchorElement>(null)
+  const ref = useRef<HTMLSpanElement>(null)
   return (
     <>
       <Popover
@@ -95,9 +71,9 @@ export const FilterBox: React.FC<FilterBoxProps> = ({ callback }) => {
         arrowContent
         destroyTooltipOnHide
       >
-        <a ref={ref}>
+        <span ref={ref} className="cursor-pointer">
           ฟิลเตอร์ <DownOutlined className="align-middle text-xs" />{' '}
-        </a>
+        </span>
       </Popover>
     </>
   )

@@ -54,7 +54,7 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
   }
 
   return (
-    <div className="p-6">
+    <div className="p-6  bg-white">
       <div className="text-center my-3">
         <h1 className="text-center text-2xl font-black ">{Info.userName}</h1>
       </div>

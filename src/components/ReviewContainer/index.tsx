@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Avatar, Button, Form, Input, Rate, Skeleton } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { AuthZone } from '../../components'
@@ -9,11 +8,16 @@ import { Review } from '../../constants/interface/lecture.interface'
 import { createReview, updateReview } from '../../service/lectures/review'
 import { userInfoStore } from '../../store/user.store'
 import { fetchUser } from '../../utils/fetchUser'
-import { Json, removeUndefined } from '../../utils/object'
+import { removeUndefined } from '../../utils/object'
 import { ReviewBox } from './components/ReviewBox'
 
 export interface ReviewContainerProps {
   lectureId: string
+}
+
+interface IReview {
+  message: string
+  rating: number
 }
 
 export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) => {
@@ -25,7 +29,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
   const [reviewData, setReviewData] = useState<Review>()
   const [edit] = useState(false)
 
-  const handleCreateReview = (value: any) => {
+  const handleCreateReview = (value: IReview) => {
     if (reviewData) {
       handleUpdateReview(value)
     }
@@ -36,7 +40,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
       rating: value.rating,
     }
 
-    const cleanData = removeUndefined(data as Json) as unknown as CreateReviewDTO
+    const cleanData = removeUndefined(data) as CreateReviewDTO
     createReview(cleanData)
       .then(doc => setReviewData(doc))
       .finally(() => {
@@ -44,7 +48,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
       })
   }
 
-  const handleUpdateReview = (value: any) => {
+  const handleUpdateReview = (value: IReview) => {
     const data = {
       ...reviewData,
       lectureId: lectureId,
@@ -99,7 +103,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
               }
               return [
                 ...reviewMap.slice(0, index),
-                { ...data, reviewId: change.doc.id, ...user } as unknown as Review,
+                { ...data, reviewId: change.doc.id, ...user } as Review,
                 ...reviewMap.slice(index + 1),
               ]
             })
@@ -138,7 +142,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
                     <Input.TextArea
                       placeholder="บอกคนอื่นเกี่ยวกับสรุปนี้"
                       rows={4}
-                      maxLength={100}
+                      maxLength={200}
                       showCount
                       disabled={!!reviewData}
                     />
@@ -159,7 +163,6 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
                     )}
                   </Form.Item>
                 </Form>
-                {/* {!edit && reviewData && <Button>แก้ขายรีวิวว</Button>} */}
               </Skeleton>
             </>
           )}

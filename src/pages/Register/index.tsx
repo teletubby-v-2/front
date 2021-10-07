@@ -9,11 +9,13 @@ export const Register: React.FC = () => {
   const [isAuth, setIsAuth] = useState<any[]>()
 
   useEffect(() => {
-    getUserFromIndexDB().then((value: any) => setIsAuth(value.firebaseLocalStorage))
+    getUserFromIndexDB()
+      .then((value: any) => setIsAuth(value.firebaseLocalStorage))
+      .catch(() => console.log('no user'))
   }, [])
 
   if (isAuth && isAuth.length !== 0) {
-    if (isAuth[0].value.emailVerified) {
+    if (isAuth?.[0]?.value?.emailVerified) {
       return <Redirect to="/home" />
     } else {
       return <Redirect to="/verifyEmail" />

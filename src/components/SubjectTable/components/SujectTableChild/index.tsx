@@ -12,7 +12,7 @@ export interface SujectTableChildProps {
 
 export const SubjectTableChild: React.FC<SujectTableChildProps> = ({ subjectId, callback }) => {
   const [allSubject] = useState<Record<string, SubjectDTO>>(
-    kuSubject.subjects as unknown as Record<string, SubjectDTO>,
+    kuSubject.subjects as Record<string, SubjectDTO>,
   )
   const columns = React.useMemo<ColumnType<{ subjectId: string }>[]>(
     () => [

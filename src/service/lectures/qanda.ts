@@ -4,7 +4,6 @@ import { firebaseApp, firestore } from '../../config/firebase'
 import { AnswersDTO, CreateQAndADTO, UpdateQAndADTO } from '../../constants/dto/lecture.dto'
 
 const lectureCollection = firestore.collection(Collection.Lectures)
-// const batch = firestore.batch()
 
 function getQAndACollection(
   lectureId: string,
@@ -78,16 +77,5 @@ async function deleteAnswer(ansQAndA: AnswersDTO): Promise<void> {
   const answerCollection = getAnswerCollection(ansQAndA.lectureId, ansQAndA.qaId as string)
   return await answerCollection.doc(ansQAndA.answerId).delete()
 }
-
-// export interface AnswerDTO {
-//   qaId?: string
-//   lectureId: string
-//   userId?: string
-//   username?: string
-//   photoURL?: string
-//   message: string
-//   createAt?: firebase.firestore.Timestamp
-//   updateAt?: firebase.firestore.Timestamp
-// }
 
 export { createQAndA, updateQAndA, deleteQAndA, createAnswer, updateAnswer, deleteAnswer }

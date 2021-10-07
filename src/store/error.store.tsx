@@ -7,5 +7,4 @@ export const errorStore = create<TError>(set => ({
   setAuthError: (authError: AuthError) => {
     set({ authError })
   },
-  // add more Error that use in global state
 }))

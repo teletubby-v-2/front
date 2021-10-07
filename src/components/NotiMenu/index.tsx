@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { userInfoStore } from '../../store/user.store'
 import { DiffOutlined, TeamOutlined } from '@ant-design/icons'
@@ -16,31 +16,34 @@ export const NotiMenuItem: React.FC<NotiMenuItemprop> = ({ notiId, type, body, l
   const history = useHistory()
   const { userInfo, addNotificationReadCount: addnotificationReadCount } = userInfoStore()
   const [bodys] = useState(body.split(' '))
-  let icon
-  let className
-  let AvatarIcon
-  if (type == 'follow') {
-    icon = <TeamOutlined className="align-middle" />
-  } else if (type == 'lecture') {
-    icon = <DiffOutlined className="align-middle" />
-  }
 
-  if (userInfo.notificationReadCount.includes(notiId ? notiId : '')) {
-    className = 'bg-gray-100 '
-    AvatarIcon = <Avatar icon={icon} className="bg-blue-200 mr-3" />
-  } else {
-    className = 'bg-white'
-    AvatarIcon = (
-      <Badge dot>
-        <Avatar icon={icon} className="bg-blue-200 mr-3" />
-      </Badge>
-    )
-  }
+  const icon = useMemo(() => {
+    if (type == 'follow') {
+      return <TeamOutlined className="align-middle" />
+    } else if (type == 'lecture') {
+      return <DiffOutlined className="align-middle" />
+    }
+  }, [type])
+  const AvatarIcon = useMemo(() => {
+    if (userInfo.notificationReadCount.includes(notiId ? notiId : '')) {
+      return <Avatar icon={icon} className="bg-blue-200 mr-3" />
+    } else {
+      return (
+        <Badge dot>
+          <Avatar icon={icon} className="bg-blue-200 mr-3" />
+        </Badge>
+      )
+    }
+  }, [userInfo.notificationReadCount])
 
   return (
     <>
       <div
-        className={`${className} p-2 space-x-2 cursor-pointer`}
+        className={`${
+          !userInfo.notificationReadCount.includes(notiId ? notiId : '')
+            ? 'bg-white'
+            : 'bg-gray-100'
+        } p-2 space-x-2 cursor-pointer`}
         key={notiId}
         onClick={() => {
           if (!userInfo.notificationReadCount.includes(notiId ? notiId : '')) {

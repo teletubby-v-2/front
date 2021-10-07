@@ -14,9 +14,14 @@ export interface CommentForm {
   message: string
 }
 
+interface INewReview {
+  lectureId: string
+  reviewId: string
+}
+
 export const ReviewBox: React.FC<ReviewBoxProps> = ({ review }) => {
   const { userInfo } = userInfoStore()
-  const [form] = Form.useForm()
+  const [form] = Form.useForm<INewReview>()
   const [edit, setEdit] = useState(false)
   const [loading, setLoading] = useState(false)
   const handleMenuClick = (info: MenuInfo) => {
@@ -27,7 +32,7 @@ export const ReviewBox: React.FC<ReviewBoxProps> = ({ review }) => {
         return deleteReview(review)
     }
   }
-  const handleUpdateReview = (value: any) => {
+  const handleUpdateReview = (value: INewReview) => {
     setLoading(true)
     const data = {
       ...value,
@@ -88,7 +93,7 @@ export const ReviewBox: React.FC<ReviewBoxProps> = ({ review }) => {
                 <Input.TextArea
                   placeholder="บอกคนอื่นเกี่ยวกับสรุปนี้"
                   rows={4}
-                  maxLength={100}
+                  maxLength={200}
                   showCount
                 />
               </Form.Item>

@@ -39,10 +39,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   const [message, setMessage] = useState<string>()
   const [method, setMethod] = useState<string>('')
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onFinish = (value: any) => {
+  const onFinish = ({ email = '', password = '' }) => {
     setIsLoading(true)
-    signInWithEmailAndPassword(value.email, value.password)
+    signInWithEmailAndPassword(email, password)
       .then(user => {
         closeModal && closeModal()
         if (user.user?.emailVerified) {
@@ -151,11 +150,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({
             className="m-auto text-left mb-3"
           />
         )}
-        <Form onFinish={onFinish}>
-          <Form.Item name="email" rules={[{ type: 'email', required: true }]}>
+        <Form onFinish={onFinish} labelCol={{ span: 0 }}>
+          <Form.Item label="อีเมลล์" name="email" rules={[{ type: 'email', required: true }]}>
             <Input prefix={<UserOutlined />} placeholder="อีเมล" size="large" />
           </Form.Item>
-          <Form.Item name="password" rules={[{ required: true }]}>
+          <Form.Item label="รหัสผ่าน" name="password" rules={[{ required: true }]}>
             <Input.Password prefix={<KeyOutlined />} placeholder="รหัสผ่าน" size="large" />
           </Form.Item>
           <div className="flex justify-between px-1 -mt-1">

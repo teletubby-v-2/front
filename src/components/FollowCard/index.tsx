@@ -1,11 +1,10 @@
-import { Avatar, Button, Spin } from 'antd'
+import { Avatar, Button, Card, Skeleton, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import { AuthZone } from '..'
 import { followUser, unFollowUser } from '../../service/user/follow'
 import { userInfoStore } from '../../store/user.store'
 import { fetchUser } from '../../utils/fetchUser'
-import { LoadingOutlined } from '@ant-design/icons'
 
 export interface FollowCardProps {
   userId: string
@@ -48,41 +47,53 @@ export const FollowCard: React.FC<FollowCardProps> = ({ userId, className }) => 
       .catch(err => console.log(err))
   }
 
-  const isMe = userId == userInfo.userId
-
-  const antIconLoading = <LoadingOutlined style={{ fontSize: 96 }} spin />
-
   return (
-    <div className={`${className} ant-card-grid-hoverable border-2 border-gray-500 w-52 h-60 p-2 `}>
-      {/* todo: no border???? why!!!! */}
-      {!loading ? (
-        <div className="flex flex-col justify-between w-full h-full ">
-          <div className="text-2xl text-center overflow-hidden">{userName}</div>
-          <div className="flex justify-center" onClick={() => history.push('/profile/' + userId)}>
-            <Avatar src={imageUrl} size={100} alt="Profile picture" className="object-cover" />
+    <Card hoverable bordered className={`${className}  bg-white w-52 h-64 relative`}>
+      <div
+        className="flex flex-col justify-end w-full h-full space-y-2"
+        onClick={() => history.push('/profile/' + userId)}
+      >
+        {loading ? (
+          <div className="mx-5">
+            <Skeleton title={false} paragraph={{ rows: 2 }} className="h-14" loading active />
           </div>
-
-          <AuthZone className="">
-            {!isMe ? (
-              userInfo.following.includes(userId) ? (
-                <Button block onClick={onUnfollow}>
-                  เลิกติดตาม
-                </Button>
-              ) : (
-                <Button type="primary" block onClick={onFollow}>
-                  ติดตาม
-                </Button>
-              )
+        ) : (
+          <div className="flex justify-center h-14">
+            <Typography.Paragraph
+              ellipsis={{ rows: 2 }}
+              className="text-lg text-center overflow-hidden  "
+            >
+              {userName}
+            </Typography.Paragraph>
+          </div>
+        )}
+        <div className="flex justify-center">
+          {loading ? (
+            <Skeleton.Avatar size={100} active />
+          ) : (
+            <Avatar src={imageUrl} size={100} alt="Profile picture" className="object-cover" />
+          )}
+        </div>
+        <div className="h-10" />
+      </div>
+      <div className="absolute bottom-0 w-full p-5 right-0">
+        <AuthZone className="z-10">
+          {loading ? (
+            <Skeleton.Button block active />
+          ) : (
+            !(userId == userInfo.userId) &&
+            (userInfo.following.includes(userId) ? (
+              <Button block onClick={onUnfollow}>
+                เลิกติดตาม
+              </Button>
             ) : (
-              <div />
-            )}
-          </AuthZone>
-        </div>
-      ) : (
-        <div className="text-center mt-14">
-          <Spin indicator={antIconLoading} />
-        </div>
-      )}
-    </div>
+              <Button type="primary" block onClick={onFollow}>
+                ติดตาม
+              </Button>
+            ))
+          )}
+        </AuthZone>
+      </div>
+    </Card>
   )
 }

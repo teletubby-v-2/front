@@ -14,12 +14,9 @@ import {
   LectureDetail,
 } from './pages'
 import { LoadingOutlined } from '@ant-design/icons'
-import Yoyo from './pages/Yoyo'
 import { LayoutRoute, AuthRoute } from './components'
 import firebase from 'firebase'
 import { userInfoStore } from './store/user.store'
-import eiei from './pages/Yoyo/user'
-import Post from './pages/Yoyo/Post'
 import { UserInfo } from './pages/UserInfo'
 import { firestore } from './config/firebase'
 import { Collection } from './constants'
@@ -30,6 +27,7 @@ import styled from 'styled-components'
 import { lectureStore } from './store/lecture.store'
 import { SelectProfile } from './pages/SelectProfile'
 import { FollowList } from './pages/FollowList'
+import { SearchResult } from './pages/SearchResult'
 
 const Overlay = styled.div`
   position: fixed;
@@ -85,7 +83,6 @@ const App: React.FC = () => {
       )}
       <Switch>
         <Route exact path="/">
-          {/* ชั่วคราวสำหรับ test */}
           <Redirect to="/login" />
         </Route>
         <AuthRoute exact path="/login" component={Login} />
@@ -102,11 +99,7 @@ const App: React.FC = () => {
         <LayoutRoute path="/viewAll/:id" component={ViewAll} />
         <LayoutRoute path="/profile/:userId" component={SelectProfile} />
         <LayoutRoute path="/follow/:userId/:type" component={FollowList} />
-
-        {/* for test */}
-        <LayoutRoute exact path="/yoyo" component={Yoyo} />
-        <LayoutRoute exact path="/post/:id" component={Post} />
-        <LayoutRoute exact path="/pong" component={eiei} />
+        <LayoutRoute path="/searchResult" component={SearchResult} />
         <AuthRoute exact path="*" component={NotFound} />
       </Switch>
     </>

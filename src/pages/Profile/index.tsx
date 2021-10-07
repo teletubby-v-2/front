@@ -8,13 +8,14 @@ import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { firebaseApp } from '../../config/firebase'
 import { lectureStore } from '../../store/lecture.store'
 import { Button, Card, Tooltip } from 'antd'
-import { DiffTwoTone, PlusOutlined, SearchOutlined } from '@ant-design/icons'
+import { PlusOutlined, SearchOutlined } from '@ant-design/icons'
 import { SubjectTable } from '../../components/SubjectTable'
 import { getBookmarkLectures, getOwnLectures } from '../../service/lectures/getLecture'
 import { AddSubject } from '../../components/SubjectTable/components/AddSubject'
 import { TableRowSelection } from 'antd/lib/table/interface'
 import { UserSubjectDTO } from '../../constants/dto/myUser.dto'
 import { Link, useHistory } from 'react-router-dom'
+import { containerTitle } from '../../utils/titleLecture'
 
 export const Profile: React.FC = () => {
   const { userInfo } = userInfoStore()
@@ -22,6 +23,8 @@ export const Profile: React.FC = () => {
   const { ownLecture, setOwnLecture } = lectureStore()
   const [bookmarkLecture, setBookmarkLecture] = useState<LectureDTO[]>([] as LectureDTO[])
   const [selectKey, setSelectKey] = useState<Key[]>([])
+  const [loading1, setLoading1] = useState(false)
+  const [loading2, setLoading2] = useState(false)
   const rowSelection: TableRowSelection<UserSubjectDTO> = {
     selectedRowKeys: selectKey,
     onChange: selectedRowKeys => setSelectKey(selectedRowKeys),
@@ -29,13 +32,19 @@ export const Profile: React.FC = () => {
   useEffect(() => {
     setOwnLecture([])
     if (userInfo.userId) {
-      getOwnLectures(userInfo.userId).then(data => setOwnLecture(data))
+      setLoading1(true)
+      getOwnLectures(userInfo.userId, 8)
+        .then(data => setOwnLecture(data))
+        .finally(() => setLoading1(false))
     }
   }, [userInfo.userId])
 
   useEffect(() => {
     if (bookmarkLecture.length === 0 && userInfo.bookmark && userInfo.bookmark.length !== 0) {
-      getBookmarkLectures(userInfo.bookmark).then(data => setBookmarkLecture(data))
+      setLoading2(true)
+      getBookmarkLectures(userInfo.bookmark, 8)
+        .then(data => setBookmarkLecture(data))
+        .finally(() => setLoading2(false))
     }
   }, [userInfo.bookmark])
 
@@ -54,10 +63,11 @@ export const Profile: React.FC = () => {
           <div className="flex-grow">
             <div className=" space-y-8">
               <LectureContainer
+                numOfSkeleton={4}
                 profile
-                title="สรุปของฉัน"
+                title={containerTitle.ownLecture}
                 data={ownLecture}
-                limit={8}
+                loading={loading1}
                 extra={
                   <div className="space-x-3">
                     <CreateLectureForm className="inline-block" />
@@ -67,17 +77,14 @@ export const Profile: React.FC = () => {
               />
               <LectureContainer
                 profile
-                title="บุ๊คมาร์ค"
+                title={containerTitle.bookmark}
+                numOfSkeleton={4}
                 data={bookmarkLecture}
-                limit={8}
+                loading={loading2}
                 extra={<Link to="/viewAll/bookmark">ดูทั้งหมด</Link>}
               />
               <Card
-                title={
-                  <>
-                    <DiffTwoTone twoToneColor="black" className="align-text-top" /> วิชาของฉัน
-                  </>
-                }
+                title={<span className="text-xl">{containerTitle.mySubject}</span>}
                 extra={
                   <>
                     <Tooltip title="เลือกตารางเพื่อค้นหา">

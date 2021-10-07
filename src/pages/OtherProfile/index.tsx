@@ -7,12 +7,14 @@ import { LectureContainer } from '../../components'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { getUserDetial } from '../../service/user'
 import { getOwnLectures } from '../../service/lectures/getLecture'
+import BookOutlined from '@ant-design/icons/lib/icons/BookOutlined'
 
 export const OtherProfile: React.FC = () => {
   const [info, setinfo] = useState({} as MyUser)
   const [otherlecture, setotherlecture] = useState([] as LectureDTO[])
   const history = useHistory()
   const { userId } = useParams<{ userId: string }>()
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     getUserDetial(userId)
@@ -26,13 +28,21 @@ export const OtherProfile: React.FC = () => {
 
   useEffect(() => {
     setotherlecture([])
+    setLoading(true)
     if (userId) {
-      getOwnLectures(userId).then(data => setotherlecture(data))
+      getOwnLectures(userId)
+        .then(data => setotherlecture(data))
+        .finally(() => setLoading(false))
     }
   }, [userId])
 
   const title = useMemo(() => {
-    return 'สรุปของ ' + info.userName
+    return (
+      <>
+        <BookOutlined className="mr-3" />
+        สรุปของ{info.userName}
+      </>
+    )
   }, [info])
   const viewAllurl = useMemo(() => {
     return '/viewAll/' + info.userName + 'lecture' + userId
@@ -53,9 +63,11 @@ export const OtherProfile: React.FC = () => {
           <div className=" space-y-8">
             <LectureContainer
               profile
+              numOfSkeleton={4}
               title={title}
               data={otherlecture}
               limit={8}
+              loading={loading}
               extra={
                 <div className="space-x-3">
                   <Link to={viewAllurl}>ดูทั้งหมด</Link>

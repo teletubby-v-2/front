@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import firebase from 'firebase/app'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export function useInfiniteQuery<TData = unknown, TError = unknown>(
   initQuery: firebase.firestore.Query,
@@ -12,18 +11,20 @@ export function useInfiniteQuery<TData = unknown, TError = unknown>(
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<TError>()
   const [hasNext, setHasNext] = useState(true)
-  const [lastDoc, setLastDoc] = useState<firebase.firestore.DocumentData>()
   const [query, setQuery] = useState<firebase.firestore.Query>(initQuery)
+  const lastDocRef = useRef<firebase.firestore.DocumentData>()
 
   const getNewPageData = async () => {
     let thisPageData = null
-    if (lastDoc) thisPageData = await query.startAfter(lastDoc).limit(limit).get()
-    else thisPageData = await query.limit(limit).get()
-    setLastDoc(thisPageData.docs[thisPageData.size - 1])
 
+    if (lastDocRef.current)
+      thisPageData = await query.startAfter(lastDocRef.current).limit(limit).get()
+    else thisPageData = await query.limit(limit).get()
+    // setLastDoc(thisPageData.docs[thisPageData.size - 1])
+    lastDocRef.current = thisPageData.docs[thisPageData.size - 1]
     if (thisPageData.size < limit) setHasNext(false)
     else setHasNext(true)
-    return thisPageData.docs.map(doc => ({ [fieldId]: doc.id, ...doc.data() } as unknown as TData))
+    return thisPageData.docs.map(doc => ({ [fieldId]: doc.id, ...doc.data() } as TData))
   }
 
   const fetchMore = () => {
@@ -39,20 +40,20 @@ export function useInfiniteQuery<TData = unknown, TError = unknown>(
   useEffect(() => {
     setData([])
     setCurrentPage(0)
-    fetchMore()
-
-    // const unsubscribe = query
-    //   .orderBy('createAt', 'desc')
-    //   .limit(1)
-    //   .onSnapshot(snap => {
-    //     for (const change of snap.docChanges()) {
-    //       const newData = { [fieldId]: change.doc.id, ...change.doc.data() }
-    //       if (!data.some((item: any) => item[fieldId] === newData[fieldId]))
-    //         setData(data => [newData as TData, ...data])
-    //     }
-
-    //   })
-    // return unsubscribe
+    const unsubscribe = query.limit(10).onSnapshot(snap => {
+      for (const change of snap.docChanges()) {
+        const newData = { [fieldId]: change.doc.id, ...change.doc.data() }
+        if (change.type === 'added') {
+          if (change.newIndex !== 0) {
+            setData(data => [...data, newData as TData])
+            lastDocRef.current = change.doc
+          } else {
+            setData(data => [newData as TData, ...data])
+          }
+        }
+      }
+    })
+    return unsubscribe
   }, [query])
 
   return { data, hasNext, currentPage, isLoading, error, fetchMore, setQuery }

@@ -10,6 +10,12 @@ export interface RegisterFormProps {
   closeModal?: () => void
 }
 
+interface ICreateUser {
+  email: string
+  password: string
+  comfirmPassword: string
+}
+
 export const RegisterForm: React.FC<RegisterFormProps> = ({
   className,
   callback,
@@ -21,8 +27,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState<string>()
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onFinish = (value: any) => {
+  const onFinish = (value: ICreateUser) => {
     if (value.password !== value.comfirmPassword) {
       setMessage('Password and comfirm password is not collabed')
       return setIsFail(true)
@@ -58,14 +63,17 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
           className="m-auto mb-3 text-left"
         />
       )}
-      <Form onFinish={onFinish}>
-        <Form.Item name="email" rules={[{ type: 'email', required: true }]}>
+      <Form onFinish={onFinish} labelCol={{ span: 0 }}>
+        <Form.Item name="email" label="อีเมลล์" rules={[{ type: 'email', required: true }]}>
           <Input placeholder="อีเมล" size="large" />
         </Form.Item>
-        <Form.Item name="password" rules={[{ required: true }]}>
+        <Form.Item name="password" label="รหัสผ่าน" rules={[{ required: true }]}>
           <Input.Password placeholder="รหัสผ่าน" size="large" />
         </Form.Item>
-        <Form.Item name="comfirmPassword" rules={[{ required: true }]}>
+        <Form.Item
+          name="comfirmPassword"
+          rules={[{ required: true, message: 'กรุณายืนยันรหัสผ่าน' }]}
+        >
           <Input.Password placeholder="ยืนยันรหัสผ่าน" size="large" />
         </Form.Item>
         <Form.Item className="mb-2">

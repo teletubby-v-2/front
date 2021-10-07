@@ -32,7 +32,6 @@ export const CommentBox: React.FC<CommentBoxProps> = ({
   const [parentComment] = useState(comment as Comments)
   const [reply] = useState(comment as ReplyDTO)
   const { userInfo } = userInfoStore()
-  // const numOfChildren = React.useMemo(() => React.Children.toArray(children), [children])
 
   const handleMenuClick = (info: MenuInfo) => {
     switch (info.key) {

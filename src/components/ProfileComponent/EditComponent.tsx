@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Divider, Form, Upload, Input, Avatar } from 'antd'
+import { Button, Divider, Form, Upload, Input, Avatar, Popconfirm } from 'antd'
 import { UploadOutlined, LoadingOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../store/user.store'
 import { dontSubmitWhenEnter } from '../../utils/eventManage'
@@ -165,22 +165,22 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
         <Form.Item name={['socialLink', 'youtube']}>
           <Input addonBefore="https://" placeholder="Youtube" onKeyDown={dontSubmitWhenEnter} />
         </Form.Item>
-        <Form.Item className="text-center">
-          <div className="flex space-x-2">
-            <Button
-              type="primary"
-              htmlType="submit"
-              size="large"
-              className="flex-1"
-              loading={loading}
-              block
-            >
-              Save
-            </Button>
-            <Button size="large" onClick={beforeClose} className="flex-1">
-              Cancel
-            </Button>
-          </div>
+        <Form.Item className="text-right mb-0">
+          <Popconfirm
+            title={
+              <>
+                คุณแน่ใช่ใช่ไหม
+                <br />
+                ว่าจะยกเลิกการแก้ไขทั้งหมด
+              </>
+            }
+            onConfirm={beforeClose}
+          >
+            <Button className="mr-3">ยกเลิก</Button>
+          </Popconfirm>
+          <Button type="primary" htmlType="submit" loading={loading} className="px-6">
+            ตกลง
+          </Button>
         </Form.Item>
       </Form>
     </div>

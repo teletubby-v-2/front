@@ -1,13 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { message } from 'antd'
 import Form from 'antd/lib/form'
-import { UploadChangeParam, UploadFile } from 'antd/lib/upload/interface'
+import { RcFile, UploadChangeParam, UploadFile } from 'antd/lib/upload/interface'
 import { useEffect, useState } from 'react'
 import { CreateLectureDTO, UpdateLectureDTO } from '../../../constants/dto/lecture.dto'
 import { Lecture } from '../../../constants/interface/lecture.interface'
 import { createLecture, updateLecture } from '../../../service/lectures'
 import { uploadImage, uploadPdf } from '../../../service/storage'
 import { initPhoto, removeUndefined } from '../../../utils/object'
+import { UploadRequestOption } from 'rc-upload/lib/interface'
 
 export const useLectureForm = (
   addOwnLecture: (lecture: Lecture) => void,
@@ -83,24 +83,24 @@ export const useLectureForm = (
       if (uploadStatus.url) {
         setFileList(fileList => [...fileList, uploadStatus])
       }
-    } catch (error: any) {
+    } catch (error) {
       console.log(error)
     }
   }
 
-  const uploadNewPdf = async (file: File) => {
+  const uploadNewPdf = async (file: RcFile) => {
     try {
       if (pdf.length !== 0) throw 'อัพได้มากสุด 1 ไฟล์'
       const uploadStatus = await uploadPdf(file)
       if (uploadStatus.url) {
         setPdf(pdf => [...pdf, uploadStatus])
       }
-    } catch (error: any) {
-      message.error(error)
+    } catch (error) {
+      message.error(error as string)
     }
   }
 
-  const handlePreview = (file: UploadFile<any>) => {
+  const handlePreview = (file: UploadFile) => {
     setPreviewVisible(true)
     setPreviewImage(file.url as string)
   }
@@ -126,7 +126,6 @@ export const useLectureForm = (
     if (file.file.status === 'removed') {
       setFileList(file.fileList)
       form.setFieldsValue({ imageUrl: file.fileList.map(file => file.url) })
-      // deleteImages(file.file.url as string)
     }
     if (file.file.status === 'uploading') {
       setIsUploading(true)
@@ -137,20 +136,21 @@ export const useLectureForm = (
     if (file.file.status === 'removed') {
       setPdf(file.fileList)
       form.setFieldsValue({ pdfUrl: file.fileList.map(file => file.url) })
-      // deleteImages(file.file.url as string)
     }
     if (file.file.status === 'uploading') {
       setIsUploading(true)
     }
   }
 
-  const handleRequest = (option: any) => {
-    if (form.getFieldValue('isPdf')) uploadNewPdf(option.file).finally(() => setIsUploading(false))
-    else uploadNewImage(option.file).finally(() => setIsUploading(false))
+  const handleRequest = ({ file }: UploadRequestOption) => {
+    if (form.getFieldValue('isPdf'))
+      uploadNewPdf(file as RcFile).finally(() => setIsUploading(false))
+    else uploadNewImage(file as RcFile).finally(() => setIsUploading(false))
   }
 
   const onFinish = () => {
     const formValue = form.getFieldsValue()
+
     if (isUploading) {
       return message.warning('ไฟล์กำลังอัพโหลด')
     }
@@ -162,7 +162,7 @@ export const useLectureForm = (
     }
     const value: Partial<CreateLectureDTO> = removeUndefined({
       ...formValue,
-      subjectId: form.getFieldValue('subjectId').split(' ')[0],
+      subjectId: formValue.subjectId.split(' ')[0],
       imageUrl: formValue.isPdf ? undefined : fileList.map(file => file.url),
       pdfUrl: formValue.isPdf ? pdf.map(file => file.url) : undefined,
     })
@@ -174,7 +174,7 @@ export const useLectureForm = (
           message.success('สร้างโพสได้แล้วจ้าา')
           addOwnLecture(lecture)
         })
-        .catch((err: any) => console.error(err))
+        .catch(err => console.error(err))
     } else {
       message.info('กำลังอัพ...')
       const updateValue = { ...value, lectureId: initData?.lectureId }
@@ -184,7 +184,7 @@ export const useLectureForm = (
 
           callback && callback({ ...initData, ...updateValue } as Lecture)
         })
-        .catch((err: any) => {
+        .catch(err => {
           console.error(err)
           callback && callback()
         })
