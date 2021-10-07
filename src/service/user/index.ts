@@ -37,7 +37,7 @@ async function createUser(user: CreateUserDTO): Promise<MyUser> {
     following: [],
     lectureCount: 0,
     notificationReadCount: [],
-  }) as unknown as MyUser
+  }) as MyUser
   if (userId) {
     await userCollection.doc(userId).set(data)
     if (data.imageUrl) {

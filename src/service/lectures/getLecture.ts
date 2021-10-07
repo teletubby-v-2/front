@@ -32,7 +32,9 @@ export function getContentById<T = any, R = any>(
             .where(field || firebase.firestore.FieldPath.documentId(), 'in', [...batch])
             .limit(limit)
             .get()
-            .then(results => response(results.docs.map(result => ({ ...result.data() }))))
+            .then(results =>
+              response(results.docs.map(result => ({ lectureId: result.id, ...result.data() }))),
+            )
         }),
       )
     }
@@ -92,8 +94,6 @@ async function getLectureDetail(lectureId: string) {
 
 async function getBookmarkLectures(bookmarks: string[], limit = Infinity) {
   const data = await getContentById<string, LectureDTO>(lectureRef, bookmarks, limit)
-  console.log(data)
-
   return data as LectureDTO[]
 }
 

@@ -4,21 +4,21 @@ import { MyUser, SocialLink } from '../interface/myUser.interface'
 import { queryOperator } from './queryOperator.dto'
 
 export interface CreateUserDTO {
-  imageUrl?: string
-  userName?: string
-  socialLink?: SocialLink
-  userId?: string
-  email?: string
-  aboutMe?: string
-  userSubject?: UserSubjectDTO[]
-  donateImage?: string
-  donateDescription?: string
-  lectureCount?: number
-  followers?: string[]
-  following?: string[]
-  bookmark?: string[]
-  createAt?: firebase.firestore.Timestamp
-  updateAt?: firebase.firestore.Timestamp
+  imageUrl?: string | firebase.firestore.FieldValue
+  userName?: string | firebase.firestore.FieldValue
+  socialLink?: SocialLink | firebase.firestore.FieldValue
+  userId?: string | firebase.firestore.FieldValue
+  email?: string | firebase.firestore.FieldValue
+  aboutMe?: string | firebase.firestore.FieldValue
+  userSubject?: UserSubjectDTO[] | firebase.firestore.FieldValue
+  donateImage?: string | firebase.firestore.FieldValue
+  donateDescription?: string | firebase.firestore.FieldValue
+  lectureCount?: number | firebase.firestore.FieldValue
+  followers?: string[] | firebase.firestore.FieldValue
+  following?: string[] | firebase.firestore.FieldValue
+  bookmark?: string[] | firebase.firestore.FieldValue
+  createAt?: firebase.firestore.Timestamp | firebase.firestore.FieldValue
+  updateAt?: firebase.firestore.Timestamp | firebase.firestore.FieldValue
 }
 
 export interface UpdateUserDTO extends Partial<CreateUserDTO> {}

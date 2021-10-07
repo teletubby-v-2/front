@@ -1,5 +1,5 @@
 import firebase from 'firebase/app'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export function useInfiniteQuery<TData = unknown, TError = unknown>(
   initQuery: firebase.firestore.Query,
@@ -11,18 +11,20 @@ export function useInfiniteQuery<TData = unknown, TError = unknown>(
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<TError>()
   const [hasNext, setHasNext] = useState(true)
-  const [lastDoc, setLastDoc] = useState<firebase.firestore.DocumentData>()
   const [query, setQuery] = useState<firebase.firestore.Query>(initQuery)
+  const lastDocRef = useRef<firebase.firestore.DocumentData>()
 
   const getNewPageData = async () => {
     let thisPageData = null
-    if (lastDoc) thisPageData = await query.startAfter(lastDoc).limit(limit).get()
-    else thisPageData = await query.limit(limit).get()
-    setLastDoc(thisPageData.docs[thisPageData.size - 1])
 
+    if (lastDocRef.current)
+      thisPageData = await query.startAfter(lastDocRef.current).limit(limit).get()
+    else thisPageData = await query.limit(limit).get()
+    // setLastDoc(thisPageData.docs[thisPageData.size - 1])
+    lastDocRef.current = thisPageData.docs[thisPageData.size - 1]
     if (thisPageData.size < limit) setHasNext(false)
     else setHasNext(true)
-    return thisPageData.docs.map(doc => ({ [fieldId]: doc.id, ...doc.data() } as unknown as TData))
+    return thisPageData.docs.map(doc => ({ [fieldId]: doc.id, ...doc.data() } as TData))
   }
 
   const fetchMore = () => {
@@ -44,11 +46,9 @@ export function useInfiniteQuery<TData = unknown, TError = unknown>(
         if (change.type === 'added') {
           if (change.newIndex !== 0) {
             setData(data => [...data, newData as TData])
+            lastDocRef.current = change.doc
           } else {
             setData(data => [newData as TData, ...data])
-          }
-          if (!lastDoc) {
-            setLastDoc(newData)
           }
         }
       }

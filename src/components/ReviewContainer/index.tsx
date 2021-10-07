@@ -8,7 +8,7 @@ import { Review } from '../../constants/interface/lecture.interface'
 import { createReview, updateReview } from '../../service/lectures/review'
 import { userInfoStore } from '../../store/user.store'
 import { fetchUser } from '../../utils/fetchUser'
-import { Json, removeUndefined } from '../../utils/object'
+import { removeUndefined } from '../../utils/object'
 import { ReviewBox } from './components/ReviewBox'
 
 export interface ReviewContainerProps {
@@ -40,7 +40,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
       rating: value.rating,
     }
 
-    const cleanData = removeUndefined(data as Json) as unknown as CreateReviewDTO
+    const cleanData = removeUndefined(data) as CreateReviewDTO
     createReview(cleanData)
       .then(doc => setReviewData(doc))
       .finally(() => {
@@ -103,7 +103,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
               }
               return [
                 ...reviewMap.slice(0, index),
-                { ...data, reviewId: change.doc.id, ...user } as unknown as Review,
+                { ...data, reviewId: change.doc.id, ...user } as Review,
                 ...reviewMap.slice(index + 1),
               ]
             })

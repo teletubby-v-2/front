@@ -10,7 +10,7 @@ import {
   Skeleton,
   Tooltip,
 } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Lecture } from '../../constants/interface/lecture.interface'
 import { addUserBookmark, deleteUserBookmark } from '../../service/user'
 import { userInfoStore } from '../../store/user.store'
@@ -138,45 +138,47 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
     })
   }
 
-  const menu = (data: Lecture, index: number) => (
-    <Menu onMouseLeave={() => !isOnEdit && setIsDropDownVisible(false, index)}>
-      <Menu.Item key="edit" className="m-0 p-0">
-        <CreateLectureForm
-          initData={data}
-          callback={(lecture?: Lecture) => {
-            setIsOnEdit(false)
-            setIsDropDownVisible(false, index)
-            lecture && updateLecture(lecture, index)
-          }}
-        >
-          <div className="text-black w-full h-full px-2 py-1" onClick={() => setIsOnEdit(true)}>
-            <EditOutlined /> แก้ไข
-          </div>
-        </CreateLectureForm>
-      </Menu.Item>
-      <Menu.Item danger className="m-0 p-0">
-        <Popconfirm
-          title="คุณแน่ใจใช่ไหมที่จะลบ"
-          placement="right"
-          className="px-2 py-1.5"
-          onConfirm={() => {
-            deleteLecture(data.lectureId || '').then(() => {
-              if (data.userId === userInfo.userId) {
-                removeOwnLecture(data.lectureId || '')
-              }
-              removeLecture(index)
-            })
-            setIsDropDownVisible(false, index)
-          }}
-        >
-          <div className="px-2 py-1.5">
-            <DeleteOutlined /> ลบ
-          </div>
-        </Popconfirm>
-      </Menu.Item>
-    </Menu>
+  const menu = useCallback(
+    (data: Lecture, index: number) => (
+      <Menu onMouseLeave={() => !isOnEdit && setIsDropDownVisible(false, index)}>
+        <Menu.Item key="edit" className="m-0 p-0">
+          <CreateLectureForm
+            initData={data}
+            callback={(lecture?: Lecture) => {
+              setIsOnEdit(false)
+              setIsDropDownVisible(false, index)
+              lecture && updateLecture(lecture, index)
+            }}
+          >
+            <div className="text-black w-full h-full px-2 py-1" onClick={() => setIsOnEdit(true)}>
+              <EditOutlined /> แก้ไข
+            </div>
+          </CreateLectureForm>
+        </Menu.Item>
+        <Menu.Item danger className="m-0 p-0">
+          <Popconfirm
+            title="คุณแน่ใจใช่ไหมที่จะลบ"
+            placement="right"
+            className="px-2 py-1.5"
+            onConfirm={() => {
+              deleteLecture(data.lectureId || '').then(() => {
+                if (data.userId === userInfo.userId) {
+                  removeOwnLecture(data.lectureId || '')
+                }
+                removeLecture(index)
+              })
+              setIsDropDownVisible(false, index)
+            }}
+          >
+            <div className="px-2 py-1.5">
+              <DeleteOutlined /> ลบ
+            </div>
+          </Popconfirm>
+        </Menu.Item>
+      </Menu>
+    ),
+    [lectures],
   )
-
   return (
     <Card
       {...restCradProps}

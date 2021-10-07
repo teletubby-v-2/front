@@ -3,10 +3,10 @@ import { Button, Divider, Form, Upload, Input, Popconfirm } from 'antd'
 import { userInfoStore } from '../../store/user.store'
 import { dontSubmitWhenEnter } from '../../utils/eventManage'
 import { useUploadpic } from '../../hooks/useUploadpic'
-import { UpdateUserDTO } from '../../constants/dto/myUser.dto'
 import { updateUser } from '../../service/user'
 import { deleteImages } from '../../service/storage'
 import { initPhoto } from '../../utils/object'
+import firebase from 'firebase'
 
 export interface UpdateValue {
   donateDescription: string
@@ -31,15 +31,16 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
   })
 
   const onFinish = (value: UpdateValue) => {
+    console.log(value)
     onClose()
     if (imageUrl != userInfo.donateImage || value.donateDescription != userInfo.donateDescription) {
-      const data: UpdateUserDTO = {
-        donateImage: imageUrl,
-        donateDescription: value.donateDescription ? value.donateDescription : '',
+      const data = {
+        donateImage: imageUrl || firebase.firestore.FieldValue.delete(),
+        donateDescription: value.donateDescription || firebase.firestore.FieldValue.delete(),
       }
       updateUser(data)
         .then(() => {
-          imageUrl && setDonate(imageUrl, value.donateDescription)
+          setDonate(imageUrl || '', value.donateDescription || '')
           if (imageUrl != userInfo.donateImage && userInfo.donateImage) {
             deleteImages(userInfo.donateImage)
           }

@@ -15,6 +15,7 @@ import { SubjectDTO } from '../../constants/dto/subjects.dto'
 import { Link } from 'react-router-dom'
 import ScrollToTop from '../../components/ScrollToTop'
 import { ImageCarousel } from '../../components/ImageCarousel'
+import { LeftSquareOutlined } from '@ant-design/icons'
 
 export const LectureDetail: React.FC = () => {
   const { userInfo, addBookmark, removeBookmark } = userInfoStore()
@@ -29,9 +30,12 @@ export const LectureDetail: React.FC = () => {
     setLoading(true)
     getLectureDetail(lectureId)
       .then(data => {
+        if (!data.userId) {
+          throw Error()
+        }
         setLecture(data)
       })
-      .catch(error => console.log(error))
+      .catch(() => history.push('/not_found'))
   }, [lectureId])
 
   useEffect(() => {
@@ -72,10 +76,13 @@ export const LectureDetail: React.FC = () => {
       })
       .catch(() => message.error('ลบบุ๊คมาร์คไม่สำเร็จ'))
   }
+
+  if (history.location.hash.length == 0) {
+    return <Redirect to={`${history.location.pathname}#review`} />
+  }
   return (
     <div className="mx-5 my-10 flex space-x-10 w-full">
       <ScrollToTop />
-      {history.location.hash.length == 0 && <Redirect to={`${history.location.pathname}#review`} />}
       <div className="flex-grow">
         {loading ? (
           <div className="space-y-10">
@@ -107,6 +114,14 @@ export const LectureDetail: React.FC = () => {
             <div className="flex-grow">
               <div>
                 <div className="flex text-xl space-x-3 ">
+                  <div>
+                    <Tooltip title="ย้อนกลับ">
+                      <LeftSquareOutlined
+                        className="text-3xl text-gray-500"
+                        onClick={() => history.goBack()}
+                      />
+                    </Tooltip>
+                  </div>
                   <div className="flex-grow font-bold text-3xl">{lecture.lectureTitle}</div>
                   <Tooltip title="บุ๊คมาร์ค" className=" text-green-400">
                     {userInfo.bookmark.findIndex(id => id === lectureId) !== -1 ? (

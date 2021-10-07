@@ -55,8 +55,6 @@ export const NotiMenuItem: React.FC<NotiMenuItemprop> = ({ notiId, type, body, l
         <div className="flex items-center">
           <div>{AvatarIcon}</div>
           <div>
-            {notiId}
-            <br />
             {bodys.slice(0, bodys.length - 1).join(' ')}
             <br />
             {bodys[bodys.length - 1]}

@@ -1,14 +1,23 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { UploadFile } from 'antd/lib/upload/interface'
+import firebase from 'firebase/app'
 import { getFilePath } from '../service/storage'
-export interface Json {
-  [key: string]: unknown
-}
 
-export const removeUndefined = (json: Json): Json => {
+export const removeUndefined = (json: Record<string, any>): Record<string, any> => {
   Object.keys(json).forEach(
     key => (json[key] === undefined || json[key] === '') && delete json[key],
   )
   return json
+}
+
+export const removeFieldUndefined = (json: Record<string, any>): Record<string, any> => {
+  const cleanValue: Record<string, any> = {}
+  Object.keys(json).forEach(key => {
+    if (json[key] === undefined || json[key] === '')
+      cleanValue[key] = firebase.firestore.FieldValue.delete
+    else cleanValue[key] = json[key]
+  })
+  return cleanValue
 }
 
 export const initPhoto = (urls = [] as string[]): UploadFile[] => {
