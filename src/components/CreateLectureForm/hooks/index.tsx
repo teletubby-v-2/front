@@ -15,6 +15,7 @@ export const useLectureForm = (
   callback?: (lecture?: Lecture) => void,
 ) => {
   const [form] = Form.useForm()
+  const [loading, setLoading] = useState(false)
   const [isOnCreate, setIsOnCreate] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const [isOnAddTag, setIsOnAddTag] = useState(false)
@@ -31,7 +32,7 @@ export const useLectureForm = (
   }, [])
 
   useEffect(() => {
-    if (!isOnCreate) {
+    if (!isOnCreate && !(initData?.lectureId && loading)) {
       form.resetFields()
       form.setFieldsValue({ tags: initData?.tags || [] })
       form.setFieldsValue({ imageUrl: initData?.imageUrl || [] })
@@ -40,6 +41,7 @@ export const useLectureForm = (
       setFileList(initPhoto(initData?.imageUrl))
       setPdf(initPhoto(initData?.pdfUrl))
     }
+    setLoading(false)
   }, [isOnCreate])
 
   const handleClose = (deletetag: string) => {
@@ -149,6 +151,7 @@ export const useLectureForm = (
   }
 
   const onFinish = () => {
+    setLoading(true)
     const formValue = form.getFieldsValue()
 
     if (isUploading) {
@@ -195,6 +198,7 @@ export const useLectureForm = (
   return {
     form,
     pdf,
+    loading,
     isOnCreate,
     inputValue,
     checkTagSize,

@@ -41,8 +41,6 @@ export function getContentById<T = any, R = any>(
 
     // after all of the data is fetched, return it
     Promise.all(batches).then(content => {
-      console.log(content)
-
       res(content.flat().slice(0, limit) as R[])
     })
   })

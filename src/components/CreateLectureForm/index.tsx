@@ -7,6 +7,7 @@ import {
   message,
   Modal,
   ModalProps,
+  Popconfirm,
   Radio,
   Select,
   Tag,
@@ -68,6 +69,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
     previewVisible,
     pdf,
     previewImage,
+    loading,
     openModal,
     closeModal,
     handleFilelist,
@@ -82,26 +84,12 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
     handlePdfList,
     previewCancel,
   } = useLectureForm(addOwnLecture, initData, callback)
-  const cancelModal = () => {
-    Modal.warning({
-      closable: true,
-      okCancel: true,
-      centered: true,
-      autoFocusButton: 'cancel',
-      onOk: () => {
-        if (isUploading) {
-          return message.warning('รูปภาพกำลังอัพโหลด')
-        }
-        closeModal()
-        callback && callback()
-      },
-      zIndex: 9999,
-      maskClosable: true,
-      title: `ยกเลิกการ${initData.lectureId ? 'แก้ไขโพสต์สรุป' : 'สร้างโพสต์สรุป'}`,
-      content: `คุณแน่ใจใช่ไหมที่จะยกเลิกการ${
-        initData.lectureId ? 'แก้ไขโพสต์สรุป' : 'สร้างโพสต์สรุป'
-      }`,
-    })
+  const onCancel = () => {
+    if (isUploading) {
+      return message.warning('รูปภาพกำลังอัพโหลด')
+    }
+    closeModal()
+    callback && callback()
   }
 
   return (
@@ -125,10 +113,10 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
         width="700px"
         maskClosable={false}
         visible={isOnCreate}
-        onCancel={cancelModal}
+        onCancel={onCancel}
         destroyOnClose
-        closable
         footer={false}
+        confirmLoading={loading}
         getContainer={false}
         className="my-5 top-10"
         {...rest}
@@ -248,7 +236,18 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
           </Form.Item>
           <Form.Item className="w-full text-right mb-0" wrapperCol={{ span: 24 }}>
             <Form.Item noStyle>
-              <Button onClick={cancelModal}>ยกเลิก</Button>
+              <Popconfirm
+                zIndex={9999}
+                onConfirm={onCancel}
+                title={
+                  <div className="mr-2">
+                    คุณแน่ใจใช่ไหมที่จะยกเลิก <br />
+                    การ{initData.lectureId ? 'แก้ไขโพสต์สรุป' : 'สร้างโพสต์สรุป'}
+                  </div>
+                }
+              >
+                <Button>ยกเลิก</Button>
+              </Popconfirm>
             </Form.Item>
             <span className="ml-3" />
             <Form.Item noStyle>
