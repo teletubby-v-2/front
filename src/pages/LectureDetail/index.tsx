@@ -1,4 +1,4 @@
-import { Card, Rate, Skeleton, Tooltip, Avatar, message, Tag } from 'antd'
+import { Card, Rate, Tooltip, Avatar, message, Tag } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { Redirect, useHistory, useParams } from 'react-router'
@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom'
 import ScrollToTop from '../../components/ScrollToTop'
 import { ImageCarousel } from '../../components/ImageCarousel'
 import { LeftSquareOutlined } from '@ant-design/icons'
+import { LectureSkeleton } from '../../components/MySkeleton/LectureSkeleton'
 
 export const LectureDetail: React.FC = () => {
   const { userInfo, addBookmark, removeBookmark } = userInfoStore()
@@ -84,32 +85,7 @@ export const LectureDetail: React.FC = () => {
     <div className="mx-5 my-10 flex space-x-10 w-full">
       <ScrollToTop />
       <div className="flex-grow">
-        {loading ? (
-          <div className="space-y-10">
-            <Skeleton avatar paragraph={{ rows: 1 }} active />
-            <div>
-              {Array(20)
-                .fill(0)
-                .map((_, index) => (
-                  <Skeleton.Button active size="large" block key={index} />
-                ))}
-            </div>
-            <div>
-              {Array(2)
-                .fill(0)
-                .map((_, index) => (
-                  <Skeleton.Button active size="large" block key={index} />
-                ))}
-            </div>
-            <div>
-              {Array(4)
-                .fill(0)
-                .map((_, index) => (
-                  <Skeleton.Button active size="large" block key={index} />
-                ))}
-            </div>
-          </div>
-        ) : (
+        <LectureSkeleton loading={loading}>
           <div>
             <div className="flex-grow">
               <div>
@@ -184,7 +160,7 @@ export const LectureDetail: React.FC = () => {
               </div>
             </div>
           </div>
-        )}
+        </LectureSkeleton>
       </div>
 
       <div>

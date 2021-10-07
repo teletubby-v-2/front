@@ -1,4 +1,4 @@
-import { Avatar, Button, Form, Input, Skeleton } from 'antd'
+import { Avatar, Button, Form, Input } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { AuthZone } from '../../components'
 import { firestore } from '../../config/firebase'
@@ -8,6 +8,7 @@ import { QAndA } from '../../constants/interface/lecture.interface'
 import { createQAndA } from '../../service/lectures/qanda'
 import { userInfoStore } from '../../store/user.store'
 import { fetchUser } from '../../utils/fetchUser'
+import { CommentSkeleton } from '../MySkeleton/CommentSkeleton'
 import { QuestionBox } from './components/QuestionBox'
 
 export interface QAndAContainerProps {
@@ -78,11 +79,7 @@ export const QAndAContainer: React.FC<QAndAContainerProps> = ({ lectureId, autho
       {qAndAs.map((qAndA, index) => (
         <QuestionBox qAndA={qAndA} key={index} authorId={authorId} lectureId={lectureId} />
       ))}
-      {qAndAs &&
-        size - qAndAs.length > 0 &&
-        Array(size - qAndAs.length)
-          .fill(Array(size - qAndAs.length).keys())
-          .map((_, index) => <Skeleton active paragraph={{ rows: 1 }} avatar key={index} />)}
+      {qAndAs && size - qAndAs.length > 0 && <CommentSkeleton count={size - qAndAs.length} />}
       {authorId !== userInfo.userId && (
         <AuthZone>
           <Form form={form} layout="horizontal" onFinish={handleCreateQAndA}>

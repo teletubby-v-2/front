@@ -1,4 +1,4 @@
-import { Button, Form, Input, Skeleton } from 'antd'
+import { Button, Form, Input } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { AuthZone } from '..'
 import { firestore } from '../../config/firebase'
@@ -10,6 +10,7 @@ import { fetchUser } from '../../utils/fetchUser'
 import { CommentBox } from './components/CommentBox'
 import Avatar from 'antd/lib/avatar/avatar'
 import { userInfoStore } from '../../store/user.store'
+import { CommentSkeleton } from '../MySkeleton/CommentSkeleton'
 
 export interface CommentProps {
   lectureId: string
@@ -109,11 +110,7 @@ export const CommentContainer: React.FC<CommentProps> = ({ lectureId }) => {
           {<Reply id={lectureId} commentId={comment.id as string} />}
         </CommentBox>
       ))}
-      {comments &&
-        size - comments.length > 0 &&
-        Array(size - comments.length)
-          .fill(Array(size - comments.length).keys())
-          .map((_, index) => <Skeleton active paragraph={{ rows: 1 }} avatar key={index} />)}
+      {comments && <CommentSkeleton count={size - comments.length} />}
     </div>
   )
 }

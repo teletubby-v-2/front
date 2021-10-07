@@ -1,9 +1,9 @@
-import { Skeleton } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { firestore } from '../../../config/firebase'
 import { Collection } from '../../../constants'
 import { ReplyDTO } from '../../../constants/dto/lecture.dto'
 import { fetchUser } from '../../../utils/fetchUser'
+import { CommentSkeleton } from '../../MySkeleton/CommentSkeleton'
 import { CommentBox } from './CommentBox'
 
 export interface ReplyProps {
@@ -64,11 +64,7 @@ export const Reply: React.FC<ReplyProps> = ({ id, commentId }) => {
   return (
     <>
       {reply && reply.map((item, index) => <CommentBox comment={item} key={index} />)}
-      {reply &&
-        size - reply.length > 0 &&
-        Array(size - reply.length)
-          .fill(Array(size - reply.length).keys())
-          .map((_, index) => <Skeleton active paragraph={{ rows: 1 }} avatar key={index} />)}
+      {reply && <CommentSkeleton count={size - reply.length} />}
     </>
   )
 }

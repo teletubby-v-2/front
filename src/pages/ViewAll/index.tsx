@@ -4,7 +4,7 @@ import { userInfoStore } from '../../store/user.store'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { LeftCircleOutlined } from '@ant-design/icons'
 import { useHistory, useParams } from 'react-router-dom'
-import { Select, Skeleton, Form } from 'antd'
+import { Select, Form } from 'antd'
 import { FilterBox, IFilter } from '../../components/FilterBox'
 import {
   getBookmarkLectures,
@@ -16,6 +16,7 @@ import {
 } from '../../service/lectures/getLecture'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import ScrollToTop from '../../components/ScrollToTop'
+import { LectureCardSkeleton } from '../../components/MySkeleton/LectureCardSkeleton'
 
 const options = [
   { label: 'ล่าสุด', value: 'lastest' },
@@ -152,18 +153,7 @@ export const ViewAll: React.FC = () => {
         hasMore={limit < filterData.length}
         loader={
           <div className="w-full flex justify-evenly mt-5 bg-white">
-            {Array(5)
-              .fill(0)
-              .map((_, index) => (
-                <Skeleton.Avatar
-                  active
-                  size={160}
-                  shape="square"
-                  className="mx-auto"
-                  key={index}
-                  style={{ height: '208px', borderRadius: 4 }}
-                />
-              ))}
+            <LectureCardSkeleton count={15} />
           </div>
         }
         dataLength={limit}

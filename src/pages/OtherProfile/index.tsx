@@ -63,7 +63,7 @@ export const OtherProfile: React.FC = () => {
           <div className=" space-y-8">
             <LectureContainer
               profile
-              numOfSkeleton={4}
+              numOfSkeleton={8}
               title={title}
               data={otherlecture}
               limit={8}

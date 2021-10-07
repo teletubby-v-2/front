@@ -9,6 +9,7 @@ import { createReview, updateReview } from '../../service/lectures/review'
 import { userInfoStore } from '../../store/user.store'
 import { fetchUser } from '../../utils/fetchUser'
 import { removeUndefined } from '../../utils/object'
+import { CommentSkeleton } from '../MySkeleton/CommentSkeleton'
 import { ReviewBox } from './components/ReviewBox'
 
 export interface ReviewContainerProps {
@@ -121,11 +122,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
       {reviews.map((review, index) => (
         <ReviewBox review={review} key={index} />
       ))}
-      {reviews &&
-        size - reviews.length >= 0 &&
-        Array(size - reviews.length)
-          .fill(Array(size - reviews.length).keys())
-          .map((_, index) => <Skeleton active paragraph={{ rows: 1 }} avatar key={index} />)}
+      {reviews && <CommentSkeleton count={size - reviews.length} />}
       <AuthZone>
         <div className="flex space-x-3 ml-2">
           {(edit || !reviewData) && (

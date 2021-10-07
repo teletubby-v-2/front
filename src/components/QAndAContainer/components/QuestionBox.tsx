@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Avatar, Form, Input, Button, Divider, Skeleton, Menu, Dropdown } from 'antd'
+import { Avatar, Form, Input, Button, Divider, Menu, Dropdown } from 'antd'
 import { QAndA } from '../../../constants/interface/lecture.interface'
 import { AuthZone } from '../..'
 import { AnswersDTO } from '../../../constants/dto/lecture.dto'
@@ -12,6 +12,7 @@ import { AnswerBox } from './Answer'
 import { Link } from 'react-router-dom'
 import { MoreOutlined, DeleteOutlined } from '@ant-design/icons'
 import { MenuInfo } from 'rc-menu/lib/interface'
+import { CommentSkeleton } from '../../MySkeleton/CommentSkeleton'
 
 export interface QuestionBoxProps {
   qAndA: QAndA
@@ -163,11 +164,7 @@ export const QuestionBox: React.FC<QuestionBoxProps> = ({ authorId, qAndA, lectu
           {answers.map((answer, index) => (
             <AnswerBox answer={answer} key={index} />
           ))}
-          {answers &&
-            size - answers.length > 0 &&
-            Array(size - answers.length)
-              .fill(Array(size - answers.length).keys())
-              .map((_, index) => <Skeleton active paragraph={{ rows: 1 }} avatar key={index} />)}
+          {answers && <CommentSkeleton count={size - answers.length} />}
           {authorId === userInfo.userId && (
             <AuthZone>
               <Form form={form} onFinish={handleCreateReply}>
