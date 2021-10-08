@@ -1,17 +1,20 @@
 import React, { useMemo } from 'react'
-import { Comment, Avatar, Menu, Dropdown, Button } from 'antd'
+import { Comment, Avatar, Menu, Dropdown, Button, Typography } from 'antd'
 import { AnswersDTO } from '../../../constants/dto/lecture.dto'
 import { Link } from 'react-router-dom'
 import { MoreOutlined, DeleteOutlined } from '@ant-design/icons'
 import { MenuInfo } from 'rc-menu/lib/interface'
 import { deleteAnswer } from '../../../service/lectures/qanda'
 import { userInfoStore } from '../../../store/user.store'
+import { strInnerParagraph } from '../../../utils/strInnerParagraph'
 export interface AnswerBoxProps {
   answer: AnswersDTO
 }
 export interface CommentForm {
   message: string
 }
+
+const { Paragraph } = Typography
 
 export const AnswerBox: React.FC<AnswerBoxProps> = ({ answer }) => {
   const { userInfo } = userInfoStore()
@@ -34,7 +37,6 @@ export const AnswerBox: React.FC<AnswerBoxProps> = ({ answer }) => {
 
   return (
     <div>
-      {' '}
       <Comment
         author={
           <>
@@ -50,6 +52,16 @@ export const AnswerBox: React.FC<AnswerBoxProps> = ({ answer }) => {
         }
         content={
           <div className="flex">
+            <Paragraph
+              ellipsis={{
+                rows: 5,
+                expandable: true,
+                symbol: 'ดูเพิ่มเติม',
+              }}
+              className="flex-grow"
+            >
+              {strInnerParagraph(answer.message || '')}
+            </Paragraph>
             <p className="flex-grow">{answer.message}</p>
             {userInfo.userId === answer.userId && (
               <p className="-m-3">

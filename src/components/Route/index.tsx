@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Navbar } from '../Navbar'
 import { Route, RouteProps, useLocation } from 'react-router-dom'
 import { Footer } from '..'
-import homeIcon from '../../assets/icons/home_icon.svg'
+import { SvgUrl } from '../../constants'
 
 const { Content, Footer: AntFooter } = Layout
 
@@ -23,8 +23,7 @@ export const LayoutRoute: React.FC<RouteProps> = props => {
         <MyLayout className="min-h-screen flex flex-col">
           <Navbar />
           <div className="mt-16"></div>
-          {location.pathname === '/home' && <img src={homeIcon} alt="ku logo" />}
-
+          {location.pathname === '/home' && <img src={SvgUrl.Home} alt="ku logo" />}
           <Content className=" container mx-auto h-full">
             {Component && <Component {...props} />}
           </Content>

@@ -30,7 +30,7 @@ export const OtherProfile: React.FC = () => {
     setotherlecture([])
     setLoading(true)
     if (userId) {
-      getOwnLectures(userId)
+      getOwnLectures(userId, 10)
         .then(data => setotherlecture(data))
         .finally(() => setLoading(false))
     }
@@ -63,7 +63,7 @@ export const OtherProfile: React.FC = () => {
           <div className=" space-y-8">
             <LectureContainer
               profile
-              numOfSkeleton={8}
+              numOfSkeleton={10}
               title={title}
               data={otherlecture}
               limit={8}

@@ -144,7 +144,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
                       disabled={!!reviewData}
                     />
                   </Form.Item>
-                  <Form.Item name="rating" rules={[{ required: true }]}>
+                  <Form.Item name="rating" rules={[{ required: true }]} className="mb-0">
                     <Rate allowHalf disabled={!!reviewData} />
                   </Form.Item>
                   <Form.Item shouldUpdate className="text-right">

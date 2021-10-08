@@ -42,9 +42,7 @@ export const FollowCard: React.FC<FollowCardProps> = ({ userId, className }) => 
 
   const onUnfollow = () => {
     unFollowUser(userId)
-      .then(() => {
-        removeFollowing(userId)
-      })
+      .then(() => removeFollowing(userId))
       .catch(err => console.log(err))
   }
 

@@ -185,7 +185,6 @@ export const Navbar: React.FC = () => {
               onSelect={onSelect}
               onChange={e => setvalue(e)}
               allowClear
-              size="large"
               autoClearSearchValue
               onFocus={e => (e.target as HTMLInputElement).select()}
               filterOption={(inputValue, option) => {
