@@ -6,6 +6,8 @@ import { LoginForm } from '../../components'
 import { getUserFromIndexDB } from '../../utils/firebase'
 import { Link } from 'react-router-dom'
 import { SvgUrl } from '../../constants'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
+
 export const Login: React.FC = () => {
   const [isAuth, setIsAuth] = useState<any[]>()
 
@@ -26,7 +28,7 @@ export const Login: React.FC = () => {
   return (
     <div className="flex justify-center mx-auto items-end my-10 h-full" style={{ maxWidth: 1000 }}>
       <div className="flex-1 hidden md:block">
-        <img src={SvgUrl.Login} alt="" className="flex-1 mr-20 h-96" />{' '}
+        <LazyLoadImage src={SvgUrl.Login} alt="" className="flex-1 mr-20 h-96" effect="blur" />{' '}
       </div>
       <Card className="flex-1 App m-0">
         {isAuth &&

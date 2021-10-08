@@ -5,6 +5,8 @@ import { Redirect } from 'react-router-dom'
 import { RegisterForm } from '../../components'
 import { getUserFromIndexDB } from '../../utils/firebase'
 import { SvgUrl } from '../../constants'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
+
 export const Register: React.FC = () => {
   const [isAuth, setIsAuth] = useState<any[]>()
 
@@ -25,7 +27,7 @@ export const Register: React.FC = () => {
   return (
     <div className="flex justify-center mx-auto items-end my-10" style={{ maxWidth: 1000 }}>
       <div className="flex-1 hidden md:block">
-        <img src={SvgUrl.Register} alt="" className="flex-1 mr-20 h-96" />{' '}
+        <LazyLoadImage src={SvgUrl.Register} alt="" className="flex-1 mr-20 h-96" effect="blur" />{' '}
       </div>
       <Card className="flex-1 App m-0">
         {isAuth &&

@@ -35,6 +35,7 @@ import { readAllNoti } from '../../service/user'
 import { useInfiniteQuery } from '../../hooks/useInfiniteQuery'
 import { Collection } from '../../constants'
 import { options } from '../../utils/optionsUtil'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 export const Navbar: React.FC = () => {
   const history = useHistory()
@@ -176,7 +177,13 @@ export const Navbar: React.FC = () => {
     <div>
       <nav className="text-xl h-16 navbar">
         <div className="container mx-auto flex justify-between items-center p-3 ">
-          <img width={129} src={KUshare} onClick={onClickLogo} className="cursor-pointer " />
+          <LazyLoadImage
+            width={129}
+            src={KUshare}
+            onClick={onClickLogo}
+            className="cursor-pointer "
+            effect="blur"
+          />
           <div className="text-center w-full space-x-2">
             <SearchOutlined className="text-xl" />
             <AutoComplete

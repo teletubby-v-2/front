@@ -7,6 +7,7 @@ import { updateUser } from '../../service/user'
 import { deleteImages } from '../../service/storage'
 import { initPhoto } from '../../utils/object'
 import firebase from 'firebase'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 export interface UpdateValue {
   donateDescription: string
@@ -76,7 +77,12 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
             {!imageUrl &&
               !isUploading &&
               (imageUrl ? (
-                <img src={imageUrl} alt="QR" className="w-30 h-30 object-center object-cover" />
+                <LazyLoadImage
+                  src={imageUrl}
+                  alt="QR"
+                  className="w-30 h-30 object-center object-cover"
+                  effect="blur"
+                />
               ) : (
                 <p>อัพโหลด</p>
               ))}

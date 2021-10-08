@@ -4,6 +4,8 @@ import { SubjectDTO } from '../../constants/dto/subjects.dto'
 import { Lecture } from '../../constants/interface/lecture.interface'
 import kuSubject from '../../constants/subjects.json'
 import { useHistory } from 'react-router'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
+
 export interface LectureCardProps extends CardProps {
   data?: Lecture
   className?: string
@@ -35,8 +37,9 @@ export const LectureCard: React.FC<LectureCardProps> = props => {
               Browser not compatible
             </iframe>
           ) : (
-            <img
+            <LazyLoadImage
               src={data?.imageUrl?.[0]}
+              effect="blur"
               alt="no photo"
               className=" w-40 h-52 absolute object-contain "
               style={{
