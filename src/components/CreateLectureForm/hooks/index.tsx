@@ -22,8 +22,6 @@ export const useLectureForm = (
   const [checkTagSize, setCheckTagSize] = useState(true)
   const [isUploading, setIsUploading] = useState(false)
   const [fileList, setFileList] = useState<UploadFile[]>(initPhoto(initData?.imageUrl) || [])
-  const [previewVisible, setPreviewVisible] = useState(false)
-  const [previewImage, setPreviewImage] = useState<string>()
   const [isUpdate] = useState(initData?.lectureId ? true : false)
   const [pdf, setPdf] = useState<UploadFile[]>(initPhoto(initData?.pdfUrl) || [])
 
@@ -102,16 +100,6 @@ export const useLectureForm = (
     }
   }
 
-  const handlePreview = (file: UploadFile) => {
-    setPreviewVisible(true)
-    setPreviewImage(file.url as string)
-  }
-
-  const previewCancel = () => {
-    setPreviewVisible(false)
-    setPreviewImage(undefined)
-  }
-
   const openModal = () => {
     setIsOnCreate(true)
   }
@@ -124,13 +112,17 @@ export const useLectureForm = (
     setIsOnAddTag(true)
   }
 
-  const handleFilelist = (file: UploadChangeParam<UploadFile>) => {
-    if (file.file.status === 'removed') {
+  const handleFilelist = (
+    file: UploadChangeParam<UploadFile> | { fileList: UploadFile[]; file?: UploadFile },
+  ) => {
+    if (file?.file?.status === 'removed') {
       setFileList(file.fileList)
       form.setFieldsValue({ imageUrl: file.fileList.map(file => file.url) })
     }
-    if (file.file.status === 'uploading') {
+    if (file?.file?.status === 'uploading') {
       setIsUploading(true)
+    } else {
+      setFileList(file.fileList)
     }
   }
 
@@ -197,28 +189,24 @@ export const useLectureForm = (
 
   return {
     form,
-    pdf,
-    loading,
     isOnCreate,
     inputValue,
     checkTagSize,
     isOnAddTag,
     fileList,
     isUploading,
-    previewVisible,
-    previewImage,
+    pdf,
+    loading,
     openModal,
+    closeModal,
+    handleFilelist,
     handleClose,
     handleInputChange,
     handleInputBlur,
     handleRequest,
     handleInputAdd,
     onFinish,
-    closeModal,
-    handleFilelist,
     OnAddTag,
-    handlePreview,
-    previewCancel,
     handlePdfList,
   }
 }

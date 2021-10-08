@@ -6,6 +6,6 @@ export const formItemLayout = {
 }
 
 export const myLocale: UploadLocale = {
-  uploading: 'Uploading...',
+  uploading: 'กำลังอัพ...',
   uploadError: 'อัพโหลดไฟล์ไม่สำเร็จ',
 }

@@ -28,7 +28,6 @@ import { lectureStore } from './store/lecture.store'
 import { SelectProfile } from './pages/SelectProfile'
 import { FollowList } from './pages/FollowList'
 import { SearchResult } from './pages/SearchResult'
-
 const Overlay = styled.div`
   position: fixed;
   top: 0;

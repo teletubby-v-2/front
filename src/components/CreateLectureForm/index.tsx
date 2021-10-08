@@ -23,19 +23,12 @@ import { formItemLayout, myLocale } from './constants'
 import { options as selectOptions } from '../../utils/optionsUtil'
 import { Lecture } from '../../constants/interface/lecture.interface'
 import { UploadOutlined } from '@ant-design/icons'
-import styled from 'styled-components'
+import { PicturesGrid } from '../SortableList'
 
 const options = [
   { label: 'picture', value: false },
   { label: 'pdf', value: true },
 ]
-
-const UploadStyled = styled(Upload)`
-  & .ant-upload-list {
-    display: flex;
-    flex-wrap: wrap;
-  }
-`
 
 export interface CreateLectureFormProps extends ModalProps {
   label?: string
@@ -66,9 +59,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
     isOnAddTag,
     fileList,
     isUploading,
-    previewVisible,
     pdf,
-    previewImage,
     loading,
     openModal,
     closeModal,
@@ -80,9 +71,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
     handleInputAdd,
     onFinish,
     OnAddTag,
-    handlePreview,
     handlePdfList,
-    previewCancel,
   } = useLectureForm(addOwnLecture, initData, callback)
   const onCancel = () => {
     if (isUploading) {
@@ -102,13 +91,6 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
       >
         {children || label}
       </a>
-      <Modal visible={previewVisible} footer={null} onCancel={previewCancel} centered zIndex={9999}>
-        {form.getFieldValue('isPdf') ? (
-          <iframe src={previewImage} width="90%" height={700}></iframe>
-        ) : (
-          <img alt="example" className="w-full" src={previewImage} />
-        )}
-      </Modal>
       <Modal
         width="700px"
         maskClosable={false}
@@ -215,22 +197,23 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
                   </Button>
                 </Upload>
               ) : (
-                <UploadStyled
+                <PicturesGrid
                   listType="picture-card"
-                  accept="image/*"
                   fileList={fileList}
+                  accept="image/*"
+                  onChange={handleFilelist}
                   multiple
                   locale={myLocale}
-                  onChange={handleFilelist}
                   disabled={isUploading}
                   customRequest={handleRequest}
-                  onPreview={handlePreview}
                 >
                   <div>
-                    {isUploading ? <LoadingOutlined /> : <PlusOutlined />}
-                    <div className="m-2">อัพโหลดรูป</div>
+                    <div>
+                      {isUploading ? <LoadingOutlined /> : <PlusOutlined />}
+                      <div className="m-2">อัพโหลดรูป</div>
+                    </div>
                   </div>
-                </UploadStyled>
+                </PicturesGrid>
               )
             }
           </Form.Item>
