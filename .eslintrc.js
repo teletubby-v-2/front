@@ -24,7 +24,6 @@ module.exports = {
   rules: {
     'no-var': 1,
     'react/prop-types': 0,
-    'react/react-in-jsx-scope': 0,
     '@typescript-eslint/no-empty-interface': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,
     'react-hooks/exhaustive-deps': 0,

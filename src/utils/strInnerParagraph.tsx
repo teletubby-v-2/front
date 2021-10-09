@@ -1,3 +1,5 @@
+import React from 'react'
+
 export const strInnerParagraph = (str: string) => {
   const strArr = str.split('\n')
   const strArrFinal = []

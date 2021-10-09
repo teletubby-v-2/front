@@ -12,6 +12,7 @@ import {
   AutoComplete,
   Input,
   Modal,
+  notification,
 } from 'antd'
 import { useHistory, useLocation } from 'react-router'
 import KUshare from '../../assets/icons/KUshare.svg'
@@ -36,16 +37,40 @@ import { useInfiniteQuery } from '../../hooks/useInfiniteQuery'
 import { COLLECTION } from '../../constants'
 import { options } from '../../utils/optionsUtil'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
+import { TeamOutlined, DiffOutlined } from '@ant-design/icons'
+
+const getNotiIcon = (type: string) => {
+  if (type == 'follow') {
+    return <TeamOutlined className="text-blue-200" />
+  } else if (type == 'lecture') {
+    return <DiffOutlined className="text-blue-200" />
+  }
+}
 
 export const Navbar: React.FC = () => {
   const history = useHistory()
   const location = useLocation()
   const { userInfo, setNotificationReadCount } = userInfoStore()
+  const [lastestId, setLastestId] = useState<string>()
   const { data, hasNext, setQuery, fetchMore, isLoading } = useInfiniteQuery<Notification>(
     firestore.collection(COLLECTION.NOTIFICATIONS).where('relevantUserId', 'array-contains', ''),
     'notiId',
   )
   const [value, setvalue] = useState('')
+
+  useEffect(() => {
+    if (lastestId && data?.[0]?.notiId && lastestId !== data[0].notiId) {
+      setLastestId(data[0].notiId)
+      notification.open({
+        message: 'New ' + data[0].type,
+        description: data[0].body,
+        icon: getNotiIcon(data[0].type),
+        onClick: () => history.push(data[0].link),
+      })
+    } else if (!lastestId && data[0]) {
+      setLastestId(data[0].notiId)
+    }
+  }, [data])
 
   useEffect(() => {
     setQuery(
@@ -183,7 +208,7 @@ export const Navbar: React.FC = () => {
             effect="opacity"
           />
           <div className="text-center w-full space-x-2">
-            <SearchOutlined className="text-xl" />
+            <SearchOutlined className="text-xl inline-block " />
             <AutoComplete
               options={options}
               value={value}
@@ -221,7 +246,7 @@ export const Navbar: React.FC = () => {
                 </Tooltip>
               </CreateLectureForm>
 
-              <Badge count={numNoti} offset={[-5, 9]}>
+              <Badge count={numNoti} offset={[-5, 7]}>
                 <Popover
                   className="text-xl text-black"
                   content={notiMenu}

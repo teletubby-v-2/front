@@ -1,4 +1,4 @@
-import { Card, Rate, Tooltip, Avatar, message, Tag } from 'antd'
+import { Card, Rate, Tooltip, Avatar, message, Tag, PageHeader } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { Redirect, useHistory, useParams } from 'react-router'
@@ -15,8 +15,26 @@ import { SubjectDTO } from '../../constants/dto/subjects.dto'
 import { Link } from 'react-router-dom'
 import ScrollToTop from '../../components/ScrollToTop'
 import { ImageCarousel } from '../../components/ImageCarousel'
-import { LeftSquareOutlined } from '@ant-design/icons'
 import { LectureSkeleton } from '../../components/MySkeleton/LectureSkeleton'
+
+const getTag = (lecture: LectureDTO) => {
+  const tags = []
+  if (lecture.isMid) {
+    tags.push(
+      <Tag color="green" key="mid">
+        มิดเทอม
+      </Tag>,
+    )
+  }
+  if (lecture.isMid) {
+    tags.push(
+      <Tag color="cyan" key="final">
+        ไฟนอล
+      </Tag>,
+    )
+  }
+  return tags
+}
 
 export const LectureDetail: React.FC = () => {
   const { userInfo, addBookmark, removeBookmark } = userInfoStore()
@@ -89,35 +107,34 @@ export const LectureDetail: React.FC = () => {
           <div>
             <div className="flex-grow">
               <div>
-                <div className="flex text-xl space-x-3 ">
-                  <div>
-                    <Tooltip title="ย้อนกลับ">
-                      <LeftSquareOutlined
-                        className="text-3xl text-gray-500"
-                        onClick={() => history.goBack()}
-                      />
-                    </Tooltip>
-                  </div>
-                  <div className="flex-grow font-bold text-3xl">{lecture.lectureTitle}</div>
-                  <Tooltip title="บุ๊คมาร์ค" className=" text-green-400">
-                    {userInfo.bookmark.findIndex(id => id === lectureId) !== -1 ? (
-                      <BookFilled onClick={handleDeleteBookmark} />
-                    ) : (
-                      <BookOutlined onClick={handleAddBookmark} />
-                    )}
-                  </Tooltip>
-                  <Tooltip title="แชร์">
-                    <ShareAltOutlined className="text-green-400 " onClick={copy} />
-                  </Tooltip>
-                </div>
+                <PageHeader
+                  onBack={() => history.goBack()}
+                  title={<div className="text-2xl">{lecture.lectureTitle}</div>}
+                  tags={getTag(lecture)}
+                  extra={[
+                    <Tooltip title="บุ๊คมาร์ค" className=" text-green-400 text-xl" key="bookmark">
+                      {userInfo.bookmark.findIndex(id => id === lectureId) !== -1 ? (
+                        <BookFilled onClick={handleDeleteBookmark} />
+                      ) : (
+                        <BookOutlined onClick={handleAddBookmark} />
+                      )}
+                    </Tooltip>,
+                    <Tooltip title="แชร์" key="share" className="text-green-400 text-xl">
+                      <ShareAltOutlined onClick={copy} />
+                    </Tooltip>,
+                  ]}
+                ></PageHeader>
               </div>
               <div className="flex mt-2 ">
                 <div className=" space-x-3 flex-grow">
                   <span>{lecture.subjectId}</span>
                   <span>{subject?.[lecture?.subjectId as string]?.subjectNameTh || ''}</span>
                 </div>
-                {lecture.isMid && <Tag color="green">มิดเทอม</Tag>}
-                {lecture.isFinal && <Tag color="cyan">ไฟนอล</Tag>}
+                {lecture.tags?.map((tag, index) => (
+                  <Tag key={index} color="blue">
+                    {tag}
+                  </Tag>
+                ))}
               </div>
               <div className="flex w-full space-x-3 items-center my-4">
                 <div className="flex-grow space-x-3">
@@ -127,11 +144,6 @@ export const LectureDetail: React.FC = () => {
                   <span>โพสต์โดย</span>
                   <Link to={`/profile/${user?.userId}`}>{user?.userName}</Link> · เข้าชม{' '}
                   {lecture.viewCount} ครั้ง
-                  {lecture.tags?.map((tag, index) => (
-                    <Tag key={index} color="blue">
-                      {tag}
-                    </Tag>
-                  ))}
                 </div>
                 <Rate value={lecture.sumRating / lecture.reviewCount} disabled allowHalf />
                 <div>{lecture.reviewCount} ผู้ให้คะแนน</div>
@@ -169,11 +181,7 @@ export const LectureDetail: React.FC = () => {
             <div className="font-bold text-xl">สนับสนุน</div>
             <div className="text-lg">{user?.userName}</div>
           </div>
-          {user?.donateImage ? (
-            <img src={user?.donateImage} className="carousel__image flex-shrink" />
-          ) : (
-            <img src={no_image} className="carousel__image flex-shrink" />
-          )}
+          <Avatar src={user?.donateImage || no_image} shape="square" size={200} />
           <div>{user?.donateDescription}</div>
         </div>
       </div>

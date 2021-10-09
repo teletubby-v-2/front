@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { LectureContainer } from '../../components'
 import { userInfoStore } from '../../store/user.store'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
-import { LeftCircleOutlined } from '@ant-design/icons'
+import { ArrowLeftOutlined } from '@ant-design/icons'
 import { useHistory, useParams } from 'react-router-dom'
 import { Select, Form } from 'antd'
 import { FilterBox, IFilter } from '../../components/FilterBox'
@@ -163,7 +163,10 @@ export const ViewAll: React.FC = () => {
         <LectureContainer
           title={
             <>
-              <LeftCircleOutlined onClick={() => history.goBack()} className="mr-3" />
+              <ArrowLeftOutlined
+                onClick={() => history.goBack()}
+                className="mr-3 ant-page-header-back-button"
+              />
               {title}
             </>
           }
