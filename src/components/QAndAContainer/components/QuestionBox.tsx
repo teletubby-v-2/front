@@ -6,7 +6,7 @@ import { AnswersDTO } from '../../../constants/dto/lecture.dto'
 import { userInfoStore } from '../../../store/user.store'
 import { createAnswer, deleteQAndA } from '../../../service/lectures/qanda'
 import { firestore } from '../../../config/firebase'
-import { Collection } from '../../../constants'
+import { COLLECTION } from '../../../constants'
 import { fetchUser } from '../../../utils/fetchUser'
 import { AnswerBox } from './Answer'
 import { Link } from 'react-router-dom'
@@ -74,11 +74,11 @@ export const QuestionBox: React.FC<QuestionBoxProps> = ({ authorId, qAndA, lectu
 
   useEffect(() => {
     const unsubscribe = firestore
-      .collection(Collection.Lectures)
+      .collection(COLLECTION.LECTURES)
       .doc(lectureId)
-      .collection(Collection.QAs)
+      .collection(COLLECTION.QAS)
       .doc(qAndA.qaId)
-      .collection(Collection.Answers)
+      .collection(COLLECTION.ANSWERS)
       .orderBy('createAt')
       .onSnapshot(querySnapshot => {
         setSize(querySnapshot.size)

@@ -33,7 +33,7 @@ import { NotiMenuItem } from '../NotiMenu'
 import { Notification } from '../../constants/interface/notification.interface'
 import { readAllNoti } from '../../service/user'
 import { useInfiniteQuery } from '../../hooks/useInfiniteQuery'
-import { Collection } from '../../constants'
+import { COLLECTION } from '../../constants'
 import { options } from '../../utils/optionsUtil'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 
@@ -42,7 +42,7 @@ export const Navbar: React.FC = () => {
   const location = useLocation()
   const { userInfo, setNotificationReadCount } = userInfoStore()
   const { data, hasNext, setQuery, fetchMore, isLoading } = useInfiniteQuery<Notification>(
-    firestore.collection(Collection.Notifications).where('relevantUserId', 'array-contains', ''),
+    firestore.collection(COLLECTION.NOTIFICATIONS).where('relevantUserId', 'array-contains', ''),
     'notiId',
   )
   const [value, setvalue] = useState('')
@@ -50,7 +50,7 @@ export const Navbar: React.FC = () => {
   useEffect(() => {
     setQuery(
       firestore
-        .collection(Collection.Notifications)
+        .collection(COLLECTION.NOTIFICATIONS)
         .where('relevantUserId', 'array-contains', userInfo.userId)
         .orderBy('createAt', 'desc'),
     )

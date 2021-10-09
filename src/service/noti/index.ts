@@ -1,6 +1,6 @@
 import { Notification } from './../../constants/interface/notification.interface'
 import { MyUser } from './../../constants/interface/myUser.interface'
-import { Collection } from './../../constants/index'
+import { COLLECTION } from './../../constants/index'
 import firebase from 'firebase'
 import { firestore } from '../../config/firebase'
 import { getUser } from '../user'
@@ -23,7 +23,7 @@ async function createLectureNoti(link: string) {
     createAt: timeStamp,
     updateAt: timeStamp,
   }
-  firestore.collection(Collection.Notifications).add(noti)
+  firestore.collection(COLLECTION.NOTIFICATIONS).add(noti)
 }
 
 async function createFollowNoti(userId: string) {
@@ -39,7 +39,7 @@ async function createFollowNoti(userId: string) {
       createAt: timeStamp,
       updateAt: timeStamp,
     }
-    firestore.collection(Collection.Notifications).add(noti)
+    firestore.collection(COLLECTION.NOTIFICATIONS).add(noti)
   }
 }
 
@@ -48,7 +48,7 @@ async function getNoti() {
   const data: Notification[] = []
   if (userId) {
     const notiDoc = await firestore
-      .collection(Collection.Notifications)
+      .collection(COLLECTION.NOTIFICATIONS)
       .where('relevantUserId', 'array-contains', userId)
       .orderBy('createAt', 'desc')
       .get()

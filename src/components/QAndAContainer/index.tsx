@@ -2,7 +2,7 @@ import { Avatar, Button, Empty, Form, Input } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { AuthZone } from '../../components'
 import { firestore } from '../../config/firebase'
-import { Collection } from '../../constants'
+import { COLLECTION } from '../../constants'
 import { CreateQAndADTO } from '../../constants/dto/lecture.dto'
 import { QAndA } from '../../constants/interface/lecture.interface'
 import { createQAndA } from '../../service/lectures/qanda'
@@ -36,9 +36,9 @@ export const QAndAContainer: React.FC<QAndAContainerProps> = ({ lectureId, autho
 
   useEffect(() => {
     const unsubscribe = firestore
-      .collection(Collection.Lectures)
+      .collection(COLLECTION.LECTURES)
       .doc(lectureId)
-      .collection(Collection.QAs)
+      .collection(COLLECTION.QAS)
       .orderBy('createAt')
       .onSnapshot(querySnapshot => {
         setSize(querySnapshot.size)

@@ -1,11 +1,11 @@
 import { LectureDTO } from './../../constants/dto/lecture.dto'
-import { Collection } from './../../constants/index'
+import { COLLECTION } from './../../constants/index'
 import firebase from 'firebase'
 import { firebaseApp, firestore } from '../../config/firebase'
 import { CreateLectureDTO, UpdateLectureDTO } from '../../constants/dto/lecture.dto'
 import { createLectureNoti } from '../noti'
 
-const lectureCollection = firestore.collection(Collection.Lectures)
+const lectureCollection = firestore.collection(COLLECTION.LECTURES)
 
 async function createLecture(lecture: CreateLectureDTO): Promise<LectureDTO> {
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())

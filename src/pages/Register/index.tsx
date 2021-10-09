@@ -2,7 +2,7 @@
 import { Card } from 'antd'
 import React from 'react'
 import { RegisterForm } from '../../components'
-import { SvgUrl } from '../../constants'
+import { SVG_URL } from '../../constants'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 export const Register: React.FC = () => {
@@ -10,7 +10,7 @@ export const Register: React.FC = () => {
     <div className="flex justify-center mx-auto items-end my-10" style={{ maxWidth: 1000 }}>
       <div className="flex-1 hidden md:block">
         <LazyLoadImage
-          src={SvgUrl.Register}
+          src={SVG_URL.REGISTER}
           alt=""
           className="flex-1 mr-20 h-96"
           effect="opacity"

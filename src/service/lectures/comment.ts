@@ -1,4 +1,4 @@
-import { Collection } from './../../constants/index'
+import { COLLECTION } from './../../constants/index'
 import firebase from 'firebase'
 import { firebaseApp, firestore } from '../../config/firebase'
 import { CreateCommentDTO, ReplyDTO, UpdateCommentDTO } from '../../constants/dto/lecture.dto'
@@ -8,7 +8,7 @@ const lectureCollection = firestore.collection('Lectures')
 function getCommentCollection(
   lectureId: string,
 ): firebase.firestore.CollectionReference<firebase.firestore.DocumentData> {
-  return lectureCollection.doc(lectureId).collection(Collection.Comments)
+  return lectureCollection.doc(lectureId).collection(COLLECTION.COMMENT)
 }
 
 function getReplyCollection(
@@ -16,7 +16,7 @@ function getReplyCollection(
   id: string,
 ): firebase.firestore.CollectionReference<firebase.firestore.DocumentData> {
   const comment = getCommentCollection(lectureId)
-  return comment.doc(id).collection(Collection.Replies)
+  return comment.doc(id).collection(COLLECTION.REPILES)
 }
 
 async function createComment(comment: CreateCommentDTO): Promise<void> {

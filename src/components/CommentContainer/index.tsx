@@ -2,7 +2,7 @@ import { Button, Empty, Form, Input } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { AuthZone } from '..'
 import { firestore } from '../../config/firebase'
-import { Collection } from '../../constants'
+import { COLLECTION } from '../../constants'
 import { Comments } from '../../constants/interface/lecture.interface'
 import { Reply } from './components/Reply'
 import { createComment } from '../../service/lectures/comment'
@@ -42,9 +42,9 @@ export const CommentContainer: React.FC<CommentProps> = ({ lectureId }) => {
 
   useEffect(() => {
     const unsubscribe = firestore
-      .collection(Collection.Lectures)
+      .collection(COLLECTION.LECTURES)
       .doc(lectureId)
-      .collection(Collection.Comments)
+      .collection(COLLECTION.COMMENT)
       .orderBy('createAt')
       .onSnapshot(querySnapshot => {
         setSize(querySnapshot.size)
