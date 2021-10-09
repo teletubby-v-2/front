@@ -8,6 +8,7 @@ import thTH from 'antd/lib/locale/th_TH'
 import moment from 'moment'
 import 'moment/locale/th'
 import { BrowserRouter } from 'react-router-dom'
+import 'react-lazy-load-image-component/src/effects/opacity.css'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 
 moment.locale('th')

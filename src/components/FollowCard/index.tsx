@@ -1,10 +1,12 @@
-import { Avatar, Button, Card, Typography } from 'antd'
+import { Button, Card, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { useHistory } from 'react-router'
 import { AuthZone } from '..'
 import { followUser, unFollowUser } from '../../service/user/follow'
 import { userInfoStore } from '../../store/user.store'
 import { fetchUser } from '../../utils/fetchUser'
+import { strInnerParagraph } from '../../utils/strInnerParagraph'
 import { FollowCardSkeleton } from '../MySkeleton/FollowCardSkeleton'
 
 export interface FollowCardProps {
@@ -27,9 +29,7 @@ export const FollowCard: React.FC<FollowCardProps> = ({ userId, className }) => 
         setimageUrl(info.photoURL)
       })
       .catch(err => console.log(err))
-      .finally(() => {
-        setloading(false)
-      })
+      .finally(() => setloading(false))
   }, [])
 
   const onFollow = () => {
@@ -58,11 +58,18 @@ export const FollowCard: React.FC<FollowCardProps> = ({ userId, className }) => 
               ellipsis={{ rows: 2 }}
               className="text-lg text-center overflow-hidden  "
             >
-              {userName}
+              {strInnerParagraph(userName)}
             </Typography.Paragraph>
           </div>
           <div className="flex justify-center">
-            <Avatar src={imageUrl} size={100} alt="Profile picture" className="object-cover" />
+            <LazyLoadImage
+              src={imageUrl}
+              height={100}
+              width={100}
+              alt="Profile picture"
+              className="object-cover rounded-full"
+              effect="blur"
+            />
           </div>
           <div className="h-10" />
         </div>

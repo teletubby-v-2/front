@@ -3,14 +3,14 @@ import { uploadImage, deleteImages } from '../../service/storage'
 import { RcFile } from 'antd/lib/upload/interface'
 import { UploadRequestOption } from 'rc-upload/lib/interface'
 
-export interface UploadPicProps {
+export interface UploadPicOptions {
   setimageUrl: (imageUrl: string) => void
   setIsUploading: (isUploading: boolean) => void
   imageUrl: string | undefined
   originalimageUrl: string | undefined
 }
 
-export const useUploadpic = (props: UploadPicProps) => {
+export const useUploadpic = (props: UploadPicOptions) => {
   const { setimageUrl, setIsUploading, imageUrl, originalimageUrl } = props
   const oldimageUrl = imageUrl
 

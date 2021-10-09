@@ -67,7 +67,7 @@ export const UserInfoForm: React.FC = () => {
         <div className="text-center">
           <Form.Item>
             <Upload
-              accept="image/*"
+              accept="image/jpeg,image/png"
               maxCount={1}
               disabled={isUploading}
               customRequest={handleRequest}

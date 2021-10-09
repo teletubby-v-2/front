@@ -59,6 +59,16 @@ code {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
+.profile {
+  width: 350px;
+}
+
+@media screen and (max-width: 1000px) {
+  .profile {
+    width: 300px;
+  }
+}
+
 .s {
   max-width: 700;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -187,7 +197,7 @@ svg {
 }
 
 .carousel__images {
-  height: 610px;
+  height: 100%;
   overflow-x: auto;
 }
 
@@ -202,7 +212,7 @@ svg {
 }
 
 .carousel__image {
-  height: 200px;
+  aspect-ratio: 1/1;
   width: 100%;
   border: 3px solid #ffa70000;
   background-position: center center;

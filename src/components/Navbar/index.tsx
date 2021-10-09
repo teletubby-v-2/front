@@ -182,7 +182,7 @@ export const Navbar: React.FC = () => {
             src={KUshare}
             onClick={onClickLogo}
             className="cursor-pointer "
-            effect="blur"
+            effect="opacity"
           />
           <div className="text-center w-full space-x-2">
             <SearchOutlined className="text-xl" />
@@ -243,11 +243,12 @@ export const Navbar: React.FC = () => {
                 overlayClassName="fixed"
                 arrow
               >
-                {userInfo.imageUrl ? (
-                  <Avatar src={userInfo.imageUrl} size="large" className="border cursor-pointer" />
-                ) : (
-                  <Avatar icon={<UserOutlined />} size="large" className="border cursor-pointer" />
-                )}
+                <Avatar
+                  icon={<UserOutlined />}
+                  src={userInfo.imageUrl}
+                  size="large"
+                  className="border cursor-pointer"
+                />
               </Dropdown>
             </div>
           ) : (

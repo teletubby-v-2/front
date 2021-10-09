@@ -59,11 +59,12 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
         <h1 className="text-center text-2xl font-black ">{Info.userName}</h1>
       </div>
       <div className="flex w-full justify-center">
-        {Info.imageUrl ? (
-          <Avatar src={Info.imageUrl} size={200} alt="Profile picture" className=" object-cover" />
-        ) : (
-          <Avatar src={no_user} alt="no_user" size={200} className="mx-auto flex object-cover" />
-        )}
+        <Avatar
+          src={Info.imageUrl || no_user}
+          size={200}
+          alt="Profile picture"
+          className=" object-cover"
+        />
       </div>
       <div className="text-center items-center mt-3 mb-2">
         <p>

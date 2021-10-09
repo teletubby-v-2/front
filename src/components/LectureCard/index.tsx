@@ -39,7 +39,7 @@ export const LectureCard: React.FC<LectureCardProps> = props => {
           ) : (
             <LazyLoadImage
               src={data?.imageUrl?.[0]}
-              effect="blur"
+              effect="opacity"
               alt="no photo"
               className=" w-40 h-52 absolute object-contain "
               style={{

@@ -66,7 +66,7 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
         <Form.Item name="qrCodeFile" label="อัพโหลด QR code">
           <Upload
             listType="picture-card"
-            accept="image/*"
+            accept="image/jpeg,image/png"
             maxCount={1}
             fileList={imageUrl ? initPhoto([imageUrl]) : undefined}
             disabled={isUploading}
@@ -81,7 +81,7 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
                   src={imageUrl}
                   alt="QR"
                   className="w-30 h-30 object-center object-cover"
-                  effect="blur"
+                  effect="opacity"
                 />
               ) : (
                 <p>อัพโหลด</p>

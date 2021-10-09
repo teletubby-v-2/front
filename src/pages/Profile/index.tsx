@@ -52,7 +52,7 @@ export const Profile: React.FC = () => {
     <>
       {firebaseApp.auth().currentUser ? (
         <div className="flex justify-center my-10 space-x-6">
-          <div style={{ width: 350 }} className="flex-shrink-0">
+          <div className="flex-shrink-0 profile">
             <div className="mb-6 shadow-1">
               <MyProfile />
             </div>
