@@ -223,7 +223,7 @@ export const Navbar: React.FC = () => {
                 </Tooltip>
               </CreateLectureForm>
 
-              <Badge count={numNoti || 1} offset={[-5, 9]}>
+              <Badge count={numNoti} offset={[-5, 9]}>
                 <Popover
                   className="text-xl text-black"
                   content={notiMenu}
