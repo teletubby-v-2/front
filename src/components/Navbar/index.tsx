@@ -223,7 +223,7 @@ export const Navbar: React.FC = () => {
                 </Tooltip>
               </CreateLectureForm>
 
-              <Badge count={numNoti}>
+              <Badge count={numNoti || 1} offset={[-5, 9]}>
                 <Popover
                   className="text-xl text-black"
                   content={notiMenu}
@@ -232,7 +232,7 @@ export const Navbar: React.FC = () => {
                   overlayClassName="w-72 fixed top-12 ml-3"
                 >
                   <Button type="link" shape="circle">
-                    <BellOutlined className="align-top" />
+                    <BellOutlined />
                   </Button>
                 </Popover>
               </Badge>
