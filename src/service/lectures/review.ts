@@ -1,16 +1,16 @@
 import { removeUndefined } from './../../utils/object'
-import { Collection } from './../../constants/index'
+import { COLLECTION } from './../../constants/index'
 import firebase from 'firebase'
 import { firebaseApp, firestore } from '../../config/firebase'
 import { CreateReviewDTO, UpdateReviewDTO } from '../../constants/dto/lecture.dto'
 import { Review } from '../../constants/interface/lecture.interface'
 
-const lectureCollection = firestore.collection(Collection.Lectures)
+const lectureCollection = firestore.collection(COLLECTION.LECTURES)
 
 function getReviewCollection(
   lectureId: string,
 ): firebase.firestore.CollectionReference<firebase.firestore.DocumentData> {
-  return lectureCollection.doc(lectureId).collection(Collection.Reviews)
+  return lectureCollection.doc(lectureId).collection(COLLECTION.REVIEWS)
 }
 
 async function createReview(review: CreateReviewDTO): Promise<Review> {

@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Divider } from 'antd'
 import { MyUser } from '../../constants/interface/myUser.interface'
 import no_image from '../../assets/images/no_image.jpg'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 export interface ProfileComponentProps {
   onEdit?: () => void
@@ -17,9 +18,14 @@ export const QRComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy, Inf
       </Divider>
       <div className="flex flex-col items-center w-full">
         {Info.donateImage ? (
-          <img src={Info.donateImage} alt="QR" className="my-3 w-52 h-52 object-contain" />
+          <LazyLoadImage
+            src={Info.donateImage}
+            alt="QR"
+            className="my-3 w-52 h-52 object-contain"
+            effect="blur"
+          />
         ) : (
-          <img src={no_image} alt="noimage" className="w-52 h-52  my-3" />
+          <LazyLoadImage src={no_image} alt="noimage" className="w-52 h-52  my-3" effect="blur" />
         )}
         {Info.donateDescription || Info.donateImage ? (
           <p className="text-center">{Info.donateDescription || ''}</p>

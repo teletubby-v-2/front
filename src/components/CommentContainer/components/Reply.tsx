@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { firestore } from '../../../config/firebase'
-import { Collection } from '../../../constants'
+import { COLLECTION } from '../../../constants'
 import { ReplyDTO } from '../../../constants/dto/lecture.dto'
 import { fetchUser } from '../../../utils/fetchUser'
 import { CommentSkeleton } from '../../MySkeleton/CommentSkeleton'
@@ -17,11 +17,11 @@ export const Reply: React.FC<ReplyProps> = ({ id, commentId }) => {
 
   useEffect(() => {
     const unsubscribe = firestore
-      .collection(Collection.Lectures)
+      .collection(COLLECTION.LECTURES)
       .doc(id)
-      .collection(Collection.Comments)
+      .collection(COLLECTION.COMMENT)
       .doc(commentId)
-      .collection(Collection.Replies)
+      .collection(COLLECTION.REPILES)
       .orderBy('createAt')
       .onSnapshot(querySnapshot => {
         setSize(querySnapshot.size)

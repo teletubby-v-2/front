@@ -11,6 +11,7 @@ import { deleteImages } from '../../service/storage'
 import { firebaseApp } from '../../config/firebase'
 import { useForm } from 'antd/lib/form/Form'
 import no_user from '../../assets/images/no_user.png'
+
 export interface UpdateValue {
   aboutMe: string
   socialLink: {
@@ -95,21 +96,12 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
       </div>
       <div className="flex justify-center">
         {!isUploading ? (
-          imageUrl ? (
-            <Avatar
-              src={imageUrl}
-              size={200}
-              alt="Profile picture"
-              className="mx-auto object-cover my-2 bg-center"
-            />
-          ) : (
-            <Avatar
-              src={no_user}
-              alt="no user"
-              size={200}
-              className="mx-auto object-cover my-2 bg-center"
-            />
-          )
+          <Avatar
+            src={imageUrl || no_user}
+            size={200}
+            alt="Profile picture"
+            className="mx-auto object-cover my-2 bg-center"
+          />
         ) : (
           <Avatar
             icon={<LoadingOutlined />}
@@ -124,7 +116,7 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
         <div className="text-center">
           <Form.Item name="imageFile">
             <Upload
-              accept="image/*"
+              accept="image/jpeg,image/png"
               maxCount={1}
               disabled={isUploading}
               customRequest={handleRequest}

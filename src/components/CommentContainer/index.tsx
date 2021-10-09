@@ -1,8 +1,8 @@
-import { Button, Form, Input } from 'antd'
+import { Button, Empty, Form, Input } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { AuthZone } from '..'
 import { firestore } from '../../config/firebase'
-import { Collection } from '../../constants'
+import { COLLECTION } from '../../constants'
 import { Comments } from '../../constants/interface/lecture.interface'
 import { Reply } from './components/Reply'
 import { createComment } from '../../service/lectures/comment'
@@ -42,9 +42,9 @@ export const CommentContainer: React.FC<CommentProps> = ({ lectureId }) => {
 
   useEffect(() => {
     const unsubscribe = firestore
-      .collection(Collection.Lectures)
+      .collection(COLLECTION.LECTURES)
       .doc(lectureId)
-      .collection(Collection.Comments)
+      .collection(COLLECTION.COMMENT)
       .orderBy('createAt')
       .onSnapshot(querySnapshot => {
         setSize(querySnapshot.size)
@@ -86,10 +86,10 @@ export const CommentContainer: React.FC<CommentProps> = ({ lectureId }) => {
         <Form form={form} layout="horizontal" onFinish={handleCreateComment}>
           <div className="flex space-x-2">
             <Avatar src={userInfo.imageUrl} size="large" alt={userInfo.userId} />
-            <Form.Item name="message" className="flex-grow">
+            <Form.Item name="message" className="flex-grow mb-3">
               <Input placeholder="เขียนความคิดเห็น..." size="large" />
             </Form.Item>
-            <Form.Item shouldUpdate>
+            <Form.Item shouldUpdate className="mb-0">
               {() => (
                 <Button
                   loading={loading}
@@ -105,11 +105,15 @@ export const CommentContainer: React.FC<CommentProps> = ({ lectureId }) => {
           </div>
         </Form>
       </AuthZone>
-      {comments.map((comment, index) => (
-        <CommentBox comment={comment} key={index} isParent>
-          {<Reply id={lectureId} commentId={comment.id as string} />}
-        </CommentBox>
-      ))}
+      {comments.length === 0 && !(size - comments.length) ? (
+        <Empty description="ยังไม่มีคอมเมนต์" className="mb-5" />
+      ) : (
+        comments.map((comment, index) => (
+          <CommentBox comment={comment} key={index} isParent>
+            {<Reply id={lectureId} commentId={comment.id as string} />}
+          </CommentBox>
+        ))
+      )}
       {comments && <CommentSkeleton count={size - comments.length} />}
     </div>
   )

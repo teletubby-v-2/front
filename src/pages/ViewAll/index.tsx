@@ -21,7 +21,7 @@ import { LectureCardSkeleton } from '../../components/MySkeleton/LectureCardSkel
 const options = [
   { label: 'ล่าสุด', value: 'lastest' },
   { label: 'เข้าดูมากสุด', value: 'view' },
-  { label: 'คะแนนโหวด', value: 'rating' },
+  { label: 'จำนวนดาว', value: 'rating' },
 ]
 
 const setNewQuery = (data: LectureDTO[], option: IFilter, sortBy = 'lastest') => {
@@ -152,8 +152,10 @@ export const ViewAll: React.FC = () => {
         next={() => setLimit(limit => limit + 10)}
         hasMore={limit < filterData.length}
         loader={
-          <div className="w-full flex justify-evenly mt-5 bg-white">
-            <LectureCardSkeleton count={15} />
+          <div className="shadow-1 mb-10 -mt-5 z-10 relative">
+            <div className="w-full lecture-container gap-x-4 gap-y-4 xl:gap-x-10 xl:gap-y-8 bg-white ">
+              <LectureCardSkeleton count={10} />
+            </div>
           </div>
         }
         dataLength={limit}
@@ -168,7 +170,8 @@ export const ViewAll: React.FC = () => {
           data={filterData}
           limit={limit}
           loading={loading}
-          numOfSkeleton={15}
+          numOfSkeleton={20}
+          maxRow={Infinity}
           extra={
             <div className="space-x-3 ">
               <FilterBox

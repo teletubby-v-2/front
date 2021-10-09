@@ -33,15 +33,16 @@ import { NotiMenuItem } from '../NotiMenu'
 import { Notification } from '../../constants/interface/notification.interface'
 import { readAllNoti } from '../../service/user'
 import { useInfiniteQuery } from '../../hooks/useInfiniteQuery'
-import { Collection } from '../../constants'
+import { COLLECTION } from '../../constants'
 import { options } from '../../utils/optionsUtil'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 export const Navbar: React.FC = () => {
   const history = useHistory()
   const location = useLocation()
   const { userInfo, setNotificationReadCount } = userInfoStore()
   const { data, hasNext, setQuery, fetchMore, isLoading } = useInfiniteQuery<Notification>(
-    firestore.collection(Collection.Notifications).where('relevantUserId', 'array-contains', ''),
+    firestore.collection(COLLECTION.NOTIFICATIONS).where('relevantUserId', 'array-contains', ''),
     'notiId',
   )
   const [value, setvalue] = useState('')
@@ -49,7 +50,7 @@ export const Navbar: React.FC = () => {
   useEffect(() => {
     setQuery(
       firestore
-        .collection(Collection.Notifications)
+        .collection(COLLECTION.NOTIFICATIONS)
         .where('relevantUserId', 'array-contains', userInfo.userId)
         .orderBy('createAt', 'desc'),
     )
@@ -176,7 +177,13 @@ export const Navbar: React.FC = () => {
     <div>
       <nav className="text-xl h-16 navbar">
         <div className="container mx-auto flex justify-between items-center p-3 ">
-          <img width={129} src={KUshare} onClick={onClickLogo} className="cursor-pointer " />
+          <LazyLoadImage
+            width={129}
+            src={KUshare}
+            onClick={onClickLogo}
+            className="cursor-pointer "
+            effect="opacity"
+          />
           <div className="text-center w-full space-x-2">
             <SearchOutlined className="text-xl" />
             <AutoComplete
@@ -185,7 +192,6 @@ export const Navbar: React.FC = () => {
               onSelect={onSelect}
               onChange={e => setvalue(e)}
               allowClear
-              size="large"
               autoClearSearchValue
               onFocus={e => (e.target as HTMLInputElement).select()}
               filterOption={(inputValue, option) => {
@@ -237,11 +243,12 @@ export const Navbar: React.FC = () => {
                 overlayClassName="fixed"
                 arrow
               >
-                {userInfo.imageUrl ? (
-                  <Avatar src={userInfo.imageUrl} size="large" className="border cursor-pointer" />
-                ) : (
-                  <Avatar icon={<UserOutlined />} size="large" className="border cursor-pointer" />
-                )}
+                <Avatar
+                  icon={<UserOutlined />}
+                  src={userInfo.imageUrl}
+                  size="large"
+                  className="border cursor-pointer"
+                />
               </Dropdown>
             </div>
           ) : (

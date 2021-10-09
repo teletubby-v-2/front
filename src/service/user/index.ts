@@ -1,5 +1,5 @@
 import { MyUser } from './../../constants/interface/myUser.interface'
-import { Collection } from './../../constants/index'
+import { COLLECTION } from './../../constants/index'
 import firebase from 'firebase'
 import { firebaseApp, firestore } from '../../config/firebase'
 import {
@@ -11,7 +11,7 @@ import {
 import { removeUndefined } from '../../utils/object'
 import { NotificationDTO } from '../../constants/dto/notification.dto'
 
-const userCollection = firestore.collection(Collection.Users)
+const userCollection = firestore.collection(COLLECTION.USERS)
 
 async function getUser() {
   const userId = firebaseApp.auth().currentUser?.uid
@@ -109,7 +109,7 @@ async function updateUserSubject(userSubject: UserSubjectDTO[]) {
 }
 
 async function getUserDetial(userId: string) {
-  const bundleUser = await firestore.collection(Collection.Users).doc(userId).get()
+  const bundleUser = await firestore.collection(COLLECTION.USERS).doc(userId).get()
   if (bundleUser.exists) {
     const data = { ...bundleUser.data(), userId: userId } as MyUserDTO
     return data

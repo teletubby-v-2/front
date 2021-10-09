@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { Comment, Avatar, Form, Input, Button, Menu, Dropdown } from 'antd'
+import { Comment, Avatar, Form, Input, Button, Menu, Dropdown, Typography } from 'antd'
 import { Comments } from '../../../constants/interface/lecture.interface'
 import { CaretDownFilled } from '@ant-design/icons'
 import { AuthZone } from '../..'
@@ -9,6 +9,7 @@ import { userInfoStore } from '../../../store/user.store'
 import { Link } from 'react-router-dom'
 import { MenuInfo } from 'rc-menu/lib/interface'
 import { MoreOutlined, DeleteOutlined } from '@ant-design/icons'
+import { strInnerParagraph } from '../../../utils/strInnerParagraph'
 
 export interface CommentBoxProps {
   comment: ReplyDTO
@@ -18,6 +19,8 @@ export interface CommentBoxProps {
 export interface CommentForm {
   message: string
 }
+
+const { Paragraph } = Typography
 
 export const CommentBox: React.FC<CommentBoxProps> = ({
   children,
@@ -72,7 +75,6 @@ export const CommentBox: React.FC<CommentBoxProps> = ({
     <div>
       {' '}
       <Comment
-        className="p-0"
         actions={
           isMain && children
             ? [
@@ -107,18 +109,29 @@ export const CommentBox: React.FC<CommentBoxProps> = ({
           </Link>
         }
         content={
-          <div className="flex">
-            <p className="flex-grow">{comment.message}</p>
-            {userInfo.userId === comment.userId && (
-              <p className="-m-3">
-                <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
-                  <Button type="link">
-                    <MoreOutlined className="text-xl text-black" />
-                  </Button>
-                </Dropdown>
-              </p>
-            )}
-          </div>
+          <>
+            <div className="flex">
+              <Paragraph
+                ellipsis={{
+                  rows: 5,
+                  expandable: true,
+                  symbol: 'ดูเพิ่มเติม',
+                }}
+                className="flex-grow"
+              >
+                {strInnerParagraph(comment.message || '')}
+              </Paragraph>
+              {userInfo.userId === comment.userId && (
+                <p className="-m-3">
+                  <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
+                    <Button type="link">
+                      <MoreOutlined className="text-xl text-black" />
+                    </Button>
+                  </Dropdown>
+                </p>
+              )}
+            </div>
+          </>
         }
       >
         {isShowReply && children && children}
@@ -127,10 +140,10 @@ export const CommentBox: React.FC<CommentBoxProps> = ({
             <Form form={form} onFinish={handleCreateReply}>
               <div className="flex space-x-3 ml-2">
                 <Avatar src={userInfo.imageUrl} alt={userInfo.userId} />
-                <Form.Item name="message" className="flex-grow">
+                <Form.Item name="message" className="flex-grow mb-3">
                   <Input placeholder="ตอบกลับ" autoFocus />
                 </Form.Item>
-                <Form.Item shouldUpdate>
+                <Form.Item shouldUpdate className="mb-0">
                   {() => (
                     <Button
                       type="primary"

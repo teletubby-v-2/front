@@ -25,7 +25,7 @@ function filterTransfer(
 }
 
 const getUserFromIndexDB = async () => {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     const asyncForEach = (array: any, callback: any, done: any) => {
       const runAndWait = (i: any) => {
         if (i === array.length) return done()
@@ -39,20 +39,26 @@ const getUserFromIndexDB = async () => {
       const db = dbRequest.result
       const stores = ['firebaseLocalStorage']
 
-      const tx = db.transaction(stores)
-      asyncForEach(
-        stores,
-        (store: any, next: any) => {
-          const req = tx.objectStore(store).getAll()
-          req.onsuccess = () => {
-            dump[store] = req.result
-            next()
-          }
-        },
-        () => {
-          resolve(dump)
-        },
-      )
+      let tx: IDBTransaction
+      try {
+        tx = db?.transaction(stores) || undefined
+
+        asyncForEach(
+          stores,
+          (store: any, next: any) => {
+            const req = tx.objectStore(store).getAll()
+            req.onsuccess = () => {
+              dump[store] = req.result
+              next()
+            }
+          },
+          () => {
+            resolve(dump.firebaseLocalStorage[0])
+          },
+        )
+      } catch {
+        reject('error')
+      }
     }
   })
 }

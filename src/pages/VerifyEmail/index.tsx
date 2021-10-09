@@ -3,8 +3,9 @@ import { Button, Card } from 'antd'
 import { firebaseApp } from '../../config/firebase'
 import { useHistory } from 'react-router'
 import { logout } from '../../service/auth'
-import email from '../../assets/icons/email.svg'
 import { UserStep } from '../../components'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
+import { SVG_URL } from '../../constants'
 
 export const VerifyEmail: React.FC = () => {
   const [isClick, setIsClick] = useState(false)
@@ -47,7 +48,13 @@ export const VerifyEmail: React.FC = () => {
       <Card className="verify-card main-shadow" style={{ width: 700 }} bordered>
         <div className="space-y-10">
           <p className="text-sm text-gray-500 mb-20">ขอบคุณสำหรับการสมัครสมาชิก</p>
-          <img src={email} alt="" width="150px" className="mx-auto" />
+          <LazyLoadImage
+            src={SVG_URL.MAIL}
+            alt=""
+            width="150px"
+            className="mx-auto"
+            effect="opacity"
+          />
           <p className="text-2xl font-bold">ยืนยันอีเมลของคุณ</p>
           <p className="text-sm text-gray-500">
             โปรดยืนยันว่าคุณต้องการใช้บัญชีอีเมลนี้ โดยคลิกลิงค์ที่เราส่งให้คุณ

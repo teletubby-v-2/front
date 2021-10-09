@@ -2,7 +2,7 @@ import { Avatar, Button, Form, Input, Rate, Skeleton } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { AuthZone } from '../../components'
 import { firestore } from '../../config/firebase'
-import { Collection } from '../../constants'
+import { COLLECTION } from '../../constants'
 import { CreateReviewDTO } from '../../constants/dto/lecture.dto'
 import { Review } from '../../constants/interface/lecture.interface'
 import { createReview, updateReview } from '../../service/lectures/review'
@@ -63,9 +63,9 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
     if (userInfo.userId) {
       setLoading(true)
       firestore
-        .collection(Collection.Lectures)
+        .collection(COLLECTION.LECTURES)
         .doc(lectureId)
-        .collection(Collection.Reviews)
+        .collection(COLLECTION.REVIEWS)
         .where('userId', '==', userInfo.userId)
         .get()
         .then(bundle => {
@@ -79,9 +79,9 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
 
   useEffect(() => {
     const unsubscribe = firestore
-      .collection(Collection.Lectures)
+      .collection(COLLECTION.LECTURES)
       .doc(lectureId)
-      .collection(Collection.Reviews)
+      .collection(COLLECTION.REVIEWS)
       .orderBy('createAt')
       .onSnapshot(querySnapshot => {
         setSize(querySnapshot.size)
@@ -144,7 +144,7 @@ export const ReviewContainer: React.FC<ReviewContainerProps> = ({ lectureId }) =
                       disabled={!!reviewData}
                     />
                   </Form.Item>
-                  <Form.Item name="rating" rules={[{ required: true }]}>
+                  <Form.Item name="rating" rules={[{ required: true }]} className="mb-0">
                     <Rate allowHalf disabled={!!reviewData} />
                   </Form.Item>
                   <Form.Item shouldUpdate className="text-right">

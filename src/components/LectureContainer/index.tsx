@@ -20,7 +20,7 @@ import { LectureCardSkeleton } from '../MySkeleton/LectureCardSkeleton'
 export interface LectureContainerProps extends CardProps {
   limit?: number | false
   data?: Lecture[]
-  minRow?: 1 | 2
+  maxRow?: number
   profile?: boolean
   loading?: boolean
   numOfSkeleton?: number
@@ -35,11 +35,10 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
     limit,
     data,
     className,
-    minRow = 1,
-    profile = false,
+    maxRow = 2,
     title,
     loading = false,
-    numOfSkeleton = 10,
+    numOfSkeleton = 12,
     ...restCradProps
   } = props
   const [isOnEdit, setIsOnEdit] = useState(false)
@@ -173,12 +172,14 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
     <Card
       {...restCradProps}
       title={<span className="text-xl">{title}</span>}
-      className={`${className} shadow-1`}
+      className={`${className} shadow-1 `}
     >
       <div
-        className={`grid grid-cols-3 gap-y-10 md:grid-cols-4 ${
-          profile ? 'lg:grid-cols-4' : 'lg:grid-cols-5'
-        } ${lectures?.length === 0 ? '' : `row-${minRow}-card`}`}
+        className={`
+        lecture-container gap-x-4 gap-y-4 xl:gap-x-10 xl:gap-y-8
+        justify-items-center 
+        ${loading ? `row-${maxRow}-card` : ''}
+        ${lectures?.length === 0 ? '' : `row-${maxRow}-card`}`}
       >
         {loading ? (
           <LectureCardSkeleton count={numOfSkeleton} />
@@ -186,7 +187,7 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
           lectures &&
           lectures?.length !== 0 &&
           lectures?.slice(0, size).map((lecture, index) => (
-            <div className="relative w-40 h-52 mx-auto border-2 border-gray-500" key={index}>
+            <div className="relative w-40 h-52 border-2 border-gray-500" key={index}>
               <div className="absolute z-10 right-0 top-0">
                 {userInfo.userId === lecture?.userId && (
                   <Dropdown
@@ -232,7 +233,7 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
         )}
       </div>
       {!loading && lectures && lectures?.length === 0 && (
-        <div className="row-1-card flex justify-center items-center">
+        <div className="h-52 flex justify-center items-center">
           <Empty description="ไม่มีรายการ" />
         </div>
       )}

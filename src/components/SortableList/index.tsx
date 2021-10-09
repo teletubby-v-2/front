@@ -67,6 +67,7 @@ const SortableItem = SortableElement((params: SortableItemParams) => (
 const listStyle: CSSProperties = {
   display: 'flex',
   flexWrap: 'wrap',
+  width: 500,
 }
 const SortableList = SortableContainer((params: SortableListParams) => {
   return (
@@ -127,6 +128,7 @@ const PicturesGrid: React.FC<Props> = memo(({ onChange: onFileChange, ...props }
       <Modal
         visible={!!previewImage}
         footer={null}
+        zIndex={2000}
         centered
         onCancel={() => setPreviewImage('')}
         bodyStyle={{ padding: 0 }}

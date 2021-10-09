@@ -1,11 +1,11 @@
 import { UserSubjectDTO } from './../../constants/dto/myUser.dto'
 import firebase from 'firebase'
 import { firestore } from '../../config/firebase'
-import { Collection } from '../../constants'
+import { COLLECTION } from '../../constants'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { updateViewCount } from '.'
 
-export const lectureRef = firestore.collection(Collection.Lectures)
+export const lectureRef = firestore.collection(COLLECTION.LECTURES)
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getContentById<T = any, R = any>(

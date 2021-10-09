@@ -32,22 +32,22 @@ export const FilterBox: React.FC<FilterBoxProps> = ({ callback }) => {
     ref.current?.click()
   }
   const filterBox = (
-    <div className=" w-64">
+    <div className=" w-68">
       <div className="font-bold text-2xl text-center">ฟิลเตอร์</div>
-      <div className="mt-2  grid grid-cols-5 gap-y-3 ">
-        เทอม:
+      <div className="mt-2  grid grid-cols-4 gap-y-4 gap-x-1 items-center">
+        ช่วงที่สอบ :
         <Checkbox.Group
           value={term}
           onChange={value => setTerm(value as string[])}
           options={options}
-          className="col-span-4"
+          className="col-span-3"
         />
-        Rating:
+        ดาวขั้นต่ำ :
         <Rate
           allowHalf
           value={rating}
           onChange={value => setRating(value)}
-          className=" col-span-4"
+          className=" col-span-3"
         />
         <div className="col-span-3"></div>
       </div>

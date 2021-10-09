@@ -33,7 +33,7 @@ export const Profile: React.FC = () => {
     setOwnLecture([])
     if (userInfo.userId) {
       setLoading1(true)
-      getOwnLectures(userInfo.userId, 8)
+      getOwnLectures(userInfo.userId, 10)
         .then(data => setOwnLecture(data))
         .finally(() => setLoading1(false))
     }
@@ -42,7 +42,7 @@ export const Profile: React.FC = () => {
   useEffect(() => {
     if (bookmarkLecture.length === 0 && userInfo.bookmark && userInfo.bookmark.length !== 0) {
       setLoading2(true)
-      getBookmarkLectures(userInfo.bookmark, 8)
+      getBookmarkLectures(userInfo.bookmark, 10)
         .then(data => setBookmarkLecture(data))
         .finally(() => setLoading2(false))
     }
@@ -52,7 +52,7 @@ export const Profile: React.FC = () => {
     <>
       {firebaseApp.auth().currentUser ? (
         <div className="flex justify-center my-10 space-x-6">
-          <div style={{ width: 350 }} className="flex-shrink-0">
+          <div className="flex-shrink-0 profile">
             <div className="mb-6 shadow-1">
               <MyProfile />
             </div>
@@ -63,7 +63,7 @@ export const Profile: React.FC = () => {
           <div className="flex-grow">
             <div className=" space-y-8">
               <LectureContainer
-                numOfSkeleton={8}
+                numOfSkeleton={10}
                 profile
                 limit={8}
                 title={containerTitle.ownLecture}
@@ -79,7 +79,7 @@ export const Profile: React.FC = () => {
               <LectureContainer
                 profile
                 title={containerTitle.bookmark}
-                numOfSkeleton={8}
+                numOfSkeleton={10}
                 limit={8}
                 data={bookmarkLecture}
                 loading={loading2}

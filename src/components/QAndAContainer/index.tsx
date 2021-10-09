@@ -1,8 +1,8 @@
-import { Avatar, Button, Form, Input } from 'antd'
+import { Avatar, Button, Empty, Form, Input } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { AuthZone } from '../../components'
 import { firestore } from '../../config/firebase'
-import { Collection } from '../../constants'
+import { COLLECTION } from '../../constants'
 import { CreateQAndADTO } from '../../constants/dto/lecture.dto'
 import { QAndA } from '../../constants/interface/lecture.interface'
 import { createQAndA } from '../../service/lectures/qanda'
@@ -36,9 +36,9 @@ export const QAndAContainer: React.FC<QAndAContainerProps> = ({ lectureId, autho
 
   useEffect(() => {
     const unsubscribe = firestore
-      .collection(Collection.Lectures)
+      .collection(COLLECTION.LECTURES)
       .doc(lectureId)
-      .collection(Collection.QAs)
+      .collection(COLLECTION.QAS)
       .orderBy('createAt')
       .onSnapshot(querySnapshot => {
         setSize(querySnapshot.size)
@@ -76,10 +76,14 @@ export const QAndAContainer: React.FC<QAndAContainerProps> = ({ lectureId, autho
 
   return (
     <div>
-      {qAndAs.map((qAndA, index) => (
-        <QuestionBox qAndA={qAndA} key={index} authorId={authorId} lectureId={lectureId} />
-      ))}
-      {qAndAs && size - qAndAs.length > 0 && <CommentSkeleton count={size - qAndAs.length} />}
+      {qAndAs.length !== 0 && !(size - qAndAs.length) ? (
+        qAndAs.map((qAndA, index) => (
+          <QuestionBox qAndA={qAndA} key={index} authorId={authorId} lectureId={lectureId} />
+        ))
+      ) : (
+        <Empty description="ยังไม่มีคำถาม" className="mb-5" />
+      )}
+      {qAndAs && <CommentSkeleton count={size - qAndAs.length} />}
       {authorId !== userInfo.userId && (
         <AuthZone>
           <Form form={form} layout="horizontal" onFinish={handleCreateQAndA}>

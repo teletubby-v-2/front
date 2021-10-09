@@ -24,7 +24,7 @@ export const FollowCardSkeleton: React.FC<FollowCardSkeletonProps> = ({ loading,
           </div>
         </>
       ) : (
-        { children }
+        <>{children}</>
       )}
     </>
   )

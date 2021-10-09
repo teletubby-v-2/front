@@ -1,11 +1,14 @@
 import React, { useMemo, useState } from 'react'
-import { Comment, Avatar, Rate, Dropdown, Menu, Button, Form, Input } from 'antd'
+import { Comment, Avatar, Rate, Dropdown, Menu, Button, Form, Input, Typography } from 'antd'
 import { Review } from '../../../constants/interface/lecture.interface'
 import { Link } from 'react-router-dom'
 import { MoreOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { userInfoStore } from '../../../store/user.store'
 import { MenuInfo } from 'rc-menu/lib/interface'
 import { deleteReview, updateReview } from '../../../service/lectures/review'
+import { strInnerParagraph } from '../../../utils/strInnerParagraph'
+
+const { Paragraph } = Typography
 
 export interface ReviewBoxProps {
   review: Review
@@ -76,7 +79,16 @@ export const ReviewBox: React.FC<ReviewBoxProps> = ({ review }) => {
         content={
           !edit ? (
             <div className="flex">
-              <p className="flex-grow">{review.message}</p>
+              <Paragraph
+                ellipsis={{
+                  rows: 5,
+                  expandable: true,
+                  symbol: 'ดูเพิ่มเติม',
+                }}
+                className="flex-grow"
+              >
+                {strInnerParagraph(review.message || '')}
+              </Paragraph>
               {userInfo.userId === review.userId && (
                 <p className="-m-3">
                   <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">

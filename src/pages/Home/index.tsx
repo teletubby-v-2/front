@@ -16,7 +16,7 @@ export const Home: React.FC = () => {
 
   useEffect(() => {
     setLoading2(true)
-    getLectures(10)
+    getLectures(12)
       .then(data => setAllLecture(data))
       .finally(() => setLoading2(false))
   }, [])
@@ -24,7 +24,7 @@ export const Home: React.FC = () => {
   useEffect(() => {
     if (userInfo.userSubject.length !== 0) {
       setLoading1(true)
-      getMySubject(userInfo.userSubject, 10)
+      getMySubject(userInfo.userSubject, 12)
         .then(data => setMySubject(data))
         .catch(() => console.log('no data'))
         .finally(() => setLoading1(false))

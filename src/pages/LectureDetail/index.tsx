@@ -82,7 +82,7 @@ export const LectureDetail: React.FC = () => {
     return <Redirect to={`${history.location.pathname}#review`} />
   }
   return (
-    <div className="mx-5 my-10 flex space-x-10 w-full">
+    <div className="mx-5 my-10 flex space-x-3 lg:space-x-10 w-full">
       <ScrollToTop />
       <div className="flex-grow">
         <LectureSkeleton loading={loading}>
@@ -164,15 +164,15 @@ export const LectureDetail: React.FC = () => {
       </div>
 
       <div>
-        <div className=" w-80 bg-white shadow-1 rounded-sm flex text-center py-8 flex-col items-center space-y-4 px-3">
+        <div className="w-40 lg:w-80 bg-white shadow-1 rounded-sm flex text-center py-8 flex-col items-center space-y-4 px-3 ">
           <div>
             <div className="font-bold text-xl">สนับสนุน</div>
             <div className="text-lg">{user?.userName}</div>
           </div>
           {user?.donateImage ? (
-            <Avatar src={user?.donateImage} shape="square" size={200} />
+            <img src={user?.donateImage} className="carousel__image flex-shrink" />
           ) : (
-            <Avatar src={no_image} shape="square" className="w-52 h-52  my-3" />
+            <img src={no_image} className="carousel__image flex-shrink" />
           )}
           <div>{user?.donateDescription}</div>
         </div>

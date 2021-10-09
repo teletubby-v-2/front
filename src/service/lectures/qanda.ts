@@ -1,14 +1,14 @@
-import { Collection } from './../../constants/index'
+import { COLLECTION } from './../../constants/index'
 import firebase from 'firebase'
 import { firebaseApp, firestore } from '../../config/firebase'
 import { AnswersDTO, CreateQAndADTO, UpdateQAndADTO } from '../../constants/dto/lecture.dto'
 
-const lectureCollection = firestore.collection(Collection.Lectures)
+const lectureCollection = firestore.collection(COLLECTION.LECTURES)
 
 function getQAndACollection(
   lectureId: string,
 ): firebase.firestore.CollectionReference<firebase.firestore.DocumentData> {
-  return lectureCollection.doc(lectureId).collection(Collection.QAs)
+  return lectureCollection.doc(lectureId).collection(COLLECTION.QAS)
 }
 
 function getAnswerCollection(
@@ -16,7 +16,7 @@ function getAnswerCollection(
   qaId: string,
 ): firebase.firestore.CollectionReference<firebase.firestore.DocumentData> {
   const qAndA = getQAndACollection(lectureId)
-  return qAndA.doc(qaId).collection(Collection.Answers)
+  return qAndA.doc(qaId).collection(COLLECTION.ANSWERS)
 }
 
 async function createQAndA(qAndA: CreateQAndADTO): Promise<void> {

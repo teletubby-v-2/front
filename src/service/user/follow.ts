@@ -1,11 +1,11 @@
-import { Collection } from './../../constants/index'
+import { COLLECTION } from './../../constants/index'
 import firebase from 'firebase'
 import { firestore } from '../../config/firebase'
 import { MyUserDTO } from '../../constants/dto/myUser.dto'
 import { fetchUserArray } from '../../utils/fetchUser'
 import { createFollowNoti } from '../noti'
 
-const userCollection = firestore.collection(Collection.Users)
+const userCollection = firestore.collection(COLLECTION.USERS)
 
 async function getUserCollection(userId: string) {
   return await userCollection.doc(userId).get()

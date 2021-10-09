@@ -19,7 +19,7 @@ import firebase from 'firebase'
 import { userInfoStore } from './store/user.store'
 import { UserInfo } from './pages/UserInfo'
 import { firestore } from './config/firebase'
-import { Collection } from './constants'
+import { COLLECTION } from './constants'
 import { MyUser } from './constants/interface/myUser.interface'
 import { ViewAll } from './pages/ViewAll'
 import { Spin } from 'antd'
@@ -28,6 +28,7 @@ import { lectureStore } from './store/lecture.store'
 import { SelectProfile } from './pages/SelectProfile'
 import { FollowList } from './pages/FollowList'
 import { SearchResult } from './pages/SearchResult'
+
 const Overlay = styled.div`
   position: fixed;
   top: 0;
@@ -53,7 +54,7 @@ const App: React.FC = () => {
       if (user) {
         setSpin(true)
         firestore
-          .collection(Collection.Users)
+          .collection(COLLECTION.USERS)
           .doc(user.uid)
           .get()
           .then(doc => {
