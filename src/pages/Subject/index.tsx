@@ -25,7 +25,7 @@ export const Subject: React.FC = () => {
         <MyCard
           title={
             <>
-              <DiffTwoTone twoToneColor="black" className="align-text-top" /> วิชาของฉัน
+              <DiffTwoTone twoToneColor="black" /> วิชาของฉัน
               <Tooltip
                 title={
                   <div className="text-center">
@@ -35,7 +35,7 @@ export const Subject: React.FC = () => {
                   </div>
                 }
               >
-                <QuestionCircleOutlined className="mb-1 text-gray-500 cursor-pointer  ml-2 text-sm" />
+                <QuestionCircleOutlined className="text-gray-500 cursor-pointer  ml-2 text-sm" />
               </Tooltip>
             </>
           }

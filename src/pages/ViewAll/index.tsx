@@ -163,7 +163,7 @@ export const ViewAll: React.FC = () => {
         <LectureContainer
           title={
             <>
-              <LeftCircleOutlined onClick={() => history.goBack()} className="align-middle mr-3" />
+              <LeftCircleOutlined onClick={() => history.goBack()} className="mr-3" />
               {title}
             </>
           }

@@ -19,9 +19,9 @@ export const NotiMenuItem: React.FC<NotiMenuItemprop> = ({ notiId, type, body, l
 
   const icon = useMemo(() => {
     if (type == 'follow') {
-      return <TeamOutlined className="align-middle" />
+      return <TeamOutlined />
     } else if (type == 'lecture') {
-      return <DiffOutlined className="align-middle" />
+      return <DiffOutlined />
     }
   }, [type])
   const AvatarIcon = useMemo(() => {

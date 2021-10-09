@@ -126,19 +126,17 @@ export const Navbar: React.FC = () => {
       <>
         <div className="pb-1 flex items-center justify-between">
           <div className="py-1 text-lg">
-            <BellFilled className="mr-2 align-middle" />
+            <BellFilled className="m-1 " />
             การแจ้งเตือน
           </div>
-          <div>
-            <Button
-              onClick={readAll}
-              className="flex"
-              size="small"
-              disabled={userInfo.notificationReadCount.length === data.length}
-            >
-              อ่านทั้งหมด
-            </Button>
-          </div>
+          <Button
+            onClick={readAll}
+            className="flex"
+            size="small"
+            disabled={userInfo.notificationReadCount.length === data.length}
+          >
+            อ่านทั้งหมด
+          </Button>
         </div>
         <div className="overflow-y-scroll max-h-96">
           {data.length !== 0 ? (
@@ -218,7 +216,7 @@ export const Navbar: React.FC = () => {
               <CreateLectureForm>
                 <Tooltip title="เพิ่มสรุป" placement="bottom">
                   <Button className="text-xl text-black" type="link" shape="circle">
-                    <FileAddOutlined className="align-top" />
+                    <FileAddOutlined />
                   </Button>
                 </Tooltip>
               </CreateLectureForm>

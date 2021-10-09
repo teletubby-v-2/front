@@ -14,7 +14,7 @@ export const Footer: React.FC = () => {
             className="text-white  mb-1"
             href="https://popcat.click/"
           >
-            <TwitterOutlined className="align-text-top" />
+            <TwitterOutlined />
             {'  '}Twitter
           </a>
           <br />
@@ -24,7 +24,7 @@ export const Footer: React.FC = () => {
             target="_blank"
             rel="noreferrer"
           >
-            <FacebookFilled className="align-text-top" />
+            <FacebookFilled />
             {'  '}Facebook
           </a>
         </div>

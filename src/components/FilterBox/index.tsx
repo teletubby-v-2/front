@@ -72,7 +72,7 @@ export const FilterBox: React.FC<FilterBoxProps> = ({ callback }) => {
         destroyTooltipOnHide
       >
         <span ref={ref} className="cursor-pointer">
-          ฟิลเตอร์ <DownOutlined className="align-middle text-xs" />{' '}
+          ฟิลเตอร์ <DownOutlined className="text-xs" />{' '}
         </span>
       </Popover>
     </>
