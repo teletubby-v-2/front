@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Layout } from 'antd'
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { Route, RouteProps, useHistory, useLocation } from 'react-router-dom'
+import { Redirect, Route, RouteProps, useHistory, useLocation } from 'react-router-dom'
 import { Footer } from '..'
 import KUshare from '../../assets/icons/KUshare.svg'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
@@ -23,10 +24,14 @@ export const AuthRoute: React.FC<RouteProps> = props => {
   useEffect(() => {
     if (blockPath.some(path => path === location.pathname))
       getUserFromIndexDB()
-        .then(value => {
-          if (!value) history.push('/login')
+        .then((value: any) => {
+          if (value?.emailVerified) {
+            return history.replace('/home')
+          } else {
+            return history.replace('/verifyEmail')
+          }
         })
-        .catch(() => history.push('/login'))
+        .catch(() => console.log('no user'))
   }, [location.pathname])
 
   return (
