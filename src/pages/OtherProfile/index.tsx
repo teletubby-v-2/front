@@ -62,7 +62,6 @@ export const OtherProfile: React.FC = () => {
         <div className="flex-grow">
           <div className=" space-y-8">
             <LectureContainer
-              profile
               numOfSkeleton={10}
               title={title}
               data={otherlecture}

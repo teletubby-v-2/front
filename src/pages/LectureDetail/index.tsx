@@ -54,7 +54,7 @@ export const LectureDetail: React.FC = () => {
         }
         setLecture(data)
       })
-      .catch(() => history.push('/not_found'))
+      .catch(() => history.replace('/not_found'))
   }, [lectureId])
 
   useEffect(() => {

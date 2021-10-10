@@ -24,6 +24,7 @@ export interface LectureContainerProps extends CardProps {
   profile?: boolean
   loading?: boolean
   numOfSkeleton?: number
+  more?: boolean
 }
 
 interface LectureWithDropdown extends Lecture {
@@ -39,6 +40,7 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
     title,
     loading = false,
     numOfSkeleton = 12,
+    more = false,
     ...restCradProps
   } = props
   const [isOnEdit, setIsOnEdit] = useState(false)
@@ -231,6 +233,7 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
             </div>
           ))
         )}
+        {more && <LectureCardSkeleton count={numOfSkeleton} />}
       </div>
       {!loading && lectures && lectures?.length === 0 && (
         <div className="h-52 flex justify-center items-center">

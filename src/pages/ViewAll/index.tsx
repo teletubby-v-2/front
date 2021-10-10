@@ -16,7 +16,6 @@ import {
 } from '../../service/lectures/getLecture'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import ScrollToTop from '../../components/ScrollToTop'
-import { LectureCardSkeleton } from '../../components/MySkeleton/LectureCardSkeleton'
 
 const options = [
   { label: 'ล่าสุด', value: 'lastest' },
@@ -151,13 +150,7 @@ export const ViewAll: React.FC = () => {
       <InfiniteScroll
         next={() => setLimit(limit => limit + 10)}
         hasMore={limit < filterData.length}
-        loader={
-          <div className="shadow-1 mb-10 -mt-5 z-10 relative">
-            <div className="w-full lecture-container gap-x-4 gap-y-4 xl:gap-x-10 xl:gap-y-8 bg-white ">
-              <LectureCardSkeleton count={10} />
-            </div>
-          </div>
-        }
+        loader={''}
         dataLength={limit}
       >
         <LectureContainer
@@ -173,6 +166,7 @@ export const ViewAll: React.FC = () => {
           data={filterData}
           limit={limit}
           loading={loading}
+          more={limit < filterData.length}
           numOfSkeleton={20}
           maxRow={Infinity}
           extra={

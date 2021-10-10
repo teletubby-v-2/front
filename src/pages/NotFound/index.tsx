@@ -12,7 +12,7 @@ export const NotFound: React.FC = () => {
         subTitle="หน้าที่คุณต้องการหาไม่มีอยู่"
         extra={
           <>
-            <a onClick={() => history.go(-2)}>
+            <a onClick={() => history.goBack()}>
               <Button>ย้อนกลับ</Button>
             </a>
             <Link to="/login">

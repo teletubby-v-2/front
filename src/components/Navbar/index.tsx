@@ -65,7 +65,11 @@ export const Navbar: React.FC = () => {
         message: 'New ' + data[0].type,
         description: data[0].body,
         icon: getNotiIcon(data[0].type),
-        onClick: () => history.push(data[0].link),
+        onClick: () => {
+          notification.close(data[0].notiId || '')
+          history.push(data[0].link)
+        },
+        className: 'cursor-pointer',
       })
     } else if (!lastestId && data[0]) {
       setLastestId(data[0].notiId)
