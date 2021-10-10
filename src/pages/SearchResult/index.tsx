@@ -1,16 +1,14 @@
 import { BackTop, Button, Empty, List, Skeleton } from 'antd'
 import React, { useEffect, useState, useMemo } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { SearchOutlined, ArrowUpOutlined } from '@ant-design/icons'
 import { options } from '../../utils/optionsUtil'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import ScrollToTop from '../../components/ScrollToTop'
+import { useSearchParam } from '../../hooks/useSearchParam'
 
-function useQuery() {
-  return new URLSearchParams(useLocation().search).get('search') || ''
-}
 export const SearchResult: React.FC = () => {
-  const search = useQuery()
+  const search = useSearchParam('search')
   const [data, setData] = useState(
     options.filter(option => option.value.includes(search)).splice(0, 20),
   )

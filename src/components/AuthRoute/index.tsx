@@ -7,6 +7,7 @@ import { Footer } from '..'
 import KUshare from '../../assets/icons/KUshare.svg'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { getUserFromIndexDB } from '../../utils/firebase'
+import { userInfoStore } from '../../store/user.store'
 
 const { Content, Footer: AntFooter } = Layout
 
@@ -18,8 +19,15 @@ const blockPath = ['/login', '/register']
 
 export const AuthRoute: React.FC<RouteProps> = props => {
   const { component: Component, ...rest } = props
+  const { isOldUser } = userInfoStore()
   const history = useHistory()
   const location = useLocation()
+
+  useEffect(() => {
+    if (location.pathname === '/createUser' && isOldUser) {
+      history.replace('/home')
+    }
+  }, [isOldUser, location.pathname])
 
   useEffect(() => {
     if (blockPath.some(path => path === location.pathname))

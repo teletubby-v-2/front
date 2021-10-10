@@ -128,14 +128,8 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
           </Form.Item>
         </div>
         <Divider className="mx-2">
-          <p className="text-gray-400">General</p>
+          <p className="text-gray-400">เกี่ยวกับฉัน</p>
         </Divider>
-        <Form.Item>
-          <Input placeholder={userInfo.userName} disabled={true} />
-        </Form.Item>
-        <Form.Item>
-          <Input placeholder={userInfo.email} disabled={true} />
-        </Form.Item>
         <Form.Item name="aboutMe">
           <TextArea
             showCount
@@ -147,14 +141,14 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
         <Divider>
           <p className="text-gray-400">ลิงก์โซเชียล</p>
         </Divider>
-        <Form.Item name={['socialLink', 'instagram']}>
-          <Input addonBefore="https://" placeholder="Instagram" onKeyDown={dontSubmitWhenEnter} />
+        <Form.Item name={['socialLink', 'instagram']} rules={[{ type: 'url' }]}>
+          <Input placeholder="Instagram link" onKeyDown={dontSubmitWhenEnter} />
         </Form.Item>
-        <Form.Item name={['socialLink', 'facebook']}>
-          <Input addonBefore="https://" placeholder="Facebook" onKeyDown={dontSubmitWhenEnter} />
+        <Form.Item name={['socialLink', 'facebook']} rules={[{ type: 'url' }]}>
+          <Input placeholder="Facebook link" onKeyDown={dontSubmitWhenEnter} />
         </Form.Item>
-        <Form.Item name={['socialLink', 'youtube']}>
-          <Input addonBefore="https://" placeholder="Youtube" onKeyDown={dontSubmitWhenEnter} />
+        <Form.Item name={['socialLink', 'youtube']} rules={[{ type: 'url' }]}>
+          <Input placeholder="Youtube link" onKeyDown={dontSubmitWhenEnter} />
         </Form.Item>
         <Form.Item className="text-right mb-0">
           <Popconfirm

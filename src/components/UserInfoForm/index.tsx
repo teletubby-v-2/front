@@ -10,13 +10,12 @@ import { createUser } from '../../service/user'
 import { removeUndefined } from '../../utils/object'
 import { useHistory } from 'react-router-dom'
 import { CreateUserDTO } from '../../constants/dto/myUser.dto'
+import { SocialLink } from '../../constants/interface/myUser.interface'
 
 export interface UpdateValue {
   userName: string
   aboutMe: string
-  instagram: string
-  facebook: string
-  youtube: string
+  socialLink: SocialLink
 }
 
 export const UserInfoForm: React.FC = () => {
@@ -39,17 +38,11 @@ export const UserInfoForm: React.FC = () => {
   }, [userInfo])
 
   const onFinish = (value: UpdateValue) => {
-    const { youtube, facebook, instagram, aboutMe, ...rest } = value
-    const obtimizeSocialLink = removeUndefined({
-      youtube,
-      facebook,
-      instagram,
-    })
+    const { socialLink, ...rest } = value
     const data: CreateUserDTO = {
       ...rest,
-      aboutMe: aboutMe,
       imageUrl: imageUrl,
-      socialLink: obtimizeSocialLink,
+      socialLink: removeUndefined(socialLink),
     }
     createUser(data).then(user => {
       setAll(user)
@@ -59,7 +52,7 @@ export const UserInfoForm: React.FC = () => {
 
   return (
     <div className="px-5 border bg-white shadow-1 rounded-md pt-5" style={{ width: 700 }}>
-      <h1 className="text-center text-3xl font-black pb-3">โปรไฟล์ของฉัน</h1>
+      <h1 className="text-center text-3xl font-medium pb-3">สร้างโปรไฟล์</h1>
       <div className="w-full flex justify-center mb-5">
         <Avatar size={200} icon={<UserOutlined />} src={imageUrl} />
       </div>
@@ -102,23 +95,18 @@ export const UserInfoForm: React.FC = () => {
         <Divider>
           <p className="text-gray-400 text-sm">ลิงค์โซเชียล</p>
         </Divider>
-        <Form.Item name="instagram">
-          <Input addonBefore="https://" placeholder="Instagram" onKeyDown={dontSubmitWhenEnter} />
+        <Form.Item name={['socialLink', 'instagram']} rules={[{ type: 'url' }]}>
+          <Input placeholder="Instagram link" onKeyDown={dontSubmitWhenEnter} />
         </Form.Item>
-        <Form.Item name="facebook">
-          <Input addonBefore="https://" placeholder="Facebook" onKeyDown={dontSubmitWhenEnter} />
+        <Form.Item name={['socialLink', 'facebook']} rules={[{ type: 'url' }]}>
+          <Input placeholder="Facebook link" onKeyDown={dontSubmitWhenEnter} />
         </Form.Item>
-        <Form.Item name="youtube">
+        <Form.Item name={['socialLink', 'youtube']} rules={[{ type: 'url' }]}>
           <div className="content-center">
-            <Input
-              addonBefore="https://"
-              defaultValue=""
-              placeholder="Youtube"
-              onKeyDown={dontSubmitWhenEnter}
-            />
+            <Input defaultValue="" placeholder="Youtube link" onKeyDown={dontSubmitWhenEnter} />
           </div>
         </Form.Item>
-        <Form.Item className=" text-right">
+        <Form.Item className=" text-right" shouldUpdate>
           <Button type="primary" htmlType="submit" className="px-5">
             ถัดไป
           </Button>

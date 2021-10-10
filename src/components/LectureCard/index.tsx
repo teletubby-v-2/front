@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 import { SubjectDTO } from '../../constants/dto/subjects.dto'
 import { Lecture } from '../../constants/interface/lecture.interface'
 import kuSubject from '../../constants/subjects.json'
-import { useHistory } from 'react-router'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
+import { Link } from 'react-router-dom'
 
 export interface LectureCardProps extends CardProps {
   data?: Lecture
@@ -14,15 +14,14 @@ export interface LectureCardProps extends CardProps {
 export const LectureCard: React.FC<LectureCardProps> = props => {
   const { data, className } = props
   const [subject] = useState<Record<string, SubjectDTO>>(kuSubject.subjects)
-  const history = useHistory()
 
   return (
-    <div
+    <Link
       className={`cursor-pointer  ${className} ant-card-grid-hoverable border-2 border-gray-50 rounded-md`}
-      onClick={() => history.push(`/lectureDetail/${data?.lectureId}`)}
+      to={`/lectureDetail/${data?.lectureId}`}
     >
       <Badge.Ribbon text={`${data?.viewCount} views`} placement="start" className="mt-1">
-        <div className={`w-40 h-52 relative flex flex-col justify-end rounded-mdoverflow-hidden `}>
+        <div className={`w-40 h-52 relative flex flex-col justify-end rounded-md overflow-hidden `}>
           {data?.isPdf ? (
             <iframe
               src={data?.pdfUrl?.[0]}
@@ -46,7 +45,7 @@ export const LectureCard: React.FC<LectureCardProps> = props => {
               }}
             />
           )}
-          <div className="flex flex-col items-end justify-end w-full h-full opacity-95">
+          <div className="flex flex-col items-end justify-end w-full h-full opacity-95 text-gray-800">
             {data?.tags.map((tag, index) => (
               <div key={index}>
                 <span className="bg-white mb-1 mr-1 px-1 rounded-sm opacity-75 text-xs z-40">
@@ -63,6 +62,6 @@ export const LectureCard: React.FC<LectureCardProps> = props => {
           </div>
         </div>
       </Badge.Ribbon>
-    </div>
+    </Link>
   )
 }

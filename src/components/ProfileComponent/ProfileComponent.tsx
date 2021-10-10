@@ -5,8 +5,8 @@ import { MyUser } from '../../constants/interface/myUser.interface'
 import no_user from '../../assets/images/no_user.png'
 import { userInfoStore } from '../../store/user.store'
 import { AuthZone } from '..'
-import { useHistory } from 'react-router'
 import { followUser, unFollowUser } from '../../service/user/follow'
+import { Link } from 'react-router-dom'
 
 export interface ProfileComponentProps {
   onEdit?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
@@ -15,7 +15,6 @@ export interface ProfileComponentProps {
 }
 
 export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy, info: Info }) => {
-  const history = useHistory()
   const { userInfo, removeFollowing, addFollowing } = userInfoStore()
   const [followCount, setFollowCount] = useState(0)
   const [isFollow, setIsFollow] = useState(false)
@@ -45,14 +44,6 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       .catch(err => console.log(err))
   }
 
-  const tofollowing = () => {
-    history.push('/follow/' + Info.userId + '/following')
-  }
-
-  const tofollowers = () => {
-    history.push('/follow/' + Info.userId + '/followers')
-  }
-
   return (
     <>
       <div className="text-center my-3">
@@ -68,12 +59,12 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       </div>
       <div className="text-center items-center mt-3 mb-2">
         <p>
-          <a className="ml-3 text-blue-600" onClick={tofollowers}>
+          <Link className="ml-3" to={`/follow/${Info.userId}/following`}>
             {followCount} ผู้ติดตาม{' '}
-          </a>
-          <a className="ml-3 text-blue-600" onClick={tofollowing}>
+          </Link>
+          <Link className="ml-3 text-blue-600" to={`/follow/${Info.userId}/following`}>
             {Info?.following?.length} กำลังติดตาม
-          </a>
+          </Link>
         </p>
       </div>
       <div className="text-center space-x-4 flex">
@@ -100,7 +91,7 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       </Divider>
       <ul className="list-none space-y-2 pl-0 space-y-4">
         <div className="text-center text-3xl">
-          {userInfo.socialLink.instagram?.length !== 0 && (
+          {userInfo.socialLink.instagram && userInfo.socialLink.instagram?.length !== 0 && (
             <a
               href={userInfo.socialLink.instagram}
               className="overflow-hidden text-gray-500 px-3 "
@@ -112,7 +103,7 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
               </span>
             </a>
           )}
-          {userInfo.socialLink.facebook?.length !== 0 && (
+          {userInfo.socialLink.facebook && userInfo.socialLink.facebook?.length !== 0 && (
             <a
               href={userInfo.socialLink.facebook}
               className=" overflow-hidden text-gray-500 px-3"
@@ -122,7 +113,7 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
               <FacebookOutlined />
             </a>
           )}
-          {userInfo.socialLink.youtube?.length !== 0 && (
+          {userInfo.socialLink.youtube && userInfo.socialLink.youtube?.length !== 0 && (
             <a
               href={userInfo.socialLink.youtube}
               className="overflow-hidden text-gray-500 px-3"

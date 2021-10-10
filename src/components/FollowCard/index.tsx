@@ -1,7 +1,7 @@
 import { Button, Card, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
-import { useHistory } from 'react-router'
+import { Link } from 'react-router-dom'
 import { AuthZone } from '..'
 import { followUser, unFollowUser } from '../../service/user/follow'
 import { userInfoStore } from '../../store/user.store'
@@ -18,7 +18,6 @@ export const FollowCard: React.FC<FollowCardProps> = ({ userId, className }) => 
   const [userName, setuserName] = useState(String)
   const [imageUrl, setimageUrl] = useState(String)
   const [loading, setloading] = useState(true)
-  const history = useHistory()
   const { userInfo, removeFollowing, addFollowing } = userInfoStore()
 
   useEffect(() => {
@@ -49,14 +48,14 @@ export const FollowCard: React.FC<FollowCardProps> = ({ userId, className }) => 
   return (
     <Card hoverable bordered className={`${className}  bg-white w-52 h-64 relative`}>
       <FollowCardSkeleton loading={loading}>
-        <div
+        <Link
           className="flex flex-col justify-end w-full h-full space-y-2"
-          onClick={() => history.push('/profile/' + userId)}
+          to={`/profile/${userId}`}
         >
           <div className="flex justify-center h-14">
             <Typography.Paragraph
               ellipsis={{ rows: 2 }}
-              className="text-lg text-center overflow-hidden  "
+              className="text-lg text-center overflow-hidden"
             >
               {strInnerParagraph(userName)}
             </Typography.Paragraph>
@@ -72,7 +71,7 @@ export const FollowCard: React.FC<FollowCardProps> = ({ userId, className }) => 
             />
           </div>
           <div className="h-10" />
-        </div>
+        </Link>
         <div className="absolute bottom-0 w-full p-5 right-0">
           <AuthZone className="z-10">
             {!(userId == userInfo.userId) &&

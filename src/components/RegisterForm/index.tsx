@@ -1,6 +1,6 @@
 import { Alert, Button, Form, Input } from 'antd'
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 import { firebaseApp } from '../../config/firebase'
 export interface RegisterFormProps {
@@ -83,12 +83,15 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
         </Form.Item>
       </Form>
       <div className="text-center">
-        <a
-          onClick={() => (modal ? callback && callback() : history.push('/login'))}
-          className="text-blue-500 "
-        >
-          มีบัญชีเรียบร้อยแล้ว
-        </a>
+        {modal ? (
+          <a onClick={() => callback && callback()} className="text-blue-500 ">
+            มีบัญชีเรียบร้อยแล้ว
+          </a>
+        ) : (
+          <Link to="/login" className="text-blue-500 ">
+            มีบัญชีเรียบร้อยแล้ว
+          </Link>
+        )}
       </div>
     </div>
   )

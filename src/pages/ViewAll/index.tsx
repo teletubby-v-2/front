@@ -47,23 +47,53 @@ const setNewQuery = (data: LectureDTO[], option: IFilter, sortBy = 'lastest') =>
     case 'rating':
       return newData.sort((a, b) => (b.ratingScore || 0) - (a.ratingScore || 0))
   }
+  console.log(newData)
+
   return newData
+}
+
+import { useLocation } from 'react-router-dom'
+
+export function useSearchParam(find: string) {
+  return new URLSearchParams(useLocation()?.search).get(find) || ''
 }
 
 export const ViewAll: React.FC = () => {
   const { userInfo } = userInfoStore()
   const history = useHistory()
+  const location = useLocation()
   const { id } = useParams<{ id: string }>()
   const [viewAllLecture, setViewAllLecture] = useState<LectureDTO[]>([] as LectureDTO[])
   const [title, setTitle] = useState<React.ReactNode>('')
   const [filterData, setFilterData] = useState<LectureDTO[]>([] as LectureDTO[])
   const [limit, setLimit] = useState(20)
   const [loading, setLoading] = useState(false)
-  const [sortState, setSortState] = useState('lastest')
+  const paramFilter = useSearchParam('filter')
+  const sort = useSearchParam('sort')
+  const [sortState, setSortState] = useState(useSearchParam('sort'))
+  const [filter, setFilter] = useState<IFilter>({} as IFilter)
 
   useEffect(() => {
     setFilterData(viewAllLecture)
   }, [viewAllLecture])
+
+  useEffect(() => {
+    if (paramFilter[0] == '{') {
+      setFilter(JSON.parse(paramFilter))
+    }
+  }, [paramFilter])
+
+  useEffect(() => {
+    setSortState(sort)
+  }, [sort])
+
+  useEffect(() => {
+    setFilterData(setNewQuery(viewAllLecture, filter, sort))
+  }, [filter, viewAllLecture])
+
+  useEffect(() => {
+    handleSort(sortState)
+  }, [sortState])
 
   useEffect(() => {
     setViewAllLecture([])
@@ -140,10 +170,6 @@ export const ViewAll: React.FC = () => {
     }
   }
 
-  useEffect(() => {
-    handleSort(sortState)
-  }, [sortState])
-
   return (
     <div className="mx-2 space-y-7 md:mx-5 lg:mx-20 xl:mx-30 my-10">
       <ScrollToTop />
@@ -172,9 +198,12 @@ export const ViewAll: React.FC = () => {
           extra={
             <div className="space-x-3 text-gray">
               <FilterBox
+                initialData={filter}
                 callback={option => {
                   setLoading(true)
-                  setFilterData(setNewQuery(viewAllLecture, option, sortState))
+                  history.push(
+                    location.pathname + `?filter=${JSON.stringify(option)}&sort=${sortState}`,
+                  )
                   setLimit(20)
                   setLoading(false)
                 }}
@@ -185,13 +214,18 @@ export const ViewAll: React.FC = () => {
                   name=""
                   colon={false}
                   className="mb-0 w-48"
+                  initialValue={sortState || 'lastest'}
                 >
                   <Select
                     options={options}
                     className="w-28 pl-0 text-gray-600"
-                    defaultValue="lastest"
                     value={sortState}
-                    onChange={v => setSortState(v)}
+                    onChange={v => {
+                      setSortState(v)
+                      history.push(
+                        location.pathname + `?filter=${JSON.stringify(filter)}&sort=${v}`,
+                      )
+                    }}
                   />
                 </Form.Item>
               </Form>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Rate, Checkbox, Button, Popover } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
 
@@ -8,6 +8,7 @@ export interface IFilter {
   rating: number
 }
 export interface FilterBoxProps {
+  initialData?: IFilter
   callback?: (filterOptions: IFilter) => void
 }
 const options = [
@@ -15,9 +16,21 @@ const options = [
   { label: 'ไฟนอล', value: 'isFinal' },
 ]
 
-export const FilterBox: React.FC<FilterBoxProps> = ({ callback }) => {
+export const FilterBox: React.FC<FilterBoxProps> = ({ initialData, callback }) => {
   const [term, setTerm] = useState<string[]>([])
   const [rating, setRating] = useState(0)
+
+  useEffect(() => {
+    if (initialData?.isMid && initialData?.isFinal) {
+      setTerm(['isMid', 'isFinal'])
+    } else if (initialData?.isMid) {
+      setTerm(['isMid'])
+    } else if (initialData?.isFinal) {
+      setTerm(['isFinal'])
+    }
+    setRating(initialData?.rating || 0)
+  }, [initialData])
+
   const onClear = () => {
     setTerm([])
     setRating(0)

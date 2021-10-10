@@ -26,6 +26,7 @@ const initUserData: MyUser = {
 }
 
 export const userInfoStore = create<UserInfo>((set, get) => ({
+  isOldUser: false,
   userInfo: initUserData,
   setUserSubject: (userSubject: UserSubjectDTO[]) => {
     set({ userInfo: { ...get().userInfo, userSubject } })
@@ -51,10 +52,11 @@ export const userInfoStore = create<UserInfo>((set, get) => ({
         userId: info.uid || '',
         email: info.email || '',
       },
+      isOldUser: false,
     })
   },
   setAll: (info: MyUser) => {
-    set({ userInfo: info })
+    set({ userInfo: info, isOldUser: true })
   },
   setFollower: (followers: string[]) => {
     set({ userInfo: { ...get().userInfo, followers } })

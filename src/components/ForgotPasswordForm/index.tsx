@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Alert, Button, Form, Input, Modal } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import firebase from 'firebase'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 export interface ForgotPasswordFormProps {
   className?: string
@@ -64,12 +64,15 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
             </Button>
           </Form.Item>
         </Form>
-        <a
-          onClick={() => (modal ? callback && callback() : history.push('/login'))}
-          className="text-blue-500"
-        >
-          <p className="text-right -mb-3">กลับไปเข้าสู่ระบบ</p>
-        </a>
+        {modal ? (
+          <a onClick={() => callback && callback()}>
+            <p className="text-right -mb-3">กลับไปเข้าสู่ระบบ</p>
+          </a>
+        ) : (
+          <Link to="/login">
+            <p className="text-right -mb-3">กลับไปเข้าสู่ระบบ</p>
+          </Link>
+        )}
       </>
     </div>
   )

@@ -1,6 +1,6 @@
 import { Alert, Avatar, Button, Divider, Form, Input, Modal, Space } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import firebase from 'firebase/app'
 import {
   linkAccountWithProvider,
@@ -158,20 +158,16 @@ export const LoginForm: React.FC<LoginFormProps> = ({
             <Input.Password prefix={<KeyOutlined />} placeholder="รหัสผ่าน" size="large" />
           </Form.Item>
           <div className="flex justify-between px-1 -mt-1">
-            <a
-              className="text-blue-500"
-              onClick={() => (modal ? callback && callback() : history.push('/register'))}
-            >
-              สร้างบัญชีใหม่
-            </a>
-            <a
-              onClick={() =>
-                modal ? callbackForgot && callbackForgot() : history.push('/forgotpassword')
-              }
-              className="flex justify-end mb-2 text-blue-500 "
-            >
-              ลืมรหัสผ่าน?
-            </a>
+            {modal ? (
+              <a onClick={() => callback && callback()}>สร้างบัญชีใหม่</a>
+            ) : (
+              <Link to="/register">สร้างบัญชีใหม่</Link>
+            )}
+            {modal ? (
+              <a onClick={() => callbackForgot && callbackForgot()}>ลืมรหัสผ่าน?</a>
+            ) : (
+              <Link to="/forgotpassword">ลืมรหัสผ่าน?</Link>
+            )}
           </div>
           <Form.Item>
             <Button type="primary" htmlType="submit" size="large" block loading={isLoading}>

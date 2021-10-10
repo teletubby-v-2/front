@@ -4,6 +4,7 @@ import { UserSubjectDTO } from '../../constants/dto/myUser.dto'
 
 export interface UserInfo {
   userInfo: MyUser
+  isOldUser: boolean
   setUserName: (userName: string) => void
   setImageURL: (imageURL: string) => void
   setSocialLink: (socialLink: SocialLink) => void

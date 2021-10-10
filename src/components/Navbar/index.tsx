@@ -14,7 +14,7 @@ import {
   Modal,
   notification,
 } from 'antd'
-import { useHistory, useLocation } from 'react-router'
+import { useHistory, useLocation, Link } from 'react-router-dom'
 import KUshare from '../../assets/icons/KUshare.svg'
 import {
   UserOutlined,
@@ -32,7 +32,7 @@ import { AuthZone } from '..'
 import { CreateLectureForm } from '../CreateLectureForm'
 import { NotiMenuItem } from '../NotiMenu'
 import { Notification } from '../../constants/interface/notification.interface'
-import { readAllNoti } from '../../service/user'
+import { addnotification, readAllNoti } from '../../service/user'
 import { useInfiniteQuery } from '../../hooks/useInfiniteQuery'
 import { COLLECTION } from '../../constants'
 import { options } from '../../utils/optionsUtil'
@@ -47,10 +47,21 @@ const getNotiIcon = (type: string) => {
   }
 }
 
+const switchNotiTitle = (type: string) => {
+  switch (type) {
+    case 'follow':
+      return 'New Following!'
+    case 'lecture':
+      return 'New Lecture!'
+    default:
+      return ''
+  }
+}
+
 export const Navbar: React.FC = () => {
   const history = useHistory()
   const location = useLocation()
-  const { userInfo, setNotificationReadCount } = userInfoStore()
+  const { userInfo, setNotificationReadCount, addNotificationReadCount } = userInfoStore()
   const [lastestId, setLastestId] = useState<string>()
   const { data, hasNext, setQuery, fetchMore, isLoading } = useInfiniteQuery<Notification>(
     firestore.collection(COLLECTION.NOTIFICATIONS).where('relevantUserId', 'array-contains', ''),
@@ -61,13 +72,21 @@ export const Navbar: React.FC = () => {
   useEffect(() => {
     if (lastestId && data?.[0]?.notiId && lastestId !== data[0].notiId) {
       setLastestId(data[0].notiId)
+      const thisNoti = data[0]
       notification.open({
-        message: 'New ' + data[0].type,
-        description: data[0].body,
-        icon: getNotiIcon(data[0].type),
+        key: thisNoti.notiId,
+        message: switchNotiTitle(thisNoti.type),
+        description: thisNoti.body,
+        icon: getNotiIcon(thisNoti.type),
+        duration: null,
         onClick: () => {
-          notification.close(data[0].notiId || '')
-          history.push(data[0].link)
+          if (!userInfo.notificationReadCount.includes(thisNoti.notiId ? thisNoti.notiId : '')) {
+            addnotification(thisNoti.notiId || '').then(() =>
+              addNotificationReadCount(thisNoti.notiId || ''),
+            )
+          }
+          notification.close(thisNoti.notiId || '')
+          history.push(thisNoti.link)
         },
         className: 'cursor-pointer',
       })
@@ -92,10 +111,6 @@ export const Navbar: React.FC = () => {
     }
   }
 
-  const onClickLogo = () => {
-    history.push('/home')
-  }
-
   const onLogout = () => {
     logout()
     history.push('/login')
@@ -110,7 +125,7 @@ export const Navbar: React.FC = () => {
   const handleMenuClick = (info: MenuInfo) => {
     switch (info.key) {
       case 'profile':
-        return history.push('/Profile')
+        return history.push('/profile')
       case 'logout':
         return Modal.warning({
           title: 'ออกจากระบบ',
@@ -204,13 +219,9 @@ export const Navbar: React.FC = () => {
     <div className="relative">
       <nav className="text-xl h-16 navbar">
         <div className="container mx-auto flex justify-between items-center p-3 ">
-          <LazyLoadImage
-            width={129}
-            src={KUshare}
-            onClick={onClickLogo}
-            className="cursor-pointer "
-            effect="opacity"
-          />
+          <Link to="/home">
+            <LazyLoadImage width={129} src={KUshare} className="cursor-pointer " effect="opacity" />
+          </Link>
           <div className="text-center w-full space-x-2">
             <SearchOutlined className="text-xl inline-block " />
             <AutoComplete

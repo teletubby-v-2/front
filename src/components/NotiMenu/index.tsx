@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { userInfoStore } from '../../store/user.store'
 import { DiffOutlined, TeamOutlined } from '@ant-design/icons'
 import { Avatar, Badge, Divider } from 'antd'
@@ -13,8 +13,7 @@ export interface NotiMenuItemprop {
 }
 
 export const NotiMenuItem: React.FC<NotiMenuItemprop> = ({ notiId, type, body, link }) => {
-  const history = useHistory()
-  const { userInfo, addNotificationReadCount: addnotificationReadCount } = userInfoStore()
+  const { userInfo, addNotificationReadCount } = userInfoStore()
   const [bodys] = useState(body.split(' '))
 
   const icon = useMemo(() => {
@@ -45,21 +44,24 @@ export const NotiMenuItem: React.FC<NotiMenuItemprop> = ({ notiId, type, body, l
             : 'bg-gray-100'
         } p-2 space-x-2 cursor-pointer`}
         key={notiId}
-        onClick={() => {
-          if (!userInfo.notificationReadCount.includes(notiId ? notiId : '')) {
-            addnotification(notiId).then(() => addnotificationReadCount(notiId))
-          }
-          history.push(link)
-        }}
       >
-        <div className="flex items-center">
-          <div>{AvatarIcon}</div>
-          <div>
-            {bodys.slice(0, bodys.length - 1).join(' ')}
-            <br />
-            {bodys[bodys.length - 1]}
+        <Link
+          to={link}
+          onClick={() => {
+            if (!userInfo.notificationReadCount.includes(notiId ? notiId : '')) {
+              addnotification(notiId).then(() => addNotificationReadCount(notiId))
+            }
+          }}
+        >
+          <div className="flex items-center text-gray-800">
+            <div>{AvatarIcon}</div>
+            <div>
+              {bodys.slice(0, bodys.length - 1).join(' ')}
+              <br />
+              {bodys[bodys.length - 1]}
+            </div>
           </div>
-        </div>
+        </Link>
       </div>
       <Divider className="my-0" />
     </>
