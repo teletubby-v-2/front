@@ -58,7 +58,7 @@ export const ViewAll: React.FC = () => {
   const [title, setTitle] = useState<React.ReactNode>('')
   const [filterData, setFilterData] = useState<LectureDTO[]>([] as LectureDTO[])
   const [limit, setLimit] = useState(20)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [sortState, setSortState] = useState('lastest')
 
   useEffect(() => {

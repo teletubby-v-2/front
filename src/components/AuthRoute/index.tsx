@@ -2,7 +2,7 @@
 import { Layout } from 'antd'
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { Redirect, Route, RouteProps, useHistory, useLocation } from 'react-router-dom'
+import { Route, RouteProps, useHistory, useLocation } from 'react-router-dom'
 import { Footer } from '..'
 import KUshare from '../../assets/icons/KUshare.svg'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
@@ -25,9 +25,9 @@ export const AuthRoute: React.FC<RouteProps> = props => {
     if (blockPath.some(path => path === location.pathname))
       getUserFromIndexDB()
         .then((value: any) => {
-          if (value?.emailVerified) {
+          if (value?.value?.emailVerified) {
             return history.replace('/home')
-          } else {
+          } else if (value) {
             return history.replace('/verifyEmail')
           }
         })

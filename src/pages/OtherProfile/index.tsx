@@ -17,7 +17,7 @@ export const OtherProfile: React.FC = () => {
   const [otherlecture, setotherlecture] = useState([] as LectureDTO[])
   const history = useHistory()
   const { userId } = useParams<{ userId: string }>()
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     getUserDetial(userId)

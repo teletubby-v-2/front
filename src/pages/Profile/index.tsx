@@ -24,8 +24,8 @@ export const Profile: React.FC = () => {
   const { ownLecture, setOwnLecture } = lectureStore()
   const [bookmarkLecture, setBookmarkLecture] = useState<LectureDTO[]>([] as LectureDTO[])
   const [selectKey, setSelectKey] = useState<Key[]>([])
-  const [loading1, setLoading1] = useState(true)
-  const [loading2, setLoading2] = useState(true)
+  const [loading1, setLoading1] = useState(false)
+  const [loading2, setLoading2] = useState(false)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const rowSelection: TableRowSelection<UserSubjectDTO> = {
     selectedRowKeys: selectKey,
