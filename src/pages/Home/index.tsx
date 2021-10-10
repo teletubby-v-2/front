@@ -9,8 +9,8 @@ import { getLectures, getMySubject } from '../../service/lectures/getLecture'
 export const Home: React.FC = () => {
   const { userInfo } = userInfoStore()
   const [allLecture, setAllLecture] = useState<LectureDTO[]>([] as LectureDTO[])
-  const [loading1, setLoading1] = useState(false)
-  const [loading2, setLoading2] = useState(false)
+  const [loading1, setLoading1] = useState(true)
+  const [loading2, setLoading2] = useState(true)
 
   const [mySubject, setMySubject] = useState<LectureDTO[]>([] as LectureDTO[])
 

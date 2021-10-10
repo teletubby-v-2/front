@@ -1,7 +1,7 @@
 import { Layout } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { Redirect, Route, RouteProps, useLocation } from 'react-router-dom'
+import { Route, RouteProps, useHistory, useLocation } from 'react-router-dom'
 import { Footer } from '..'
 import KUshare from '../../assets/icons/KUshare.svg'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
@@ -17,25 +17,17 @@ const blockPath = ['/login', '/register']
 
 export const AuthRoute: React.FC<RouteProps> = props => {
   const { component: Component, ...rest } = props
+  const history = useHistory()
   const location = useLocation()
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [isAuth, setIsAuth] = useState<any>()
 
   useEffect(() => {
-    if (blockPath.some(path => path === location.pathname)) console.log()
-
-    getUserFromIndexDB()
-      .then(value => setIsAuth(value))
-      .catch(() => console.log('no user'))
+    if (blockPath.some(path => path === location.pathname))
+      getUserFromIndexDB()
+        .then(value => {
+          if (!value) history.push('/login')
+        })
+        .catch(() => history.push('/login'))
   }, [location.pathname])
-
-  if (isAuth && isAuth.length !== 0 && blockPath.some(path => path === location.pathname)) {
-    if (isAuth.value?.emailVerified) {
-      return <Redirect to="/home" />
-    } else {
-      return <Redirect to="/verifyEmail" />
-    }
-  }
 
   return (
     <Route

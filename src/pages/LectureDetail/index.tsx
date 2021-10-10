@@ -41,7 +41,7 @@ export const LectureDetail: React.FC = () => {
   const history = useHistory()
   const [lecture, setLecture] = useState<LectureDTO>({} as LectureDTO)
   const { lectureId } = useParams<{ lectureId: string }>()
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [user, setUser] = useState<MyUserDTO>()
   const [subject] = useState<Record<string, SubjectDTO>>(kuSubject.subjects)
 

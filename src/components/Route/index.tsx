@@ -5,6 +5,7 @@ import { Navbar } from '../Navbar'
 import { Route, RouteProps, useLocation } from 'react-router-dom'
 import { Footer } from '..'
 import { SVG_URL } from '../../constants'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 const { Content, Footer: AntFooter } = Layout
 
@@ -23,7 +24,9 @@ export const LayoutRoute: React.FC<RouteProps> = props => {
         <MyLayout className="min-h-screen flex flex-col">
           <Navbar />
           <div className="mt-16"></div>
-          {location.pathname === '/home' && <img src={SVG_URL.HOME} alt="ku logo" />}
+          {location.pathname === '/home' && (
+            <LazyLoadImage src={SVG_URL.HOME} alt="ku logo" effect="blur" className=" w-screen " />
+          )}
           <Content className=" container mx-auto h-full">
             {Component && <Component {...props} />}
           </Content>

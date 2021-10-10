@@ -8,14 +8,16 @@ import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { getUserDetial } from '../../service/user'
 import { getOwnLectures } from '../../service/lectures/getLecture'
 import BookOutlined from '@ant-design/icons/lib/icons/BookOutlined'
-import { Card } from 'antd'
+import { Card, Skeleton } from 'antd'
+import { ProfileSkeleton } from '../../components/MySkeleton/ProfileSkeleton'
+import ScrollToTop from '../../components/ScrollToTop'
 
 export const OtherProfile: React.FC = () => {
   const [info, setinfo] = useState({} as MyUser)
   const [otherlecture, setotherlecture] = useState([] as LectureDTO[])
   const history = useHistory()
   const { userId } = useParams<{ userId: string }>()
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     getUserDetial(userId)
@@ -41,7 +43,11 @@ export const OtherProfile: React.FC = () => {
     return (
       <>
         <BookOutlined className="mr-3" />
-        สรุปของ {`"${info.userName}"`}
+        {info.userName ? (
+          `สรุปของ "${info.userName || ''}"`
+        ) : (
+          <Skeleton.Input active className="w-40" />
+        )}
       </>
     )
   }, [info])
@@ -51,10 +57,13 @@ export const OtherProfile: React.FC = () => {
 
   return (
     <>
+      <ScrollToTop />
       <div className="flex justify-center my-10 space-x-6">
         <div style={{ width: 350 }}>
           <Card className="mb-6 shadow-1">
-            <ProfileComponent isMy={false} info={info} />
+            <ProfileSkeleton loading={!info.userId}>
+              <ProfileComponent isMy={false} info={info} />
+            </ProfileSkeleton>
           </Card>
           <Card className="shadow-1">
             <QRComponent isMy={false} Info={info} />
