@@ -25,7 +25,12 @@ export const LayoutRoute: React.FC<RouteProps> = props => {
           <Navbar />
           <div className="mt-16"></div>
           {location.pathname === '/home' && (
-            <LazyLoadImage src={SVG_URL.HOME} alt="ku logo" effect="blur" className=" w-screen " />
+            <LazyLoadImage
+              src={SVG_URL.HOME}
+              alt="ku logo"
+              effect="blur"
+              className=" w-screen home-icon"
+            />
           )}
           <Content className=" container mx-auto h-full">
             {Component && <Component {...props} />}
