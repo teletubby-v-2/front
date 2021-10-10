@@ -33,7 +33,7 @@ const setNewQuery = (data: LectureDTO[], option: IFilter, sortBy = 'lastest') =>
     newData = newData.filter(lecture => lecture.isMid)
   }
   if (option.rating) {
-    newData = newData.filter(lecture => lecture.ratingScore || 0 >= option.rating)
+    newData = newData.filter(lecture => (lecture.ratingScore || 0) >= option.rating)
   }
   switch (sortBy) {
     case 'lastest':
