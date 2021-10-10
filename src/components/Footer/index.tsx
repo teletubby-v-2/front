@@ -38,11 +38,11 @@ export const Footer: React.FC = () => {
             target="_blank"
             rel="noreferrer"
           >
-            Privacy
+            ความปลอดภัย
           </a>
         </div>
         <div>
-          <p className="font-bold mb-2">ช่วยเหลือ</p>
+          <p className="font-semibold mb-2">Help</p>
           <a className="text-white mb-1">ติดต่อเรา</a>
           <br />
           <a className="text-white mb-1">คำถามที่พบบ่อย</a>

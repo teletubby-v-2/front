@@ -1,7 +1,7 @@
-import { Button, Empty, List, Skeleton } from 'antd'
+import { BackTop, Button, Empty, List, Skeleton } from 'antd'
 import React, { useEffect, useState, useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { SearchOutlined } from '@ant-design/icons'
+import { SearchOutlined, ArrowUpOutlined } from '@ant-design/icons'
 import { options } from '../../utils/optionsUtil'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import ScrollToTop from '../../components/ScrollToTop'
@@ -76,6 +76,9 @@ export const SearchResult: React.FC = () => {
           )}
         />
       </InfiniteScroll>
+      <BackTop className="right-10">
+        <Button type="primary" icon={<ArrowUpOutlined />} className="w-10 h-10" />
+      </BackTop>
     </div>
   )
 }

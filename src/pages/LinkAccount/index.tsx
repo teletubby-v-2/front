@@ -1,4 +1,4 @@
-import { Button, Form, Input } from 'antd'
+import { Button, Card, Form, Input } from 'antd'
 import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { linkWithEmailAndPassword } from '../../service/auth'
@@ -25,13 +25,18 @@ export const LinkAccount: React.FC = () => {
 
   return (
     <div className="mt-10">
-      <div className={`App grid  p-5 `}>
-        <h1 className="text-2xl font-bold ">ใส่พาสเวิร์ดเพื่อเชื่อมแอคเคาต์</h1>
-        <Form layout="vertical" onFinish={onFinish}>
-          <Form.Item name="email" initialValue={authError.email}>
+      <Card className="App">
+        <h1 className="text-2xl font-medium ">ใส่พาสเวิร์ดเพื่อเชื่อมแอคเคาต์</h1>
+        <Form layout="vertical" onFinish={onFinish} labelCol={{ span: 0 }}>
+          <Form.Item
+            name="email"
+            label="อีเมลล์"
+            initialValue={authError.email}
+            rules={[{ required: true }]}
+          >
             <Input placeholder="Email" disabled size="large" />
           </Form.Item>
-          <Form.Item name="password">
+          <Form.Item name="password" label="พาสเวิร์ด" rules={[{ required: true }]}>
             <Input.Password placeholder="password" size="large" />
           </Form.Item>
           <Form.Item className="m-1">
@@ -39,11 +44,11 @@ export const LinkAccount: React.FC = () => {
               เชื่อมต่อแอคเคาต์
             </Button>
           </Form.Item>
-          <Link to="/login" className="flex justify-end mt-2 -mb-2 text-blue-500 text-xs mr-1">
-            Back to login
+          <Link to="/login" className="flex justify-end mt-2 -mb-3 text-sm mr-1">
+            กลับไปหน้าเข้าสู่ระบบ
           </Link>
         </Form>
-      </div>
+      </Card>
     </div>
   )
 }

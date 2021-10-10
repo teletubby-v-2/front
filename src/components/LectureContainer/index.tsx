@@ -173,7 +173,7 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
   return (
     <Card
       {...restCradProps}
-      title={<span className="text-xl">{title}</span>}
+      title={<span className="text-xl font-medium">{title}</span>}
       className={`${className} shadow-1 `}
     >
       <div
@@ -233,7 +233,7 @@ export const LectureContainer: React.FC<LectureContainerProps> = props => {
             </div>
           ))
         )}
-        {more && <LectureCardSkeleton count={numOfSkeleton} />}
+        {more && <LectureCardSkeleton count={10} />}
       </div>
       {!loading && lectures && lectures?.length === 0 && (
         <div className="h-52 flex justify-center items-center">

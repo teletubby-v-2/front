@@ -140,7 +140,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   return (
     <>
       <div className={className}>
-        <h1 className="text-3xl font-bold	mb-5 text-center">เข้าสู่ระบบ</h1>
+        <h1 className="text-3xl font-medium	mb-5 text-center">เข้าสู่ระบบ</h1>
         {message && (
           <Alert
             message="เข้าสู่ระบบไม่สำเร็จ"

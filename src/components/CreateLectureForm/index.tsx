@@ -164,8 +164,8 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
                   onKeyDown={dontSubmitWhenEnter}
                 />
               ) : (
-                <Tag onClick={OnAddTag} color="#5CDB95">
-                  <PlusOutlined /> New Tag
+                <Tag onClick={OnAddTag} color="#61df9a">
+                  <PlusOutlined /> เพิ่มแทค
                 </Tag>
               ))}
           </Form.Item>

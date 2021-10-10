@@ -12,7 +12,7 @@ export interface ProfileComponentProps {
 
 export const QRComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy, Info }) => {
   return (
-    <div className="p-3 bg-white">
+    <>
       <Divider>
         <div className="text-xl">ช่องทางสนับสนุน</div>
       </Divider>
@@ -33,13 +33,13 @@ export const QRComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy, Inf
           <p className="text-center">เจ้าของสรุปยังไม่ได้ใส่ช่องทางในการสนับสนุน </p>
         )}
       </div>
-      {isMy ? (
+      {isMy && (
         <div className="text-center">
           <Button className="w-1/2 mx-auto mt-5" onClick={onEdit}>
             แก้ไข
           </Button>
         </div>
-      ) : null}
-    </div>
+      )}
+    </>
   )
 }

@@ -53,12 +53,12 @@ export const Profile: React.FC = () => {
       {firebaseApp.auth().currentUser ? (
         <div className="flex justify-center my-10 space-x-6">
           <div className="flex-shrink-0 profile">
-            <div className="mb-6 shadow-1">
+            <Card className="shadow-1 mb-6">
               <MyProfile />
-            </div>
-            <div className="shadow-1">
+            </Card>
+            <Card className="shadow-1">
               <MyQR />
-            </div>
+            </Card>
           </div>
           <div className="flex-grow">
             <div className=" space-y-8">

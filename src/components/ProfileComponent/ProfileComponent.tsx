@@ -54,7 +54,7 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
   }
 
   return (
-    <div className="p-6  bg-white">
+    <>
       <div className="text-center my-3">
         <h1 className="text-center text-2xl font-black ">{Info.userName}</h1>
       </div>
@@ -135,11 +135,11 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
         </div>
         {Info?.aboutMe?.length !== 0 && (
           <li>
-            <p className="text-gray-500 mb-1">เกี่ยวกับฉัน : </p>
+            <p className="text-gray-500 mb-1">เกี่ยวกับฉัน: </p>
             <p className="text-left break-words">{Info.aboutMe}</p>
           </li>
         )}
       </ul>
-    </div>
+    </>
   )
 }

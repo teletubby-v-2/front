@@ -90,7 +90,7 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
   }
 
   return (
-    <div className="p-6">
+    <>
       <div className="text-center my-3">
         <h1 className="text-center text-2xl font-black ">Edit Profile</h1>
       </div>
@@ -111,7 +111,6 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
           />
         )}
       </div>
-
       <Form onFinish={onFinish} form={form} initialValues={{ ...userInfo }}>
         <div className="text-center">
           <Form.Item name="imageFile">
@@ -175,6 +174,6 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
           </Button>
         </Form.Item>
       </Form>
-    </div>
+    </>
   )
 }

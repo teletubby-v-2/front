@@ -7,13 +7,6 @@ export const MyQR: React.FC = () => {
   const [isEdit, setEdit] = useState(false)
   const { userInfo } = userInfoStore()
 
-  return (
-    <div className="bg-white shadow-md">
-      {isEdit ? (
-        <EditQRComponent onClose={() => setEdit(false)} />
-      ) : (
-        <QRComponent isMy={true} onEdit={() => setEdit(true)} Info={userInfo} />
-      )}
-    </div>
-  )
+  if (isEdit) return <EditQRComponent onClose={() => setEdit(false)} />
+  return <QRComponent isMy={true} onEdit={() => setEdit(true)} Info={userInfo} />
 }

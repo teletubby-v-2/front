@@ -152,6 +152,7 @@ export const LectureDetail: React.FC = () => {
                 <embed
                   src={lecture.pdfUrl?.[0]}
                   type="application/pdf"
+                  className="mb-3 rounded"
                   style={{ width: '100%', height: 800 }}
                 />
               ) : (
@@ -176,14 +177,14 @@ export const LectureDetail: React.FC = () => {
       </div>
 
       <div>
-        <div className="w-40 lg:w-80 bg-white shadow-1 rounded-sm flex text-center py-8 flex-col items-center space-y-4 px-3 ">
+        <Card className="w-40 lg:w-80 shadow-1 flex text-center flex-col items-center ">
           <div>
             <div className="font-bold text-xl">สนับสนุน</div>
             <div className="text-lg">{user?.userName}</div>
           </div>
           <Avatar src={user?.donateImage || no_image} shape="square" size={200} />
           <div>{user?.donateDescription}</div>
-        </div>
+        </Card>
       </div>
     </div>
   )

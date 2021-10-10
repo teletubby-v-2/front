@@ -18,19 +18,18 @@ export const LectureCard: React.FC<LectureCardProps> = props => {
 
   return (
     <div
-      className={`cursor-pointer  ${className} ant-card-grid-hoverable border-2 border-gray-50 `}
+      className={`cursor-pointer  ${className} ant-card-grid-hoverable border-2 border-gray-50 rounded-md`}
       onClick={() => history.push(`/lectureDetail/${data?.lectureId}`)}
     >
       <Badge.Ribbon text={`${data?.viewCount} views`} placement="start" className="mt-1">
-        <div className={`border-2 w-40 h-52 relative bg-contain flex flex-col justify-end `}>
+        <div className={`w-40 h-52 relative flex flex-col justify-end rounded-mdoverflow-hidden `}>
           {data?.isPdf ? (
             <iframe
               src={data?.pdfUrl?.[0]}
-              className=" w-40 h-52 absolute "
-              color="#e7e7e7"
+              className=" w-40 h-52 absolute rounded"
               scrolling="no"
+              frameBorder={0}
               style={{
-                overflow: 'hidden',
                 border: '0.5px solid #e7e7e7',
               }}
             >
@@ -41,7 +40,7 @@ export const LectureCard: React.FC<LectureCardProps> = props => {
               src={data?.imageUrl?.[0]}
               effect="opacity"
               alt="no photo"
-              className=" w-40 h-52 absolute object-contain "
+              className=" w-full h-52 absolute object-contain rounded-md"
               style={{
                 border: '0.5px solid #e7e7e7',
               }}

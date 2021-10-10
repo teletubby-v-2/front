@@ -14,17 +14,17 @@ export const FollowList: React.FC = () => {
       if (type == 'following') {
         setList(data.following)
         settext(
-          <h2 className="text-center text-2xl ">
-            <span className="font-bold">{data.userName}</span> กำลังติดตาม
-          </h2>,
+          <p className="text-center text-2xl ">
+            <span className="font-semibold">{data.userName}</span> กำลังติดตาม
+          </p>,
         )
       } else if (type == 'followers') {
         setList(data.followers)
         settext(
-          <h2 className="text-center text-2xl ">
+          <p className="text-center text-2xl ">
             ผู้ที่กำลังติดตาม
-            <span className="font-bold">{data.userName}</span>
-          </h2>,
+            <span className="font-semibold">{data.userName}</span>
+          </p>,
         )
       }
     })

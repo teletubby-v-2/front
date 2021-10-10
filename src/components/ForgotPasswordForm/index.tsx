@@ -48,7 +48,7 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
             style={{ textAlign: 'left', marginBottom: 10 }}
           />
         )}
-        <h1 className="text-3xl font-bold mb-6">ลืมรหัสผ่าน?</h1>
+        <h1 className="text-3xl font-medium mb-6">ลืมรหัสผ่าน?</h1>
         <Form layout="vertical" onFinish={resetPassword}>
           <Form.Item
             label="อีเมลล์"

@@ -127,7 +127,7 @@ export const QuestionBox: React.FC<QuestionBoxProps> = ({ authorId, qAndA, lectu
           <Avatar src={qAndA.photoURL} alt={qAndA.userId} size={48} />
         </Link>
         <div className="space-y-2 mt-2 flex-grow">
-          <div className="flex font-bold text-xl">
+          <div className="flex font-medium text-xl">
             <p className="flex-grow">{qAndA.question}</p>
             {userInfo.userId === qAndA.userId && (
               <p className="-m-3">
@@ -156,7 +156,7 @@ export const QuestionBox: React.FC<QuestionBoxProps> = ({ authorId, qAndA, lectu
               {' '}
               <Divider dashed />
               <div>
-                <h3 className="mt-4 font-bold">{size} การตอบกลับ</h3>
+                <h3 className="mt-4 font-medium">{size} การตอบกลับ</h3>
               </div>
             </>
           )}

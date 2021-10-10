@@ -53,7 +53,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
 
   return (
     <div className={className}>
-      <h1 className="text-3xl font-bold mb-5 text-center">ลงชื่อเข้าใช้</h1>
+      <h1 className="text-3xl font-medium mb-5 text-center">ลงชื่อเข้าใช้</h1>
       {isFail && (
         <Alert
           message="ลงชื่อเข้าใช้ไม่สำเร็จ"

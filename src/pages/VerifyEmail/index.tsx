@@ -55,7 +55,7 @@ export const VerifyEmail: React.FC = () => {
             className="mx-auto"
             effect="opacity"
           />
-          <p className="text-2xl font-bold">ยืนยันอีเมลของคุณ</p>
+          <p className="text-2xl font-medium">ยืนยันอีเมลของคุณ</p>
           <p className="text-sm text-gray-500">
             โปรดยืนยันว่าคุณต้องการใช้บัญชีอีเมลนี้ โดยคลิกลิงค์ที่เราส่งให้คุณ
             <br /> เพื่อเสร็จสิ้นขั้นตอนการสมัคร{' '}

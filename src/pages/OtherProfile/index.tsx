@@ -8,6 +8,7 @@ import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { getUserDetial } from '../../service/user'
 import { getOwnLectures } from '../../service/lectures/getLecture'
 import BookOutlined from '@ant-design/icons/lib/icons/BookOutlined'
+import { Card } from 'antd'
 
 export const OtherProfile: React.FC = () => {
   const [info, setinfo] = useState({} as MyUser)
@@ -40,7 +41,7 @@ export const OtherProfile: React.FC = () => {
     return (
       <>
         <BookOutlined className="mr-3" />
-        สรุปของ{info.userName}
+        สรุปของ {`"${info.userName}"`}
       </>
     )
   }, [info])
@@ -52,12 +53,12 @@ export const OtherProfile: React.FC = () => {
     <>
       <div className="flex justify-center my-10 space-x-6">
         <div style={{ width: 350 }}>
-          <div className="mb-6 shadow-1">
+          <Card className="mb-6 shadow-1">
             <ProfileComponent isMy={false} info={info} />
-          </div>
-          <div className="shadow-1">
+          </Card>
+          <Card className="shadow-1">
             <QRComponent isMy={false} Info={info} />
-          </div>
+          </Card>
         </div>
         <div className="flex-grow">
           <div className=" space-y-8">

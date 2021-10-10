@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { LectureContainer } from '../../components'
 import { userInfoStore } from '../../store/user.store'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
-import { ArrowLeftOutlined } from '@ant-design/icons'
+import { ArrowLeftOutlined, ArrowUpOutlined } from '@ant-design/icons'
 import { useHistory, useParams } from 'react-router-dom'
-import { Select, Form } from 'antd'
+import { Select, Form, BackTop, Button } from 'antd'
 import { FilterBox, IFilter } from '../../components/FilterBox'
 import {
   getBookmarkLectures,
@@ -100,7 +100,7 @@ export const ViewAll: React.FC = () => {
           break
         default:
           if (id.search('lecture') != -1) {
-            setTitle('สรุปของ ' + id.substring(id.search('lecture'), 0))
+            setTitle('สรุปของ "' + id.substring(id.search('lecture'), 0) + '"')
             getOwnLectures(id.substring(id.search('lecture') + 7))
               .then(data => setViewAllLecture(data))
               .finally(() => setLoading(false))
@@ -110,7 +110,7 @@ export const ViewAll: React.FC = () => {
               .then(data => setViewAllLecture(data))
               .finally(() => setLoading(false))
           } else {
-            setTitle(<>สรุปวิชา {id.split(' ').slice(1, id.split(' ').length).join(' ')}</>)
+            setTitle(<>สรุปวิชา {`"${id.split(' ').slice(1, id.split(' ').length).join(' ')}"`}</>)
             getLecturesById(id.slice(0, 8))
               .then(data => setViewAllLecture(data))
               .finally(() => setLoading(false))
@@ -170,7 +170,7 @@ export const ViewAll: React.FC = () => {
           numOfSkeleton={20}
           maxRow={Infinity}
           extra={
-            <div className="space-x-3 ">
+            <div className="space-x-3 text-gray">
               <FilterBox
                 callback={option => {
                   setLoading(true)
@@ -179,11 +179,16 @@ export const ViewAll: React.FC = () => {
                   setLoading(false)
                 }}
               />
-              <Form className="inline-block">
-                <Form.Item label="เรียงตาม" name="" className="mb-0 w-48">
+              <Form className="inline-block ">
+                <Form.Item
+                  label={<label className="text-gray-600">เรียงตาม</label>}
+                  name=""
+                  colon={false}
+                  className="mb-0 w-48"
+                >
                   <Select
                     options={options}
-                    className="w-28 pl-0"
+                    className="w-28 pl-0 text-gray-600"
                     defaultValue="lastest"
                     value={sortState}
                     onChange={v => setSortState(v)}
@@ -194,6 +199,9 @@ export const ViewAll: React.FC = () => {
           }
         />
       </InfiniteScroll>
+      <BackTop className="right-10">
+        <Button type="primary" icon={<ArrowUpOutlined />} className="w-10 h-10" />
+      </BackTop>
     </div>
   )
 }

@@ -155,7 +155,7 @@ export const Navbar: React.FC = () => {
       <>
         <div className="pb-1 flex items-center justify-between">
           <div className="py-1 text-lg">
-            <BellFilled className="m-1 " />
+            <BellFilled className="m-2 mr-1" />
             การแจ้งเตือน
           </div>
           <Button
@@ -201,7 +201,7 @@ export const Navbar: React.FC = () => {
   }, [data, isLoading, hasNext])
 
   return (
-    <div>
+    <div className="relative">
       <nav className="text-xl h-16 navbar">
         <div className="container mx-auto flex justify-between items-center p-3 ">
           <LazyLoadImage
@@ -279,12 +279,11 @@ export const Navbar: React.FC = () => {
               </Dropdown>
             </div>
           ) : (
-            <div className="flex items-center space-x-5">
-              <Button className="text-l text-black" type="default">
+            <div className="flex  space-x-4">
+              <Button className="text-md h-9 y-2">
                 <AuthZone>ลงชี่อเข้าใช้</AuthZone>
               </Button>
-
-              <Button className="text-l" type="primary">
+              <Button className="text-md h-9" type="primary">
                 <AuthZone noAccount={true}>ลงชื่อเข้าใช้</AuthZone>
               </Button>
             </div>
