@@ -55,7 +55,6 @@ const SortableItem = SortableElement((params: SortableItemParams) => (
   <div style={itemStyle}>
     <UploadList
       locale={myLocale}
-      showDownloadIcon={false}
       listType={params.props.listType}
       onPreview={params.onPreview}
       onRemove={params.onRemove}
@@ -67,7 +66,6 @@ const SortableItem = SortableElement((params: SortableItemParams) => (
 const listStyle: CSSProperties = {
   display: 'flex',
   flexWrap: 'wrap',
-  width: 500,
 }
 const SortableList = SortableContainer((params: SortableListParams) => {
   return (

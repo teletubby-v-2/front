@@ -15,6 +15,7 @@
     "firebase": "^8.7.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-iframe": "^1.8.0",
     "react-infinite-scroll-component": "^6.1.0",
     "react-lazy-load-image-component": "^1.5.1",
     "react-router-dom": "^5.2.0",
@@ -62,6 +63,7 @@
     ]
   },
   "devDependencies": {
+    "@types/pdf-viewer-reactjs": "^2.2.2",
     "@types/react": "^17.0.14",
     "@types/react-lazy-load-image-component": "^1.5.2",
     "@types/react-router-dom": "^5.1.8",

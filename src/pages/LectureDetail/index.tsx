@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom'
 import ScrollToTop from '../../components/ScrollToTop'
 import { ImageCarousel } from '../../components/ImageCarousel'
 import { LectureSkeleton } from '../../components/MySkeleton/LectureSkeleton'
+import Iframe from 'react-iframe'
 
 const getTag = (lecture: LectureDTO) => {
   const tags = []
@@ -150,10 +151,12 @@ export const LectureDetail: React.FC = () => {
               </div>
               {lecture.isPdf ? (
                 <div className="iframe-wrapper">
-                  <iframe
-                    src={lecture.pdfUrl?.[0]}
+                  <Iframe
+                    url={lecture.pdfUrl?.[0] || ''}
                     className="rounded"
-                    style={{ width: '100%', height: 800 }}
+                    width="100%"
+                    height="800px"
+                    allowFullScreen
                   />
                 </div>
               ) : (

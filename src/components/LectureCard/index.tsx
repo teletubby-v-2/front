@@ -5,6 +5,7 @@ import { Lecture } from '../../constants/interface/lecture.interface'
 import kuSubject from '../../constants/subjects.json'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { Link } from 'react-router-dom'
+import Iframe from 'react-iframe'
 
 export interface LectureCardProps extends CardProps {
   data?: Lecture
@@ -23,17 +24,15 @@ export const LectureCard: React.FC<LectureCardProps> = props => {
       <Badge.Ribbon text={`${data?.viewCount} views`} placement="start" className="mt-1">
         <div className={`w-40 h-52 relative flex flex-col justify-end rounded-md overflow-hidden `}>
           {data?.isPdf ? (
-            <iframe
-              src={data?.pdfUrl?.[0]}
-              className=" w-40 h-52 absolute rounded"
+            <Iframe
+              url={data?.pdfUrl?.[0] || ''}
               scrolling="no"
               frameBorder={0}
-              style={{
-                border: '0.5px solid #e7e7e7',
-              }}
+              className=" w-40 h-52 absolute rounded-lg"
             >
               Browser not compatible
-            </iframe>
+              <a href={data?.pdfUrl?.[0]}>follow this link instead</a>
+            </Iframe>
           ) : (
             <LazyLoadImage
               src={data?.imageUrl?.[0]}
