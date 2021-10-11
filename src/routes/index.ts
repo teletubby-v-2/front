@@ -21,12 +21,11 @@ const layoutRoutes: RouteProps[] = [
     component: Profile,
   },
   {
-    exact: true,
-    path: '/viewAll/:id"',
+    path: '/viewAll/:id',
     component: ViewAll,
   },
   {
-    path: '/profile/:userId"',
+    path: '/profile/:userId',
     component: SelectProfile,
   },
   {
