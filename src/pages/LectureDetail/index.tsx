@@ -149,9 +149,8 @@ export const LectureDetail: React.FC = () => {
                 <div>{lecture.reviewCount} ผู้ให้คะแนน</div>
               </div>
               {lecture.isPdf ? (
-                <embed
+                <iframe
                   src={lecture.pdfUrl?.[0]}
-                  type="application/pdf"
                   className="mb-3 rounded"
                   style={{ width: '100%', height: 800 }}
                 />
