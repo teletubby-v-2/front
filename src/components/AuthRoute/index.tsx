@@ -34,6 +34,8 @@ export const AuthRoute: React.FC<RouteProps> = props => {
       getUserFromIndexDB()
         .then((value: any) => {
           if (value?.value?.emailVerified) {
+            console.log(value?.value?.emailVerified)
+
             return history.replace('/home')
           } else if (value?.value?.emailVerified === false) {
             return history.replace('/verifyEmail')
