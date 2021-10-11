@@ -120,7 +120,7 @@ export const ViewAll: React.FC = () => {
             getBookmarkLectures(userInfo.bookmark)
               .then(data => setViewAllLecture(data))
               .finally(() => setLoading(false))
-          }
+          } else return setLoading(false)
           break
         case 'all':
           setTitle('สรุปล่าสุด')
