@@ -201,7 +201,7 @@ export const ViewAll: React.FC = () => {
                 initialData={filter}
                 callback={option => {
                   setLoading(true)
-                  history.push(
+                  history.replace(
                     location.pathname + `?filter=${JSON.stringify(option)}&sort=${sortState}`,
                   )
                   setLimit(20)
@@ -222,7 +222,7 @@ export const ViewAll: React.FC = () => {
                     value={sortState}
                     onChange={v => {
                       setSortState(v)
-                      history.push(
+                      history.replace(
                         location.pathname + `?filter=${JSON.stringify(filter)}&sort=${v}`,
                       )
                     }}
