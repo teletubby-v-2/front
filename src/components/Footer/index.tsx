@@ -1,5 +1,6 @@
 import React from 'react'
 import { FacebookFilled, TwitterOutlined } from '@ant-design/icons'
+import { Link } from 'react-router-dom'
 
 export const Footer: React.FC = () => {
   return (
@@ -12,7 +13,7 @@ export const Footer: React.FC = () => {
             target="_blank"
             rel="noreferrer"
             className="text-white  mb-1"
-            href="https://popcat.click/"
+            href="https://twitter.com/TbKushare"
           >
             <TwitterOutlined />
             {'  '}Twitter
@@ -20,7 +21,7 @@ export const Footer: React.FC = () => {
           <br />
           <a
             className="text-white mb-1"
-            href="https://www.facebook.com/groups/toptvfangroup/"
+            href="https://www.facebook.com/KU-Share-แบ่งปันชีทสรุป-มหาวิทยาลัยเกษตรศาสตร์-102240268914567"
             target="_blank"
             rel="noreferrer"
           >
@@ -30,11 +31,13 @@ export const Footer: React.FC = () => {
         </div>
         <div>
           <p className="font-bold mb-2">Resources</p>
-          <a className="text-white mb-1">เกี่ยวกับเรา</a>
+          <Link className="text-white mb-1" to="/AboutUS">
+            เกี่ยวกับเรา
+          </Link>
           <br />
           <a
             className="text-white mb-1"
-            href="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.nonburee.go.th%2F%3Fcat%3D217&psig=AOvVaw2uy8Qs_EH2vyfpYT628ZNE&ust=1630325096852000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCLCo8LOY1vICFQAAAAAdAAAAABAb"
+            href="https://www.termsfeed.com/live/f9921a77-cd54-41da-8f6d-14e98e05f604"
             target="_blank"
             rel="noreferrer"
           >
@@ -43,7 +46,14 @@ export const Footer: React.FC = () => {
         </div>
         <div>
           <p className="font-semibold mb-2">Help</p>
-          <a className="text-white mb-1">ติดต่อเรา</a>
+          <a
+            className="text-white mb-1"
+            href="https://forms.gle/DpMVAvsRm1BH3aLM7"
+            target="_blank"
+            rel="noreferrer"
+          >
+            ติดต่อเรา
+          </a>
           <br />
           <a className="text-white mb-1">คำถามที่พบบ่อย</a>
         </div>

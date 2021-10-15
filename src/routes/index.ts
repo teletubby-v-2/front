@@ -1,5 +1,5 @@
 import { RouteProps } from 'react-router-dom'
-import { Home, LectureDetail, Profile, SelectProfile } from '../pages'
+import { AboutUS, Home, LectureDetail, Profile, SelectProfile } from '../pages'
 import { FollowList } from '../pages/FollowList'
 import { SearchResult } from '../pages/SearchResult'
 import { ViewAll } from '../pages/ViewAll'
@@ -35,6 +35,11 @@ const layoutRoutes: RouteProps[] = [
   {
     path: '/searchResult',
     component: SearchResult,
+  },
+  {
+    exact: true,
+    path: '/AboutUS',
+    component: AboutUS,
   },
 ]
 
