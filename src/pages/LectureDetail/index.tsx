@@ -149,10 +149,15 @@ export const LectureDetail: React.FC = () => {
                 <div>{lecture.reviewCount} ผู้ให้คะแนน</div>
               </div>
               {lecture.isPdf ? (
-                <div className="iframe-wrapper">
+                <div
+                  style={{
+                    overflow: 'auto !important',
+                    WebkitOverflowScrolling: 'touch',
+                  }}
+                >
                   <iframe
                     src={lecture.pdfUrl?.[0]}
-                    className="rounded"
+                    className="mb-3 rounded"
                     style={{ width: '100%', height: 800 }}
                   />
                 </div>
