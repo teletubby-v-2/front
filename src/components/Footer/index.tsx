@@ -1,5 +1,6 @@
 import React from 'react'
 import { FacebookFilled, TwitterOutlined } from '@ant-design/icons'
+import { Link } from 'react-router-dom'
 
 export const Footer: React.FC = () => {
   return (
@@ -45,7 +46,9 @@ export const Footer: React.FC = () => {
           <p className="font-semibold mb-2">Help</p>
           <a className="text-white mb-1">ติดต่อเรา</a>
           <br />
-          <a className="text-white mb-1">คำถามที่พบบ่อย</a>
+          <Link to="/faq" className="text-white mb-1">
+            คำถามที่พบบ่อย
+          </Link>
         </div>
       </div>
     </div>
