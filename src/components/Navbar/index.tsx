@@ -161,7 +161,7 @@ export const Navbar: React.FC = () => {
   }
 
   const numNoti = useMemo(
-    () => data.filter(noti => !userInfo.notificationReadCount.includes(noti.notiId || '')).length,
+    () => data.filter(noti => !userInfo.notificationReadCount?.includes(noti.notiId || ''))?.length,
     [data, userInfo.notificationReadCount],
   )
 
@@ -177,7 +177,7 @@ export const Navbar: React.FC = () => {
             onClick={readAll}
             className="flex"
             size="small"
-            disabled={userInfo.notificationReadCount.length === data.length}
+            disabled={userInfo?.notificationReadCount?.length === data.length}
           >
             อ่านทั้งหมด
           </Button>

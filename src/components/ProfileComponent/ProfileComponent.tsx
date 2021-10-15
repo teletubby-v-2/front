@@ -59,7 +59,7 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       </div>
       <div className="text-center items-center mt-3 mb-2">
         <p>
-          <Link className="ml-3" to={`/follow/${Info.userId}/following`}>
+          <Link className="ml-3" to={`/follow/${Info.userId}/followers`}>
             {followCount} ผู้ติดตาม{' '}
           </Link>
           <Link className="ml-3 text-blue-600" to={`/follow/${Info.userId}/following`}>

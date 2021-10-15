@@ -24,6 +24,7 @@ export const NotiMenuItem: React.FC<NotiMenuItemprop> = ({ notiId, type, body, l
     }
   }, [type])
   const AvatarIcon = useMemo(() => {
+    console.log(userInfo)
     if (userInfo.notificationReadCount.includes(notiId ? notiId : '')) {
       return <Avatar icon={icon} className="bg-blue-200 mr-3" />
     } else {
