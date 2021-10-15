@@ -55,7 +55,9 @@ export const Footer: React.FC = () => {
             ติดต่อเรา
           </a>
           <br />
-          <a className="text-white mb-1">คำถามที่พบบ่อย</a>
+          <Link to="/faq" className="text-white mb-1">
+            คำถามที่พบบ่อย
+          </Link>
         </div>
       </div>
     </div>
