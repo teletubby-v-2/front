@@ -11,10 +11,10 @@ export const FAQ: React.FC = () => {
       <div className="flex justify-between">
         <ArrowLeftOutlined
           onClick={() => history.goBack()}
-          className="mr-3 mt-3 ant-page-header-back-button"
+          className="mr-3 mt-3 ant-page-header-back-button w-10"
         />
         <div className="text-3xl font-black ">คำถามที่พบบ่อย FAQ</div>
-        <div className=""></div>
+        <div className="w-10" />
       </div>
 
       <Collapse defaultActiveKey={['1', '2', '3', '4']} expandIconPosition="right">
