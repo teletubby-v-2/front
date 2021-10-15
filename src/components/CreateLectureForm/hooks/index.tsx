@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { CreateLectureDTO, UpdateLectureDTO } from '../../../constants/dto/lecture.dto'
 import { Lecture } from '../../../constants/interface/lecture.interface'
 import { createLecture, updateLecture } from '../../../service/lectures'
-import { uploadImage, uploadPdf } from '../../../service/storage'
+import { uploadCoverPdf, uploadImage, uploadPdf } from '../../../service/storage'
 import { initPhoto, removeUndefined } from '../../../utils/object'
 import { UploadRequestOption } from 'rc-upload/lib/interface'
 
@@ -154,6 +154,9 @@ export const useLectureForm = (
     }
     if (formValue.isPdf && pdf.length === 0) {
       return message.warning('กรุณาใส่ไฟล์สรุปของคุณ')
+    }
+    if (formValue.isPdf) {
+      uploadCoverPdf(pdf[0].url || '')
     }
     const value: Partial<CreateLectureDTO> = removeUndefined({
       ...formValue,

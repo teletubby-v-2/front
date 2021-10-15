@@ -12,7 +12,7 @@ export const Footer: React.FC = () => {
             target="_blank"
             rel="noreferrer"
             className="text-white  mb-1"
-            href="https://popcat.click/"
+            href="https://twitter.com/TbKushare"
           >
             <TwitterOutlined />
             {'  '}Twitter
@@ -20,7 +20,7 @@ export const Footer: React.FC = () => {
           <br />
           <a
             className="text-white mb-1"
-            href="https://www.facebook.com/groups/toptvfangroup/"
+            href="https://www.facebook.com/KU-Share-แบ่งปันชีทสรุป-มหาวิทยาลัยเกษตรศาสตร์-102240268914567"
             target="_blank"
             rel="noreferrer"
           >
