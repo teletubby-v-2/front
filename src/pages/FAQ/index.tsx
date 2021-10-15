@@ -7,17 +7,17 @@ export const FAQ: React.FC = () => {
   const { Panel } = Collapse
   const history = useHistory()
   return (
-    <div className="mx-2 space-y-7 md:mx-5 lg:mx-20 xl:mx-30 my-10 p-10 bg-white shadow-1">
+    <div className="space-y-7 paper">
       <div className="flex justify-between">
         <ArrowLeftOutlined
           onClick={() => history.goBack()}
-          className="mr-3 mt-3 ant-page-header-back-button"
+          className="mr-3 mt-3 ant-page-header-back-button w-10"
         />
         <div className="text-3xl font-black ">คำถามที่พบบ่อย FAQ</div>
-        <div className=""></div>
+        <div className="w-10" />
       </div>
 
-      <Collapse defaultActiveKey={[]}>
+      <Collapse defaultActiveKey={['1', '2', '3', '4']} expandIconPosition="right">
         <Panel
           header="เราสามารถดาวน์โหลดเอกสารสรุปมาในเครื่องของตนเองได้ไหม?"
           key="1"
