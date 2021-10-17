@@ -174,15 +174,13 @@ export const useLectureForm = (
     })
 
     if (!isUpdate) {
-      message.info('กำลังสร้าง...')
       createLecture(value as CreateLectureDTO)
         .then(lecture => {
-          message.success('สร้างโพสได้แล้วจ้าา')
+          message.success('สร้างโพสสำเร็จ')
           addOwnLecture(lecture)
         })
         .catch(err => console.error(err))
     } else {
-      message.info('กำลังอัพ...')
       const updateValue = { ...value, lectureId: initData?.lectureId }
       updateLecture(updateValue as CreateLectureDTO)
         .then(() => {
