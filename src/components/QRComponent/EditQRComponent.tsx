@@ -25,7 +25,7 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
   const { userInfo, setDonate } = userInfoStore()
   const [imageUrl, setimageUrl] = useState(userInfo.donateImage)
   const { handleRequest, beforeUpload } = useUploadpic({
-    setimageUrl,
+    setImageUrl: setimageUrl,
     setIsUploading,
     imageUrl,
     originalimageUrl: '',

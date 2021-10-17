@@ -2,11 +2,13 @@ import React from 'react'
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import { useHistory } from 'react-router'
 import { SVG_URL } from '../../constants'
+import ScrollToTop from '../../components/ScrollToTop'
 
 export const AboutUS: React.FC = () => {
   const history = useHistory()
   return (
     <div className="paper">
+      <ScrollToTop />
       <ArrowLeftOutlined
         onClick={() => history.goBack()}
         className="mr-3 ant-page-header-back-button absolute top-8 left-6"

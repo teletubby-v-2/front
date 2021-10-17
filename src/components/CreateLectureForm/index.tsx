@@ -24,6 +24,7 @@ import { options as selectOptions } from '../../utils/optionsUtil'
 import { Lecture } from '../../constants/interface/lecture.interface'
 import { UploadOutlined } from '@ant-design/icons'
 import { PicturesGrid } from '../SortableList'
+import { initPhoto } from '../../utils/object'
 
 const options = [
   { label: 'picture', value: false },
@@ -61,6 +62,11 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
     isUploading,
     pdf,
     loading,
+    isUploadingThumbnel,
+    imageUrl,
+    setImageUrl,
+    handleRequestThumbnel,
+    beforeUpload,
     openModal,
     closeModal,
     handleFilelist,
@@ -100,9 +106,10 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
         footer={false}
         confirmLoading={loading}
         getContainer={false}
-        className="my-5 top-10"
+        className="my-5 top-5"
         {...rest}
       >
+        <a className="ant-upload-list-item-thumbnail ant-upload-list-item-file"></a>
         <Typography.Title level={3} className="text-center mt-3">
           {initData.lectureId ? 'แก้ไขโพสต์สรุป' : 'สร้างโพสต์สรุป'}
         </Typography.Title>
@@ -173,29 +180,57 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
             <Radio.Group options={options} disabled={initData.isPdf !== undefined} />
           </Form.Item>
 
-          <Form.Item
-            shouldUpdate
-            label="อัพโหลดไฟล์"
-            valuePropName="fileList"
-            validateStatus="warning"
-          >
+          <Form.Item shouldUpdate label="อัพโหลดไฟล์" valuePropName="fileList">
             {() =>
               form.getFieldValue('isPdf') ? (
-                <Upload
-                  name="logo"
-                  accept="application/pdf"
-                  listType="picture"
-                  maxCount={1}
-                  fileList={pdf}
-                  locale={myLocale}
-                  onChange={handlePdfList}
-                  disabled={isUploading}
-                  customRequest={handleRequest}
-                >
-                  <Button icon={isUploading ? <LoadingOutlined /> : <UploadOutlined />}>
-                    อัพโหลด PDF
-                  </Button>
-                </Upload>
+                <>
+                  <Form.Item valuePropName="fileList" className="m-0">
+                    <Upload
+                      listType="picture-card"
+                      accept="image/jpeg,image/png"
+                      maxCount={1}
+                      fileList={imageUrl ? initPhoto([imageUrl]) : undefined}
+                      disabled={isUploadingThumbnel}
+                      customRequest={handleRequestThumbnel}
+                      beforeUpload={beforeUpload}
+                      onRemove={() => setImageUrl(undefined)}
+                    >
+                      {!imageUrl &&
+                        !isUploading &&
+                        (imageUrl ? (
+                          <img
+                            src={imageUrl}
+                            alt="QR"
+                            className="w-30 h-30 object-center object-cover"
+                          />
+                        ) : (
+                          <div>
+                            {isUploadingThumbnel ? <LoadingOutlined /> : <PlusOutlined />}
+                            <div className="m-2">อัพโหลดรูปปก</div>
+                          </div>
+                        ))}
+                    </Upload>
+                  </Form.Item>
+                  <Form.Item valuePropName="fileList" noStyle>
+                    <Upload
+                      name="logo"
+                      accept="application/pdf"
+                      listType="picture"
+                      maxCount={1}
+                      fileList={pdf}
+                      locale={myLocale}
+                      onChange={handlePdfList}
+                      disabled={isUploading}
+                      customRequest={handleRequest}
+                    >
+                      {pdf.length === 0 && (
+                        <Button icon={isUploading ? <LoadingOutlined /> : <UploadOutlined />}>
+                          อัพโหลด PDF
+                        </Button>
+                      )}
+                    </Upload>
+                  </Form.Item>
+                </>
               ) : (
                 <PicturesGrid
                   listType="picture-card"

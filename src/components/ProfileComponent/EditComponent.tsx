@@ -33,7 +33,7 @@ export const EditComponent: React.FC<EditComponentProps> = props => {
   const [imageUrl, setimageUrl] = useState(userInfo.imageUrl)
   const [form] = useForm<UpdateValue>()
   const { handleRequest, beforeUpload } = useUploadpic({
-    setimageUrl,
+    setImageUrl: setimageUrl,
     setIsUploading,
     imageUrl,
     originalimageUrl: userInfo.imageUrl,

@@ -24,7 +24,7 @@ export const UserInfoForm: React.FC = () => {
   const { TextArea } = Input
   const [imageUrl, setimageUrl] = useState(userInfo.imageUrl)
   const { handleRequest, beforeUpload } = useUploadpic({
-    setimageUrl,
+    setImageUrl: setimageUrl,
     setIsUploading,
     imageUrl,
     originalimageUrl: '',

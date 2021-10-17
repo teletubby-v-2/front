@@ -8,6 +8,7 @@ import { createLecture, updateLecture } from '../../../service/lectures'
 import { uploadImage, uploadPdf } from '../../../service/storage'
 import { initPhoto, removeUndefined } from '../../../utils/object'
 import { UploadRequestOption } from 'rc-upload/lib/interface'
+import { useUploadpic } from '../../../hooks/useUploadpic'
 
 export const useLectureForm = (
   addOwnLecture: (lecture: Lecture) => void,
@@ -24,6 +25,14 @@ export const useLectureForm = (
   const [fileList, setFileList] = useState<UploadFile[]>(initPhoto(initData?.imageUrl) || [])
   const [isUpdate] = useState(initData?.lectureId ? true : false)
   const [pdf, setPdf] = useState<UploadFile[]>(initPhoto(initData?.pdfUrl) || [])
+  const [isUploadingThumbnel, setIsUploadingThumbnel] = useState(false)
+  const [imageUrl, setImageUrl] = useState(initData?.imageUrl?.[0])
+  const { handleRequest: handleRequestThumbnel, beforeUpload } = useUploadpic({
+    setImageUrl,
+    setIsUploading: setIsUploadingThumbnel,
+    imageUrl,
+    originalimageUrl: '',
+  })
 
   useEffect(() => {
     setIsOnAddTag(false)
@@ -32,6 +41,7 @@ export const useLectureForm = (
   useEffect(() => {
     if (!isOnCreate && !(initData?.lectureId && loading)) {
       form.resetFields()
+      setImageUrl(initData?.imageUrl?.[0])
       form.setFieldsValue({ tags: initData?.tags || [] })
       form.setFieldsValue({ imageUrl: initData?.imageUrl || [] })
       form.setFieldsValue({ pdfUrl: initData?.pdfUrl || [] })
@@ -152,13 +162,14 @@ export const useLectureForm = (
     if (!formValue.isPdf && fileList.length === 0) {
       return message.warning('กรุณาใส่ไฟล์สรุปของคุณ')
     }
-    if (formValue.isPdf && pdf.length === 0) {
-      return message.warning('กรุณาใส่ไฟล์สรุปของคุณ')
+    if (formValue.isPdf) {
+      if (pdf.length === 0) return message.warning('กรุณาใส่ไฟล์สรุปของคุณ')
+      if (!imageUrl) return message.warning('กรุณาใส่รูปปก')
     }
     const value: Partial<CreateLectureDTO> = removeUndefined({
       ...formValue,
       subjectId: formValue.subjectId.split(' ')[0],
-      imageUrl: formValue.isPdf ? undefined : fileList.map(file => file.url),
+      imageUrl: formValue.isPdf ? [imageUrl] : fileList.map(file => file.url),
       pdfUrl: formValue.isPdf ? pdf.map(file => file.url) : undefined,
     })
 
@@ -197,6 +208,11 @@ export const useLectureForm = (
     isUploading,
     pdf,
     loading,
+    isUploadingThumbnel,
+    imageUrl,
+    setImageUrl,
+    handleRequestThumbnel,
+    beforeUpload,
     openModal,
     closeModal,
     handleFilelist,

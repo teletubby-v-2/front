@@ -5,7 +5,7 @@ import { Lecture } from '../../constants/interface/lecture.interface'
 import kuSubject from '../../constants/subjects.json'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { Link } from 'react-router-dom'
-
+import no_image from '../../assets/images/no_image.jpg'
 export interface LectureCardProps extends CardProps {
   data?: Lecture
   className?: string
@@ -22,29 +22,15 @@ export const LectureCard: React.FC<LectureCardProps> = props => {
     >
       <Badge.Ribbon text={`${data?.viewCount} views`} placement="start" className="mt-1">
         <div className={`w-40 h-52 relative flex flex-col justify-end rounded-md overflow-hidden `}>
-          {data?.isPdf ? (
-            <iframe
-              src={data?.pdfUrl?.[0]}
-              className=" w-40 h-52 absolute rounded"
-              scrolling="no"
-              frameBorder={0}
-              style={{
-                border: '0.5px solid #e7e7e7',
-              }}
-            >
-              Browser not compatible
-            </iframe>
-          ) : (
-            <LazyLoadImage
-              src={data?.imageUrl?.[0]}
-              effect="opacity"
-              alt="no photo"
-              className=" w-full h-52 absolute object-contain rounded-md"
-              style={{
-                border: '0.5px solid #e7e7e7',
-              }}
-            />
-          )}
+          <LazyLoadImage
+            src={data?.imageUrl?.[0] || no_image}
+            effect="opacity"
+            alt="no photo"
+            className=" w-full h-52 absolute object-contain rounded-md"
+            style={{
+              border: '0.5px solid #e7e7e7',
+            }}
+          />
           <div className="flex flex-col items-end justify-end w-full h-full opacity-95 text-gray-800">
             {data?.tags.map((tag, index) => (
               <div key={index}>

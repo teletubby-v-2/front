@@ -2,12 +2,14 @@ import React from 'react'
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import { Collapse } from 'antd'
 import { useHistory } from 'react-router-dom'
+import ScrollToTop from '../../components/ScrollToTop'
 
 export const FAQ: React.FC = () => {
   const { Panel } = Collapse
   const history = useHistory()
   return (
     <div className="space-y-7 paper">
+      <ScrollToTop />
       <div className="flex justify-between">
         <ArrowLeftOutlined
           onClick={() => history.goBack()}

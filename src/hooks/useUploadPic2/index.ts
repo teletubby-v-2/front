@@ -2,26 +2,25 @@ import { message } from 'antd'
 import { uploadImage, deleteImages } from '../../service/storage'
 import { RcFile } from 'antd/lib/upload/interface'
 import { UploadRequestOption } from 'rc-upload/lib/interface'
+import { useState } from 'react'
+import { initPhoto } from '../../utils/object'
 
-export interface UploadPicOptions {
-  setImageUrl: (imageUrl: string) => void
-  setIsUploading: (isUploading: boolean) => void
-  imageUrl: string | undefined
-  originalimageUrl: string | undefined
-}
+export interface UploadPicOptions {}
 
-export const useUploadpic = (props: UploadPicOptions) => {
-  const { setImageUrl: setimageUrl, setIsUploading, imageUrl, originalimageUrl } = props
-  const oldimageUrl = imageUrl
+export const useUploadPic = (
+  setIsUploading: (isUploading: boolean) => void,
+  originalimageUrl?: string,
+) => {
+  const [image, setImage] = useState(originalimageUrl ? initPhoto([originalimageUrl]) : undefined)
 
   const uploadNewImage = async (file: RcFile) => {
     try {
       setIsUploading(true)
       const uploadStatus = await uploadImage(file)
       if (uploadStatus.url) {
-        setimageUrl(uploadStatus.url)
-        if (oldimageUrl != originalimageUrl) {
-          oldimageUrl ? deleteImages(oldimageUrl) : null
+        setImage([uploadStatus])
+        if (image != originalimageUrl) {
+          image ? deleteImages(image[0].url || '') : null
         }
       }
     } catch (error) {
@@ -46,6 +45,8 @@ export const useUploadpic = (props: UploadPicOptions) => {
   }
 
   return {
+    image,
+    setImage,
     handleRequest,
     beforeUpload,
   }
