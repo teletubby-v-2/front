@@ -1,44 +1,6 @@
 import { UploadFile } from 'antd/lib/upload/interface'
 import { imagesRef, pdfRef, storageRef } from './../../config/firebase'
 import firebase from 'firebase/app'
-import { fromPath } from 'pdf2pic'
-
-const options = {
-  density: 100,
-  saveFilename: 'untitled',
-  savePath: './images',
-  format: 'png',
-  width: 600,
-  height: 600,
-}
-
-// function getBase64(file: File): Promise<string> {
-//   return new Promise((resolve, reject) => {
-//     const reader = new FileReader()
-//     reader.readAsDataURL(file)
-//     reader.onload = () => resolve(reader.result as string)
-//     reader.onerror = error => reject(error)
-//   })
-// }
-
-// async function uploadCoverPdf(file: File) {
-//   const pdfBase64: string = await getBase64(file)
-//   console.log(pdfBase64)
-//   const storeAsImage = fromBase64(pdfBase64, options)
-//   const pageToConvertAsImage = 1
-
-//   const image = await storeAsImage(pageToConvertAsImage)
-// }
-
-async function uploadCoverPdf(url: string) {
-  const storeAsImage = fromPath(url, options)
-  const pageToConvertAsImage = 1
-
-  storeAsImage(pageToConvertAsImage).then(resolve => {
-    console.log('Page 1 is now converted as image')
-    console.log(resolve)
-  })
-}
 
 async function uploadImage(file: File): Promise<UploadFile> {
   const timeStamp: firebase.firestore.Timestamp = firebase.firestore.Timestamp.fromDate(new Date())
@@ -157,4 +119,10 @@ const deleteImages = async (imageUrl: string) => {
   desertRef.delete()
 }
 
-export { uploadImage, getFilePath, deleteImages, uploadPdf, uploadCoverPdf }
+export {
+  uploadImage,
+  getFilePath,
+  deleteImages,
+  uploadPdf,
+  // uploadCoverPdf
+}

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { CreateLectureDTO, UpdateLectureDTO } from '../../../constants/dto/lecture.dto'
 import { Lecture } from '../../../constants/interface/lecture.interface'
 import { createLecture, updateLecture } from '../../../service/lectures'
-import { uploadCoverPdf, uploadImage, uploadPdf } from '../../../service/storage'
+import { uploadImage, uploadPdf } from '../../../service/storage'
 import { initPhoto, removeUndefined } from '../../../utils/object'
 import { UploadRequestOption } from 'rc-upload/lib/interface'
 
