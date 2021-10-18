@@ -4,13 +4,17 @@ import { COLLECTION } from './../../constants/index'
 import firebase from 'firebase'
 import { firestore } from '../../config/firebase'
 import { getUser } from '../user'
+import { LectureDTO } from '../../constants/dto/lecture.dto'
 
-const notiBody: Record<string, (targetUsername: string) => string> = {
-  lecture: (targetUsername: string) => `${targetUsername} ได้เพิ่มเลคเชอร์ใหม่`,
-  follow: (targetUsername: string) => `${targetUsername} ได้เริ่มติดตามคุณ`,
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const notiBody: Record<string, any> = {
+  lecture: (targetUsername: string, lectureTitle: string) =>
+    `${targetUsername} ได้เพิ่มเลคเชอร์ใหม่"${lectureTitle}"`,
+  follow: (targetUsername: string) => `${targetUsername} ได้เริ่มติดตามคุณ🎉🎉🎉`,
+  question: (targetUsername: string) => `${targetUsername} มีคำถามถึงคุณ🙋🙋`,
 }
 
-async function createLectureNoti(link: string) {
+async function createLectureNoti(link: string, lecture?: LectureDTO) {
   const user = (await getUser()) as MyUser
   if (user.followers.length === 0) return
   const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
@@ -18,7 +22,7 @@ async function createLectureNoti(link: string) {
     targetUserId: user.userId,
     relevantUserId: user.followers,
     type: 'lecture',
-    body: notiBody['lecture'](user.userName),
+    body: notiBody['lecture'](user.userName, lecture?.lectureTitle || ''),
     link: link,
     createAt: timeStamp,
     updateAt: timeStamp,
@@ -43,6 +47,23 @@ async function createFollowNoti(userId: string) {
   }
 }
 
+async function createQaNoti(lecture: LectureDTO) {
+  const timeStamp = firebase.firestore.Timestamp.fromDate(new Date())
+  const target = firebase.auth().currentUser
+  if (target) {
+    const noti: Notification = {
+      targetUserId: target.uid,
+      relevantUserId: [lecture.userId],
+      type: 'question',
+      body: notiBody['question'](target.displayName || target.uid),
+      link: `/lectureDetail/${lecture.lectureId}#qa`,
+      createAt: timeStamp,
+      updateAt: timeStamp,
+    }
+    firestore.collection(COLLECTION.NOTIFICATIONS).add(noti)
+  }
+}
+
 async function getNoti() {
   const userId = firebase.auth().currentUser?.uid
   const data: Notification[] = []
@@ -57,4 +78,4 @@ async function getNoti() {
   return data
 }
 
-export { createFollowNoti, createLectureNoti, getNoti }
+export { createFollowNoti, createLectureNoti, getNoti, createQaNoti }

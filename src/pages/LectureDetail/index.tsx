@@ -1,4 +1,4 @@
-import { Card, Rate, Tooltip, Avatar, message, Tag, PageHeader } from 'antd'
+import { Card, Rate, Tooltip, Avatar, message, Tag, PageHeader, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { Redirect, useHistory, useParams } from 'react-router'
@@ -106,11 +106,15 @@ export const LectureDetail: React.FC = () => {
       <div className="flex-grow">
         <LectureSkeleton loading={loading}>
           <div>
-            <div className="flex-grow">
+            <div>
               <div>
                 <PageHeader
                   onBack={() => history.goBack()}
-                  title={<div className="text-2xl">{lecture.lectureTitle}</div>}
+                  title={
+                    <Typography.Text ellipsis className="text-2xl">
+                      {lecture.lectureTitle}
+                    </Typography.Text>
+                  }
                   tags={getTag(lecture)}
                   extra={[
                     <AuthZone key="bookmark" className="inline-block">

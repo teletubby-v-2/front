@@ -109,7 +109,6 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
         className="my-5 top-5"
         {...rest}
       >
-        <a className="ant-upload-list-item-thumbnail ant-upload-list-item-file"></a>
         <Typography.Title level={3} className="text-center mt-3">
           {initData.lectureId ? 'แก้ไขโพสต์สรุป' : 'สร้างโพสต์สรุป'}
         </Typography.Title>
@@ -121,7 +120,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
           {...formItemLayout}
         >
           <Form.Item label="ชื่อหัวข้อสรุป" name="lectureTitle" rules={[{ required: true }]}>
-            <Input onKeyDown={dontSubmitWhenEnter} />
+            <Input onKeyDown={dontSubmitWhenEnter} maxLength={50} />
           </Form.Item>
           <Form.Item label="คำอธิบาย" name="description">
             <Input.TextArea

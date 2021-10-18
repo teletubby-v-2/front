@@ -57,7 +57,7 @@ export const NotiMenuItem: React.FC<NotiMenuItemprop> = ({ notiId, type, body, l
           <div className="flex items-center text-gray-800">
             <div>{AvatarIcon}</div>
             <div>
-              {bodys.slice(0, bodys.length - 1).join(' ')}
+              คุณ {`"${bodys.slice(0, bodys.length - 1).join(' ')}"`}
               <br />
               {bodys[bodys.length - 1]}
             </div>
