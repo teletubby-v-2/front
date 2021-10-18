@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom'
 import ScrollToTop from '../../components/ScrollToTop'
 import { ImageCarousel } from '../../components/ImageCarousel'
 import { LectureSkeleton } from '../../components/MySkeleton/LectureSkeleton'
+import { AuthZone } from '../../components'
 
 const getTag = (lecture: LectureDTO) => {
   const tags = []
@@ -112,13 +113,15 @@ export const LectureDetail: React.FC = () => {
                   title={<div className="text-2xl">{lecture.lectureTitle}</div>}
                   tags={getTag(lecture)}
                   extra={[
-                    <Tooltip title="บุ๊คมาร์ค" className=" text-green-400 text-xl" key="bookmark">
-                      {userInfo.bookmark.findIndex(id => id === lectureId) !== -1 ? (
-                        <BookFilled onClick={handleDeleteBookmark} />
-                      ) : (
-                        <BookOutlined onClick={handleAddBookmark} />
-                      )}
-                    </Tooltip>,
+                    <AuthZone key="bookmark" className="inline-block">
+                      <Tooltip title="บุ๊คมาร์ค" className=" text-green-400 text-xl">
+                        {userInfo.bookmark.findIndex(id => id === lectureId) !== -1 ? (
+                          <BookFilled onClick={handleDeleteBookmark} />
+                        ) : (
+                          <BookOutlined onClick={handleAddBookmark} />
+                        )}
+                      </Tooltip>
+                    </AuthZone>,
                     <Tooltip title="แชร์" key="share" className="text-green-400 text-xl">
                       <ShareAltOutlined onClick={copy} />
                     </Tooltip>,

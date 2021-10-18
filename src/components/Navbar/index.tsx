@@ -292,7 +292,7 @@ export const Navbar: React.FC = () => {
           ) : (
             <div className="flex  space-x-4">
               <Button className="text-md h-9 y-2">
-                <AuthZone>ลงชี่อเข้าใช้</AuthZone>
+                <AuthZone>เข้าสู่ระบบ</AuthZone>
               </Button>
               <Button className="text-md h-9" type="primary">
                 <AuthZone noAccount={true}>ลงชื่อเข้าใช้</AuthZone>
