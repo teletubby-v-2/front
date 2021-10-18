@@ -68,7 +68,7 @@ const App: React.FC = () => {
       )}
       <Switch>
         <Route exact path="/">
-          <Redirect to="/login" />
+          <Redirect to="/home" />
         </Route>
         {authRoutes.map((routeProps, index) => (
           <AuthRoute key={`route-auth-${index}`} {...routeProps} />

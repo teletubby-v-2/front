@@ -28,7 +28,6 @@ import { userInfoStore } from '../../store/user.store'
 import { logout } from '../../service/auth'
 import { MenuInfo } from 'rc-menu/lib/interface'
 import { firebaseApp, firestore } from '../../config/firebase'
-import { AuthZone } from '..'
 import { CreateLectureForm } from '../CreateLectureForm'
 import { NotiMenuItem } from '../NotiMenu'
 import { Notification } from '../../constants/interface/notification.interface'
@@ -290,13 +289,15 @@ export const Navbar: React.FC = () => {
               </Dropdown>
             </div>
           ) : (
-            <div className="flex  space-x-4">
-              <Button className="text-md h-9 y-2">
-                <AuthZone>เข้าสู่ระบบ</AuthZone>
-              </Button>
-              <Button className="text-md h-9" type="primary">
-                <AuthZone noAccount={true}>ลงชื่อเข้าใช้</AuthZone>
-              </Button>
+            <div className="flex space-x-4">
+              <Link to="/login">
+                <Button className="text-md h-9 y-2">เข้าสู่ระบบ</Button>
+              </Link>
+              <Link to="/register">
+                <Button className="text-md h-9" type="primary">
+                  ลงชื่อเข้าใช้
+                </Button>
+              </Link>
             </div>
           )}
         </div>

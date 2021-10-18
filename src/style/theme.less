@@ -149,13 +149,23 @@ code {
 }
 
 .row-1-card {
-  max-height: 220px;
+  max-height: 200px;
   overflow: hidden;
 }
 
+@media (min-width: 1280px) {
+  max-height: 220px;
+}
+
 .row-2-card {
-  max-height: 450px;
+  max-height: 430px;
   overflow: hidden;
+}
+
+@media (min-width: 1280px) {
+  .row-2-card {
+    max-height: 450px;
+  }
 }
 
 .SortableHelper {

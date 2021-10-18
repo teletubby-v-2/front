@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Rate, Checkbox, Button, Popover } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
+import { IsBadge } from '../IsBadge'
 
 export interface IFilter {
   isMid: boolean
@@ -19,6 +20,7 @@ const options = [
 export const FilterBox: React.FC<FilterBoxProps> = ({ initialData, callback }) => {
   const [term, setTerm] = useState<string[]>([])
   const [rating, setRating] = useState(0)
+  const [isFilter, setIsFilter] = useState(!!Object.keys(initialData || {}).length)
 
   useEffect(() => {
     if (initialData?.isMid && initialData?.isFinal) {
@@ -41,6 +43,8 @@ export const FilterBox: React.FC<FilterBoxProps> = ({ initialData, callback }) =
       isFinal: term.some(t => t === 'isFinal'),
       rating,
     }
+
+    setIsFilter(!!(term.length || rating))
     callback && callback(data)
     ref.current?.click()
   }
@@ -85,7 +89,9 @@ export const FilterBox: React.FC<FilterBoxProps> = ({ initialData, callback }) =
         destroyTooltipOnHide
       >
         <span ref={ref} className="cursor-pointer">
-          ฟิลเตอร์ <DownOutlined className="text-xs" />{' '}
+          <IsBadge badge={isFilter}>
+            ฟิลเตอร์ <DownOutlined className="text-xs" />{' '}
+          </IsBadge>
         </span>
       </Popover>
     </>
