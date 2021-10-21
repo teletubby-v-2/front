@@ -1,6 +1,6 @@
 # Ku-Share Project
 
-ku-share share your success.\
+Ku-share share your success.\
 Website for sharing your short note with your KU friend.
 
 ### Production domain:
