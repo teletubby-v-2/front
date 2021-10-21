@@ -17,11 +17,9 @@ Know more about KU Share:
  - [Twitter](https://twitter.com/TbKushare)
  - [Policy](https://www.termsfeed.com/live/f9921a77-cd54-41da-8f6d-14e98e05f604)
 
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## Available Scripts
 
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 In the project directory, you can run:
 
 ### `yarn start`
