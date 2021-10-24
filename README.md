@@ -3,15 +3,15 @@
 Ku-share share your success.\
 Website for sharing your short note with your KU friend.
 
-### Production domain:
+### Production site:
  - https://kushare.web.app/
  - https://kushare.firebaseapp.com/
  
-### Beta domain:
+### Beta site:
  - https://teletubby-v2.web.app/
  - https://teletubby-v2.firebaseapp.com/
 
-Know more about KU Share:
+### Know more about KU Share:
  - [KUShare contact](https://forms.gle/DpMVAvsRm1BH3aLM7)
  - [Facebook](https://www.facebook.com/KU-Share-แบ่งปันชีทสรุป-มหาวิทยาลัยเกษตรศาสตร์-102240268914567)
  - [Twitter](https://twitter.com/TbKushare)
