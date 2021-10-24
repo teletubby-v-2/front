@@ -12,10 +12,10 @@ Website for sharing your short note with your KU friend.
  - https://teletubby-v2.firebaseapp.com/
 
 ### Know more about KU Share:
- - [KUShare contact](https://forms.gle/DpMVAvsRm1BH3aLM7)
  - [Facebook](https://www.facebook.com/KU-Share-แบ่งปันชีทสรุป-มหาวิทยาลัยเกษตรศาสตร์-102240268914567)
  - [Twitter](https://twitter.com/TbKushare)
  - [Policy](https://www.termsfeed.com/live/f9921a77-cd54-41da-8f6d-14e98e05f604)
+ - [KUShare contact](https://forms.gle/DpMVAvsRm1BH3aLM7)
 
 ## Available Scripts
 
