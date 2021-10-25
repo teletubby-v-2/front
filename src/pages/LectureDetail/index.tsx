@@ -167,10 +167,9 @@ export const LectureDetail: React.FC = () => {
               </div>
               <div className="flex justify-between my-2 text-xs items-center">
                 <p>
-                  วันที่โพสต์{' '}
                   {isToday(lecture.createAt?.toDate())
-                    ? lecture.createAt?.toDate().toLocaleTimeString('th-TH')
-                    : lecture.createAt?.toDate().toLocaleDateString('th-TH')}
+                    ? `โพสต์วันนี้เมื่อ ${lecture.createAt?.toDate().toLocaleTimeString('th-TH')}`
+                    : `โพสต์เมื่อ ${lecture.createAt?.toDate().toLocaleDateString('th-TH')}`}
                 </p>
                 {lecture.isPdf && (
                   <Button
