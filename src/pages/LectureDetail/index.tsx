@@ -1,10 +1,10 @@
-import { Card, Rate, Tooltip, Avatar, message, Tag, PageHeader, Typography } from 'antd'
+import { Card, Rate, Tooltip, Avatar, message, Tag, PageHeader, Typography, Button } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { Redirect, useHistory, useParams } from 'react-router'
 import { LectureDetailComment } from '../LectureDetail/components/LectueDetailComment'
 import {} from '../../constants'
-import { BookOutlined, ShareAltOutlined, BookFilled } from '@ant-design/icons'
+import { BookOutlined, ShareAltOutlined, BookFilled, FolderOpenOutlined } from '@ant-design/icons'
 import no_image from '../../assets/images/no_image.jpg'
 import { MyUserDTO } from '../../constants/dto/myUser.dto'
 import { userInfoStore } from '../../store/user.store'
@@ -17,6 +17,16 @@ import ScrollToTop from '../../components/ScrollToTop'
 import { ImageCarousel } from '../../components/ImageCarousel'
 import { LectureSkeleton } from '../../components/MySkeleton/LectureSkeleton'
 import { AuthZone } from '../../components'
+
+const isToday = (someDate?: Date) => {
+  const today = new Date()
+  if (!someDate) return false
+  return (
+    someDate.getDate() == today.getDate() &&
+    someDate.getMonth() == today.getMonth() &&
+    someDate.getFullYear() == today.getFullYear()
+  )
+}
 
 const getTag = (lecture: LectureDTO) => {
   const tags = []
@@ -143,7 +153,7 @@ export const LectureDetail: React.FC = () => {
                   </Tag>
                 ))}
               </div>
-              <div className="flex w-full space-x-3 items-center my-4">
+              <div className="flex w-full space-x-3 items-center mt-4">
                 <div className="flex-grow space-x-3">
                   <Link to={`/profile/${user?.userId}`}>
                     <Avatar src={user?.imageUrl} />
@@ -154,6 +164,24 @@ export const LectureDetail: React.FC = () => {
                 </div>
                 <Rate value={lecture.sumRating / lecture.reviewCount} disabled allowHalf />
                 <div>{lecture.reviewCount} ผู้ให้คะแนน</div>
+              </div>
+              <div className="flex justify-between my-2 text-xs items-center">
+                <p>
+                  วันที่โพสต์{' '}
+                  {isToday(lecture.createAt?.toDate())
+                    ? lecture.createAt?.toDate().toLocaleTimeString('th-TH')
+                    : lecture.createAt?.toDate().toLocaleDateString('th-TH')}
+                </p>
+                {lecture.isPdf && (
+                  <Button
+                    icon={<FolderOpenOutlined />}
+                    size="small"
+                    href={lecture.pdfUrl?.[0]}
+                    target="_blank"
+                  >
+                    เปิดไฟล์แบบเต็ม
+                  </Button>
+                )}
               </div>
               {lecture.isPdf ? (
                 <div className="iframe-wrapper">

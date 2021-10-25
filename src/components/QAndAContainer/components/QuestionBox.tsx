@@ -14,6 +14,15 @@ import { MoreOutlined, DeleteOutlined } from '@ant-design/icons'
 import { MenuInfo } from 'rc-menu/lib/interface'
 import { CommentSkeleton } from '../../MySkeleton/CommentSkeleton'
 
+const isToday = (someDate?: Date) => {
+  const today = new Date()
+  if (!someDate) return false
+  return (
+    someDate.getDate() == today.getDate() &&
+    someDate.getMonth() == today.getMonth() &&
+    someDate.getFullYear() == today.getFullYear()
+  )
+}
 export interface QuestionBoxProps {
   qAndA: QAndA
   authorId: string
@@ -60,16 +69,6 @@ export const QuestionBox: React.FC<QuestionBoxProps> = ({ authorId, qAndA, lectu
         form.resetFields()
       })
       .finally(() => setLoading(false))
-  }
-
-  const isToday = (someDate?: Date) => {
-    const today = new Date()
-    if (!someDate) return false
-    return (
-      someDate.getDate() == today.getDate() &&
-      someDate.getMonth() == today.getMonth() &&
-      someDate.getFullYear() == today.getFullYear()
-    )
   }
 
   useEffect(() => {

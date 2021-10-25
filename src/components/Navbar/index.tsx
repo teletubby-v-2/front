@@ -295,7 +295,7 @@ export const Navbar: React.FC = () => {
               </Link>
               <Link to="/register">
                 <Button className="text-md h-9" type="primary">
-                  ลงชื่อเข้าใช้
+                  สมัครสมาชิก
                 </Button>
               </Link>
             </div>

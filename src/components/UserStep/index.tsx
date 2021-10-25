@@ -11,7 +11,7 @@ export const UserStep: React.FC<UserStepProps> = props => {
   return (
     <div>
       <Steps direction="vertical" current={props.current}>
-        <Step title="ลงชื่อเข้าใช้" />
+        <Step title="สมัครสมาชิก" />
         <Step title="ยืนยันอีเมล" />
         <Step title="กรอกข้อมูลของฉัน" />
         <Step title="เลือกวิชาของฉัน" />
