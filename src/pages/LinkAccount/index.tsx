@@ -30,7 +30,7 @@ export const LinkAccount: React.FC = () => {
         <Form layout="vertical" onFinish={onFinish} labelCol={{ span: 0 }}>
           <Form.Item
             name="email"
-            label="อีเมลล์"
+            label="อีเมล"
             initialValue={authError.email}
             rules={[{ required: true }]}
           >

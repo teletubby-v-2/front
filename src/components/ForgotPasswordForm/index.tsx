@@ -51,12 +51,12 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
         <h1 className="text-3xl font-medium mb-6">ลืมรหัสผ่าน?</h1>
         <Form layout="vertical" onFinish={resetPassword}>
           <Form.Item
-            label="อีเมลล์"
+            label="อีเมล"
             labelCol={{ span: 0 }}
             name="email"
             rules={[{ type: 'email' }, { required: true }]}
           >
-            <Input prefix={<UserOutlined />} size="large" placeholder="อีเมลล์" />
+            <Input prefix={<UserOutlined />} size="large" placeholder="อีเมล" />
           </Form.Item>
           <Form.Item className="mb-2">
             <Button type="primary" htmlType="submit" size="middle" block>

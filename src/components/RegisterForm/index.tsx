@@ -64,7 +64,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
         />
       )}
       <Form onFinish={onFinish} labelCol={{ span: 0 }}>
-        <Form.Item name="email" label="อีเมลล์" rules={[{ type: 'email', required: true }]}>
+        <Form.Item name="email" label="อีเมล" rules={[{ type: 'email', required: true }]}>
           <Input placeholder="อีเมล" size="large" />
         </Form.Item>
         <Form.Item name="password" label="รหัสผ่าน" rules={[{ required: true }]}>

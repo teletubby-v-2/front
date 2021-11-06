@@ -79,7 +79,7 @@ export const UserInfoForm: React.FC = () => {
               <Input addonBefore="ชื่อที่แสดง" />
             </Form.Item>
             <Form.Item className="flex-1" name="email" noStyle>
-              <Input value={userInfo.email} disabled={true} addonBefore="อีเมลล์" />
+              <Input value={userInfo.email} disabled={true} addonBefore="อีเมล" />
             </Form.Item>
           </div>
         </Form.Item>
