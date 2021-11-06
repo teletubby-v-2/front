@@ -45,8 +45,8 @@ export const UserInfoForm: React.FC = () => {
       socialLink: removeUndefined(socialLink),
     }
     createUser(data).then(user => {
+      history.replace('/subject')
       setAll(user)
-      history.push('subject')
     })
   }
 
