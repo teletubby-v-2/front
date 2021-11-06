@@ -57,7 +57,7 @@ export const VerifyEmail: React.FC = () => {
           />
           <p className="text-2xl font-medium">ยืนยันอีเมลของคุณ</p>
           <p className="text-sm text-gray-500">
-            โปรดยืนยันว่าคุณต้องการใช้บัญชีอีเมลนี้ โดยคลิกลิงค์ที่เราส่งให้คุณ
+            โปรดยืนยันว่าคุณต้องการใช้บัญชีอีเมลนี้ โดยคลิกลิงก์ที่เราส่งให้คุณ
             <br /> เพื่อเสร็จสิ้นขั้นตอนการสมัคร{' '}
           </p>
           <Button
@@ -67,7 +67,7 @@ export const VerifyEmail: React.FC = () => {
             size="large"
             onClick={handleVerifyEmail}
           >
-            {isClick ? 'ส่งยื่นยันอีเมลอีกครั้ง' : 'ยื่นยันอีเมล'}
+            {isClick ? 'ส่งยืนยันอีเมลอีกครั้ง' : 'ยืนยันอีเมล'}
           </Button>
         </div>
         <a onClick={handleLoginAsGuest} className="text-blue-500 mt-5 text-sm block">

@@ -1,4 +1,4 @@
-import { Alert, Avatar, Button, Divider, Form, Input, Modal, Space } from 'antd'
+import { Alert, Button, Divider, Form, Input, Modal } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import firebase from 'firebase/app'
@@ -9,9 +9,6 @@ import {
   signInWithGoogle,
   signInWithTwitter,
 } from '../../service/auth'
-import facebookLogo from '../../assets/images/facebook_logo.png'
-import googleLogo from '../../assets/images/google_logo.png'
-import twitterLogo from '../../assets/images/twitter_logo.png'
 import { firebaseApp } from '../../config/firebase'
 import { AuthError } from '../../constants/interface/error.interface'
 import { errorStore } from '../../store/error.store'
@@ -157,7 +154,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
           <Form.Item label="รหัสผ่าน" name="password" rules={[{ required: true }]}>
             <Input.Password prefix={<KeyOutlined />} placeholder="รหัสผ่าน" size="large" />
           </Form.Item>
-          <div className="flex justify-between px-1 -mt-1">
+          <div className="flex justify-between px-1 -mt-1 mb-2">
             {modal ? (
               <a onClick={() => callback && callback()}>สร้างบัญชีใหม่</a>
             ) : (
@@ -177,30 +174,18 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         </Form>
         <Divider orientation="center">หรือ</Divider>
         <div className="text-center">
-          <p className="mb-2">เข้าสู่ระบบผ่านผู้ให้บริการ</p>
-          <Space size="large" className="pb-2">
-            <a onClick={() => signInProvider('facebook')}>
-              <Avatar
-                className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-125"
-                size="large"
-                src={facebookLogo}
-              />
-            </a>
-            <a onClick={() => signInProvider('google')}>
-              <Avatar
-                className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-125"
-                size="large"
-                src={googleLogo}
-              />
-            </a>
-            <a onClick={() => signInProvider('twitter')}>
-              <Avatar
-                className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-125"
-                size="large"
-                src={twitterLogo}
-              />
-            </a>
-          </Space>
+          <button
+            type="button"
+            className="login-with-google-btn"
+            onClick={() => signInProvider('google')}
+          >
+            <img
+              src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMTcuNiA5LjJsLS4xLTEuOEg5djMuNGg0LjhDMTMuNiAxMiAxMyAxMyAxMiAxMy42djIuMmgzYTguOCA4LjggMCAwIDAgMi42LTYuNnoiIGZpbGw9IiM0Mjg1RjQiIGZpbGwtcnVsZT0ibm9uemVybyIvPjxwYXRoIGQ9Ik05IDE4YzIuNCAwIDQuNS0uOCA2LTIuMmwtMy0yLjJhNS40IDUuNCAwIDAgMS04LTIuOUgxVjEzYTkgOSAwIDAgMCA4IDV6IiBmaWxsPSIjMzRBODUzIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNNCAxMC43YTUuNCA1LjQgMCAwIDEgMC0zLjRWNUgxYTkgOSAwIDAgMCAwIDhsMy0yLjN6IiBmaWxsPSIjRkJCQzA1IiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNOSAzLjZjMS4zIDAgMi41LjQgMy40IDEuM0wxNSAyLjNBOSA5IDAgMCAwIDEgNWwzIDIuNGE1LjQgNS40IDAgMCAxIDUtMy43eiIgZmlsbD0iI0VBNDMzNSIgZmlsbC1ydWxlPSJub256ZXJvIi8+PHBhdGggZD0iTTAgMGgxOHYxOEgweiIvPjwvZz48L3N2Zz4="
+              alt=""
+              className="mr-2 mb-0.5"
+            />
+            เข้าสู่ระบบผ่าน Google
+          </button>
         </div>
       </div>
     </>

@@ -14,7 +14,7 @@ export const Login: React.FC = () => {
       </div>
       <Card className="flex-1 App m-0">
         <LoginForm />
-        <Link to="/home" className="text-right text-blue-500 text-sm -mb-3 block">
+        <Link to="/home" className="text-right text-blue-500 text-sm mt-1 -mb-3 block">
           เข้าสู่ระบบแบบผู้ใช้ทั่วไป
         </Link>
       </Card>

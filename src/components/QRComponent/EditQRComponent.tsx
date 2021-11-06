@@ -1,17 +1,13 @@
-import React, { useState } from 'react'
-import { Button, Divider, Form, Upload, Input, Popconfirm } from 'antd'
+import React from 'react'
+import { Button, Divider, Form, Input, Popconfirm } from 'antd'
 import { userInfoStore } from '../../store/user.store'
 import { dontSubmitWhenEnter } from '../../utils/eventManage'
-import { useUploadpic } from '../../hooks/useUploadpic'
 import { updateUser } from '../../service/user'
 import { deleteImages } from '../../service/storage'
-import { initPhoto } from '../../utils/object'
 import firebase from 'firebase'
-import { LazyLoadImage } from 'react-lazy-load-image-component'
-
 export interface UpdateValue {
-  donateDescription: string
-  qrCodeFile: string
+  donateDescription?: string
+  promtpay?: string
 }
 
 export interface EditComponentProps {
@@ -19,30 +15,33 @@ export interface EditComponentProps {
 }
 
 export const EditQRComponent: React.FC<EditComponentProps> = props => {
-  const [isUploading, setIsUploading] = useState(false)
+  // const [isUploading, setIsUploading] = useState(false)
   const { TextArea } = Input
   const { onClose } = props
   const { userInfo, setDonate } = userInfoStore()
-  const [imageUrl, setimageUrl] = useState(userInfo.donateImage)
-  const { handleRequest, beforeUpload } = useUploadpic({
-    setImageUrl: setimageUrl,
-    setIsUploading,
-    imageUrl,
-    originalimageUrl: '',
-  })
+  // const [imageUrl, setimageUrl] = useState(userInfo.donateImage)
+  // const { handleRequest, beforeUpload } = useUploadpic({
+  //   setImageUrl: setimageUrl,
+  //   setIsUploading,
+  //   imageUrl,
+  //   originalimageUrl: '',
+  // })
 
   const onFinish = (value: UpdateValue) => {
-    console.log(value)
+    const promtpayUrl = value.promtpay ? `https://promptpay.io/${value.promtpay}` : undefined
     onClose()
-    if (imageUrl != userInfo.donateImage || value.donateDescription != userInfo.donateDescription) {
+    if (
+      promtpayUrl != userInfo.donateImage ||
+      value.donateDescription != userInfo.donateDescription
+    ) {
       const data = {
-        donateImage: imageUrl || firebase.firestore.FieldValue.delete(),
+        donateImage: promtpayUrl || firebase.firestore.FieldValue.delete(),
         donateDescription: value.donateDescription || firebase.firestore.FieldValue.delete(),
       }
       updateUser(data)
         .then(() => {
-          setDonate(imageUrl || '', value.donateDescription || '')
-          if (imageUrl != userInfo.donateImage && userInfo.donateImage) {
+          setDonate(promtpayUrl || '', value.donateDescription || '')
+          if (promtpayUrl != userInfo.donateImage && userInfo.donateImage) {
             deleteImages(userInfo.donateImage)
           }
         })
@@ -50,21 +49,28 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
     }
   }
 
-  const beforeClose = () => {
-    if (imageUrl != userInfo.donateImage && imageUrl) {
-      deleteImages(imageUrl)
-    }
-    onClose()
-  }
+  // const beforeClose = () => {
+  //   if (imageUrl != userInfo.donateImage && imageUrl) {
+  //     deleteImages(imageUrl)
+  //   }
+  //   onClose()
+  // }
 
   return (
     <>
       <Divider>
         <div className="text-xl">ช่องทางสนับสนุน</div>
       </Divider>
-      <Form onFinish={onFinish} initialValues={userInfo}>
-        <Form.Item name="qrCodeFile" label="อัพโหลด QR code">
-          <Upload
+      <Form
+        onFinish={onFinish}
+        initialValues={{
+          ...userInfo,
+          promtpay: userInfo.donateImage?.replace('https://promptpay.io/', ''),
+        }}
+      >
+        <Form.Item name="promtpay" label="หมายเลขพร้อมเพย์">
+          <Input />
+          {/* <Upload
             listType="picture-card"
             accept="image/jpeg,image/png"
             maxCount={1}
@@ -86,7 +92,7 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
               ) : (
                 <p>อัพโหลด</p>
               ))}
-          </Upload>
+          </Upload> */}
         </Form.Item>
         <Form.Item name="donateDescription">
           <TextArea
@@ -97,7 +103,7 @@ export const EditQRComponent: React.FC<EditComponentProps> = props => {
           />
         </Form.Item>
         <Form.Item className="text-right mb-0">
-          <Popconfirm title="คุณแน่ใช่ไหมว่าจะยกเลิกการแก้ไข" onConfirm={beforeClose}>
+          <Popconfirm title="คุณแน่ใช่ไหมว่าจะยกเลิกการแก้ไข" onConfirm={onClose}>
             <Button>ยกเลิก</Button>
           </Popconfirm>
           <Button type="primary" htmlType="submit" className="px-4 ml-3">

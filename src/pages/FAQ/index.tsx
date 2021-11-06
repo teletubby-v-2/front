@@ -53,7 +53,7 @@ export const FAQ: React.FC = () => {
           className="font-bold bg-gray-50"
         >
           <p className="font-normal">
-            คุณสามารถติดต่อผู้จัดทำได้ผ่านการกรอกข้อมูลใน Google Form ผ่านลิงค์ต่อไปนี้{' '}
+            คุณสามารถติดต่อผู้จัดทำได้ผ่านการกรอกข้อมูลใน Google Form ผ่านลิงก์ต่อไปนี้{' '}
             <a href="https://forms.gle/DpMVAvsRm1BH3aLM7">https://forms.gle/DpMVAvsRm1BH3aLM7</a>
           </p>
         </Panel>

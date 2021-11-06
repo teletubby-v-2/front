@@ -93,7 +93,7 @@ export const UserInfoForm: React.FC = () => {
           />
         </Form.Item>
         <Divider>
-          <p className="text-gray-400 text-sm">ลิงค์โซเชียล</p>
+          <p className="text-gray-400 text-sm">ลิงก์โซเชียล</p>
         </Divider>
         <Form.Item name={['socialLink', 'instagram']} rules={[{ type: 'url' }]}>
           <Input placeholder="Instagram link" onKeyDown={dontSubmitWhenEnter} />
