@@ -4,14 +4,15 @@ import { userInfoStore } from '../../store/user.store'
 import { LectureDTO } from '../../constants/dto/lecture.dto'
 import { Link } from 'react-router-dom'
 import { containerTitle } from '../../utils/titleLecture'
-import { getLectures, getMySubject } from '../../service/lectures/getLecture'
+import { getBookmarkLectures, getLectures, getMySubject } from '../../service/lectures/getLecture'
 
 export const Home: React.FC = () => {
   const { userInfo } = userInfoStore()
   const [allLecture, setAllLecture] = useState<LectureDTO[]>([] as LectureDTO[])
   const [loading1, setLoading1] = useState(false)
   const [loading2, setLoading2] = useState(false)
-
+  const [loading3, setLoading3] = useState(false)
+  const [bookmarkSubject, setBookmarkSubject] = useState([] as LectureDTO[])
   const [mySubject, setMySubject] = useState<LectureDTO[]>([] as LectureDTO[])
 
   useEffect(() => {
@@ -31,6 +32,16 @@ export const Home: React.FC = () => {
     }
   }, [userInfo.userSubject])
 
+  useEffect(() => {
+    if (userInfo.bookmark.length !== 0) {
+      setLoading3(true)
+      getBookmarkLectures(userInfo.bookmark, 12)
+        .then(data => setBookmarkSubject(data))
+        .catch(() => console.log('no data'))
+        .finally(() => setLoading3(false))
+    }
+  }, [userInfo.bookmark])
+
   return (
     <div className="mb-10 mx-2 space-y-7 md:mx-5 lg:mx-20 xl:mx-30 ">
       {userInfo.userId && userInfo.userId.length !== 0 && (
@@ -41,6 +52,12 @@ export const Home: React.FC = () => {
           extra={<Link to="/viewAll/mySubject">ดูทั้งหมด</Link>}
         />
       )}
+      <LectureContainer
+        title={containerTitle.bookmark}
+        data={bookmarkSubject}
+        loading={loading3}
+        extra={<Link to="/viewAll/bookmark">ดูทั้งหมด</Link>}
+      />
       <LectureContainer
         title={containerTitle.all}
         data={allLecture}
