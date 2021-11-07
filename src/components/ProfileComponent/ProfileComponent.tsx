@@ -14,20 +14,20 @@ export interface ProfileComponentProps {
   info: MyUser
 }
 
-export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy, info: Info }) => {
+export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy, info }) => {
   const { userInfo, removeFollowing, addFollowing } = userInfoStore()
   const [followCount, setFollowCount] = useState(0)
   const [isFollow, setIsFollow] = useState(false)
 
   useEffect(() => {
-    setIsFollow(userInfo.following.includes(Info.userId))
-    setFollowCount(Info.followers?.length)
-  }, [Info, userInfo.following])
+    setIsFollow(userInfo.following.includes(info.userId))
+    setFollowCount(info.followers?.length)
+  }, [info, userInfo.following])
 
   const onFollow = () => {
-    followUser(Info.userId)
+    followUser(info.userId)
       .then(() => {
-        addFollowing(Info.userId)
+        addFollowing(info.userId)
         setIsFollow(true)
         setFollowCount(followCount + 1)
       })
@@ -35,10 +35,10 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
   }
 
   const onUnfollow = () => {
-    unFollowUser(Info.userId)
+    unFollowUser(info.userId)
       .then(() => {
         setIsFollow(false)
-        removeFollowing(Info.userId)
+        removeFollowing(info.userId)
         setFollowCount(followCount - 1)
       })
       .catch(err => console.log(err))
@@ -47,11 +47,11 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
   return (
     <>
       <div className="text-center my-3">
-        <h1 className="text-center text-2xl font-black ">{Info.userName}</h1>
+        <h1 className="text-center text-2xl font-black ">{info.userName}</h1>
       </div>
       <div className="flex w-full justify-center">
         <Avatar
-          src={Info.imageUrl || no_user}
+          src={info.imageUrl || no_user}
           size={200}
           alt="Profile picture"
           className=" object-cover"
@@ -59,11 +59,11 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       </div>
       <div className="text-center items-center mt-3 mb-2">
         <p>
-          <Link className="ml-3" to={`/follow/${Info.userId}/followers`}>
+          <Link className="ml-3" to={`/follow/${info.userId}/followers`}>
             {followCount} ผู้ติดตาม{' '}
           </Link>
-          <Link className="ml-3 text-blue-600" to={`/follow/${Info.userId}/following`}>
-            {Info?.following?.length} กำลังติดตาม
+          <Link className="ml-3 text-blue-600" to={`/follow/${info.userId}/following`}>
+            {info?.following?.length} กำลังติดตาม
           </Link>
         </p>
       </div>
@@ -91,43 +91,82 @@ export const ProfileComponent: React.FC<ProfileComponentProps> = ({ onEdit, isMy
       </Divider>
       <ul className="list-none space-y-2 pl-0 space-y-4">
         <div className="text-center text-3xl">
-          {userInfo.socialLink.instagram && userInfo.socialLink.instagram?.length !== 0 && (
-            <a
-              href={userInfo.socialLink.instagram}
-              className="overflow-hidden text-gray-500 px-3 "
-              target="_blank"
-              rel="noreferrer"
-            >
-              <span className="text-gradient  bg-gradient-to-r from-purple-400 to-pink-600">
-                <InstagramOutlined />
-              </span>
-            </a>
-          )}
-          {userInfo.socialLink.facebook && userInfo.socialLink.facebook?.length !== 0 && (
-            <a
-              href={userInfo.socialLink.facebook}
-              className=" overflow-hidden text-gray-500 px-3"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <FacebookOutlined />
-            </a>
-          )}
-          {userInfo.socialLink.youtube && userInfo.socialLink.youtube?.length !== 0 && (
-            <a
-              href={userInfo.socialLink.youtube}
-              className="overflow-hidden text-gray-500 px-3"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <YoutubeOutlined />
-            </a>
+          {isMy ? (
+            <>
+              {userInfo.socialLink.instagram && userInfo.socialLink.instagram?.length !== 0 && (
+                <a
+                  href={userInfo.socialLink.instagram}
+                  className="overflow-hidden text-gray-500 px-3 "
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span className="text-gradient  bg-gradient-to-r from-purple-400 to-pink-600">
+                    <InstagramOutlined />
+                  </span>
+                </a>
+              )}
+              {userInfo.socialLink.facebook && userInfo.socialLink.facebook?.length !== 0 && (
+                <a
+                  href={userInfo.socialLink.facebook}
+                  className=" overflow-hidden text-gray-500 px-3"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <FacebookOutlined />
+                </a>
+              )}
+              {userInfo.socialLink.youtube && userInfo.socialLink.youtube?.length !== 0 && (
+                <a
+                  href={userInfo.socialLink.youtube}
+                  className="overflow-hidden text-gray-500 px-3"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <YoutubeOutlined />
+                </a>
+              )}
+            </>
+          ) : (
+            <>
+              {info.socialLink.instagram && info.socialLink.instagram?.length !== 0 && (
+                <a
+                  href={info.socialLink.instagram}
+                  className="overflow-hidden text-gray-500 px-3 "
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span className="text-gradient  bg-gradient-to-r from-purple-400 to-pink-600">
+                    <InstagramOutlined />
+                  </span>
+                </a>
+              )}
+              {info.socialLink.facebook && info.socialLink.facebook?.length !== 0 && (
+                <a
+                  href={info.socialLink.facebook}
+                  className=" overflow-hidden text-gray-500 px-3"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <FacebookOutlined />
+                </a>
+              )}
+              {info.socialLink.youtube && info.socialLink.youtube?.length !== 0 && (
+                <a
+                  href={userInfo.socialLink.youtube}
+                  className="overflow-hidden text-gray-500 px-3"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <YoutubeOutlined />
+                </a>
+              )}
+            </>
           )}
         </div>
-        {Info?.aboutMe?.length !== 0 && (
+        {info?.aboutMe?.length !== 0 && (
           <li>
             <p className="text-gray-500 mb-1">เกี่ยวกับฉัน: </p>
-            <p className="text-left break-words">{Info.aboutMe}</p>
+            <p className="text-left break-words">{info.aboutMe}</p>
           </li>
         )}
       </ul>

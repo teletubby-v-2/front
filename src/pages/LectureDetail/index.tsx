@@ -127,13 +127,15 @@ export const LectureDetail: React.FC = () => {
                   tags={getTag(lecture)}
                   extra={[
                     <AuthZone key="bookmark" className="inline-block">
-                      <Tooltip title="บุ๊คมาร์ค" className=" text-green-400 text-xl">
-                        {userInfo.bookmark.findIndex(id => id === lectureId) !== -1 ? (
-                          <BookFilled onClick={handleDeleteBookmark} />
-                        ) : (
-                          <BookOutlined onClick={handleAddBookmark} />
-                        )}
-                      </Tooltip>
+                      {userInfo.userId !== lecture.userId && (
+                        <Tooltip title="บุ๊คมาร์ค" className=" text-green-400 text-xl">
+                          {userInfo.bookmark.findIndex(id => id === lectureId) !== -1 ? (
+                            <BookFilled onClick={handleDeleteBookmark} />
+                          ) : (
+                            <BookOutlined onClick={handleAddBookmark} />
+                          )}
+                        </Tooltip>
+                      )}
                     </AuthZone>,
                     <Tooltip title="แชร์" key="share" className="text-green-400 text-xl">
                       <ShareAltOutlined onClick={copy} />
