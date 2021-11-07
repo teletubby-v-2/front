@@ -5,7 +5,6 @@ import { Redirect, useHistory, useParams } from 'react-router'
 import { LectureDetailComment } from '../LectureDetail/components/LectueDetailComment'
 import {} from '../../constants'
 import { BookOutlined, ShareAltOutlined, BookFilled, FolderOpenOutlined } from '@ant-design/icons'
-import no_image from '../../assets/images/no_image.jpg'
 import { MyUserDTO } from '../../constants/dto/myUser.dto'
 import { userInfoStore } from '../../store/user.store'
 import kuSubject from '../../constants/subjects.json'
@@ -217,7 +216,14 @@ export const LectureDetail: React.FC = () => {
             <div className="font-bold text-xl">สนับสนุน</div>
             <div className="text-lg">{user?.userName}</div>
           </div>
-          <Avatar src={user?.donateImage || no_image} shape="square" size={200} />
+          <Avatar
+            src={
+              user?.donateImage ||
+              'https://cdn.discordapp.com/attachments/873293059910156319/906821498621263872/follow_me_3.jpg'
+            }
+            shape="square"
+            size={200}
+          />
           <div>{user?.donateDescription}</div>
         </Card>
       </div>
