@@ -181,7 +181,7 @@ export const Navbar: React.FC = () => {
             อ่านทั้งหมด
           </Button>
         </div>
-        <div className="overflow-y-scroll max-h-96">
+        <div className="overflow-y-auto overflow-x-hidden max-h-96">
           {data.length !== 0 ? (
             <>
               {data.map(notiInfo => {
