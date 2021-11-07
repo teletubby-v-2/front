@@ -52,12 +52,14 @@ export const Home: React.FC = () => {
           extra={<Link to="/viewAll/mySubject">ดูทั้งหมด</Link>}
         />
       )}
-      <LectureContainer
-        title={containerTitle.bookmark}
-        data={bookmarkSubject}
-        loading={loading3}
-        extra={<Link to="/viewAll/bookmark">ดูทั้งหมด</Link>}
-      />
+      {userInfo.userId && userInfo.userId.length !== 0 && (
+        <LectureContainer
+          title={containerTitle.bookmark}
+          data={bookmarkSubject}
+          loading={loading3}
+          extra={<Link to="/viewAll/bookmark">ดูทั้งหมด</Link>}
+        />
+      )}
       <LectureContainer
         title={containerTitle.all}
         data={allLecture}
