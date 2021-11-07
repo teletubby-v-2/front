@@ -120,7 +120,7 @@ export const CreateLectureForm: React.FC<CreateLectureFormProps> = props => {
           {...formItemLayout}
         >
           <Form.Item label="ชื่อหัวข้อสรุป" name="lectureTitle" rules={[{ required: true }]}>
-            <Input onKeyDown={dontSubmitWhenEnter} maxLength={50} />
+            <Input onKeyDown={dontSubmitWhenEnter} maxLength={32} />
           </Form.Item>
           <Form.Item label="คำอธิบาย" name="description">
             <Input.TextArea
