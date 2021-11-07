@@ -62,7 +62,6 @@ export const AnswerBox: React.FC<AnswerBoxProps> = ({ answer }) => {
             >
               {strInnerParagraph(answer.message || '')}
             </Paragraph>
-            <p className="flex-grow">{answer.message}</p>
             {userInfo.userId === answer.userId && (
               <p className="-m-3">
                 <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
