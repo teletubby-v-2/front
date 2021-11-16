@@ -11,6 +11,9 @@ Website for sharing your short note with your KU friend.
  - https://teletubby-v2.web.app/
  - https://teletubby-v2.firebaseapp.com/
 
+### design:
+ - https://www.figma.com/file/iWYMS4vB314xC8wtRYjRPb/KU-Share?node-id=8%3A15
+
 ### Know more about KU Share:
  - [Facebook](https://www.facebook.com/KU-Share-แบ่งปันชีทสรุป-มหาวิทยาลัยเกษตรศาสตร์-102240268914567)
  - [Twitter](https://twitter.com/TbKushare)
